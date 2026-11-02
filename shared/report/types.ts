@@ -54,6 +54,20 @@ export type ReportTimeFact = {
     group?: string;
 };
 
+/** A well-known person on the card at the end of a report (not part of a kept report: it is made again each time it is shown): the names and one line (the year of birth, then who they are). */
+export type PeerFigure = {
+    name: string;
+    nameEn: string;
+    detail: string;
+};
+
+/** What the member shares with them, in the heading of the card, and the last sentence that says it is no more than that. */
+export type Peers = {
+    title: string;
+    figures: readonly PeerFigure[];
+    note: string;
+};
+
 /**
  * What a system hands to the report: where the member stands, the facts and their readings, the terms the mapping
  * works on, and the things the report must say about its limits. A system writes only this; the order of the blocks,

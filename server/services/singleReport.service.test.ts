@@ -368,6 +368,106 @@ describe('SingleReportService', () => {
         });
     });
 
+    describe('the well-known people at the end of the report', () => {
+        const figuresOf = (report: { blocks: Array<{ key: string; title: string; segments: unknown[] }> }) => report.blocks.find((b) => b.key === 'figures');
+        const withBirth = (extra: Record<string, unknown> = {}) => user({
+            birthData: {
+                birthDate: '1989-10-27', zodiac: 'scorpio', birthTime: '06:00', birthPlace: 'tw-taipei',
+            },
+            mbti: 'ESTJ',
+            mbtiExpiresAt: addMonths(NOW, 2),
+            ...extra,
+        });
+
+        it('closes the report of each of the six systems with a card named for what is shared', async () => {
+            await db.doc('users/u1').set(withBirth());
+
+            const titles: Record<string, string> = {
+                ZODIAC: '跟你同一天生日的偉人',
+                BLOOD: '相同血型的偉人',
+                NUMEROLOGY: '相同生命靈數的偉人',
+                MBTI: '相同 MBTI 人格特質的偉人',
+                MAYA_KIN: '相同 Kin 的偉人',
+            };
+
+            for (const [system, title] of Object.entries(titles)) {
+                const report = await service.generate({ uid: 'u1' }, system as 'ZODIAC');
+
+                expect(report.blocks.at(-1)?.key, system).toBe('figures');
+                expect(figuresOf(report)?.title, system).toBe(title);
+            }
+
+            const human = await service.generate({ uid: 'u1' }, 'HUMAN_DESIGN');
+
+            expect(human.blocks.at(-1)?.key).toBe('figures');
+            expect(figuresOf(human)?.title).toMatch(/^相同人類圖類型/);
+        });
+
+        it('shows three people, chosen anew each time, and is not in the kept report', async () => {
+            await db.doc('users/u1').set(withBirth());
+
+            const names = async (random: () => number) => {
+                const report = await new SingleReportService({
+                    clock: () => clock.now, random,
+                }).generate({ uid: 'u1' }, 'NUMEROLOGY');
+
+                return figuresOf(report)?.segments.map((segment) => (segment as { text: string }).text).slice(0, -1);
+            };
+            const first = await names(() => 0);
+            const second = await names(() => 0.99);
+
+            expect(first).toHaveLength(3);
+            expect(second).toHaveLength(3);
+            expect(first).not.toEqual(second);
+            expect(snapshotPaths()).toHaveLength(1);
+
+            const saved = await db.doc(snapshotPaths()[0] as string).get();
+
+            expect(JSON.stringify(saved.data())).not.toContain('figures');
+        });
+
+        it('is not in the BaZi report', async () => {
+            for (const key of baziContentKeys()) await publish(db, 'BAZI', key, key);
+
+            const report = await service.generate({ uid: 'u1' }, 'BAZI');
+
+            expect(figuresOf(report)).toBeUndefined();
+        });
+
+        it('needs no birth date for the blood type and MBTI cards, and has no card when the blood type is not known', async () => {
+            await db.doc('users/u1').set(withBirth({ birthData: null }));
+
+            for (const system of ['BLOOD', 'MBTI'] as const) {
+                const report = await service.generate({ uid: 'u1' }, system);
+
+                expect(figuresOf(report), system).toBeDefined();
+            }
+
+            await db.doc('users/u1').set(withBirth({
+                bloodType: 'UNKNOWN', birthData: null,
+            }));
+            await expect(service.generate({ uid: 'u1' }, 'BLOOD')).rejects.toMatchObject({ code: 'BLOOD_REQUIRED' });
+        });
+
+        it('is not in the report of today', async () => {
+            const today = {
+                date: '2026-10-28',
+                drawn: true,
+                card: {
+                    index: 0, roman: '0', name: '愚者', englishName: 'The Fool', orientation: 'upright', illustration: null,
+                },
+                content: {
+                    ...body('愚者'), contentType: 'TAROT', key: '0_upright', contentVersion: '1',
+                },
+            };
+            const report = await new SingleReportService({
+                clock: () => clock.now, tarot: { getToday: async () => today } as never,
+            }).generate({ uid: 'u1' }, 'TAROT');
+
+            expect(figuresOf(report)).toBeUndefined();
+        });
+    });
+
     describe('for a guest', () => {
         let guests: GuestSessionService;
 

@@ -5,7 +5,7 @@ import { reportSnapshotContentSchema } from '../schemas/firestore/reportSnapshot
 import type { MappingEntry } from '../ontology/schema';
 import { findTraitEnd } from '../ontology/fragments';
 import {
-    SINGLE_REPORT_TEMPLATE_VERSION, assembleSingleReport,
+    SINGLE_REPORT_TEMPLATE_VERSION, assembleSingleReport, peersBlock,
 } from './assembleSingleReport';
 import { MAX_FACETS } from './facets';
 import type { SystemReportInput } from './types';
@@ -132,6 +132,37 @@ describe('assembleSingleReport', () => {
         expect(keys[2]).toBe('summary');
         expect(keys.slice(3, -2).every((key) => key.startsWith('impact:'))).toBe(true);
         expect(keys.slice(-2)).toEqual(['advice', 'limits']);
+    });
+
+    describe('the card of the well-known people', () => {
+        const peers = {
+            title: '跟你同一天生日的偉人',
+            note: '只是同一天出生。',
+            figures: [
+                {
+                    name: '甲', nameEn: 'A', detail: '1900 年生・作家',
+                }, {
+                    name: '乙', nameEn: 'B', detail: '1910 年生・科學家',
+                },
+            ],
+        };
+
+        it('is one block: a sentence for each person with both names, and the note at the end', () => {
+            const [card] = peersBlock('ZODIAC', peers);
+
+            expect(card).toMatchObject({
+                key: 'figures', title: '跟你同一天生日的偉人',
+            });
+            expect(card?.segments.map((segment) => segment.text)).toEqual([
+                '甲（A）：1900 年生・作家',
+                '乙（B）：1910 年生・科學家',
+                '只是同一天出生。',
+            ]);
+        });
+
+        it('is not in the report itself, which stays the same whoever is on the card', () => {
+            expect(blockKeys(zodiac())).not.toContain('figures');
+        });
     });
 
     it('gives a report the snapshot schema accepts, about one system', () => {

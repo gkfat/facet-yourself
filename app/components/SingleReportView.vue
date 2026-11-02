@@ -345,6 +345,51 @@
             :title="blockTitle('advice')"
             :advice="advice.map((segment) => segment.text)"
         />
+
+        <!-- The people born on the same day: the last card of the report, said by the note to have nothing to do with the traits -->
+        <v-card
+            v-if="figureCards.length"
+            variant="outlined"
+            class="mb-4"
+        >
+            <v-card-title>{{ blockTitle('figures') }}</v-card-title>
+            <v-card-text>
+                <v-row dense>
+                    <v-col
+                        v-for="figure in figureCards"
+                        :key="figure.name"
+                        cols="12"
+                        md="4"
+                    >
+                        <v-card
+                            variant="outlined"
+                            height="100%"
+                        >
+                            <v-card-text>
+                                <div class="text-subtitle-1 font-weight-bold">
+                                    {{ figure.name }}
+                                </div>
+                                <div class="text-body-2 text-medium-emphasis">
+                                    {{ figure.nameEn }}
+                                </div>
+                                <div class="text-caption text-medium-emphasis mb-2">
+                                    {{ figure.born }}
+                                </div>
+                                <p class="text-body-2 mb-0">
+                                    {{ figure.role }}
+                                </p>
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+                </v-row>
+                <p
+                    v-if="figureNote"
+                    class="text-caption text-medium-emphasis mt-3 mb-0"
+                >
+                    {{ figureNote }}
+                </p>
+            </v-card-text>
+        </v-card>
     </div>
 </template>
 
@@ -434,6 +479,19 @@ const readingsOf = (key: string) => segmentsOf(key).filter((segment) => segment.
 });
 
 const readings = computed(() => readingsOf('facts'));
+
+/** The people of the same birthday: "姓名（English）：1879 年生・身分" as the names, the year and the role; the last sentence is the note */
+const figureSegments = computed(() => segmentsOf('figures'));
+const figureNote = computed(() => figureSegments.value.at(-1)?.text ?? '');
+const figureCards = computed(() => figureSegments.value.slice(0, -1).map((segment) => {
+    const { label, value } = splitLabel(segment.text);
+    const [born = '', ...role] = value.split('・');
+    const [, name = label, nameEn = ''] = /^(.*)（([^（）]*)）$/.exec(label) ?? [];
+
+    return {
+        name, nameEn, born, role: role.join('・'),
+    };
+}));
 
 /** The quote at the head of the overview of a draw: the words after its title */
 const leadText = computed(() => readingsOf('lead')[0]?.text ?? '');

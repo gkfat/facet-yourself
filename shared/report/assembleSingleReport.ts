@@ -16,7 +16,9 @@ import {
 } from './facets';
 import { factTerms } from './factTerms';
 import { SYSTEM_NATURE } from './natureLabels';
-import type { SystemReportInput } from './types';
+import type {
+    Peers, SystemReportInput,
+} from './types';
 
 /** Raise whenever the way a report is put together changes (the order of blocks, the wording of fixed lines). */
 export const SINGLE_REPORT_TEMPLATE_VERSION = 'single-report-v2';
@@ -45,6 +47,15 @@ export const block = (key: string, title: string, segments: SnapshotSegment[]): 
         },
     ]
     : []);
+
+/**
+ * The card of the well-known people at the end of a report. It is not in the report that is kept: who is shown is chosen
+ * again each time, so a report would otherwise be a new one at every opening. What the member shares with them decides who
+ * is here; it says nothing of the member's traits, and the last sentence says so.
+ */
+export function peersBlock(system: SystemReportInput['system'], peers: Peers): SnapshotBlock[] {
+    return block('figures', peers.title, [...peers.figures.map((figure) => segment(`${figure.name}（${figure.nameEn}）：${figure.detail}`, 'FACT', [{ system }])), segment(peers.note, 'FACT', [{ system }])]);
+}
 
 /** The impact map of one facet: the time, object and domain values that have a sentence, in the order of the list. */
 export function impactBlock(facet: Facet, systems: ReadonlyArray<SystemReportInput['system']>, fragments: FragmentTable): { block: SnapshotBlock[]; questions: Array<{ question: string; endId: string }> } {

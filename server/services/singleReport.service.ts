@@ -12,8 +12,11 @@ import { TestService } from './test.service';
 import { TestRepository } from '../repositories/test.repository';
 import { UserRepository } from '../repositories/user.repository';
 import { calculateHumanDesign } from '../humanDesign/calculate';
+import { humanDesignPeers } from '../humanDesign/peers';
 import { findCity } from '../../shared/constants/cities';
-import { assembleSingleReport } from '../../shared/report/assembleSingleReport';
+import {
+    assembleSingleReport, peersBlock,
+} from '../../shared/report/assembleSingleReport';
 import { bloodReportInput } from '../../shared/report/adapters/blood';
 import {
     horoscopeReportInput, runeReportInput, tarotReportInput,
@@ -25,13 +28,20 @@ import { mbtiReportInput } from '../../shared/report/adapters/mbti';
 import { numerologyReportInput } from '../../shared/report/adapters/numerology';
 import { zodiacReportInput } from '../../shared/report/adapters/zodiac';
 import type { SingleReportSystem } from '../../shared/report/systems';
-import type { SystemReportInput } from '../../shared/report/types';
+import {
+    bloodPeers, kinPeers, mbtiPeers, numerologyPeers, sameBirthdayPeers, showSome,
+} from '../../shared/report/peers';
+import type {
+    Peers, SystemReportInput,
+} from '../../shared/report/types';
 import type { SingleReportResponse } from '../../shared/schemas/api/singleReport.schema';
 import type { BirthData } from '../../shared/schemas/api/profile.schema';
 import type {
     BloodType, Gender, MbtiType,
 } from '../../shared/schemas/common';
 import type { UserDoc } from '../../shared/schemas/firestore/user.schema';
+import type { HumanDesignResult } from '../../shared/schemas/firestore/humanDesign.schema';
+import type { SnapshotBlock } from '../../shared/schemas/firestore/reportSnapshot.schema';
 import {
     scoreDimensions, type DimensionScore,
 } from '../../shared/utils/personalityScoring';
@@ -59,6 +69,8 @@ type SingleReportServiceOptions = {
     horoscope?: HoroscopeService;
     analysis?: SingleAnalysisService;
     clock?: () => number;
+    /** In [0, 1): what chooses the people on the card at the end of a report; random unless a test fixes it */
+    random?: () => number;
 };
 
 /** Where the member stands in the system of a single report: the one part. */
@@ -104,10 +116,12 @@ export class SingleReportService extends BaseService {
     private readonly horoscope: HoroscopeService;
     private readonly analysis: SingleAnalysisService;
     private readonly clock: () => number;
+    private readonly random: () => number;
 
     constructor(options: SingleReportServiceOptions = {}) {
         super();
         this.clock = options.clock ?? Date.now;
+        this.random = options.random ?? Math.random;
         this.users = options.users ?? new UserRepository();
         this.fixedContent = options.fixedContent ?? new FixedContentService();
         // The parts that look at the time share this service's clock
@@ -130,12 +144,13 @@ export class SingleReportService extends BaseService {
 
         const subject = member ? await this.memberSubject(asker.uid) : await this.guestSubject(asker.guestSessionId);
         const content = assembleSingleReport(await this.inputOf(subject, system));
+        const figures = this.figuresOf(system, subject);
 
         if (!member) {
             const now = this.clock();
 
             return {
-                ...content, id: null, generatedAt: now, expiresAt: null, persisted: false, aiAugmented: false, ai: null, aiJob: null, aiStatus: null, parts: partsOf(content),
+                ...content, blocks: [...content.blocks, ...figures], id: null, generatedAt: now, expiresAt: null, persisted: false, aiAugmented: false, ai: null, aiJob: null, aiStatus: null, parts: partsOf(content),
             };
         }
 
@@ -144,9 +159,21 @@ export class SingleReportService extends BaseService {
         // An analysis whose worker vanished is failed and refunded here, where the member would see it hang
         await this.analysis.reapIfStale(asker.uid, id);
 
+        const kept = await this.snapshots.get(asker.uid, id);
+
         return {
-            ...await this.snapshots.get(asker.uid, id), persisted: true,
+            ...kept, blocks: [...kept.blocks, ...figures], persisted: true,
         };
+    }
+
+    /**
+     * The card of the well-known people, a few of them chosen anew each time: so it is put on the report as it goes out and
+     * is never kept in it (a report that changed at every opening would be a new snapshot each time).
+     */
+    private figuresOf(system: SingleReportSystem, subject: Subject): SnapshotBlock[] {
+        const peers = this.peersOf(system, subject);
+
+        return peers ? peersBlock(system, showSome(peers, this.random)) : [];
     }
 
     /**
@@ -296,6 +323,21 @@ export class SingleReportService extends BaseService {
         }
     }
 
+    /** The well-known people who share something with the member: the card closing the report, but not a part of it. The BaZi report has none */
+    private peersOf(system: SingleReportSystem, subject: Subject): Peers | null {
+        const birthDate = subject.birthData?.birthDate;
+
+        switch (system) {
+        case 'ZODIAC': return birthDate ? sameBirthdayPeers(birthDate) : null;
+        case 'BLOOD': return bloodPeers(subject.bloodType);
+        case 'NUMEROLOGY': return birthDate ? numerologyPeers(birthDate) : null;
+        case 'MBTI': return subject.mbti ? mbtiPeers(subject.mbti) : null;
+        case 'MAYA_KIN': return birthDate ? kinPeers(birthDate) : null;
+        case 'HUMAN_DESIGN': return this.humanDesignPeersOf(subject);
+        default: return null;
+        }
+    }
+
     private requireBirth(subject: Subject): BirthData {
         if (!subject.birthData) {
             throw new UnprocessableError('Fill in your birth date first', 'PROFILE_REQUIRED');
@@ -381,6 +423,22 @@ export class SingleReportService extends BaseService {
             gender: subject.gender,
             today,
         });
+    }
+
+    private humanDesignPeersOf(subject: Subject): Peers | null {
+        const chart = this.humanDesignChart(subject);
+
+        return chart ? humanDesignPeers(chart) : null;
+    }
+
+    /** The chart of the member, or null when the birth time or place is missing or the place is not in the list */
+    private humanDesignChart(subject: Subject): HumanDesignResult | null {
+        const birth = subject.birthData;
+        const city = birth?.birthPlace ? findCity(birth.birthPlace) : undefined;
+
+        if (!birth?.birthTime || !city) return null;
+
+        return calculateHumanDesign(birth.birthDate, birth.birthTime, city.timeZone);
     }
 
     private humanDesign(subject: Subject): SystemReportInput {
