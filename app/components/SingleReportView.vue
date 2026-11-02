@@ -205,58 +205,42 @@
 
         <!-- How each trait can show in different times, toward different people and in different parts of life: all of it, one trait after another -->
         <v-card
-            v-if="impacts.length"
+            v-if="impactGroups.length"
             variant="outlined"
             class="mb-4"
         >
             <v-card-title>影響面向推測</v-card-title>
             <v-card-text>
                 <div
-                    v-for="(impact, index) in impacts"
-                    :key="impact.key"
-                    :class="{ 'mt-6': index > 0 }"
+                    v-for="(group, groupIndex) in impactGroups"
+                    :key="group.kind"
+                    :class="{ 'mt-6': groupIndex > 0 }"
                 >
-                    <div class="text-subtitle-1 font-weight-bold mb-2">
-                        特質{{ NUMERALS[index] ?? index + 1 }}：{{ impact.trait }}
+                    <div class="text-subtitle-1 font-weight-medium mb-2">
+                        {{ group.label }}
                     </div>
-                    <div
-                        v-for="group in impact.groups"
-                        :key="group.kind"
-                        class="mb-3"
-                    >
-                        <div class="text-subtitle-2 text-medium-emphasis mb-1">
-                            {{ group.label }}
-                        </div>
-                        <v-row dense>
-                            <v-col
-                                v-for="cell in group.cells"
-                                :key="cell.context"
-                                cols="12"
-                                sm="6"
-                                md="4"
+                    <v-row dense>
+                        <v-col
+                            v-for="card in group.cards"
+                            :key="card.context"
+                            cols="12"
+                            md="6"
+                        >
+                            <v-card
+                                variant="outlined"
+                                height="100%"
                             >
-                                <v-card
-                                    variant="outlined"
-                                    height="100%"
-                                >
-                                    <v-card-text>
-                                        <div class="text-caption text-medium-emphasis">
-                                            {{ cell.name }}
-                                        </div>
-                                        <p class="text-body-2 mb-0">
-                                            {{ cell.text }}
-                                        </p>
-                                        <p
-                                            v-if="cell.question"
-                                            class="text-caption text-medium-emphasis mt-2 mb-0"
-                                        >
-                                            {{ cell.question }}
-                                        </p>
-                                    </v-card-text>
-                                </v-card>
-                            </v-col>
-                        </v-row>
-                    </div>
+                                <v-card-text>
+                                    <div class="text-subtitle-1 font-weight-bold mb-1">
+                                        {{ card.name }}
+                                    </div>
+                                    <p class="text-body-2 mb-0">
+                                        {{ card.text }}
+                                    </p>
+                                </v-card-text>
+                            </v-card>
+                        </v-col>
+                    </v-row>
                 </div>
             </v-card-text>
         </v-card>
@@ -394,11 +378,11 @@
 </template>
 
 <script lang="ts" setup>
-import { CONTEXT_VALUES } from '../../shared/ontology/context';
 import type { BaziResponse } from '../../shared/schemas/api/bazi.schema';
 import type { DimensionScore } from '../../shared/utils/personalityScoring';
 import type { NatalChartResponse } from '../../shared/schemas/api/natalChart.schema';
 import { NATAL_LABELS } from '../../shared/constants/natalLabels';
+import { impactCards } from '../utils/impactCards';
 import { splitLead } from '../utils/overviewLead';
 import type { SingleReportResponse } from '../../shared/schemas/api/singleReport.schema';
 
@@ -413,12 +397,6 @@ const props = defineProps<{
     /** The scores of the four MBTI pairs: when there are some, the pairs are drawn as the two-pole scales instead of as facts */
     mbtiDimensions?: Record<string, DimensionScore> | null;
 }>();
-
-const CONTEXT_NAMES = new Map(CONTEXT_VALUES.map((value) => [value.id, value.name]));
-const GROUP_LABELS = {
-    time: '時間', object: '對象', domain: '領域',
-} as const;
-const GROUP_ORDER = ['time', 'object', 'domain'] as const;
 
 const segmentsOf = (key: string) => props.report.blocks.find((block) => block.key === key)?.segments ?? [];
 const blockTitle = (key: string) => props.report.blocks.find((block) => block.key === key)?.title ?? '';
@@ -582,32 +560,9 @@ const inferenceGroups = computed(() => allGroups.value.filter((group) => !isHigh
 const advice = computed(() => segmentsOf('advice'));
 
 
-/** One card per facet: its cells sorted into time, object and domain, in the order the list of values has them. */
-const impacts = computed(() => props.report.blocks.filter((block) => block.key.startsWith('impact:')).map((block) => {
-    const cells = block.segments.flatMap((segment) => {
-        const context = segment.sources.find((source) => source.fragment)?.fragment?.split('|')[1];
+/** The map of effects by who or what it is about: one card for each, with every trait put together */
+const impactGroups = computed(() => impactCards(props.report.blocks));
 
-        return context ? [{
-            context,
-            kind: context.split(':')[0] ?? '',
-            name: CONTEXT_NAMES.get(context) ?? context,
-            text: segment.text,
-            question: segment.confirmQuestion ?? '',
-        }] : [];
-    });
-
-    return {
-        key: block.key,
-        // "影響面向推測：專注深耕" (and "影響地圖：專注深耕" in a report kept before): the trait is what follows the colon
-        trait: block.title.slice(block.title.indexOf('：') + 1),
-        groups: GROUP_ORDER.map((kind) => ({
-            kind, label: GROUP_LABELS[kind], cells: cells.filter((cell) => cell.kind === kind),
-        })).filter((group) => group.cells.length > 0),
-    };
-}));
-
-/** One, two, three… for the traits, in the order they come */
-const NUMERALS = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
 </script>
 
 <style scoped>

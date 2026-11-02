@@ -38,61 +38,42 @@
 
         <!-- How each trait can show in different times, toward different people and in different parts of life: all of it -->
         <v-card
-            v-if="impacts.length"
+            v-if="impactGroups.length"
             variant="outlined"
             class="mb-4"
         >
             <v-card-title>影響面向推測</v-card-title>
             <v-card-text>
                 <div
-                    v-for="(impact, index) in impacts"
-                    :key="impact.key"
-                    :class="{ 'mt-6': index > 0 }"
+                    v-for="(group, groupIndex) in impactGroups"
+                    :key="group.kind"
+                    :class="{ 'mt-6': groupIndex > 0 }"
                 >
-                    <div class="text-subtitle-1 font-weight-bold">
-                        特質{{ NUMERALS[index] ?? index + 1 }}：{{ impact.trait }}
+                    <div class="text-subtitle-1 font-weight-medium mb-2">
+                        {{ group.label }}
                     </div>
-                    <p class="text-caption text-medium-emphasis mb-2">
-                        支持的系統：{{ impact.systems.join('、') }}
-                    </p>
-                    <div
-                        v-for="group in impact.groups"
-                        :key="group.kind"
-                        class="mb-3"
-                    >
-                        <div class="text-subtitle-2 text-medium-emphasis mb-1">
-                            {{ group.label }}
-                        </div>
-                        <v-row dense>
-                            <v-col
-                                v-for="cell in group.cells"
-                                :key="cell.context"
-                                cols="12"
-                                sm="6"
-                                md="4"
+                    <v-row dense>
+                        <v-col
+                            v-for="card in group.cards"
+                            :key="card.context"
+                            cols="12"
+                            md="6"
+                        >
+                            <v-card
+                                variant="outlined"
+                                height="100%"
                             >
-                                <v-card
-                                    variant="outlined"
-                                    height="100%"
-                                >
-                                    <v-card-text>
-                                        <div class="text-caption text-medium-emphasis">
-                                            {{ cell.name }}
-                                        </div>
-                                        <p class="text-body-2 mb-0">
-                                            {{ cell.text }}
-                                        </p>
-                                        <p
-                                            v-if="cell.question"
-                                            class="text-caption text-medium-emphasis mt-2 mb-0"
-                                        >
-                                            {{ cell.question }}
-                                        </p>
-                                    </v-card-text>
-                                </v-card>
-                            </v-col>
-                        </v-row>
-                    </div>
+                                <v-card-text>
+                                    <div class="text-subtitle-1 font-weight-bold mb-1">
+                                        {{ card.name }}
+                                    </div>
+                                    <p class="text-body-2 mb-0">
+                                        {{ card.text }}
+                                    </p>
+                                </v-card-text>
+                            </v-card>
+                        </v-col>
+                    </v-row>
                 </div>
             </v-card-text>
         </v-card>
@@ -133,7 +114,7 @@
 </template>
 
 <script lang="ts" setup>
-import { CONTEXT_VALUES } from '../../shared/ontology/context';
+import { impactCards } from '../utils/impactCards';
 import type { ReportSnapshotDetail } from '../../shared/schemas/api/reportSnapshot.schema';
 
 const props = defineProps<{ report: ReportSnapshotDetail }>();
@@ -146,49 +127,9 @@ const SUBTITLES: Readonly<Record<string, string>> = {
     'now': '今天的牌、符文或運勢，只拿來對照，不影響上面的判斷。',
 };
 
-const CONTEXT_NAMES = new Map(CONTEXT_VALUES.map((value) => [value.id, value.name]));
-const GROUP_LABELS = {
-    time: '時間', object: '對象', domain: '領域',
-} as const;
-const GROUP_ORDER = ['time', 'object', 'domain'] as const;
-
 const plainBlocks = computed(() => props.report.blocks.filter((item) => !item.key.startsWith('impact:')));
 
-/** One card per end: its cells sorted into time, object and domain, with the systems that point at the end. */
-const impacts = computed(() => props.report.blocks.filter((item) => item.key.startsWith('impact:')).map((item) => {
-    const cells = item.segments.flatMap((segment) => {
-        const context = segment.sources.find((source) => source.fragment)?.fragment?.split('|')[1];
+/** The map of effects by who or what it is about: one card for each, with every trait put together */
+const impactGroups = computed(() => impactCards(props.report.blocks));
 
-        return context ? [{
-            context,
-            kind: context.split(':')[0] ?? '',
-            name: CONTEXT_NAMES.get(context) ?? context,
-            text: segment.text,
-            question: segment.confirmQuestion ?? '',
-        }] : [];
-    });
-    const systems = [...new Set(item.segments.flatMap((segment) => segment.sources.flatMap((source) => (source.system ? [source.system] : []))))];
-
-    return {
-        key: item.key,
-        trait: item.title.slice(item.title.indexOf('：') + 1),
-        systems: systems.map((system) => SYSTEM_NAMES[system] ?? system),
-        groups: GROUP_ORDER.map((kind) => ({
-            kind, label: GROUP_LABELS[kind], cells: cells.filter((cell) => cell.kind === kind),
-        })).filter((group) => group.cells.length > 0),
-    };
-}));
-
-const SYSTEM_NAMES: Readonly<Record<string, string>> = {
-    ZODIAC: '星座',
-    BLOOD: '血型',
-    MBTI: 'MBTI',
-    NUMEROLOGY: '生命靈數',
-    MAYA_KIN: '瑪雅 Kin',
-    BAZI: '八字',
-    HUMAN_DESIGN: '人類圖',
-};
-
-/** One, two, three… for the traits, in the order they come */
-const NUMERALS = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
 </script>
