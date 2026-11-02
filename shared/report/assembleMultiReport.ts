@@ -22,6 +22,7 @@ import {
     MAX_REFLECTION_QUESTIONS, block, impactBlock, segment,
 } from './assembleSingleReport';
 import { selectFacets } from './facets';
+import { factTerms } from './factTerms';
 import { SYSTEM_NATURE } from './natureLabels';
 import type { SystemReportInput } from './types';
 
@@ -76,14 +77,14 @@ export function assembleMultiReport(
     const coordinates = block('coordinates', '座標', lasting.map((input) => segment(`${nameOfSystem(input.system)}：${input.position}`, 'FACT', [{ system: input.system }])));
 
     const highlightSegments = lasting.flatMap((input) => {
-        const ordered = [...input.facts.filter((fact) => fact.term), ...input.facts.filter((fact) => !fact.term)].slice(0, HIGHLIGHTS_PER_SYSTEM);
+        const ordered = [...input.facts.filter((fact) => factTerms(fact).length > 0), ...input.facts.filter((fact) => factTerms(fact).length === 0)].slice(0, HIGHLIGHTS_PER_SYSTEM);
 
         return [
-            ...ordered.map((fact) => segment(`${nameOfSystem(input.system)}｜${fact.label}：${fact.value}`, 'FACT', [
-                fact.term ? {
-                    system: input.system, term: fact.term,
-                } : { system: input.system },
-            ])), ...(input.timeFacts ?? []).map((fact) => segment(`${nameOfSystem(input.system)}｜${fact.text}`, fact.reading ? 'SYSTEM_INTERPRETATION' : 'FACT', [{ system: input.system }], {
+            ...ordered.map((fact) => segment(`${nameOfSystem(input.system)}｜${fact.label}：${fact.value}`, 'FACT', factTerms(fact).length > 0
+                ? factTerms(fact).map((entry) => ({
+                    system: input.system, term: entry.term,
+                }))
+                : [{ system: input.system }])), ...(input.timeFacts ?? []).map((fact) => segment(`${nameOfSystem(input.system)}｜${fact.text}`, fact.reading ? 'SYSTEM_INTERPRETATION' : 'FACT', [{ system: input.system }], {
                 timeSensitive: true, asOf: fact.asOf,
             })),
         ];
@@ -91,7 +92,7 @@ export function assembleMultiReport(
     const highlights = block('highlights', '各系統的重點事實', highlightSegments);
 
     // The terms of the member that are a fact on the page, with the system each belongs to
-    const groundedTerms = new Set(lasting.flatMap((input) => input.facts.flatMap((fact) => (fact.term ? [fact.term] : []))));
+    const groundedTerms = new Set(lasting.flatMap((input) => input.facts.flatMap((fact) => factTerms(fact).map((entry) => entry.term))));
     const memberTerms = unique(lasting.flatMap((input) => input.traits.filter((term) => groundedTerms.has(term))));
     const systemOfTerm = new Map(mappings.map((entry) => [entry.term, entry.system] as const));
 

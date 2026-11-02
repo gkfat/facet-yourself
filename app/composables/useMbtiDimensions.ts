@@ -1,5 +1,8 @@
 import { z } from 'zod';
 import {
+    toValue, type MaybeRefOrGetter, 
+} from 'vue';
+import {
     submissionResponseSchema, testAttemptItemSchema,
 } from '../../shared/schemas/api/test.schema';
 import type { DimensionScore } from '../../shared/utils/personalityScoring';
@@ -13,7 +16,7 @@ export const MBTI_RESULT_STORAGE_KEY = 'self-scope:mbti-result';
  * else from the member's latest saved attempt. Null when there is none or it is of another type: the page then shows
  * the type alone, never scores that belong to someone else's or an older result.
  */
-export function useMbtiDimensions(type: string) {
+export function useMbtiDimensions(typeSource: MaybeRefOrGetter<string | null>) {
     const {
         isAuthenticated, initAuthListener,
     } = useAuth();
@@ -21,6 +24,10 @@ export function useMbtiDimensions(type: string) {
     const dimensions = ref<Record<string, DimensionScore> | null>(null);
 
     function readKeptResult() {
+        const type = toValue(typeSource);
+
+        if (!type) return;
+
         try {
             const raw = sessionStorage.getItem(MBTI_RESULT_STORAGE_KEY);
 
@@ -35,6 +42,10 @@ export function useMbtiDimensions(type: string) {
     }
 
     async function loadLatestAttempt() {
+        const type = toValue(typeSource);
+
+        if (!type) return;
+
         try {
             const attempts = z.array(testAttemptItemSchema).parse(await get<unknown>('/api/test-attempts'));
             const latest = attempts[0];
@@ -50,8 +61,16 @@ export function useMbtiDimensions(type: string) {
         readKeptResult();
     });
 
-    // The sign-in state arrives asynchronously; the saved attempt is the fallback when nothing was kept in this tab
-    watch(isAuthenticated, (signedIn) => {
+    // The sign-in state, and the type itself, arrive asynchronously; the saved attempt is the fallback when nothing was
+    // kept in this tab
+    watch([isAuthenticated, () => toValue(typeSource)], ([signedIn, type]) => {
+        if (!type) {
+            dimensions.value = null;
+
+            return;
+        }
+
+        if (!dimensions.value) readKeptResult();
         if (signedIn && !dimensions.value) void loadLatestAttempt();
     }, { immediate: true });
 

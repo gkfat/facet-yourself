@@ -172,12 +172,10 @@ describe('SingleReportService', () => {
     });
 
     describe('the life path number report', () => {
-        it('keeps the year number with the date it was made for, and asking on another day is the same report', async () => {
+        it('has no year number, so asking on another day is the same report', async () => {
             const first = await service.generate({ uid: 'u1' }, 'NUMEROLOGY');
 
-            expect(first.blocks.find((b) => b.key === 'time')?.segments[0]).toMatchObject({
-                timeSensitive: true, asOf: '2026-10-28',
-            });
+            expect(first.blocks.some((b) => b.key === 'time' && b.segments.length > 0)).toBe(false);
 
             clock.now += DAY;
 
@@ -187,14 +185,14 @@ describe('SingleReportService', () => {
             expect(snapshotPaths()).toHaveLength(1);
         });
 
-        it('is a new report when the year changes, since the year number does', async () => {
+        it('is still the same report when the year changes, since nothing in it depends on the year', async () => {
             const first = await service.generate({ uid: 'u1' }, 'NUMEROLOGY');
 
             clock.now = Date.UTC(2027, 0, 5, 4);
 
             const next = await service.generate({ uid: 'u1' }, 'NUMEROLOGY');
 
-            expect(next.id).not.toBe(first.id);
+            expect(next.id).toBe(first.id);
         });
     });
 

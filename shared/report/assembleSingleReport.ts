@@ -14,6 +14,7 @@ import type {
 import {
     findTensions, selectFacets, type Facet,
 } from './facets';
+import { factTerms } from './factTerms';
 import { SYSTEM_NATURE } from './natureLabels';
 import type { SystemReportInput } from './types';
 
@@ -92,9 +93,9 @@ export function assembleSingleReport(input: SystemReportInput, options: Assemble
     const systemSource = { system: input.system };
     const state = isStateSystem(input.system);
 
-    const groundedTerms = new Set(input.facts.flatMap((fact) => (fact.term ? [fact.term] : [])));
+    const groundedTerms = new Set(input.facts.flatMap((fact) => factTerms(fact).map((entry) => entry.term)));
     const facets = state ? [] : selectFacets(input.traits, groundedTerms, mappings);
-    const factOfTerm = new Map(input.facts.flatMap((fact) => (fact.term ? [[fact.term, `${fact.label}${fact.value}`] as const] : [])));
+    const factOfTerm = new Map(input.facts.flatMap((fact) => factTerms(fact).map((entry) => [entry.term, `${fact.label}${entry.value}`] as const)));
 
     const position = block('position', '位置結論', [segment(input.position, 'FACT', [systemSource])]);
 
@@ -114,11 +115,11 @@ export function assembleSingleReport(input: SystemReportInput, options: Assemble
 
     // A state system's facts and readings are its overview; the others keep the plain name
     const factsAndReadings = block('facts', state ? '概覽' : '系統的事實與解讀', [
-        ...input.facts.map((fact) => segment(`${fact.label}：${fact.value}`, 'FACT', [
-            fact.term ? {
-                system: input.system, term: fact.term,
-            } : systemSource,
-        ])), ...input.interpretations.filter((reading) => !reading.overview && !reading.lead && !reading.group).map(readingSegment),
+        ...input.facts.map((fact) => segment(`${fact.label}：${fact.value}`, 'FACT', factTerms(fact).length > 0
+            ? factTerms(fact).map((entry) => ({
+                system: input.system, term: entry.term,
+            }))
+            : [systemSource])), ...input.interpretations.filter((reading) => !reading.overview && !reading.lead && !reading.group).map(readingSegment),
     ]);
 
     // Readings that have a group go in a block for each group, in the order the groups first come
@@ -126,13 +127,19 @@ export function assembleSingleReport(input: SystemReportInput, options: Assemble
     const groupedReadings = readingGroups.flatMap((group, index) => block(`readings:${index + 1}`, group, input.interpretations.filter((reading) => !reading.overview && reading.group === group).map(readingSegment)));
 
     // The date of a draw is in the label of the card of the draw; only the other systems have times of their own
-    const timeFacts = block('time', '依系統算出的時間', (state ? [] : input.timeFacts ?? []).map((fact) => segment(fact.text, fact.reading ? 'SYSTEM_INTERPRETATION' : 'FACT', [
+    const timeSegment = (fact: NonNullable<SystemReportInput['timeFacts']>[number]) => segment(fact.text, fact.reading ? 'SYSTEM_INTERPRETATION' : 'FACT', [
         fact.term ? {
             system: input.system, term: fact.term,
         } : systemSource,
     ], {
         timeSensitive: true, asOf: fact.asOf,
-    })));
+    });
+    const timed = state ? [] : input.timeFacts ?? [];
+    const timeFacts = block('time', '隨時間走的運勢', timed.filter((fact) => !fact.group).map(timeSegment));
+
+    // What moves with time, by what it is about, a block for each group in the order the groups first come
+    const timeGroups = [...new Set(timed.flatMap((fact) => (fact.group ? [fact.group] : [])))];
+    const groupedTimeFacts = timeGroups.flatMap((group, index) => block(`time:${index + 1}`, group, timed.filter((fact) => fact.group === group).map(timeSegment)));
 
     const factLabels = new Set(input.facts.map((fact) => fact.label));
     const inferenceSegment = (inference: NonNullable<SystemReportInput['inferences']>[number]) => segment(
@@ -195,6 +202,7 @@ export function assembleSingleReport(input: SystemReportInput, options: Assemble
             ...factsAndReadings,
             ...groupedReadings,
             ...timeFacts,
+            ...groupedTimeFacts,
             ...summary,
             ...inferenceBlocks,
             ...impacts.flatMap((impact) => impact.block),

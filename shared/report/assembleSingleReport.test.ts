@@ -330,6 +330,31 @@ describe('assembleSingleReport', () => {
             });
         });
 
+        it('puts what has a group in a block for each group, in the order the groups first come, and the rest in the plain block', () => {
+            const blocks = assembleSingleReport(zodiac({
+                timeFacts: [
+                    {
+                        text: '目前大運：庚午 運', asOf: '2026-10-28', group: '大運',
+                    },
+                    {
+                        text: '2026 年流年：丙午 年', asOf: '2026-10-28', group: '流年',
+                    },
+                    {
+                        text: '大運主題・比肩：自己與同伴。', asOf: '2026-10-28', group: '大運', reading: true,
+                    },
+                    {
+                        text: '另一件隨時間走的事', asOf: '2026-10-28',
+                    },
+                ],
+            })).blocks;
+
+            expect(blocks.find((b) => b.key === 'time')?.segments).toHaveLength(1);
+            expect(blocks.find((b) => b.key === 'time:1')).toMatchObject({ title: '大運' });
+            expect(blocks.find((b) => b.key === 'time:1')?.segments).toHaveLength(2);
+            expect(blocks.find((b) => b.key === 'time:2')).toMatchObject({ title: '流年' });
+            expect(blocks.flatMap((b) => (b.key.startsWith('time') ? b.segments : [])).every((segment) => segment.timeSensitive === true)).toBe(true);
+        });
+
         it('has no time block when the system has no time of its own', () => {
             expect(blockKeys(zodiac())).not.toContain('time');
         });

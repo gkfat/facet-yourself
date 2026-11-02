@@ -43,7 +43,10 @@ export function mbtiReportInput(params: {
                 label: axis.title, value: `${side.label}（${side.letter}）${strength}`, term: terms[index],
             };
         }),
-        interpretations: readingsOfBody(params.body),
+        // The reviewed reading is the overview, as in the zodiac, blood-type and life-path reports: a quote, then a card for each part
+        interpretations: readingsOfBody(params.body).map((reading) => ({
+            ...reading, overview: true,
+        })),
         traits: terms,
         advice: adviceOfBody(params.body),
         disclaimer: params.body.disclaimer,

@@ -93,10 +93,19 @@
                     :result="baziChart"
                 />
 
+                <!-- The Kin of the birth date, as the Kin of today is shown on the daily page -->
+                <KinBadge
+                    v-if="birthKin"
+                    :kin="birthKin"
+                    class="mb-4"
+                />
+
                 <SingleReportView
                     :report="report"
                     :natal-chart="natalChart"
                     :natal-locked="natalLocked"
+                    :bazi-chart="baziChart"
+                    :mbti-dimensions="mbtiDimensions"
                 />
 
                 <SingleReportAiPanel
@@ -115,7 +124,9 @@ import type { NatalChartResponse } from '../../../shared/schemas/api/natalChart.
 import type { BaziResponse } from '../../../shared/schemas/api/bazi.schema';
 import type { HumanDesignResponse } from '../../../shared/schemas/api/humanDesign.schema';
 import { SINGLE_REPORT_SYSTEMS, type SingleReportSystem } from '../../../shared/report/systems';
+import { kinOf } from '../../../shared/utils/mayaKin';
 import { splitLead } from '../../utils/overviewLead';
+import { useMbtiDimensions } from '../../composables/useMbtiDimensions';
 import { useSingleReport, type SingleReportNeed } from '../../composables/useSingleReport';
 
 type Meta = {
@@ -208,6 +219,26 @@ const tagline = computed(() => {
 });
 
 const needMessage = computed(() => (need.value ? NEED_MESSAGES[need.value] : null));
+
+// The MBTI report shows how far each of the four pairs leans, from the scores of the latest result of this type
+const mbtiType = computed(() => (meta?.system === 'MBTI' ? report.value?.position ?? null : null));
+const { dimensions: mbtiDimensions } = useMbtiDimensions(mbtiType);
+
+// The Kin of the birth date is shown above the report, worked out from the same birth date
+const birthKin = computed(() => {
+    const birthDate = state.value.birthData?.birthDate;
+
+    if (meta?.system !== 'MAYA_KIN' || !birthDate) return null;
+
+    try {
+        return kinOf(birthDate);
+    } catch (error) {
+        // The report reads fine without the badge
+        console.error('[full-report] birth Kin failed:', error);
+
+        return null;
+    }
+});
 
 // The human design is also drawn as a chart; it is worked out from the same birth data as the report
 const chart = ref<HumanDesignResponse | null>(null);

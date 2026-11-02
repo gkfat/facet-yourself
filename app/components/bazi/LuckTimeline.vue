@@ -7,9 +7,12 @@
 
         <div class="luck__scroll-wrap">
             <div
+                ref="scroller"
                 class="luck__scroll"
+                :style="{ '--steps': luck.steps.length }"
                 role="list"
                 aria-label="八步大運，可左右滑動"
+                @scroll="updateMore"
             >
                 <button
                     v-for="step in luck.steps"
@@ -38,6 +41,7 @@
                 </button>
             </div>
             <div
+                v-if="more"
                 class="luck__fade"
                 aria-hidden="true"
             />
@@ -61,20 +65,9 @@
             />
         </div>
 
-        <div class="mt-4">
-            <div class="text-subtitle-2 mb-1">
-                今年與接下來的流年
-            </div>
-            <BaziYearRow
-                v-for="(year, index) in flowYears"
-                :key="year.year"
-                :year="year"
-                :current="index === 0"
-            />
-            <p class="text-caption text-medium-emphasis mt-1 mb-0">
-                流年以立春換年。這裡只列出干支與十神，不預測事件，也不評斷好壞。
-            </p>
-        </div>
+        <p class="text-caption text-medium-emphasis mt-3 mb-0">
+            流年以立春換年。這裡只列出干支與十神，不預測事件，也不評斷好壞。
+        </p>
     </div>
 </template>
 
@@ -114,6 +107,23 @@ const startAgeText = computed(() => {
 });
 
 const startYear = computed(() => props.luck.steps[0]?.startYear);
+
+// The soft edge is shown only while there is more to scroll to: on a wide screen every step fits and none is covered
+const scroller = ref<HTMLElement | null>(null);
+const more = ref(false);
+
+function updateMore() {
+    const element = scroller.value;
+
+    more.value = element !== null && element.scrollLeft + element.clientWidth < element.scrollWidth - 2;
+}
+
+onMounted(() => {
+    updateMore();
+    window.addEventListener('resize', updateMore);
+});
+
+onBeforeUnmount(() => window.removeEventListener('resize', updateMore));
 </script>
 
 <style scoped>
@@ -123,7 +133,8 @@ const startYear = computed(() => props.luck.steps[0]?.startYear);
 
 /* The only part of the page that may scroll sideways on a narrow screen */
 .luck__scroll {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(var(--steps), minmax(104px, 1fr));
     gap: 8px;
     padding: 4px 2px 8px;
     overflow-x: auto;
@@ -133,11 +144,10 @@ const startYear = computed(() => props.luck.steps[0]?.startYear);
 .luck__step {
     position: relative;
     display: flex;
-    flex: none;
     flex-direction: column;
     align-items: center;
     gap: 4px;
-    width: 104px;
+    min-width: 0;
     padding: 18px 6px 8px;
     border: 1px solid rgba(var(--v-theme-on-surface), 0.2);
     border-radius: 12px;

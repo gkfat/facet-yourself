@@ -17,7 +17,10 @@ export function bloodReportInput(params: { bloodType: Exclude<BloodType, 'UNKNOW
                 label: '血型', value: `${params.bloodType} 型`, term,
             },
         ],
-        interpretations: readingsOfBody(params.body, term),
+        // The reviewed reading is the overview, as the sun sign's is in the zodiac report: a quote, then a card for each part
+        interpretations: readingsOfBody(params.body, term).map((reading) => ({
+            ...reading, overview: true,
+        })),
         traits: bloodTermsOf(params.bloodType),
         advice: adviceOfBody(params.body),
         disclaimer: params.body.disclaimer,

@@ -1,9 +1,12 @@
 <template>
     <section
         v-if="rows.length"
-        class="mb-6"
+        :class="{ 'mb-6': !bare }"
     >
-        <h2 class="strength__title">
+        <h2
+            v-if="!bare"
+            class="strength__title"
+        >
             你在四組偏好上的傾向
         </h2>
         <p class="text-body-2 text-medium-emphasis mb-4">
@@ -79,6 +82,8 @@ import type { DimensionScore } from '../../shared/utils/personalityScoring';
 
 const props = defineProps<{
     dimensions: Record<string, DimensionScore>;
+    /** Inside a card that already has the title: no title and no space below */
+    bare?: boolean;
 }>();
 
 /** How clear-cut a leaning is, as a share of the most the dimension could lean */

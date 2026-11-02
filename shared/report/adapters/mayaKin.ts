@@ -42,10 +42,14 @@ export function mayaKinReportInput(params: { birthDate: string; body: FixedConte
                 label: '調性的關鍵字', value: tone ? tone.keyword : '',
             },
             {
-                label: '曆法', value: 'Dreamspell（二十世紀提出的新曆法，不是古瑪雅原有的曆法）',
+                // The second line is the subtitle of the card
+                label: '曆法', value: 'Dreamspell\n二十世紀提出的新曆法，不是古瑪雅原有的曆法',
             },
         ].filter((fact) => fact.value !== ''),
-        interpretations: readingsOfBody(params.body),
+        // The reviewed reading is the overview, as in the zodiac, blood-type and life-path reports: a quote, then a card for each part
+        interpretations: readingsOfBody(params.body).map((reading) => ({
+            ...reading, overview: true,
+        })),
         traits: mayaKinTermsOf(kin),
         advice: adviceOfBody(params.body),
         disclaimer: params.body.disclaimer,

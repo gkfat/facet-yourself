@@ -80,6 +80,21 @@
             </v-card-text>
         </v-card>
 
+        <!-- The four pairs of MBTI, as the two-pole scales of the test page; they take the place of the facts card -->
+        <v-card
+            v-if="mbtiDimensions"
+            variant="outlined"
+            class="mb-4"
+        >
+            <v-card-title>你在四組偏好上的傾向</v-card-title>
+            <v-card-text>
+                <MbtiDimensionStrength
+                    :dimensions="mbtiDimensions"
+                    bare
+                />
+            </v-card-text>
+        </v-card>
+
         <v-card
             v-if="showFacts"
             variant="outlined"
@@ -174,24 +189,6 @@
         />
 
         <v-card
-            v-if="timeCards.length"
-            variant="outlined"
-            class="mb-4"
-        >
-            <v-card-title>{{ blockTitle('time') }}</v-card-title>
-            <v-card-text>
-                <p
-                    v-for="(item, index) in timeCards"
-                    :key="`time-${index}`"
-                    class="text-body-2"
-                >
-                    {{ item.text }}
-                    <span class="text-caption text-medium-emphasis">（{{ item.asOf }} 產生）</span>
-                </p>
-            </v-card-text>
-        </v-card>
-
-        <v-card
             v-if="(summary.length || inferenceGroups.length) && !overview.length"
             variant="outlined"
             class="mb-4"
@@ -264,6 +261,86 @@
             </v-card-text>
         </v-card>
 
+        <!-- What moves with time (the luck steps, the year), in one card after the map of effects, each kind under its own heading -->
+        <v-card
+            v-if="timeBlocks.length || baziChart"
+            variant="outlined"
+            class="mb-4"
+        >
+            <v-card-title>大運與流年</v-card-title>
+            <v-card-text>
+                <!-- The luck steps with the years of each, when there is a chart to draw them from -->
+                <div
+                    v-if="baziChart"
+                    class="mb-6"
+                >
+                    <BaziLuckTimeline
+                        v-if="baziChart.luck && baziChart.flowYears"
+                        :luck="baziChart.luck"
+                        :flow-years="baziChart.flowYears"
+                    />
+                    <template v-else>
+                        <p class="text-body-2 mb-3">
+                            {{ luckHint }}
+                        </p>
+                        <v-btn
+                            v-if="baziChart.luckStatus === 'NEEDS_GENDER'"
+                            to="/profile"
+                            size="small"
+                            color="primary"
+                            variant="tonal"
+                        >
+                            到「我的資料」提供性別
+                        </v-btn>
+                    </template>
+                </div>
+
+                <div
+                    v-for="(item, blockIndex) in timeBlocks"
+                    :key="item.key"
+                    :class="blockIndex > 0 ? 'mt-6' : ''"
+                >
+                    <div
+                        v-if="item.title"
+                        class="text-subtitle-1 font-weight-medium mb-2"
+                    >
+                        {{ item.title }}
+                    </div>
+                    <v-row dense>
+                        <v-col
+                            v-for="(card, index) in item.cards"
+                            :key="`${item.key}-${index}`"
+                            cols="12"
+                            :md="card.reading ? 12 : 6"
+                        >
+                            <v-card
+                                variant="outlined"
+                                height="100%"
+                            >
+                                <v-card-text>
+                                    <div
+                                        v-if="card.label"
+                                        :class="card.reading ? 'text-subtitle-1 font-weight-bold mb-1' : 'text-caption text-medium-emphasis'"
+                                    >
+                                        {{ card.label }}
+                                    </div>
+                                    <div :class="card.reading ? 'text-body-2' : 'text-body-1 font-weight-medium'">
+                                        {{ card.value }}
+                                    </div>
+                                </v-card-text>
+                            </v-card>
+                        </v-col>
+                    </v-row>
+                </div>
+                <p
+                    v-if="timeAsOf"
+                    class="text-caption text-medium-emphasis mt-3 mb-0"
+                >
+                    以 {{ timeAsOf }} 算出，日期不同，結果也會不同。
+                </p>
+            </v-card-text>
+        </v-card>
+
         <ReportAdviceCard
             :title="blockTitle('advice')"
             :advice="advice.map((segment) => segment.text)"
@@ -273,6 +350,8 @@
 
 <script lang="ts" setup>
 import { CONTEXT_VALUES } from '../../shared/ontology/context';
+import type { BaziResponse } from '../../shared/schemas/api/bazi.schema';
+import type { DimensionScore } from '../../shared/utils/personalityScoring';
 import type { NatalChartResponse } from '../../shared/schemas/api/natalChart.schema';
 import { NATAL_LABELS } from '../../shared/constants/natalLabels';
 import { splitLead } from '../utils/overviewLead';
@@ -284,6 +363,10 @@ const props = defineProps<{
     natalChart?: NatalChartResponse | null;
     /** The chart cannot be drawn yet: it waits for a birth time and a city */
     natalLocked?: boolean;
+    /** The BaZi chart, when there is one: its luck steps and years are drawn in the card of what moves with time */
+    baziChart?: BaziResponse | null;
+    /** The scores of the four MBTI pairs: when there are some, the pairs are drawn as the two-pole scales instead of as facts */
+    mbtiDimensions?: Record<string, DimensionScore> | null;
 }>();
 
 const CONTEXT_NAMES = new Map(CONTEXT_VALUES.map((value) => [value.id, value.name]));
@@ -363,15 +446,38 @@ const overview = computed(() => readingsOf('overview'));
 const overviewLead = computed(() => overview.value[0] ?? null);
 const overviewRest = computed(() => overview.value.slice(1));
 
+/** The system of the report, as its position block names it */
+const reportSystem = computed(() => segmentsOf('position')[0]?.sources.find((source) => source.system)?.system);
+
+/** A blood type is its own report: the one fact is the type, which the page already says, so it is not shown as a card of its own */
+const factIsTheResult = computed(() => reportSystem.value === 'BLOOD');
+
 /**
  * The facts are listed unless they add nothing to what is shown elsewhere: with an overview and the chart (or its
  * invitation) in place, the sun sign is the only fact left and its reading is in the sun's house.
  */
-const showFacts = computed(() => !(overview.value.length > 0 && factCards.value.length <= 1 && readings.value.length === 0 && readingGroups.value.length === 0 && (props.natalChart != null || props.natalLocked === true)));
+const showFacts = computed(() => !props.mbtiDimensions && !(overview.value.length > 0 && factCards.value.length <= 1 && readings.value.length === 0 && readingGroups.value.length === 0 && (props.natalChart != null || props.natalLocked === true || factIsTheResult.value)));
 
-const timeCards = computed(() => segmentsOf('time').map((segment) => ({
-    text: segment.text, asOf: segment.asOf ?? '',
+/** What a BaZi chart without luck says: the luck needs a gender and a birth time */
+const luckHint = computed(() => (props.baziChart?.luckStatus === 'NEEDS_GENDER'
+    ? '提供性別後可看大運。性別只用來決定大運的排法（男命與女命的順逆不同），不會用在其他地方，也可以選擇不提供。'
+    : '大運的起運要用到精確的出生時刻，所以需要出生時間。'));
+
+/** What depends on the date, as "label：words": a block for each kind (大運, 流年), the reading of a step after the facts */
+const timeBlocks = computed(() => props.report.blocks.filter((block) => block.key === 'time' || block.key.startsWith('time:')).map((block) => ({
+    key: block.key,
+    title: block.key === 'time' ? '' : block.title,
+    cards: block.segments.map((segment) => {
+        const { label, value } = splitLabel(/^【.+?】(.*)$/s.exec(segment.text)?.[1] ?? segment.text);
+
+        return {
+            label, value, reading: segment.kind === 'SYSTEM_INTERPRETATION',
+        };
+    }).sort((a, b) => Number(a.reading) - Number(b.reading)),
 })));
+
+/** The date the time-sensitive facts were made for */
+const timeAsOf = computed(() => props.report.blocks.filter((block) => block.key === 'time' || block.key.startsWith('time:')).flatMap((block) => block.segments).find((segment) => segment.asOf)?.asOf ?? '');
 const summary = computed(() => segmentsOf('summary').map((segment) => segment.text));
 
 /** A trait the facts point at is written as "傾向「專注深耕」：選定方向長期深入。（依據：…）", then "用得太過時：視野變窄。" */

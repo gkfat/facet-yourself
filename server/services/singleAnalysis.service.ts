@@ -61,7 +61,7 @@ const chargeTransactionId = (jobId: string) => `single_ai_${jobId}`;
 
 /** The sentences of a block of the report, when it has any. */
 const textsOf = (doc: ReportSnapshotDoc, key: string, kind?: string): string[] => doc.blocks
-    .filter((block) => block.key === key)
+    .filter((block) => block.key === key || block.key.startsWith(`${key}:`))
     .flatMap((block) => block.segments.filter((segment) => !kind || segment.kind === kind).map((segment) => segment.text));
 
 type Made = {

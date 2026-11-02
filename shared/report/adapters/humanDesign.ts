@@ -19,16 +19,19 @@ import type {
     ReportFact, ReportInterpretation, SystemReportInput,
 } from '../types';
 
-/** A part's reviewed reading as report readings: what it says, the strengths and the blind spots. */
-const readingsOf = (title: string, entry: HumanDesignInterpretation, term?: string): ReportInterpretation[] => [
+/**
+ * A part's reviewed reading as the cards of a group of its own: what it says, then the strengths and the blind spots.
+ * The titles carry no colon, since the page takes the words before the first colon as the title of a card.
+ */
+const groupOf = (group: string, title: string, entry: HumanDesignInterpretation, term?: string): ReportInterpretation[] => [
     {
-        title, text: entry.summary, ...(term ? { term } : {}),
+        title, text: entry.summary, group, ...(term ? { term } : {}),
     },
     {
-        title: `${title}：可能的優勢`, text: entry.strengths, ...(term ? { term } : {}),
+        title: '可能的優勢', text: entry.strengths, group, ...(term ? { term } : {}),
     },
     {
-        title: `${title}：可能的盲點`, text: entry.blindSpots, ...(term ? { term } : {}),
+        title: '可能的盲點', text: entry.blindSpots, group, ...(term ? { term } : {}),
     },
 ];
 
@@ -76,37 +79,69 @@ export function humanDesignReportInput(params: {
         {
             label: '人生十字', value: `${HUMAN_DESIGN_CROSS_ANGLE_LABELS[chart.incarnationCross.angle]}（${personalitySun}/${personalityEarth} | ${designSun}/${designEarth}）`,
         },
-        ...chart.definedCenters.map((center) => ({
-            label: '有定義的能量中心', value: HUMAN_DESIGN_CENTER_LABELS[center], term: `hd:center:${center}:defined`,
-        })),
-        ...(openCenters.length > 0 ? [
+        // The defined centers are one card and the channels one card; each still carries its own terms
+        ...(chart.definedCenters.length > 0 ? [
             {
-                label: '開放的能量中心', value: openCenters.map((center) => HUMAN_DESIGN_CENTER_LABELS[center]).join('、'),
+                label: '有定義的能量中心',
+                value: chart.definedCenters.map((center) => HUMAN_DESIGN_CENTER_LABELS[center]).join('、'),
+                terms: chart.definedCenters.map((center) => ({
+                    term: `hd:center:${center}:defined`, value: HUMAN_DESIGN_CENTER_LABELS[center],
+                })),
             },
         ] : []),
-        ...channelKeys.map((key) => ({
-            label: '完整的通道', value: `${CHANNEL_NAMES[key]?.zh ?? key}（${key}）`, term: `hd:channel:${key}`,
-        })),
+        ...(openCenters.length > 0 ? [
+            {
+                label: '未定義的能量中心', value: openCenters.map((center) => HUMAN_DESIGN_CENTER_LABELS[center]).join('、'),
+            },
+        ] : []),
+        ...(channelKeys.length > 0 ? [
+            {
+                label: '完整的通道',
+                value: channelKeys.map((key) => `${CHANNEL_NAMES[key]?.zh ?? key}（${key}）`).join('、'),
+                terms: channelKeys.map((key) => ({
+                    term: `hd:channel:${key}`, value: `${CHANNEL_NAMES[key]?.zh ?? key}（${key}）`,
+                })),
+            },
+        ] : []),
     ];
 
-    const interpretations: ReportInterpretation[] = [
-        ...readingsOf(`類型：${typeLabel}`, typeEntry, `hd:type:${chart.type}`),
+    // The type is what the report opens with, as its overview: the verdict and what it says (the quote), then the strengths
+    // and the blind spots as cards, the way the sun sign opens the zodiac report
+    const typeTerm = `hd:type:${chart.type}`;
+    const overview: ReportInterpretation[] = [
         {
-            title: `策略：${HUMAN_DESIGN_STRATEGY_LABELS[chart.strategy]}`, text: typeEntry.strategy,
+            title: `類型：${typeLabel}`, text: typeEntry.summary, term: typeTerm, overview: true,
         },
-        ...readingsOf(`內在權威：${HUMAN_DESIGN_AUTHORITY_LABELS[chart.authority]}`, HUMAN_DESIGN_AUTHORITY_INTERPRETATIONS[chart.authority], `hd:authority:${chart.authority}`),
-        ...(profile ? readingsOf(`人生角色：${chart.profile} ${profile.name}`, profile) : []),
-        ...readingsOf(`定義：${HUMAN_DESIGN_DEFINITION_LABELS[chart.definition]}`, HUMAN_DESIGN_DEFINITION_INTERPRETATIONS[chart.definition]),
-        ...readingsOf(`人生十字角度：${HUMAN_DESIGN_CROSS_ANGLE_LABELS[chart.incarnationCross.angle]}`, HUMAN_DESIGN_CROSS_ANGLE_INTERPRETATIONS[chart.incarnationCross.angle]),
+        {
+            title: '可能的優勢', text: typeEntry.strengths, term: typeTerm, overview: true,
+        },
+        {
+            title: '可能的盲點', text: typeEntry.blindSpots, term: typeTerm, overview: true,
+        },
+    ];
+
+    // The strategy goes with the type, as the third card of the overview; every other part is a group of its own,
+    // named "…歸納", each with a small card for what it says and the strengths and blind spots it has
+    const strategy: ReportInterpretation = {
+        title: '策略', text: typeEntry.strategy, overview: true,
+    };
+
+    const interpretations: ReportInterpretation[] = [
+        ...overview,
+        strategy,
+        ...groupOf('內在權威歸納', HUMAN_DESIGN_AUTHORITY_LABELS[chart.authority], HUMAN_DESIGN_AUTHORITY_INTERPRETATIONS[chart.authority], `hd:authority:${chart.authority}`),
+        ...(profile ? groupOf('人生角色歸納', `${chart.profile} ${profile.name}`, profile) : []),
+        ...groupOf('定義歸納', HUMAN_DESIGN_DEFINITION_LABELS[chart.definition], HUMAN_DESIGN_DEFINITION_INTERPRETATIONS[chart.definition]),
+        ...groupOf('人生十字歸納', HUMAN_DESIGN_CROSS_ANGLE_LABELS[chart.incarnationCross.angle], HUMAN_DESIGN_CROSS_ANGLE_INTERPRETATIONS[chart.incarnationCross.angle]),
         ...chart.definedCenters.map((center) => ({
-            title: `${HUMAN_DESIGN_CENTER_LABELS[center]}有定義`, text: CENTER_MEANINGS[center].defined, term: `hd:center:${center}:defined`,
+            title: `${HUMAN_DESIGN_CENTER_LABELS[center]}有定義`, text: CENTER_MEANINGS[center].defined, term: `hd:center:${center}:defined`, group: '能量中心歸納',
         })),
         ...openCenters.map((center) => ({
-            title: `${HUMAN_DESIGN_CENTER_LABELS[center]}開放`, text: CENTER_MEANINGS[center].open,
+            title: `${HUMAN_DESIGN_CENTER_LABELS[center]}未定義`, text: CENTER_MEANINGS[center].open, group: '能量中心歸納',
         })),
         ...channelKeys.flatMap((key) => (CHANNEL_MEANINGS[key] ? [
             {
-                title: CHANNEL_NAMES[key]?.zh ?? key, text: CHANNEL_MEANINGS[key], term: `hd:channel:${key}`,
+                title: CHANNEL_NAMES[key]?.zh ?? key, text: CHANNEL_MEANINGS[key], term: `hd:channel:${key}`, group: '通道歸納',
             },
         ] : [])),
     ];

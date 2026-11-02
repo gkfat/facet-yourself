@@ -6,7 +6,6 @@ import { BaziService } from '../../../server/services/bazi.service';
 import { NatalChartService } from '../../../server/services/natalChart.service';
 import { reportSnapshotContentSchema } from '../../schemas/firestore/reportSnapshot.schema';
 import { fixedContentBodySchema } from '../../schemas/firestore/fixedContent.schema';
-import { personalYearNumber } from '../../utils/numerology';
 import { assembleSingleReport } from '../assembleSingleReport';
 import { bloodReportInput } from './blood';
 import {
@@ -65,6 +64,15 @@ describe('bloodReportInput', () => {
         ]);
         expect(readings[1]?.text).toBe('優勢一；優勢二');
     });
+
+    it('is the overview of the report, as the sun sign is in the zodiac report', () => {
+        const readings = bloodReportInput({
+            bloodType: 'O', body: body('O 型'),
+        }).interpretations;
+
+        expect(readings.length).toBeGreaterThan(0);
+        expect(readings.every((reading) => reading.overview === true)).toBe(true);
+    });
 });
 
 describe('the advice of a reading', () => {
@@ -99,7 +107,7 @@ describe('the advice of a reading', () => {
 
 describe('numerologyReportInput', () => {
     const input = numerologyReportInput({
-        birthDate: '1989-10-27', today: '2026-10-28', body: body('生命靈數 1'),
+        birthDate: '1989-10-27', body: body('生命靈數 1'),
     });
 
     it('gives the life path number as the position and as a fact the mapping can use', () => {
@@ -110,15 +118,14 @@ describe('numerologyReportInput', () => {
         expect(input.traits).toEqual(['numerology:1']);
     });
 
-    it('keeps the year number as a fact with the date it was made for', () => {
-        expect(input.timeFacts).toEqual([
-            {
-                text: `依生命靈數流年，2026 年的流年數是 ${personalYearNumber('1989-10-27', 2026)}。`, asOf: '2026-10-28',
-            },
-        ]);
-        expect(assembleSingleReport(input).blocks.find((b) => b.key === 'time')?.segments[0]).toMatchObject({
-            timeSensitive: true, asOf: '2026-10-28',
-        });
+    it('is the overview of the report, as the sun sign and the blood type are', () => {
+        expect(input.interpretations.length).toBeGreaterThan(0);
+        expect(input.interpretations.every((reading) => reading.overview === true)).toBe(true);
+    });
+
+    it('does not carry the year number: the report is the same whenever it is made', () => {
+        expect(input.timeFacts).toBeUndefined();
+        expect(assembleSingleReport(input).blocks.some((block) => block.key === 'time' && block.segments.length > 0)).toBe(false);
     });
 
     it('records what it was calculated from', () => {
@@ -314,6 +321,15 @@ describe('mbtiReportInput', () => {
         expect(accepted(input)).toBe(true);
     });
 
+    it('is the overview of the report, as the sun sign and the blood type are', () => {
+        const input = mbtiReportInput({
+            type: 'ISTJ', dimensions, testVersion: '2', body: body('ISTJ'),
+        });
+
+        expect(input.interpretations.length).toBeGreaterThan(0);
+        expect(input.interpretations.every((reading) => reading.overview === true)).toBe(true);
+    });
+
     it('says nothing about strength without the scores', () => {
         const input = mbtiReportInput({
             type: 'INTJ', dimensions: null, testVersion: null, body: body('INTJ'),
@@ -354,6 +370,11 @@ describe('mayaKinReportInput', () => {
         });
         expect(input.facts.find((fact) => fact.label === '圖騰的關鍵字')?.value).toBe('實踐、療癒');
         expect(input.traits).toEqual(['kin:seal:7', 'kin:tone:12']);
+    });
+
+    it('is the overview of the report, as the sun sign, the blood type and the life path number are', () => {
+        expect(input.interpretations.length).toBeGreaterThan(0);
+        expect(input.interpretations.every((reading) => reading.overview === true)).toBe(true);
     });
 
     it('says that this is the Dreamspell, not an old Maya calendar, in the facts and in the limits', () => {
@@ -403,7 +424,35 @@ describe('baziReportInput', () => {
         expect(input.facts.find((fact) => fact.label === '日主')?.term).toMatch(/^bazi:daymaster:/);
         expect(input.timeFacts.length).toBeGreaterThan(0);
         expect(input.timeFacts.every((fact) => fact.asOf === '2026-10-27')).toBe(true);
+        // The luck step and its reading are one group; the years are in the timeline of the page, not repeated here
+        expect(input.timeFacts.every((fact) => fact.group === '大運')).toBe(true);
         expect(accepted(input)).toBe(true);
+    });
+
+    it('opens with the day master as its overview and sorts the rest into groups, one small card for each reading', async () => {
+        const input = await run({
+            birthTime: '06:00', gender: 'MALE',
+        });
+        const overview = input.interpretations.filter((reading) => reading.overview);
+        const grouped = input.interpretations.filter((reading) => reading.group);
+
+        expect(overview.length).toBeGreaterThan(0);
+        expect(overview[0]?.term).toMatch(/^bazi:daymaster:/);
+        expect(input.interpretations.filter((reading) => !reading.overview && !reading.group)).toEqual([]);
+        expect([...new Set(grouped.map((reading) => reading.group))].every((group) => group?.endsWith('歸納'))).toBe(true);
+        // The page takes the words before the first colon as the title of a card, so a title has none
+        expect(grouped.every((reading) => !reading.title.includes('：'))).toBe(true);
+        expect(accepted(input)).toBe(true);
+    });
+
+    it('lists the missing elements as one fact that still carries a term for each', async () => {
+        const input = await run({
+            birthTime: '06:00', gender: 'MALE',
+        });
+        const missing = input.facts.filter((fact) => fact.label === '五行缺少');
+
+        expect(missing.length).toBeLessThanOrEqual(1);
+        expect(missing.every((fact) => (fact.terms?.length ?? 0) >= 1 && fact.terms?.every((entry) => entry.term.startsWith('bazi:element:missing:')))).toBe(true);
     });
 
     it('says what is missing without a birth time or a gender', async () => {
@@ -427,9 +476,56 @@ describe('humanDesignReportInput', () => {
     it('names the type, authority and each defined center and channel as facts with terms', () => {
         expect(input.facts.find((fact) => fact.label === '類型')?.term).toBe(`hd:type:${chart.type}`);
         expect(input.facts.find((fact) => fact.label === '內在權威')?.term).toBe(`hd:authority:${chart.authority}`);
-        expect(input.facts.filter((fact) => fact.label === '有定義的能量中心')).toHaveLength(chart.definedCenters.length);
-        expect(input.facts.filter((fact) => fact.label === '完整的通道')).toHaveLength(chart.channels.length);
+        // The defined centers are one fact and the channels one fact, each still carrying a term for every one it lists
+        const centers = input.facts.filter((fact) => fact.label === '有定義的能量中心');
+        const channels = input.facts.filter((fact) => fact.label === '完整的通道');
+
+        expect(centers).toHaveLength(1);
+        expect(centers[0]?.terms?.map((entry) => entry.term)).toEqual(chart.definedCenters.map((center) => `hd:center:${center}:defined`));
+        expect(channels).toHaveLength(1);
+        expect(channels[0]?.terms).toHaveLength(chart.channels.length);
+        expect(input.facts.some((fact) => fact.label === '開放的能量中心')).toBe(false);
         expect(input.traits.length).toBeGreaterThan(2);
+    });
+
+    it('shows the centers and channels as one card each in the report, and cites them for the conclusions', () => {
+        const report = assembleSingleReport(input);
+        const facts = report.blocks.find((b) => b.key === 'facts')?.segments.filter((segment) => segment.kind === 'FACT') ?? [];
+        const centers = facts.find((segment) => segment.text.startsWith('有定義的能量中心：'));
+
+        expect(facts.filter((segment) => segment.text.startsWith('有定義的能量中心：'))).toHaveLength(1);
+        expect(facts.filter((segment) => segment.text.startsWith('完整的通道：'))).toHaveLength(1);
+        expect(centers?.sources.map((source) => source.term)).toEqual(chart.definedCenters.map((center) => `hd:center:${center}:defined`));
+        expect(accepted(input)).toBe(true);
+    });
+
+    it('opens with the type as its overview: the verdict, the strengths, the blind spots and the strategy', () => {
+        const overview = input.interpretations.filter((reading) => reading.overview);
+
+        expect(overview.map((reading) => reading.title)).toEqual([
+            expect.stringMatching(/^類型：/),
+            '可能的優勢',
+            '可能的盲點',
+            '策略',
+        ]);
+        expect(overview.slice(0, 3).every((reading) => reading.term === `hd:type:${chart.type}`)).toBe(true);
+        // The type is not read twice
+        expect(input.interpretations.filter((reading) => reading.title.startsWith('類型：'))).toHaveLength(1);
+    });
+
+    it('sorts the other readings into groups named for what they sum up, with no colon in the title of a card', () => {
+        const groups = [...new Set(input.interpretations.flatMap((reading) => (reading.group ? [reading.group] : [])))];
+
+        expect(groups).toEqual([
+            '內在權威歸納',
+            '人生角色歸納',
+            '定義歸納',
+            '人生十字歸納',
+            '能量中心歸納',
+            ...(chart.channels.length > 0 ? ['通道歸納'] : []),
+        ]);
+        expect(input.interpretations.filter((reading) => reading.group).every((reading) => !reading.title.includes('：'))).toBe(true);
+        expect(input.interpretations.filter((reading) => !reading.overview && !reading.group)).toEqual([]);
     });
 
     it('keeps the profile, definition and cross out of the terms', () => {

@@ -7,6 +7,8 @@ export type ReportFact = {
     value: string;
     /** The mapping term this fact is, when it is one: only a fact with a term can ground an inference */
     term?: string;
+    /** For a fact that lists several things at once (the defined centers): the term of each, with the part of the value it is */
+    terms?: ReadonlyArray<{ term: string; value: string }>;
 };
 
 /** What the tradition of the system says about a fact, taken from the reviewed fixed readings. */
@@ -48,6 +50,8 @@ export type ReportTimeFact = {
     term?: string;
     /** A reading the tradition gives of the time (not a calculated fact) */
     reading?: boolean;
+    /** What the fact is about ("大運", "流年"): each group is a heading of its own in the card of what moves with time */
+    group?: string;
 };
 
 /**

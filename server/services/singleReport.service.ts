@@ -346,7 +346,7 @@ export class SingleReportService extends BaseService {
         const body = await this.fixedContent.getPublished('NUMEROLOGY', String(lifePathNumber(birth.birthDate)));
 
         return numerologyReportInput({
-            birthDate: birth.birthDate, today: taipeiDateKey(new Date(this.clock())), body,
+            birthDate: birth.birthDate, body,
         });
     }
 

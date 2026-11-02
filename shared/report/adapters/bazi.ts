@@ -61,7 +61,6 @@ export function baziReportInput(params: {
     const missing = missingElements(chart.elementCounts);
     const { useful } = chart.strength;
     const luckStep = chart.luck?.steps.find((step) => step.order === chart.luck?.currentOrder) ?? null;
-    const flowYear = chart.flowYears?.[0] ?? null;
 
     const facts: ReportFact[] = [
         {
@@ -84,9 +83,16 @@ export function baziReportInput(params: {
                 label: '五行偏旺', value: `${ELEMENT_LABELS[strongElement]}氣明顯`, term: `bazi:element:strong:${strongElement}`,
             },
         ] : []),
-        ...missing.map((element) => ({
-            label: '五行缺少', value: ELEMENT_LABELS[element], term: `bazi:element:missing:${element}`,
-        })),
+        // The missing elements are one card, each still carrying its own term
+        ...(missing.length > 0 ? [
+            {
+                label: '五行缺少',
+                value: missing.map((element) => ELEMENT_LABELS[element]).join('、'),
+                terms: missing.map((element) => ({
+                    term: `bazi:element:missing:${element}`, value: ELEMENT_LABELS[element],
+                })),
+            },
+        ] : []),
         ...(group ? [
             {
                 label: '十神偏多', value: TEN_GOD_GROUP_LABELS[group], term: `bazi:group:${group}`,
@@ -114,24 +120,44 @@ export function baziReportInput(params: {
         ] : []),
     ];
 
-    const body = (fixed: FixedResultResponse | null): ReportInterpretation[] => (fixed ? readingsOfBody(fixed, termOfKey(fixed.key)) : []);
     const interpretation = chart.interpretation;
+
+    // The day master is what the report opens with, as its overview: the verdict, then the strengths and the blind spots
+    const overview: ReportInterpretation[] = interpretation.dayMaster
+        ? readingsOfBody(interpretation.dayMaster, termOfKey(interpretation.dayMaster.key)).map((reading) => ({
+            ...reading, overview: true,
+        }))
+        : [];
+
+    // Every other reading is one small card of a group named "…歸納": its title (a colon becomes a dot, since the page
+    // takes the words before the first colon as the title of a card), what it says, then the strengths and blind spots
+    const card = (group: string, fixed: FixedResultResponse | null): ReportInterpretation[] => {
+        if (!fixed) return [];
+
+        const parts = [
+            fixed.summary.trim(),
+            fixed.strengths.length > 0 ? `可能的優勢：${fixed.strengths.join('；')}` : '',
+            fixed.blindSpots.length > 0 ? `可能的盲點：${fixed.blindSpots.join('；')}` : '',
+        ].filter((part) => part !== '');
+        const term = termOfKey(fixed.key);
+
+        return [
+            {
+                title: fixed.title.replaceAll('：', '・'), text: parts.join('\n'), group, ...(term ? { term } : {}),
+            },
+        ];
+    };
 
     const timeFacts: ReportTimeFact[] = [
         ...(luckStep ? [
             {
-                text: `依八字大運，目前走的是 ${pillarLabel(luckStep.pillar)} 運（十神${luckStep.tenGod}，${luckStep.startAge} 至 ${luckStep.endAge} 歲，${luckStep.startYear} 至 ${luckStep.endYear} 年）。`,
+                text: `目前大運：${pillarLabel(luckStep.pillar)} 運（十神${luckStep.tenGod}，${luckStep.startAge} 至 ${luckStep.endAge} 歲，${luckStep.startYear} 至 ${luckStep.endYear} 年）`,
                 asOf: params.today,
+                group: '大運',
             },
-        ] : []),
-        ...(interpretation.currentLuck ? [
+        ] : []), ...(interpretation.currentLuck ? [
             {
-                text: `【依八字命理】${interpretation.currentLuck.title}：${interpretation.currentLuck.summary}`, asOf: params.today, reading: true,
-            },
-        ] : []),
-        ...(flowYear ? [
-            {
-                text: `依八字流年，${flowYear.year} 年是 ${pillarLabel(flowYear.pillar)} 年（十神${flowYear.tenGod}）。`, asOf: params.today,
+                text: `【依八字命理】${interpretation.currentLuck.title.replaceAll('：', '・')}：${interpretation.currentLuck.summary}`, asOf: params.today, reading: true, group: '大運',
             },
         ] : []),
     ];
@@ -148,15 +174,15 @@ export function baziReportInput(params: {
         position: `日主${dayLabel}・${STRENGTH_LEVEL_LABELS[chart.strength.level]}・${chart.strength.pattern.key}格`,
         facts,
         interpretations: [
-            ...body(interpretation.dayMaster),
-            ...body(interpretation.strongElement),
-            ...interpretation.missingElements.flatMap((fixed) => body(fixed)),
-            ...body(interpretation.dominantGroup),
-            ...body(interpretation.month),
-            ...body(interpretation.strength),
-            ...body(interpretation.pattern),
-            ...body(interpretation.usefulGods),
-            ...body(interpretation.bone),
+            ...overview,
+            ...card('五行與十神歸納', interpretation.strongElement),
+            ...interpretation.missingElements.flatMap((fixed) => card('五行與十神歸納', fixed)),
+            ...card('五行與十神歸納', interpretation.dominantGroup),
+            ...card('強弱與格局歸納', interpretation.strength),
+            ...card('強弱與格局歸納', interpretation.pattern),
+            ...card('強弱與格局歸納', interpretation.usefulGods),
+            ...card('月令與稱骨歸納', interpretation.month),
+            ...card('月令與稱骨歸納', interpretation.bone),
         ],
         traits: baziTermsOf(chart, chart.strength),
         timeFacts,

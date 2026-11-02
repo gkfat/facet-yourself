@@ -56,54 +56,12 @@
                 <BaziStrengthMeter :strength="result.strength" />
             </v-card-text>
         </v-card>
-
-        <v-card
-            variant="outlined"
-            class="mb-4"
-        >
-            <v-card-title>大運與流年</v-card-title>
-            <v-card-text>
-                <BaziLuckTimeline
-                    v-if="result.luck && result.flowYears"
-                    :luck="result.luck"
-                    :flow-years="result.flowYears"
-                />
-                <template v-else>
-                    <p class="text-body-2 mb-3">
-                        {{ luckHint }}
-                    </p>
-                    <v-btn
-                        v-if="result.luckStatus === 'NEEDS_GENDER'"
-                        to="/profile"
-                        size="small"
-                        color="primary"
-                        variant="tonal"
-                    >
-                        到「我的資料」提供性別
-                    </v-btn>
-                    <div v-if="result.flowYears">
-                        <div class="text-subtitle-2 mb-1">
-                            今年與接下來的流年
-                        </div>
-                        <BaziYearRow
-                            v-for="(year, index) in result.flowYears"
-                            :key="year.year"
-                            :year="year"
-                            :current="index === 0"
-                        />
-                    </div>
-                </template>
-            </v-card-text>
-        </v-card>
     </div>
 </template>
 
 <script lang="ts" setup>
 import type { BaziResponse } from '../../shared/schemas/api/bazi.schema';
 
-const props = defineProps<{ result: BaziResponse }>();
-
-const luckHint = computed(() => (props.result.luckStatus === 'NEEDS_GENDER'
-    ? '提供性別後可看大運。性別只用來決定大運的排法（男命與女命的順逆不同），不會用在其他地方，也可以選擇不提供。'
-    : '大運的起運要用到精確的出生時刻，所以需要出生時間。'));
+// The luck steps and the years are in the card of what moves with time in the report, under the chart
+defineProps<{ result: BaziResponse }>();
 </script>
