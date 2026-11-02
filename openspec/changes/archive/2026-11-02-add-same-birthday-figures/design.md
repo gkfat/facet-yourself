@@ -19,7 +19,7 @@
 ## Decisions
 
 1. **資料放 `shared/constants/birthdayFigures/`，依月份拆成 12 檔 + `index.ts` 查詢**
-   - 型別：`type BirthdayFigure = { name: string; year: number; role: string }`；`FIGURES_BY_DAY: Record<'MM-DD', readonly [BirthdayFigure, BirthdayFigure, BirthdayFigure]>`。
+   - 型別：`type BirthdayFigure = { name: string; nameEn: string; year: number; role: string }`；`FIGURES_BY_DAY: Record<'MM-DD', readonly [BirthdayFigure, BirthdayFigure, BirthdayFigure]>`。
    - 理由：跟 `runeMeanings.ts` 等固定內容一致；前後端共用；單檔 1,100 筆太大，月份拆檔利於審閱與 diff。
    - 替代：放 Firestore + `content:import`。否決：內容小、不隨營運變動，且新增匯入流程只為一張彩蛋卡片。
 
@@ -27,9 +27,9 @@
    - 函式 `figuresOn(birthDate: string)`，格式不合法時回 `null`（呼叫端不顯示），不拋錯。
    - 理由：直接、可預期；2/29 若借用 2/28 或 3/1 會讓人物不是「同一天」。
 
-3. **在 assembler 加 block `figures`，放在「依據與限制」之後**
+3. **（已調整）偉人卡片不屬於報告本體：由 `peersBlock` 在回應送出時附加，每次隨機挑 3 位；報告本體與模板版本（v2）不變**
    - `SystemReportInput` 增加選填 `sameBirthday?: { date: string; figures: readonly BirthdayFigure[] }`；沒給就不輸出區塊。
-   - 區塊內每位人物一個 segment（`kind: 'FACT'`，text 用既有 `"label：value"` 慣例：`"姓名：1879 年生・身分"`），最後一個 segment 為固定提示「只是同一天出生，與你的特質沒有因果關係」。
+   - 區塊內每位人物一個 segment（`kind: 'FACT'`，text 用既有 `"label：value"` 慣例：`"姓名（English name）：1879 年生・身分"`），最後一個 segment 為固定提示「只是同一天出生，與你的特質沒有因果關係」。
    - 理由：報告其餘邏輯（事實→推論→建議→限制）不變；放最後符合需求「最後」；沿用現有 segment/視圖解析，不增加 schema。
    - 替代：新增 `SnapshotBlock` 欄位。否決：不需要，也會動到 Firestore schema。
 
