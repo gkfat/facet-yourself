@@ -437,3 +437,205 @@ classDiagram
     note for DailyDraw "RULE-035 同帳號、同台北日期、同類抽取只有一筆，結果決定性，已存在則回傳既有紀錄<br/>RULE-037 9 枚對稱盧恩只有正位，15 枚可逆<br/>RULE-038 以 Asia/Taipei 換日，由伺服器計算<br/>RULE-047 保存 3 個月，刪帳號時移除<br/>RULE-036 免費、不呼叫 AI，內容未發佈時不寫入"
     note for DailyKinUnlock "RULE-039 每會員每日計算一次，計算即解鎖、不扣點，解鎖後查看不限<br/>RULE-040 Dreamspell，2/29 沿用 2/28<br/>RULE-041 今日 Kin 與生日 Kin 內容分開各 260 筆"
     note for TransitReport "RULE-042 行運盤固定取台北當日 00:00<br/>RULE-043 十顆天體，既有七顆與上升結果不變<br/>RULE-044 須備齊出生日期、時間、城市<br/>RULE-045 同帳號同日同本命資料版本只扣一次<br/>RULE-046 失敗返還點數<br/>RULE-047 保存 3 個月<br/>RULE-048 僅擁有者可存取，重複查看與匯出不呼叫 AI<br/>RULE-049 免責說明且不預測具體事件<br/>RULE-050 訪客不可使用"
+
+    %% expand-self-analysis-dimensions
+    class AssessmentDefinition {
+      <<Entity>>
+      +assessmentId string
+      +version string
+      +kind enum
+      +contentKeys string_array
+      +entryEnabled boolean
+      +reportInput function
+      +traitMappings object
+      +basePrice int
+    }
+    class AssessmentItem {
+      <<ValueObject>>
+      +itemId string
+      +text string
+      +dimension string
+      +reversed boolean
+    }
+    class AssessmentAttempt {
+      <<Entity>>
+      +attemptId string
+      +userId string
+      +assessmentId string
+      +version string
+      +completedAt timestamp
+      +expiresAt timestamp
+    }
+    class AssessmentAnswers {
+      <<ValueObject>>
+      +scaleAnswers list
+      +selected string_array
+      +ranked string_array
+    }
+    class DimensionScore {
+      <<ValueObject>>
+      +dimension string
+      +score int_0_100
+      +level low_mid_high_or_null
+    }
+    class DimensionProfile {
+      <<ValueObject>>
+      +scores DimensionScore_list
+    }
+    class EnneagramResult {
+      <<ValueObject>>
+      +mainType int
+      +wing int_or_null
+      +tiedTypes int_array
+    }
+    class RiasecResult {
+      <<ValueObject>>
+      +code string_3
+    }
+    class StrengthsResult {
+      <<ValueObject>>
+      +top string_array
+    }
+    class AttachmentResult {
+      <<ValueObject>>
+      +quadrant string_or_null
+    }
+    class CoreValuesResult {
+      <<ValueObject>>
+      +selected string_array
+      +top string_array
+    }
+    class BigFiveAttempt {
+      <<Entity>>
+      +attemptId string
+      +userId string
+      +scores object
+    }
+    AssessmentDefinition o-- AssessmentItem
+    AssessmentAttempt o-- AssessmentAnswers
+    AssessmentAttempt o-- DimensionProfile
+    AssessmentAttempt o-- EnneagramResult
+    AssessmentAttempt o-- RiasecResult
+    AssessmentAttempt o-- StrengthsResult
+    AssessmentAttempt o-- AttachmentResult
+    AssessmentAttempt o-- CoreValuesResult
+    DimensionProfile o-- DimensionScore
+    EnneagramResult o-- DimensionScore
+    RiasecResult o-- DimensionScore
+    StrengthsResult o-- DimensionScore
+    AttachmentResult o-- DimensionScore
+    AssessmentAttempt --> User : userId
+    AssessmentAttempt ..> AssessmentDefinition : assessmentId + version
+    FixedContent ..> AssessmentAttempt : 提供結果內容（ASSESSMENT）
+    BigFiveAttempt --> User : userId
+    note for AssessmentDefinition "RULE-051 量表題的作答須每題恰好一次、值為範圍內的整數、不含未知題目；不合法回 400 並指出問題，不保存<br/>RULE-052 挑選題的作答須只含清單內的項目、數量符合規定、不重複，排序只含已挑選的項目；不合法回 400，不保存<br/>RULE-053 計分為固定規則的純函式、不呼叫 AI；同樣的作答永遠得到同樣的結果，分數並列時以固定規則決定順序<br/>RULE-067 所有分析的題目為自行設計，不翻譯、不改寫任何既有量表；每個測驗頁與結果頁註明「沒有經過信度與效度驗證、不是任何既有量表」並附免責聲明；版本識別帶 ref 標記<br/>RULE-069 ASSESSMENT 固定內容的金鑰須屬於某個已登錄分析；內容審稿後才發佈；覆蓋檢查顯示所有金鑰都已發佈後才開啟該分析的入口<br/>RULE-070 入口旗標關閉時不顯示卡片但頁面仍可由網址進入；已有未到期結果時卡片亮起，且該分析同時成為多維度分析的可選系統<br/>RULE-071 新增一種分析只需新增定義並登錄；識別碼不在登錄表中時回 404，不寫入任何文件<br/>RULE-074 每一種已登錄的自我分析都能在多維度分析中被選擇；分析定義必須提供報告轉接、特質映射與基礎點數，缺少任一項不能登錄<br/>RULE-076 自我分析在組合中的點數沿用既有算法（基礎點數加總 × 1.2 無條件捨去、上限 30、至少兩個系統）；選擇不足兩個或超過可選上限時拒絕<br/>RULE-077 自我分析的特質映射須通過既有的覆蓋檢查、以「傾向」描述並經審稿後才可納入多維度分析"
+    note for AssessmentAttempt "RULE-063 自我分析在伺服器端驗證與計分，不信任前端的分數；結果需要的固定內容未發佈時回 404，不保存任何結果<br/>RULE-064 已登入會員的自我分析紀錄保存 3 個月，以完成時間起算，到期自動清除；刪除帳號與刪除測驗結果時一併刪除<br/>RULE-065 訪客完成自我分析時不寫入任何文件，結果只留在瀏覽器當次 session；登入後儲存時以保留的作答重新送出並重新計分<br/>RULE-066 取得結果時回傳最新一筆未到期的紀錄，僅限本人；沒有則回 404<br/>RULE-067 所有分析的題目為自行設計，不翻譯、不改寫任何既有量表；每個測驗頁與結果頁註明「沒有經過信度與效度驗證、不是任何既有量表」並附免責聲明；版本識別帶 ref 標記<br/>RULE-075 自我分析只有在使用者有未到期結果時才可在多維度分析中選擇，並以最新一筆未到期結果為輸入；沒有結果者顯示不可選並引導測驗；訪客不可取得多維度分析"
+    note for DimensionScore "RULE-054 維度分數為 0–100，等級切點為低（< 40）、中（40–60）、高（> 60）；不使用百分位、常模或與他人比較"
+    note for DimensionProfile "RULE-058 情緒智商不提供單一總分，並說明情緒能力可以練習而不是固定的<br/>RULE-061 需求與動機的分數代表目前需求被滿足的感受；偏低的需求列為「值得留意」，不描述為使用者的缺陷<br/>RULE-062 HEXACO 的誠實謙遜低分不描述為不誠實或品格缺陷；結果不引用大五人格的結果"
+    note for EnneagramResult "RULE-055 九型人格：最高分者為最突出的類型，側翼取相鄰兩型中分數較高者；最高分與次高分差距小於 10 分時並列這兩型，不單獨斷定一型，也不稱使用者「就是」某一型"
+    note for RiasecResult "RULE-057 職業興趣取前三名組成三碼；只描述興趣，不判定能力、職業適性或建議從事的職業"
+    note for StrengthsResult "RULE-056 品格優勢取最突出的前 5 項；排在後面的優勢只標示為較不突出，不描述為缺點"
+    note for AttachmentResult "RULE-059 依附風格以靠近的焦慮與親密的迴避兩個連續向度描述，對應中性的象限描述；任一向度為中時說明落在兩象限之間；不貼固定標籤、不使用診斷用語，並說明依附模式會隨關係與經驗改變"
+    note for CoreValuesResult "RULE-060 核心價值觀不評價價值的好壞或高下，結果以「什麼對我最重要」為主軸"
+    note for FixedContent "RULE-068 自我分析的固定內容用「傾向」的語氣，不使用診斷用語、不提疾病、情緒障礙或治療、不與他人比較、不貼固定類型標籤<br/>RULE-069 ASSESSMENT 固定內容的金鑰須屬於某個已登錄分析；內容審稿後才發佈；覆蓋檢查顯示所有金鑰都已發佈後才開啟該分析的入口"
+    note for BigFiveAttempt "RULE-072 移除大五人格須先確認 HEXACO 可用，再依序：關閉入口、清除資料（所有使用者的 bigFiveAttempts 與 BIGFIVE 固定內容）、移除程式；刪除正式資料前須再向使用者確認；已存結果不匯出<br/>RULE-073 移除後不得留下孤兒資料、失效路由或殘缺的覆蓋預期；固定內容預期總筆數須同步更新，測試與建置須通過"
+
+    %% report architecture (added to the analysis 2026-11-03)
+    class ReportSnapshot {
+      <<Entity>>
+      +snapshotId string
+      +userId string
+      +kind enum
+      +systems string_array
+      +generatedAt timestamp
+      +expiresAt timestamp
+    }
+    class SnapshotBlock {
+      <<ValueObject>>
+      +key string
+      +title string
+    }
+    class SnapshotSegment {
+      <<ValueObject>>
+      +text string
+      +kind enum
+      +timeSensitive boolean
+      +asOf date_or_null
+    }
+    class SnapshotVersions {
+      <<ValueObject>>
+      +ontology string
+      +mapping string
+      +fragments string
+      +templates string
+    }
+    class CalculationBasis {
+      <<ValueObject>>
+      +system enum
+      +method string
+      +ruleVersion string
+      +inputs object
+    }
+    class SnapshotAi {
+      <<ValueObject>>
+      +modelName string
+      +promptVersion string
+      +generatedAt timestamp
+    }
+    class SnapshotAiJob {
+      <<ValueObject>>
+      +status enum
+      +failureReason string_or_null
+    }
+    class TraitOntology {
+      <<Entity>>
+      +ontologyVersion string
+    }
+    class TraitAxis {
+      <<ValueObject>>
+      +axisId string
+      +group enum
+    }
+    class ContextValue {
+      <<ValueObject>>
+      +id string
+      +kind enum
+      +name string
+    }
+    class TraitMapping {
+      <<Entity>>
+      +mappingVersion string
+      +acknowledgedUnsourcedEnds string_array
+    }
+    class MappingEntry {
+      <<ValueObject>>
+      +system string
+      +term string
+      +axisEnd string
+      +method enum
+      +sourceGroup string
+    }
+    class ContextFragment {
+      <<Entity>>
+      +key string
+      +text string
+      +fragmentVersion string
+    }
+    ReportSnapshot o-- SnapshotBlock
+    SnapshotBlock o-- SnapshotSegment
+    ReportSnapshot o-- SnapshotVersions
+    ReportSnapshot o-- CalculationBasis
+    ReportSnapshot o-- SnapshotAi
+    ReportSnapshot o-- SnapshotAiJob
+    ReportSnapshot --> User : userId
+    TraitOntology o-- TraitAxis
+    TraitOntology o-- ContextValue
+    TraitMapping o-- MappingEntry
+    MappingEntry ..> TraitAxis : axisEnd
+    ContextFragment ..> TraitAxis : 軸端點
+    ContextFragment ..> ContextValue : 情境值
+    ReportSnapshot ..> TraitOntology : 以版本引用
+    note for ReportSnapshot "RULE-078 單維度報告的規則版內容全部免費，由規則與預寫片段組裝，不呼叫 AI、不扣點<br/>RULE-079 報告依固定順序：位置結論、系統的事實與解讀、本系統的歸納、影響面向推測、建議與反思、依據與限制；歸納中每一條推論須引用系統事實中的具體項目，找不到事實支持的推論不產生<br/>RULE-081 每份報告顯示該系統的性質標籤，MBTI 標為自製問卷、不等於官方量表；時間性內容標示依據的系統與產生日期，其他系統的時間解讀標示為依特質的推測<br/>RULE-082 塔羅、盧恩與星座運勢使用精簡報告（無歸納與影響面向推測），不進穩定特質、不寫入快照；訪客的報告照常顯示但不寫入快照；塔羅與盧恩須已登入且當天已抽<br/>RULE-083 缺少必要資料的區塊標示缺少並顯示補填提示，不以猜測值或預設值代替<br/>RULE-084 單維度 AI 進階分析 1 點，扣點以冪等鍵防止重複，生成或品質檢查失敗退點，點數不足拒絕且不呼叫 AI；輸入只含事實與規則找出的面向；輸出每段標為 AI 綜合推論並附依據；結果寫入快照獨立的 ai 欄位，不改動基本內容，再次分析只替換 ai<br/>RULE-085 多維度報告：至少兩個穩定特質系統、請求帶 Idempotency-Key、規則組裝後存快照並由 AI 改寫洞見；價格為各系統基本價之和 × 1.2 無條件捨去、上限 30；缺資料回 422（不扣點）、規則找不到洞見回 422 NO_INSIGHTS（不扣點）；失敗退點；訪客不可取得<br/>RULE-086 快照存各區塊當時的全文，含版本、計算依據與產生時間；每段標示種類（事實、系統解讀、AI 綜合推論、使用者自述）與來源，缺種類被拒絕；時間性內容隨快照存入並標示產生日期，不隨年份自動更新<br/>RULE-087 快照僅本人可讀（他人讀取回找不到，不洩漏存在與否）；保存 6 個月，由每日到期作業清除，不開 Firestore TTL；刪除帳號與刪除資料的「報告」範圍清除全部快照，其他範圍不動快照<br/>RULE-088 每人快照數有上限，超過時先刪最舊的一份；相同的基本報告只保存一份，AI 分析不使它變成另一份；ai 只能加到本人、未到期的快照上<br/>RULE-093 每份報告的事實附計算依據（系統取自固定清單、方法、規則版本、必要的輸入）；同一輸入與同一版規則得到相同的依據；塔羅與盧恩沿用現有抽取版本，MBTI 的規則版本為作答時的測驗版本"
+    note for TraitOntology "RULE-089 特質本體有 28 條兩極軸（五組），每軸恰有兩個端點，每個端點有名稱、說明與過度時的樣子，命名中性；情境軸為時間 3、對象 10、領域 10，領域不含「人際關係」；ID 唯一且一經發布不重用；內容改動時同步提高 ONTOLOGY_VERSION"
+    note for TraitMapping "RULE-090 映射條目的 term 須為該系統真實存在的原語彙、axisEnd 須存在、不帶強度或信心；MBTI、人類圖、八字用結構式，其餘穩定系統用關鍵字式；八字十神語句不映射；塔羅、盧恩、星座運勢標為 state，不進穩定特質<br/>RULE-091 56 個端點每一個須至少有一條映射，或列在已確認無來源的清單（清單上的端點一旦有映射須移除，清單不得過期）；整體覆蓋率不得低於 80%；映射標示 sourceGroup，內容改動時同步提高 MAPPING_VERSION"
+    note for ContextFragment "RULE-080 影響面向推測只顯示有片段的格子，不以其他組合代替；過去的格子為假設並附確認問題，使用者的回答不儲存<br/>RULE-092 情境片段以（軸端點, 情境值）為鍵；時間值由模板產生，過去為假設並附確認問題，未來只談傾向與可準備的方向，不使用醫療、法律、財務用語；內容改動時同步提高 FRAGMENT_VERSION"

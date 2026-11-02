@@ -1,7 +1,7 @@
 version: 1
 generatedBy: system-analysis
-updatedAt: 2026-10-27T19:00:00+08:00
-relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category]
+updatedAt: 2026-11-03T02:30:00+08:00
+relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions]
 source: ai_personality_app_plan.md
 
 # phase: 對應計畫書 §11 Phase 1-5；mvp 表示屬 §15 第一版範圍
@@ -58,6 +58,9 @@ functional:
     source: "plan §7, §11 Phase 2, §15；user 補充"
     note: "保存每題作答（AI 引用依據所需）；作答時間僅在已告知時蒐集；詳細分析的輸入快照只存摘要（user 採納建議）"
   - id: FR-006
+    status: deprecated
+    reason: "多維度報告改為由規則組裝後存快照，不再查詢事先算好的 summary 組合"
+    supersededBy: ["FR-078"]
     title: 多維度分析報告 查詢
     description: 系統 SHALL 在已登入使用者扣點後，依「星座+MBTI」或「星座+MBTI+血型」組合從 Firestore 查詢對應的事先算好的多維度分析報告；血型「不知道」時 MUST 使用星座+MBTI 組合。查詢 MUST NOT 呼叫 AI API。
     priority: must
@@ -134,6 +137,9 @@ functional:
     context: [CTX-ACTOR-002, CTX-CON-003, CTX-CON-014]
     source: "plan §8, §8.1, §11 Phase 4；user 補充"
   - id: FR-015
+    status: deprecated
+    reason: "AI 輸入改為規則找出的事實與面向（不含自由文字），不再有獨立的正規化分析資料"
+    supersededBy: ["FR-077", "FR-078"]
     title: 測驗資料正規化
     description: 系統 SHALL 將使用者的標籤、測驗分數、實際答案與作答紀錄整理為可供 AI 使用的正規化分析資料，並保留資料版本。
     priority: must
@@ -142,6 +148,9 @@ functional:
     context: [CTX-ACTOR-002, CTX-CON-009]
     source: "plan §6.1, §11 Phase 3"
   - id: FR-016
+    status: deprecated
+    reason: "詳細分析（5 點、八章節）已被單維度 AI 進階分析（1 點）與多維度報告取代"
+    supersededBy: ["FR-077", "FR-078"]
     title: AI 深度報告生成
     description: 系統 SHALL 在已具備星座與 MBTI 結果（血型、人類圖選填）、點數餘額足夠（5 點）並扣點後呼叫 AI 供應商，依正規化資料生成包含八個建議章節（概況、行為模式、交叉觀察、優勢與盲點、感情與溝通、工作與決策、成長行動、依據與限制）的報告。
     priority: must
@@ -158,6 +167,9 @@ functional:
     context: [CTX-CON-001, CTX-CON-009, CTX-EXT-002]
     source: "plan §1.3, §3.3, §6.2"
   - id: FR-018
+    status: deprecated
+    reason: "AI 報告改存在快照的獨立 ai 欄位，重複查看讀取已保存的快照"
+    supersededBy: ["FR-079", "FR-080"]
     title: AI 報告保存與重複查看
     description: 系統 SHALL 保存已生成報告及其模型名稱、提示詞版本、輸入資料版本與生成時間；再次查看時 MUST 讀取已保存內容，MUST NOT 重新呼叫 AI。
     priority: must
@@ -175,6 +187,9 @@ functional:
     source: "plan §6.4, §7.2, §11 Phase 3；user 補充"
     note: "失敗返點為推導，需確認"
   - id: FR-020
+    status: deprecated
+    reason: "重新分析改為只替換快照的 ai 欄位（單維度再扣 1 點），不再保留多份詳細分析"
+    supersededBy: ["FR-077"]
     title: 詳細分析重新生成
     description: 系統 SHALL 在使用者要求重新分析或新增資料時重新生成詳細分析；若該會員已生成過該組合的詳細分析，重新生成 MUST 扣 5 點，且 MUST 保留舊報告。
     priority: should
@@ -320,6 +335,9 @@ functional:
     source: "user 補充（沒扣點時可做單一測驗）"
     note: "單項免費結果為固定內容，不儲存、每次重新取得（user 已確認）；MBTI 測驗作答與結果屬測驗結果，登入時儲存 3 個月（FR-005、FR-033）；保存每題作答供 AI 引用依據（FR-005）"
   - id: FR-041
+    status: deprecated
+    reason: "重複請求的防重複扣點改由冪等鍵與快照的「相同報告只保存一份」落實"
+    supersededBy: ["FR-078", "FR-080"]
     title: 避免重複扣點
     description: 系統 SHALL 對同一會員已生成過的多維度分析報告 組合直接回傳已存結果且 MUST NOT 再次扣點；重複點擊或並行請求 MUST NOT 造成重複扣點。
     priority: must
@@ -363,14 +381,14 @@ functional:
     source: "user 補充（付款紀錄永久保存；刪帳號時移除付款紀錄）"
     note: "若目標市場有交易／稅務保存義務，需另行確認"
   - id: FR-034
-    title: 詳細分析報告書下載（寄送 email）
-    description: 系統 SHALL 讓使用者在報告到期前消耗 1 點，將詳細分析報告書以 PDF 寄送至其 email；若該報告已下載過，系統 MUST 提醒並經使用者確認後才重複扣點與寄送。
+    title: 報告快照下載 PDF
+    description: 系統 SHALL 讓報告擁有者在快照到期前將單維度或多維度報告快照下載為 PDF；PDF MUST 讀取已保存的快照（含已有的 AI 分析），MUST NOT 重新呼叫 AI 或重新計算；每次下載扣 1 點，報告曾下載過者系統 MUST 提醒並經使用者確認後才重複扣點與下載；僅報告擁有者可下載，失敗 MUST 返還已扣點，重複請求 MUST 以冪等鍵只處理一次。
     priority: should
     phase: 4
     mvp: false
-    context: [CTX-ACTOR-002, CTX-CON-012, CTX-CON-014, CTX-EXT-007]
-    source: "user 補充（下載報告書 1 點、PDF、寄送 email、重複下載再扣點並提醒）"
-    note: "PDF 以輕量純 JS 庫產生（避免在 Vercel 跑無頭瀏覽器）；寄送失敗重試 2 到 3 次，仍失敗返還 1 點；email 供應商待選；新增套件前先經使用者同意"
+    context: [CTX-ACTOR-002, CTX-CON-014, CTX-CON-029, CTX-ASM-028]
+    source: "user 對話（2026-11-03：「改為下載pdf」）；原 FR-034（詳細分析報告書寄送 email）改寫"
+    note: "原本是詳細分析報告書寄送 email；詳細分析已被報告快照取代，交付方式改為下載"
 
   - id: FR-044
     title: 「此刻／今日」類入口
@@ -481,6 +499,240 @@ functional:
     context: [CTX-EXT-008, CTX-ASM-014, CTX-ASM-006]
     source: "user 對話（2026-10-27：「本命盤也加三顆行星」）；既有 server/astrology/natalChart.ts、shared/constants/natal.ts"
     note: "既有本命盤（進階星座分析）尚未登錄於 analysis，本條只登錄此次變動；本命盤為固定計算且不儲存，無資料遷移；需同步調整本命盤 API schema、星座文案與畫面"
+  - id: FR-056
+    title: 自我分析的定義與登錄表
+    description: 系統 SHALL 以登錄表列出所有自我分析，每個分析有一份定義（識別碼、版本、題目或選項、純函式計分、結果內容金鑰）；新增分析 MUST 只需新增定義並登錄，不需要新的 service、repository 或通用路由；識別碼不在登錄表中的請求 MUST 回傳 404。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-021, CTX-ACTOR-001]
+    source: "openspec/changes/expand-self-analysis-dimensions/specs/self-assessment-framework/spec.md"
+  - id: FR-057
+    title: 自我分析的伺服器端驗證與計分
+    description: 系統 MUST 在伺服器端驗證自我分析的作答並計分，MUST NOT 信任前端的分數；量表題 MUST 每題恰好一次、值在量表範圍內、不含未知題目；挑選題 MUST 只含清單內項目、數量符合規定、不重複；不合法 MUST 回傳 400 並指出問題；計分 MUST 為固定規則的純函式、不呼叫 AI。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-021, CTX-CON-003, CTX-CON-007]
+    source: "openspec/changes/expand-self-analysis-dimensions/specs/self-assessment-framework/spec.md"
+  - id: FR-058
+    title: 自我分析的固定內容 ASSESSMENT
+    description: 系統 SHALL 以固定內容類型 ASSESSMENT 儲存各分析的結果文字，金鑰以分析識別碼開頭、合法金鑰由登錄表決定；內容 MUST 事先撰寫、不呼叫 AI；計分後需要顯示的內容尚未發佈時 MUST 回 404 且不保存結果；固定內容覆蓋檢查 MUST 納入所有已登錄分析的金鑰。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-021, CTX-CON-007, CTX-CON-005]
+    source: "openspec/changes/expand-self-analysis-dimensions/specs/self-assessment-framework/spec.md"
+  - id: FR-059
+    title: 自我分析結果的保存、到期與刪除
+    description: 系統 SHALL 在已登入使用者完成自我分析時，於 users/{uid}/assessmentAttempts 新增一筆紀錄（分析識別碼、版本、作答、結果、完成時間、到期時間）並保存 3 個月、到期後自動清除、刪除帳號與刪除測驗結果時一併刪除；訪客完成時 MUST NOT 寫入任何文件，結果只留在瀏覽器當次 session，登入後 SHALL 可選擇儲存。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-023, CTX-CON-012, CTX-EXT-005, CTX-ACTOR-001]
+    source: "openspec/changes/expand-self-analysis-dimensions/specs/self-assessment-framework/spec.md"
+  - id: FR-060
+    title: 通用的測驗頁與結果頁
+    description: 系統 SHALL 提供 /assessment/{id} 測驗頁（量表題：分頁、進度、已作答與未作答的區別、全部作答後才可送出、作答暫存於 sessionStorage；挑選題：挑選與排序）與 /analysis/{id} 結果頁（固定顯示「怎麼看這份結果」說明與免責聲明，以及該分析自己的結果區塊）。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-021, CTX-CON-024, CTX-ACTOR-001]
+    source: "openspec/changes/expand-self-analysis-dimensions/specs/self-assessment-framework/spec.md"
+  - id: FR-061
+    title: 自我分析的入口與旗標
+    description: 系統 SHALL 依登錄表在首頁與 /self-reports 為每個分析顯示卡片，每個分析各有入口旗標；旗標關閉時卡片 MUST NOT 出現，頁面本身仍可由網址進入；已有未到期結果時卡片亮起並連到結果頁。
+    priority: should
+    phase: 7
+    mvp: false
+    context: [CTX-CON-021, CTX-ACTOR-001]
+    source: "openspec/changes/expand-self-analysis-dimensions/specs/self-assessment-framework/spec.md"
+  - id: FR-062
+    title: 題目為自行設計並註明未經驗證
+    description: 所有分析的題目 MUST 為自行設計，MUST NOT 翻譯、改寫或使用任何既有量表的題目；每個測驗頁與結果頁 MUST 固定註明「這些題目是自行設計的自我探索題目，沒有經過信度與效度驗證，不是任何既有量表」；版本識別 MUST 帶 ref 標記；MUST NOT 以百分位、常模或「精準」的說法呈現結果。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-022, CTX-CON-015, CTX-CON-001]
+    source: "openspec/changes/expand-self-analysis-dimensions/specs/self-assessment-framework/spec.md"
+    note: "延伸 CTX-CON-015（MBTI 題目自行撰寫、避免商標）到所有新增分析"
+  - id: FR-063
+    title: 九型人格
+    description: 系統 SHALL 提供九型人格測驗（九個類型各有同數量的題目、5 點量表），計算九型各自的分數（0–100），最高分者為最突出的類型、側翼取相鄰兩型中分數較高者；最高分與次高分差距小於 10 分時 MUST 並列這兩型而不單獨斷定一型，MUST NOT 稱使用者「就是」某一型；每型有固定內容（核心動機、核心恐懼、壓力下與放鬆時的慣性、成長方向、可以留意的地方），聚焦「為什麼會這樣做」並與 MBTI 互補。
+    priority: should
+    phase: 7
+    mvp: false
+    context: [CTX-CON-021, CTX-CON-024, CTX-ASM-020, CTX-ASM-021]
+    source: "openspec/changes/expand-self-analysis-dimensions/specs/enneagram-test/spec.md"
+  - id: FR-064
+    title: HEXACO 人格模型
+    description: 系統 SHALL 提供 HEXACO 測驗（誠實謙遜、情緒性、外向性、宜人性、盡責性、開放性六個維度各有同數量的題目、含反向題、5 點量表），伺服器端計分為各維度 0–100 與低（< 40）、中（40–60）、高（> 60）；結果頁 SHALL 說明六個維度各自的意思並特別說明「誠實謙遜」，MUST NOT 把低分描述為不誠實或品格缺陷，MUST NOT 引用大五人格結果；HEXACO 發佈並開啟入口後 SHALL 取代大五人格測驗。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-021, CTX-CON-024, CTX-CON-025, CTX-ASM-020]
+    source: "openspec/changes/expand-self-analysis-dimensions/specs/hexaco-test/spec.md"
+  - id: FR-065
+    title: VIA 品格優勢
+    description: 系統 SHALL 提供品格優勢測驗（24 種優勢各有同數量的題目、5 點量表），計算 24 項分數並排序、取最突出的前 5 項，分數相同時 MUST 以固定規則決定先後使同樣作答永遠得到同樣結果；每項優勢有固定內容（是什麼、日常表現、用得太過時的樣子、如何發揮）；結果頁 MUST 以「我有哪些值得發揮的內在優勢」為主軸，MUST NOT 把排在後面的優勢描述成缺點。
+    priority: should
+    phase: 7
+    mvp: false
+    context: [CTX-CON-021, CTX-CON-024, CTX-ASM-020]
+    source: "openspec/changes/expand-self-analysis-dimensions/specs/via-strengths-test/spec.md"
+  - id: FR-066
+    title: 霍蘭德職業興趣（RIASEC）
+    description: 系統 SHALL 提供職業興趣測驗（六種類型各有同數量的自行設計題目、以喜歡程度作答），計算實作、研究、藝術、社會、企業、事務六型分數並取前三名組成三碼代碼（並列時以固定規則決定）；結果內容含六型特徵、偏好的工作環境與三碼組合的描述；結果頁 MUST 明確寫出「這是興趣，不是能力或適性的判定」，MUST NOT 列出「你適合當某某職業」的斷言。
+    priority: should
+    phase: 7
+    mvp: false
+    context: [CTX-CON-021, CTX-CON-024, CTX-CON-022, CTX-ASM-020]
+    source: "openspec/changes/expand-self-analysis-dimensions/specs/riasec-interest-test/spec.md"
+  - id: FR-067
+    title: 情緒智商
+    description: 系統 SHALL 提供情緒智商測驗（情緒覺察、情緒調節、同理心、人際情緒處理四個面向各有同數量的題目、含反向題），計算四面向各自的分數（0–100）與等級；MUST NOT 提供單一的「智商」總分，MUST NOT 使用百分位；每面向每等級有固定內容（現況、優勢、留意、可以練習的方向），並強調情緒能力可以練習而不是固定的。
+    priority: should
+    phase: 7
+    mvp: false
+    context: [CTX-CON-021, CTX-CON-024, CTX-CON-002, CTX-ASM-020]
+    source: "openspec/changes/expand-self-analysis-dimensions/specs/emotional-intelligence-test/spec.md"
+    note: "延伸 CTX-CON-002：不宣稱測得正式智力或智商"
+  - id: FR-068
+    title: 依附風格
+    description: 系統 SHALL 提供依附風格測驗，以「靠近的焦慮」與「親密的迴避」兩個連續向度各自的題目計分（各 0–100 與低、中、高），依兩個向度的高低對應到四個象限的中性描述，任一向度為中時 MUST 說明結果落在兩個象限之間；MUST NOT 貼固定標籤、MUST NOT 使用診斷用語或提及臨床診斷；結果頁 MUST 固定說明依附模式會隨關係與經驗改變、不是診斷也不是固定標籤。
+    priority: should
+    phase: 7
+    mvp: false
+    context: [CTX-CON-021, CTX-CON-024, CTX-ASM-020, CTX-ASM-023]
+    source: "openspec/changes/expand-self-analysis-dimensions/specs/attachment-style-test/spec.md"
+  - id: FR-069
+    title: 核心價值觀
+    description: 系統 SHALL 提供約 40 項的價值清單，使用者從中挑選固定數量並把最重要的幾項排出順序；系統 MUST 驗證項目都在清單內、數量符合規定、沒有重複、排序只含已挑選的項目；結果列出最重要的幾項價值並附固定說明（可能代表什麼、在選擇中如何出現、與其他價值拉扯時可以怎麼想），以「什麼對我最重要？我為什麼做出某些選擇？」為主軸，MUST NOT 評價價值的好壞或高下。
+    priority: should
+    phase: 7
+    mvp: false
+    context: [CTX-CON-021, CTX-CON-024, CTX-ASM-020, CTX-ASM-023]
+    source: "openspec/changes/expand-self-analysis-dimensions/specs/core-values-exercise/spec.md"
+  - id: FR-070
+    title: 需求與動機
+    description: 系統 SHALL 提供需求與動機測驗，依自我決定理論的三項基本心理需求（自主、勝任、關係）各有同數量的題目，計算三項各自的分數（0–100）與等級（分數代表目前需求被滿足的感受）；每項每等級有固定內容（什麼情境容易讓動力上升、哪些環境可能讓動力下降、可以怎麼調整）；偏低的需求 SHALL 列為「值得留意」，MUST NOT 把低分描述為使用者的缺陷。
+    priority: should
+    phase: 7
+    mvp: false
+    context: [CTX-CON-021, CTX-CON-024, CTX-ASM-020]
+    source: "openspec/changes/expand-self-analysis-dimensions/specs/psychological-needs-test/spec.md"
+  - id: FR-071
+    title: 移除大五人格測驗
+    description: HEXACO 發佈並確認可用後，系統 SHALL 把現有的大五人格測驗從產品中移除：關閉入口、刪除所有使用者的 bigFiveAttempts 與 Firestore 的 BIGFIVE 固定內容、移除頁面與 API 與 service 與常數與計分工具、移除到期清除與刪帳號與索引例外中的 bigFiveAttempts 處理、移除 useExploration 與入口卡片中的大五處理、更新固定內容覆蓋預期總數、以 REMOVED 需求移除主 spec big-five-test；MUST 先清資料再移除處理程式，刪除正式資料前 MUST 再向使用者確認。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-025, CTX-CON-012, CTX-EXT-005, CTX-ASM-024]
+    source: "openspec/changes/expand-self-analysis-dimensions/specs/big-five-test/spec.md；design.md 決定 8"
+  - id: FR-072
+    title: 每個自我分析都能在多維度分析中被選擇
+    description: 系統 SHALL 讓登錄表中的每一種自我分析都能在多維度分析中與既有系統任意組合（至少兩個系統），由 AI 交叉比對；分析定義 MUST 提供報告轉接（事實、解讀、特質術語）、特質映射與基礎點數，缺少任一項 MUST NOT 能登錄；使用者 SHALL 只能選擇自己有未到期結果的分析，沒有結果的顯示不可選並引導去做測驗；選擇後 MUST 以最新一筆未到期結果為輸入；訪客 MUST NOT 取得多維度分析。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-026, CTX-CON-014, CTX-CON-021, CTX-ACTOR-002, CTX-ASM-025]
+    source: "openspec/changes/expand-self-analysis-dimensions/specs/assessment-multi-dimension/spec.md"
+  - id: FR-073
+    title: 自我分析在組合中的點數與映射覆蓋
+    description: 自我分析在多維度組合中的點數 SHALL 沿用既有算法（各系統基礎點數加總 × 1.2 無條件捨去、上限 30、至少兩個系統），每個自我分析 MUST 有明確的基礎點數；每個自我分析的特質映射 MUST 通過既有的覆蓋檢查、以「傾向」描述並經審稿後才可納入多維度分析。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-026, CTX-CON-014, CTX-ASM-025]
+    source: "openspec/changes/expand-self-analysis-dimensions/specs/assessment-multi-dimension/spec.md；specs/trait-mapping/spec.md"
+  - id: FR-074
+    title: 單維度報告（規則版）
+    description: 系統 SHALL 為星座、血型、生命靈數、MBTI、瑪雅 Kin、八字、人類圖等穩定特質系統提供單維度報告，由規則與預寫片段組裝、全部免費、MUST NOT 呼叫 AI、MUST NOT 扣點；報告依固定順序含位置結論、系統的事實與解讀、本系統的歸納、影響面向推測、建議與反思、依據與限制；歸納中每一條推論 MUST 引用系統事實中的具體項目，找不到事實支持的推論 MUST NOT 產生；缺少必要資料（例如出生時間）的區塊 MUST 標示缺少並顯示補填提示，MUST NOT 以猜測值代替。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-027, CTX-CON-007, CTX-CON-009, CTX-ACTOR-001]
+    source: "openspec/specs/single-dimension-report/spec.md"
+  - id: FR-075
+    title: 影響面向、系統性質標籤與時間性內容標示
+    description: 單維度報告 SHALL 為每個歸納面向展開影響面向推測（時間、對象、生活領域），只顯示有片段的格子，MUST NOT 以其他組合代替；過去的格子 MUST 為假設並附確認問題，使用者的回答 MUST NOT 被儲存；每份報告 SHALL 顯示該系統的性質標籤（MBTI 明標為自製問卷、不等於官方量表）；八字大運與流年、生命靈數流年數等時間性內容 MUST 標示依據的系統與產生日期，其他系統的時間解讀 MUST 標示為依特質的推測。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-027, CTX-CON-028, CTX-CON-016, CTX-CON-015, CTX-ACTOR-001]
+    source: "openspec/specs/single-dimension-report/spec.md"
+  - id: FR-076
+    title: 狀態系統的精簡報告
+    description: 系統 SHALL 為塔羅、盧恩與星座運勢提供精簡報告，只含位置結論、事實與解讀、建議與反思、依據與限制，MUST NOT 含本系統的歸納與影響面向推測；塔羅與盧恩須已登入且當天已抽才能產生，缺少時回明確的原因；這些每日報告 MUST NOT 寫入快照。
+    priority: should
+    phase: 7
+    mvp: false
+    context: [CTX-CON-027, CTX-CON-018, CTX-CON-029, CTX-ACTOR-001]
+    source: "openspec/specs/single-dimension-report/spec.md"
+  - id: FR-077
+    title: 單維度 AI 進階分析
+    description: 系統 SHALL 讓已登入使用者花 1 點取得單維度的 AI 進階分析；扣點 MUST 以冪等鍵防止重複，生成或品質檢查失敗 MUST 退點，點數不足 MUST 拒絕且不呼叫 AI；輸入 MUST 只含事實與規則找出的面向，不含使用者自由文字；輸出每段 MUST 標為 AI 綜合推論並附依據；結果 MUST 寫入快照獨立的 ai 欄位，MUST NOT 改動規則產生的基本內容，再次分析只替換 ai。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-027, CTX-CON-014, CTX-CON-009, CTX-EXT-002, CTX-ACTOR-002]
+    source: "openspec/specs/single-dimension-report/spec.md"
+  - id: FR-078
+    title: 多維度報告
+    description: 系統 SHALL 讓已登入使用者把至少兩個穩定特質系統放在同一套特質本體上，由規則組裝成報告並存為快照，再由 AI 針對這個人改寫洞見（AI 解讀已含在價格內）；價格 = 各系統基本價之和 × 1.2 無條件捨去、上限 30 點；請求 MUST 帶 Idempotency-Key，重複請求只回報目前狀態且不重複扣點；回 202 與快照 id，之後輪詢 aiJob 與 ai；缺少資料回 422（PROFILE_REQUIRED、BLOOD_REQUIRED、MBTI_REQUIRED、BIRTH_TIME_REQUIRED、BIRTH_PLACE_REQUIRED）、規則找不到任何洞見回 422（NO_INSIGHTS），皆不扣點；失敗 MUST 退點；訪客 MUST NOT 取得。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-027, CTX-CON-028, CTX-CON-014, CTX-ASM-026, CTX-EXT-002, CTX-ACTOR-002]
+    source: "POST /multi-reports（API-057）；server/services/multiReport.service.ts"
+  - id: FR-079
+    title: 報告快照的內容
+    description: 系統 SHALL 為每份已發布的報告儲存快照：位置結論、各區塊當時的全文（不只存固定內容的參照）、所用系統、版本資訊（ontology、mapping、fragments、templates）、計算依據與產生時間；每一段 MUST 標示種類（事實、系統解讀、AI 綜合推論、使用者自述之一）與來源，缺種類 MUST 被拒絕；時間性內容 MUST 隨快照存入並標示產生日期，MUST NOT 隨年份自動更新。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-029, CTX-CON-027, CTX-ACTOR-001]
+    source: "openspec/specs/report-snapshots/spec.md"
+  - id: FR-080
+    title: 報告快照的存取、期限與清除
+    description: 快照 MUST 僅本人可讀（他人讀取回找不到，不洩漏存在與否），API 輸入輸出 MUST 通過 schema 驗證；快照 SHALL 保存 6 個月，由每日到期作業清除，MUST NOT 對此集合開 Firestore TTL；刪除帳號與刪除資料的「報告」範圍 MUST 清除其全部快照，其他範圍 MUST NOT 動到快照；每人快照數有上限，超過時 MUST 先刪最舊的一份；相同的基本報告只保存一份，AI 分析不使它變成另一份；ai 只能加到本人、未到期的快照上。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-029, CTX-CON-012, CTX-CON-006, CTX-EXT-005, CTX-ASM-027, CTX-ACTOR-001]
+    source: "openspec/specs/report-snapshots/spec.md"
+  - id: FR-081
+    title: 特質本體
+    description: 系統 SHALL 定義 28 條兩極特質軸（思考與認知、行動與節奏、情緒與表達、人際與關係、價值與動機五組），每條軸有穩定 ID 與恰好兩個端點，每個端點有名稱、說明與過度時的樣子，命名 MUST 為中性；另定義三組情境軸（時間 3、對象 10、生活領域 10，領域不含「人際關係」）；軸與端點 ID MUST 唯一且一經發布 MUST NOT 重用；內容改動 MUST 同步提高 ONTOLOGY_VERSION。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-028, CTX-ACTOR-003]
+    source: "openspec/specs/trait-ontology/spec.md"
+  - id: FR-082
+    title: 特質映射與覆蓋檢查
+    description: 系統 SHALL 為每個系統提供映射條目（system、term、axisEnd、method），term MUST 為該系統真實存在的原語彙、axisEnd MUST 存在、MUST NOT 帶強度或信心；MBTI、人類圖、八字用結構式，星座、血型、生命靈數、瑪雅 Kin 用關鍵字式；八字十神語句 MUST NOT 映射；塔羅、盧恩、星座運勢標為 state，MUST NOT 進穩定特質映射；56 個端點每一個 MUST 至少有一條映射，或列在已確認無來源的清單（清單不得過期）；整體覆蓋率低於 80% MUST 失敗；映射標示 sourceGroup，內容改動 MUST 同步提高 MAPPING_VERSION。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-028, CTX-ACTOR-003]
+    source: "openspec/specs/trait-mapping/spec.md"
+  - id: FR-083
+    title: 情境片段
+    description: 系統 SHALL 以（特質軸端點、情境值）為鍵提供預寫的一句話片段（10 個對象與 10 個生活領域）；時間值（過去、現在、未來）由模板產生；過去 MUST 為假設並附確認問題，未來只談傾向與可準備的方向，MUST NOT 使用醫療、法律、財務用語；片段 MUST 有覆蓋檢查，內容改動 MUST 同步提高 FRAGMENT_VERSION。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-028, CTX-CON-016, CTX-ACTOR-003]
+    source: "openspec/specs/trait-context-fragments/spec.md"
+  - id: FR-084
+    title: 計算依據（basis）
+    description: 系統 SHALL 為每份報告的事實附計算依據：系統（取自固定清單）、方法、規則版本與計算所用的輸入（只含必要欄位）；各重算型系統有規則版本常數與純函式 buildBasis，同一輸入與同一版規則 MUST 得到相同的 basis；塔羅與盧恩沿用現有的抽取版本，MBTI 的規則版本為作答時的測驗版本。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-027, CTX-CON-009, CTX-ACTOR-004]
+    source: "openspec/specs/analysis-basis/spec.md"
 
 nonFunctional:
   - id: NFR-001
@@ -671,3 +923,71 @@ nonFunctional:
     context: [CTX-EXT-008, CTX-CON-017]
     source: "探索階段推導；既有 server/astrology/natalChart.test.ts"
     note: "屬推導，需確認"
+  - id: NFR-023
+    category: maintainability
+    title: 新增一種自我分析的成本
+    description: 新增一種自我分析 SHOULD 只需新增定義、題目、計分函式與固定內容並登錄，不需要新增 service、repository、通用 API 路由、頁面或集合。
+    metric: "未量化，需與相關人確認（例如新增一種分析所需的改動檔案數上限）"
+    priority: should
+    context: [CTX-CON-021]
+    source: "openspec/changes/expand-self-analysis-dimensions/design.md 決定 1"
+    note: "延伸 NFR-021（共用機制）"
+  - id: NFR-024
+    category: correctness
+    title: 計分的決定性
+    description: 同樣的作答 MUST 永遠得到同樣的結果（含並列與分數相同時的固定規則）；各分析的計分 MUST 有單元測試覆蓋邊界（全高、全低、全中、反向題、並列、等級切點）。
+    metric: "每個分析的計分測試通過；並列與切點邊界各有測試"
+    priority: must
+    context: [CTX-CON-021]
+    source: "openspec/changes/expand-self-analysis-dimensions/specs"
+  - id: NFR-025
+    category: compliance
+    title: 內容無診斷用語
+    description: 所有自我分析的固定內容與頁面文字 MUST 不使用診斷用語、不提及疾病、情緒障礙或治療、不貼固定類型標籤、不與他人比較；每個結果頁 MUST 含免責聲明與自行設計未經驗證的註明。
+    metric: "全文搜尋疾病、症、治療、障礙等字眼 0 筆不當使用；100% 結果頁含免責與註明"
+    priority: must
+    context: [CTX-CON-024, CTX-CON-022, CTX-CON-001]
+    source: "openspec/changes/expand-self-analysis-dimensions/design.md 決定 7"
+    note: "延伸 NFR-020"
+  - id: NFR-026
+    category: privacy
+    title: 訪客與日誌的隱私
+    description: 訪客完成自我分析時 MUST NOT 寫入任何文件；日誌 MUST NOT 記錄作答內容與結果內容（價值觀、依附風格等屬敏感的自我描述）。
+    metric: "訪客送出後資料庫新增 0 份文件；日誌抽樣 0 筆含作答或結果內容"
+    priority: must
+    context: [CTX-CON-023, CTX-CON-006]
+    source: "openspec/changes/expand-self-analysis-dimensions/specs/self-assessment-framework/spec.md"
+    note: "延伸 NFR-006"
+  - id: NFR-027
+    category: reliability
+    title: 移除大五人格的完整性
+    description: 移除大五人格後 MUST NOT 留下孤兒資料（bigFiveAttempts、BIGFIVE 內容）、失效的路由或殘缺的覆蓋預期；固定內容預期總筆數 MUST 同步更新，lint、測試與建置 MUST 全部通過。
+    metric: "移除後 bigFiveAttempts 與 BIGFIVE 文件各為 0 筆；覆蓋檢查顯示缺少、未發佈、多出皆為 0；pnpm lint、pnpm test、nuxt build 通過"
+    priority: must
+    context: [CTX-CON-025, CTX-CON-012]
+    source: "openspec/changes/expand-self-analysis-dimensions/design.md 決定 8"
+  - id: NFR-028
+    category: performance
+    title: 多維度組合的輸入長度與成本
+    description: 可選系統增加後，多維度分析最大組合的 AI 輸入長度與費用 MUST 在既有上限內（組合點數上限 30、可選系統數上限）。
+    metric: "未量化，需與相關人確認（最大組合的輸入 token 數與單份費用上限）"
+    priority: should
+    context: [CTX-CON-026, CTX-CON-007, CTX-CON-014]
+    source: "openspec/changes/expand-self-analysis-dimensions/design.md 決定 9"
+    note: "屬推導，需確認"
+  - id: NFR-029
+    category: correctness
+    title: 映射覆蓋率與版本同步
+    description: 特質映射的整體覆蓋率 MUST 不低於 80%，每個端點 MUST 有來源或被明確承認沒有來源；本體、映射與片段的內容改動 MUST 同步提高各自的版本常數。
+    metric: "覆蓋率檢查通過（≥ 80%）；未列入無來源清單的端點 0 個沒有映射；改動內容時版本常數同步提高的測試通過"
+    priority: must
+    context: [CTX-CON-028]
+    source: "openspec/specs/trait-mapping/spec.md"
+  - id: NFR-030
+    category: reliability
+    title: 報告快照的一致性
+    description: 同一份基本報告 MUST 只保存一份；AI 分析寫入或替換 MUST NOT 改動基本內容、版本、依據與時間；重複請求與並行請求 MUST NOT 造成重複扣點或重複保存。
+    metric: "並行 N 次相同請求，快照只有 1 份且扣點一次；寫入 AI 分析前後基本內容相同"
+    priority: must
+    context: [CTX-CON-029, CTX-CON-014]
+    source: "openspec/specs/report-snapshots/spec.md；延伸 NFR-017"

@@ -1,7 +1,7 @@
 # version: 1
 # generatedBy: api-modeling
-# updatedAt: 2026-10-27T22:00:00+08:00
-# relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, add-report-snapshots]
+# updatedAt: 2026-11-03T02:30:00+08:00
+# relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, add-report-snapshots, expand-self-analysis-dimensions]
 openapi: "3.0.3"
 info:
   title: "AI 多維度人格探索 App API"
@@ -25,6 +25,7 @@ tags:
   - name: Admin
   - name: Today
   - name: TransitReports
+  - name: Assessments
 security:
   - bearerAuth: []
 paths:
@@ -363,6 +364,92 @@ paths:
         domainModel: [ENT-004, AGG-004]
         businessRules: [RULE-014]
         requirements: [NFR-003]
+  "/assessments":
+    get:
+      operationId: listAssessments
+      summary: "列出自我分析"
+      description: "回傳登錄表中的自我分析（九型人格、HEXACO、VIA 品格優勢、RIASEC、情緒智商、依附風格、核心價值觀、需求與動機）：識別碼、名稱、題型、版本、入口旗標；已登入者另含自己是否有未到期結果與到期時間，供首頁與自我分析報告頁的卡片，以及多維度分析決定哪些分析可選（有未到期結果者）。訪客不含結果欄位。"
+      tags: [Assessments]
+      security:
+        - bearerAuth: []
+        - guestSession: []
+        - {}
+      responses:
+        "200":
+          description: "自我分析清單"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/AssessmentSummary"
+      x-trace:
+        id: API-058
+        useCases: [UC-035, UC-046]
+        domainModel: [ENT-021, AGG-018, ENT-022]
+        businessRules: [RULE-070, RULE-071, RULE-075]
+        requirements: [NFR-003]
+  "/assessments/{assessmentId}/results":
+    post:
+      operationId: submitAssessment
+      summary: "送出自我分析作答並取得結果"
+      description: "assessmentId 為 enneagram, hexaco, via-strengths, riasec, emotional-intelligence, attachment-style, core-values, psychological-needs 之一，不在登錄表中回 404。後端驗證作答並以固定規則計分，不呼叫 AI；量表題每題恰好一次、值在範圍內、無未知題，挑選題的項目須在清單內、數量符合、不重複、排序只含已挑選項目，不合法回 400 並指出問題。已登入者保存作答與結果 3 個月；訪客不寫入任何文件，結果只回傳，登入後可用保留的作答再送出一次。結果需要的固定內容未發佈時回 404 且不保存。"
+      tags: [Assessments]
+      security:
+        - bearerAuth: []
+        - guestSession: []
+        - {}
+      parameters:
+        - "$ref": "#/components/parameters/AssessmentIdPath"
+        - "$ref": "#/components/parameters/GuestSessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/AssessmentSubmissionRequest"
+      responses:
+        "200":
+          description: "自我分析結果"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/AssessmentResult"
+        "400":
+          "$ref": "#/components/responses/ValidationError"
+        "404":
+          "$ref": "#/components/responses/NotFound"
+      x-trace:
+        id: API-059
+        useCases: [UC-031, UC-032, UC-034]
+        domainModel: [ENT-022, AGG-019, ENT-021, AGG-018, VO-020]
+        businessRules: [RULE-051, RULE-052, RULE-053, RULE-063, RULE-064, RULE-065, RULE-067, RULE-071]
+        requirements: [NFR-001, NFR-024, NFR-025, NFR-026]
+  "/assessments/{assessmentId}/results/latest":
+    get:
+      operationId: getLatestAssessment
+      summary: "取得我最新的自我分析結果"
+      description: "回傳該分析最新一筆未到期的結果（含固定內容）；僅限本人；沒有或都已到期回 404。"
+      tags: [Assessments]
+      parameters:
+        - "$ref": "#/components/parameters/AssessmentIdPath"
+      responses:
+        "200":
+          description: "自我分析結果"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/AssessmentResult"
+        "401":
+          "$ref": "#/components/responses/Unauthorized"
+        "404":
+          "$ref": "#/components/responses/NotFound"
+      x-trace:
+        id: API-060
+        useCases: [UC-033, UC-036, UC-037, UC-038, UC-039, UC-040, UC-041, UC-042, UC-043]
+        domainModel: [ENT-022, AGG-019]
+        businessRules: [RULE-064, RULE-066, RULE-071]
+        requirements: [NFR-003]
   "/human-design/calculations":
     post:
       operationId: calculateHumanDesign
@@ -610,9 +697,9 @@ paths:
           "$ref": "#/components/responses/Unauthorized"
       x-trace:
         id: API-028
-        useCases: [UC-016]
-        domainModel: [AGG-001, AGG-004, AGG-006, AGG-007, AGG-012]
-        businessRules: [RULE-014, RULE-015]
+        useCases: [UC-016, UC-052]
+        domainModel: [AGG-001, AGG-004, AGG-012, AGG-019, AGG-021]
+        businessRules: [RULE-014, RULE-015, RULE-064, RULE-087]
         requirements: [NFR-003, NFR-005]
   "/account":
     delete:
@@ -631,9 +718,9 @@ paths:
           "$ref": "#/components/responses/Unauthorized"
       x-trace:
         id: API-029
-        useCases: [UC-016]
-        domainModel: [ENT-001, AGG-001, AGG-004, AGG-006, AGG-007, AGG-008, AGG-009, AGG-012]
-        businessRules: [RULE-012, RULE-024, RULE-029]
+        useCases: [UC-016, UC-052]
+        domainModel: [ENT-001, AGG-001, AGG-004, AGG-008, AGG-009, AGG-012, AGG-019, AGG-021]
+        businessRules: [RULE-012, RULE-024, RULE-029, RULE-064, RULE-087]
         requirements: [NFR-003, NFR-005]
   "/events":
     post:
@@ -895,9 +982,9 @@ paths:
           "$ref": "#/components/responses/Unauthorized"
       x-trace:
         id: API-037
-        useCases: [UC-017]
-        domainModel: [AGG-001, AGG-004, AGG-006, AGG-007, AGG-012]
-        businessRules: [RULE-014, RULE-015, RULE-030]
+        useCases: [UC-017, UC-052]
+        domainModel: [AGG-001, AGG-004, AGG-012, AGG-019, AGG-021]
+        businessRules: [RULE-014, RULE-015, RULE-064, RULE-087]
         requirements: [NFR-002, NFR-003, NFR-005, NFR-006]
   "/human-design":
     get:
@@ -1005,11 +1092,10 @@ paths:
           "$ref": "#/components/responses/Unauthorized"
       x-trace:
         id: API-053
-        useCases: []
-        domainModel: []
-        businessRules: []
-        requirements: []
-        pending: "待確認：新的報告架構尚未納入系統分析；來源為 docs/trait-ontology-draft.md 與 change add-report-snapshots"
+        useCases: [UC-051]
+        domainModel: [ENT-024, AGG-021]
+        businessRules: [RULE-086, RULE-087]
+        requirements: [NFR-003, NFR-030]
   "/report-snapshots/{snapshotId}":
     get:
       operationId: getReportSnapshot
@@ -1031,11 +1117,55 @@ paths:
           "$ref": "#/components/responses/NotFound"
       x-trace:
         id: API-054
-        useCases: []
-        domainModel: []
-        businessRules: []
-        requirements: []
-        pending: "待確認：新的報告架構尚未納入系統分析；來源為 docs/trait-ontology-draft.md 與 change add-report-snapshots"
+        useCases: [UC-051]
+        domainModel: [ENT-024, AGG-021, VO-028, VO-029, VO-030, VO-031, VO-032, VO-033]
+        businessRules: [RULE-086, RULE-087]
+        requirements: [NFR-003, NFR-030]
+  "/report-snapshots/{snapshotId}/export":
+    post:
+      operationId: exportReportSnapshotPdf
+      summary: "下載報告快照 PDF"
+      description: "【尚未實作】把已保存的報告快照（含已有的 AI 分析）產生為 PDF 供下載，不重新呼叫 AI（RULE-032）；僅擁有者、快照未到期；每次下載扣 1 點（CTX-ASM-028 沿用原規則，未重新確認）；快照曾下載過時回 409 並附上次下載時間，須帶 confirmRepeat: true 重送才會再扣點；需 Idempotency-Key；失敗退點。"
+      tags: [ReportSnapshots]
+      parameters:
+        - "$ref": "#/components/parameters/SnapshotIdPath"
+        - "$ref": "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                confirmRepeat:
+                  type: boolean
+                  description: "曾下載過時，使用者已確認要重複下載（會再扣 1 點）"
+      responses:
+        "200":
+          description: "PDF 檔"
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        "401":
+          "$ref": "#/components/responses/Unauthorized"
+        "402":
+          "$ref": "#/components/responses/InsufficientPoints"
+        "404":
+          "$ref": "#/components/responses/NotFound"
+        "409":
+          description: "快照曾下載過，需確認才重複下載（回應含上次下載時間）"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponse"
+      x-trace:
+        id: API-061
+        useCases: [UC-021]
+        domainModel: [ENT-024, AGG-021]
+        businessRules: [RULE-032, RULE-087]
+        requirements: [NFR-003, NFR-011, NFR-017]
   "/single-reports":
     post:
       operationId: createSingleReport
@@ -1078,11 +1208,10 @@ paths:
                 "$ref": "#/components/schemas/ErrorResponse"
       x-trace:
         id: API-055
-        useCases: []
-        domainModel: []
-        businessRules: []
-        requirements: []
-        pending: "待確認：新的報告架構尚未納入系統分析；來源為 docs/trait-ontology-draft.md 與 change add-single-dimension-report"
+        useCases: [UC-047, UC-048]
+        domainModel: [ENT-024, AGG-021, ENT-025, ENT-026, ENT-027, AGG-022, AGG-023, AGG-024]
+        businessRules: [RULE-078, RULE-079, RULE-080, RULE-081, RULE-082, RULE-083, RULE-092, RULE-093]
+        requirements: [NFR-001, NFR-029, NFR-030]
   "/single-reports/analysis":
     post:
       operationId: createSingleReportAnalysis
@@ -1133,16 +1262,15 @@ paths:
           "$ref": "#/components/responses/RateLimited"
       x-trace:
         id: API-056
-        useCases: []
-        domainModel: []
-        businessRules: []
-        requirements: []
-        pending: "待確認：新的報告架構尚未納入系統分析；來源為 docs/trait-ontology-draft.md 與 change add-single-dimension-report"
+        useCases: [UC-049]
+        domainModel: [ENT-024, AGG-021, VO-032, VO-033]
+        businessRules: [RULE-084, RULE-088]
+        requirements: [NFR-001, NFR-030]
   "/multi-reports":
     post:
       operationId: createMultiReport
       summary: "取得多維度報告"
-      description: "把至少兩個穩定特質系統（星座、血型、MBTI、生命靈數、瑪雅 Kin、八字、人類圖）放在一起，由規則組裝報告並保存為快照，再由 AI 針對這個人改寫洞見。一律用點數付費、AI 解讀已含在內：價格 = 各系統基本價（人類圖 2、八字 3、其餘 1）之和 × 1.2，無條件捨去，上限 30 點。回傳 202 與快照 id，再以 GET /report-snapshots/{id} 輪詢 aiJob 與 ai；失敗退點。缺資料回 422（PROFILE_REQUIRED、BLOOD_REQUIRED、MBTI_REQUIRED、BIRTH_TIME_REQUIRED、BIRTH_PLACE_REQUIRED），規則找不到任何洞見回 422（NO_INSIGHTS），皆不扣點。需 Idempotency-Key。"
+      description: "把至少兩個穩定特質系統（星座、血型、MBTI、生命靈數、瑪雅 Kin、八字、人類圖，以及九型人格 ENNEAGRAM、HEXACO、VIA 品格優勢 VIA_STRENGTHS、職業興趣 RIASEC、情緒智商 EMOTIONAL_INTELLIGENCE、依附風格 ATTACHMENT_STYLE、核心價值觀 CORE_VALUES、需求與動機 PSYCHOLOGICAL_NEEDS）放在一起，由規則組裝報告並保存為快照，再由 AI 針對這個人改寫洞見。一律用點數付費、AI 解讀已含在內：價格 = 各系統基本價（人類圖 2、八字 3、其餘含八種自我分析預設 1）之和 × 1.2，無條件捨去，上限 30 點。回傳 202 與快照 id，再以 GET /report-snapshots/{id} 輪詢 aiJob 與 ai；失敗退點。缺資料回 422（PROFILE_REQUIRED、BLOOD_REQUIRED、MBTI_REQUIRED、ASSESSMENT_REQUIRED（所選自我分析沒有未到期結果，回應指出是哪一個）、BIRTH_TIME_REQUIRED、BIRTH_PLACE_REQUIRED），規則找不到任何洞見回 422（NO_INSIGHTS），皆不扣點。需 Idempotency-Key。"
       tags: [ReportSnapshots]
       parameters:
         - "$ref": "#/components/parameters/IdempotencyKey"
@@ -1159,7 +1287,7 @@ paths:
                   uniqueItems: true
                   items:
                     type: string
-                    enum: [ZODIAC, BLOOD, MBTI, NUMEROLOGY, MAYA_KIN, BAZI, HUMAN_DESIGN]
+                    enum: [ZODIAC, BLOOD, MBTI, NUMEROLOGY, MAYA_KIN, BAZI, HUMAN_DESIGN, ENNEAGRAM, HEXACO, VIA_STRENGTHS, RIASEC, EMOTIONAL_INTELLIGENCE, ATTACHMENT_STYLE, CORE_VALUES, PSYCHOLOGICAL_NEEDS]
               required: [systems]
       responses:
         "202":
@@ -1195,11 +1323,11 @@ paths:
           "$ref": "#/components/responses/RateLimited"
       x-trace:
         id: API-057
-        useCases: []
-        domainModel: []
-        businessRules: []
-        requirements: []
-        pending: "待確認：新的報告架構尚未納入系統分析；來源為 docs/trait-ontology-draft.md 與 change add-multi-dimension-report"
+        useCases: [UC-046, UC-050]
+        domainModel: [ENT-021, AGG-018, ENT-022, AGG-019, ENT-024, AGG-021, ENT-026, AGG-023]
+        businessRules: [RULE-074, RULE-075, RULE-076, RULE-077, RULE-085, RULE-086]
+        requirements: [NFR-001, NFR-028, NFR-029, NFR-030]
+
   "/rune/daily":
     get:
       operationId: getDailyRune
@@ -1534,6 +1662,13 @@ components:
       required: true
       schema:
         type: string
+    AssessmentIdPath:
+      name: assessmentId
+      in: path
+      required: true
+      schema:
+        type: string
+        enum: [enneagram, hexaco, via-strengths, riasec, emotional-intelligence, attachment-style, core-values, psychological-needs]
     SnapshotIdPath:
       name: snapshotId
       in: path
@@ -1610,7 +1745,7 @@ components:
       enum: [generator, manifesting_generator, projector, manifestor, reflector]
     ContentType:
       type: string
-      enum: [SUMMARY, ZODIAC, BLOOD, MBTI]
+      enum: [SUMMARY, ZODIAC, BLOOD, MBTI, ASSESSMENT]
     ContentStatus:
       type: string
       enum: [DRAFT, REVIEWED, PUBLISHED]
@@ -2130,6 +2265,167 @@ components:
           type: number
         reportSuccessRate:
           type: number
+    AssessmentSummary:
+      type: object
+      properties:
+        assessmentId:
+          type: string
+          enum: [enneagram, hexaco, via-strengths, riasec, emotional-intelligence, attachment-style, core-values, psychological-needs]
+        title:
+          type: string
+        kind:
+          type: string
+          enum: [scale, selection]
+        version:
+          type: string
+          description: "帶 ref 標記，表示題目為自行設計、沒有經過信度與效度驗證"
+        entryEnabled:
+          type: boolean
+        hasResult:
+          type: boolean
+          description: "僅已登入者：是否有未到期的結果"
+        resultExpiresAt:
+          type: string
+          format: date-time
+          nullable: true
+      required: [assessmentId, title, kind, version, entryEnabled]
+    AssessmentSubmissionRequest:
+      type: object
+      description: "量表題帶 answers；挑選題帶 selected 與 ranked"
+      properties:
+        version:
+          type: string
+        answers:
+          type: array
+          items:
+            type: object
+            properties:
+              questionId:
+                type: string
+              value:
+                type: integer
+                minimum: 1
+                maximum: 5
+            required: [questionId, value]
+        selected:
+          type: array
+          items:
+            type: string
+        ranked:
+          type: array
+          items:
+            type: string
+      required: [version]
+    DimensionScore:
+      type: object
+      properties:
+        dimension:
+          type: string
+        score:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: "只描述使用者自己的回答，不是百分位"
+        level:
+          type: string
+          enum: [low, mid, high]
+          nullable: true
+      required: [dimension, score]
+    AssessmentResultBody:
+      description: "各分析自己的結果：HEXACO、情緒智商與需求與動機為維度分數；九型含主型、側翼與並列；職業興趣含三碼；品格優勢含前 5 項；依附風格含兩向度與象限；核心價值觀含挑選與排名"
+      oneOf:
+        - type: object
+          properties:
+            scores:
+              type: array
+              items:
+                "$ref": "#/components/schemas/DimensionScore"
+          required: [scores]
+        - type: object
+          properties:
+            scores:
+              type: array
+              items:
+                "$ref": "#/components/schemas/DimensionScore"
+            mainType:
+              type: integer
+            wing:
+              type: integer
+              nullable: true
+            tiedTypes:
+              type: array
+              items:
+                type: integer
+          required: [scores, mainType, tiedTypes]
+        - type: object
+          properties:
+            scores:
+              type: array
+              items:
+                "$ref": "#/components/schemas/DimensionScore"
+            code:
+              type: string
+              minLength: 3
+              maxLength: 3
+          required: [scores, code]
+        - type: object
+          properties:
+            scores:
+              type: array
+              items:
+                "$ref": "#/components/schemas/DimensionScore"
+            top:
+              type: array
+              items:
+                type: string
+          required: [scores, top]
+        - type: object
+          properties:
+            anxiety:
+              "$ref": "#/components/schemas/DimensionScore"
+            avoidance:
+              "$ref": "#/components/schemas/DimensionScore"
+            quadrant:
+              type: string
+              nullable: true
+          required: [anxiety, avoidance]
+        - type: object
+          properties:
+            selected:
+              type: array
+              items:
+                type: string
+            top:
+              type: array
+              items:
+                type: string
+          required: [selected, top]
+    AssessmentResult:
+      type: object
+      properties:
+        assessmentId:
+          type: string
+        version:
+          type: string
+        result:
+          "$ref": "#/components/schemas/AssessmentResultBody"
+        content:
+          type: array
+          items:
+            "$ref": "#/components/schemas/FixedResultContent"
+        completedAt:
+          type: integer
+          format: int64
+        persisted:
+          type: boolean
+          description: "訪客為 false"
+        saveFailed:
+          type: boolean
+        expiresAt:
+          type: integer
+          format: int64
+          nullable: true
+      required: [assessmentId, version, result, content, completedAt, persisted, saveFailed, expiresAt]
     CronResult:
       type: object
       properties:
@@ -2137,7 +2433,9 @@ components:
           type: integer
         deletedReportSnapshots:
           type: integer
-      required: [deletedAttempts, deletedReportSnapshots]
+        deletedAssessmentAttempts:
+          type: integer
+      required: [deletedAttempts, deletedReportSnapshots, deletedAssessmentAttempts]
     NatalChartRequest:
       type: object
       properties:
@@ -2569,5 +2867,5 @@ components:
 x-analysis:
   version: 1
   generatedBy: api-modeling
-  updatedAt: "2026-10-27T22:00:00+08:00"
-  relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category]
+  updatedAt: "2026-11-02T23:45:00+08:00"
+  relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions]

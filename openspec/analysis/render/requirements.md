@@ -3,6 +3,7 @@
 > 來源：`ai_personality_app_plan.md` + `openspec/changes/add-daily-tarot-draw` + user 補充（Nuxt / Vue / Vuetify / Vite、Vercel、Firestore、Google 登入、點數制、人類圖）
 > 真相檔：`openspec/analysis/requirements.yaml`、`context.yaml`（本檔由 yaml 產生）
 > 更新：2026-10-27（新增「此刻／今日」類：FR-044 至 FR-055、NFR-018 至 NFR-022）
+> 更新：2026-11-02（新增「自我分析擴充」：FR-056 至 FR-073、NFR-023 至 NFR-028；另補進既有的報告架構：FR-074 至 FR-084、NFR-029 至 NFR-030；change：expand-self-analysis-dimensions）
 
 MVP = 計畫書 §15 第一版範圍（含 user 補充）。Phase 對應 §11 Phase 1-5；Phase 6 為 2026-10-27 新增的「此刻／今日」類（不屬原計畫書範圍）。
 
@@ -15,7 +16,7 @@ MVP = 計畫書 §15 第一版範圍（含 user 補充）。Phase 對應 §11 Ph
 | FR-003 | 測驗清單與題目取得 | 系統 SHALL 提供可用測驗清單，並依測驗 ID 回傳含版本的題目與選項。 | must | 1 | ✔ | CTX-ACTOR-001 |
 | FR-004 | 16 型人格（MBTI）測驗作答與評分（選填） | 系統 SHALL 允許使用者（含未登入訪客）選擇完成 16 型人格（MBTI）測驗（對外名稱用「16 型人格」、題目自行撰寫，見 CTX-CON-015），並 MUST 由後端依評分規則計算 16 型結果；此計算與 summary 內容皆為事先定義，MUST NOT 呼叫 AI、不消耗 token。 | must | 1 | ✔ | CTX-ACTOR-001, CTX-CON-001, CTX-CON-007, CTX-ASM-008 |
 | FR-005 | 測驗紀錄保存 | 系統 SHALL 在使用者已登入時，將每次測驗的版本、起訖時間、分數、結果與每題作答保存至 Firebase，並允許使用者查看自己的測驗歷史；測驗結果保存 3 個月（見 FR-033）。 | must | 2 | ✔ | CTX-ACTOR-001, CTX-ACTOR-002, CTX-CON-006, CTX-EXT-005, CTX-EXT-006 |
-| FR-006 | 多維度分析報告 查詢 | 系統 SHALL 在已登入使用者扣點後，依「星座+MBTI」或「星座+MBTI+血型」組合從 Firestore 查詢對應的事先算好的多維度分析報告；血型「不知道」時 MUST 使用星座+MBTI 組合。查詢 MUST NOT 呼叫 AI API。 | must | 1 | ✔ | CTX-ACTOR-001, CTX-CON-005, CTX-CON-007, CTX-EXT-005, CTX-ASM-005, CTX-ASM-010, CTX-CON-014 |
+| FR-006 | 多維度分析報告 查詢（已廢止，由 FR-078 取代） | 系統 SHALL 在已登入使用者扣點後，依「星座+MBTI」或「星座+MBTI+血型」組合從 Firestore 查詢對應的事先算好的多維度分析報告；血型「不知道」時 MUST 使用星座+MBTI 組合。查詢 MUST NOT 呼叫 AI API。 | must | 1 | ✔ | CTX-ACTOR-001, CTX-CON-005, CTX-CON-007, CTX-EXT-005, CTX-ASM-005, CTX-ASM-010, CTX-CON-014 |
 | FR-007 | 固定報告內容呈現 | 系統 SHALL 在結果頁顯示類型名稱、摘要、優勢、盲點、感情/工作/溝通風格、成長建議與娛樂性免責說明。 | must | 1 | ✔ | CTX-ACTOR-001, CTX-CON-001 |
 | FR-008 | 固定報告內容版本管理 | 系統 SHALL 為每份固定報告記錄 content_version，並 SHALL 支援在不重新部署後端的情況下更新內容；組合 (zodiac, blood_type, mbti_type) MUST 唯一。 | must | 2 | ✔ | CTX-ACTOR-003, CTX-CON-005, CTX-CON-004, CTX-EXT-005 |
 | FR-009 | 多維度分析報告 組合覆蓋完整性 | 系統 SHALL 使所有合法組合都有可查詢的多維度分析報告：星座×MBTI 192 種，以及星座×MBTI×血型 768 種（共 960 種），且組合與內容 MUST 存放於 Firestore。 | must | 2 | ✔ | CTX-ACTOR-003, CTX-ASM-005, CTX-EXT-005, CTX-CON-005 |
@@ -24,12 +25,12 @@ MVP = 計畫書 §15 第一版範圍（含 user 補充）。Phase 對應 §11 Ph
 | FR-012 | 付款事件處理 | 系統 SHALL 接收付款服務 webhook，MUST 驗證簽章，並 MUST 以冪等方式處理重複事件後為使用者加點。 | must | 4 | ✔ | CTX-EXT-001, CTX-CON-003, CTX-CON-014 |
 | FR-013 | 付款失敗處理與無退款告知 | 系統 SHALL 處理付款失敗狀態並據此更新使用者權限；系統不提供退款機制，付款前 SHALL 明確告知，並 SHALL 要求使用者勾選「同意立即提供數位內容、放棄解約」且記錄同意時間與條款版本。 | should | 4 | ✔ | CTX-EXT-001, CTX-ACTOR-004, CTX-CON-011 |
 | FR-014 | 後端點數與權限驗證 | 系統 SHALL 在後端驗證使用者已登入且點數餘額足夠後才允許取得 summary 或生成／重新生成詳細分析，並 SHALL 提供查詢目前點數餘額的介面。 | must | 4 | ✔ | CTX-ACTOR-002, CTX-CON-003, CTX-CON-014 |
-| FR-015 | 測驗資料正規化 | 系統 SHALL 將使用者的標籤、測驗分數、實際答案與作答紀錄整理為可供 AI 使用的正規化分析資料，並保留資料版本。 | must | 3 | ✔ | CTX-ACTOR-002, CTX-CON-009 |
-| FR-016 | AI 深度報告生成 | 系統 SHALL 在已具備星座與 MBTI 結果（血型、人類圖選填）、點數餘額足夠（5 點）並扣點後呼叫 AI 供應商，依正規化資料生成包含八個建議章節（概況、行為模式、交叉觀察、優勢與盲點、感情與溝通、工作與決策、成長行動、依據與限制）的報告。 | must | 3 | ✔ | CTX-ACTOR-002, CTX-EXT-002, CTX-CON-009 |
+| FR-015 | 測驗資料正規化（已廢止，由 FR-077、FR-078 取代） | 系統 SHALL 將使用者的標籤、測驗分數、實際答案與作答紀錄整理為可供 AI 使用的正規化分析資料，並保留資料版本。 | must | 3 | ✔ | CTX-ACTOR-002, CTX-CON-009 |
+| FR-016 | AI 深度報告生成（已廢止，由 FR-077、FR-078 取代） | 系統 SHALL 在已具備星座與 MBTI 結果（血型、人類圖選填）、點數餘額足夠（5 點）並扣點後呼叫 AI 供應商，依正規化資料生成包含八個建議章節（概況、行為模式、交叉觀察、優勢與盲點、感情與溝通、工作與決策、成長行動、依據與限制）的報告。 | must | 3 | ✔ | CTX-ACTOR-002, CTX-EXT-002, CTX-CON-009 |
 | FR-017 | AI 報告依據與不確定性標示 | 系統 SHALL 使 AI 報告對重要結論附上資料依據、區分「測驗直接觀察」與「AI 推測」，在測驗結果衝突時指出差異與可能解釋，並對證據不足處使用不確定語氣。 | must | 3 | ✔ | CTX-CON-001, CTX-CON-009, CTX-EXT-002 |
-| FR-018 | AI 報告保存與重複查看 | 系統 SHALL 保存已生成報告及其模型名稱、提示詞版本、輸入資料版本與生成時間；再次查看時 MUST 讀取已保存內容，MUST NOT 重新呼叫 AI。 | must | 3 | ✔ | CTX-ACTOR-002, CTX-CON-007 |
+| FR-018 | AI 報告保存與重複查看（已廢止，由 FR-079、FR-080 取代） | 系統 SHALL 保存已生成報告及其模型名稱、提示詞版本、輸入資料版本與生成時間；再次查看時 MUST 讀取已保存內容，MUST NOT 重新呼叫 AI。 | must | 3 | ✔ | CTX-ACTOR-002, CTX-CON-007 |
 | FR-019 | 生成狀態與失敗處理 | 系統 SHALL 記錄報告生成狀態，並在逾時或失敗時依重試策略處理且向使用者回報明確錯誤；生成失敗 MUST NOT 造成點數被扣除（已扣者須返還），也不得無故重複扣點。 | must | 3 | ✔ | CTX-ACTOR-002, CTX-EXT-002, CTX-CON-007, CTX-CON-014 |
-| FR-020 | 詳細分析重新生成 | 系統 SHALL 在使用者要求重新分析或新增資料時重新生成詳細分析；若該會員已生成過該組合的詳細分析，重新生成 MUST 扣 5 點，且 MUST 保留舊報告。 | should | 4 | ✔ | CTX-ACTOR-002, CTX-CON-007, CTX-CON-014, CTX-CON-011 |
+| FR-020 | 詳細分析重新生成（已廢止，由 FR-077 取代） | 系統 SHALL 在使用者要求重新分析或新增資料時重新生成詳細分析；若該會員已生成過該組合的詳細分析，重新生成 MUST 扣 5 點，且 MUST 保留舊報告。 | should | 4 | ✔ | CTX-ACTOR-002, CTX-CON-007, CTX-CON-014, CTX-CON-011 |
 | FR-021 | AI 報告存取控制 | 系統 SHALL 在每個報告 API 驗證請求者為該報告的擁有者，否則 MUST 拒絕存取。 | must | 3 | ✔ | CTX-ACTOR-002, CTX-CON-003, CTX-CON-006 |
 | FR-022 | AI 用量記錄與限制 | 系統 SHALL 記錄每次 AI 呼叫的模型、輸入/輸出 Token 與預估成本，並 SHALL 限制生成頻率、單次 Token 上限與使用額度。 | must | 3 | ✔ | CTX-ACTOR-004, CTX-CON-007 |
 | FR-023 | 資料刪除與帳號刪除 | 系統 SHALL 允許使用者刪除自己的測驗資料與 AI 報告，並 SHALL 允許使用者刪除帳號；刪除帳號時 MUST 移除該使用者的全部紀錄（個人資料、測驗結果、summary、詳細分析、人類圖、點數、付款），僅保留贈點紀錄；同一 Google 帳號再次登入 MUST 視為全新帳號，不繼承任何歷史紀錄；隱私政策 MUST 載明保留的贈點紀錄。 | must | 1 | ✔ | CTX-ACTOR-001, CTX-ACTOR-002, CTX-CON-006, CTX-CON-012, CTX-EXT-005, CTX-EXT-006, CTX-ASM-011 |
@@ -43,14 +44,14 @@ MVP = 計畫書 §15 第一版範圍（含 user 補充）。Phase 對應 §11 Ph
 | FR-031 | AI 對話式人格探索 | 系統 MAY 提供 AI 對話式人格探索作為會員功能（是否推出待評估）。 | could | 5 | ✘ | CTX-ACTOR-002, CTX-EXT-002, CTX-CON-008 |
 | FR-032 | 訪客使用與登入後儲存 | 系統 SHALL 允許未登入訪客完成測驗並查看結果；訪客當次結果 SHALL 以 session id 暫存於 Firestore，TTL 為 1 天，且 MUST NOT 與任何帳號關聯或永久保存；訪客當次選擇登入時，SHALL 依 session id 將暫存結果存入其帳號；app 內 MUST 明確提示「未登入將不保留結果」並引導 Google 登入。已登入使用者的結果 SHALL 保留。使用點數（取得 summary 或詳細分析）前 MUST 已登入。 | must | 1 | ✔ | CTX-ACTOR-001, CTX-EXT-006, CTX-EXT-005, CTX-ASM-004, CTX-ASM-008 |
 | FR-033 | 資料到期刪除 | 系統 SHALL 在會員的測驗作答與結果、多維度分析報告、MBTI 欄位、人類圖結果、每日抽取紀錄與即時星象報告滿 3 個月後、詳細分析滿 6 個月後（各以產生時間點起算）自動刪除；付款紀錄 MUST NOT 因保留期限被刪除。 | must | 2 | ✔ | CTX-CON-012, CTX-CON-006, CTX-EXT-005, CTX-ACTOR-001, CTX-ACTOR-002, CTX-CON-017, CTX-CON-018 |
-| FR-034 | 詳細分析報告書下載（寄送 email） | 系統 SHALL 讓使用者在報告到期前消耗 1 點，將詳細分析報告書以 PDF 寄送至其 email；若該報告已下載過，系統 MUST 提醒並經使用者確認後才重複扣點與寄送。 | should | 4 | ✘ | CTX-ACTOR-002, CTX-CON-012, CTX-CON-014, CTX-EXT-007 |
+| FR-034 | 報告快照下載 PDF | 系統 SHALL 讓報告擁有者在快照到期前將單維度或多維度報告快照下載為 PDF；PDF MUST 讀取已保存的快照（含已有的 AI 分析），MUST NOT 重新呼叫 AI 或重新計算；每次下載扣 1 點，報告曾下載過者系統 MUST 提醒並經使用者確認後才重複扣點與下載；僅報告擁有者可下載，失敗 MUST 返還已扣點，重複請求 MUST 以冪等鍵只處理一次。 | should | 4 | ✘ | CTX-ACTOR-002, CTX-CON-014, CTX-CON-029, CTX-ASM-028 |
 | FR-035 | 資料到期前通知 | 系統 SHALL 以 email 在會員的測驗結果、多維度分析報告、人類圖與詳細分析到期前 14 天與 3 天各通知一次；同一使用者同時有多筆到期時合併為一封。 | should | 5 | ✘ | CTX-ACTOR-001, CTX-CON-012, CTX-EXT-007 |
 | FR-036 | 人類圖計算 | 系統 SHALL 在使用者提供出生時間與出生地點時計算人類圖（固定結果，MUST NOT 呼叫 AI），結果包含 5 種能量類型之一、9 大能量中心、12 種人生角色組合之一、內在權威、策略、定義與通道、64 個閘門；未提供出生時間與地點時 MUST NOT 產生人類圖；已登入使用者計算出的人類圖結果 SHALL 儲存於其帳號（訪客僅暫存於 session，TTL 1 天），且 SHALL 可單獨檢視且不扣點，不需先生成詳細分析。人類圖納入詳細分析的輸入，不屬多維度分析報告 的組合。 | must | 3 | ✔ | CTX-ACTOR-001, CTX-ASM-006, CTX-CON-007 |
 | FR-037 | 點數帳戶與註冊贈點 | 系統 SHALL 為每個新建立的帳號建立點數帳戶，並 SHALL 贈送 3 點；贈點 MUST 每帳號僅發放一次；同一 Google 帳號於上次贈點後 3 個月內刪帳號再註冊 MUST NOT 再次發放（以贈點紀錄判斷）；贈點紀錄僅用於避免重複贈點，不作他用。 | must | 3 | ✔ | CTX-ACTOR-001, CTX-CON-014, CTX-EXT-006, CTX-EXT-005 |
 | FR-038 | 點數扣抵 | 系統 SHALL 於會員首次取得某組多維度分析報告 時扣 1 點、生成詳細分析時扣 5 點、下載報告書時每次扣 1 點（重複下載再扣）；餘額不足時 MUST 拒絕並引導購點；扣點與結果交付 MUST 一致；訪客 MUST NOT 可取得多維度分析報告。 | must | 3 | ✔ | CTX-ACTOR-001, CTX-ACTOR-002, CTX-CON-014, CTX-ASM-010 |
 | FR-039 | 點數異動紀錄 | 系統 SHALL 記錄每次點數發放、購買、扣除與返還，使用者可查看自己的點數紀錄。 | must | 3 | ✔ | CTX-ACTOR-002, CTX-CON-014 |
 | FR-040 | 單項免費結果 | 系統 SHALL 允許使用者（含訪客）不扣點取得單項結果：依生日取得星座結果、依血型取得血型分析、完成 MBTI 測驗取得 MBTI 結果；結果皆為固定內容，MUST NOT 呼叫 AI，且 MUST NOT 儲存（每次重新取得）。 | must | 1 | ✔ | CTX-ACTOR-001, CTX-CON-007, CTX-CON-014, CTX-EXT-005, CTX-ASM-010 |
-| FR-041 | 避免重複扣點 | 系統 SHALL 對同一會員已生成過的多維度分析報告 組合直接回傳已存結果且 MUST NOT 再次扣點；重複點擊或並行請求 MUST NOT 造成重複扣點。 | must | 3 | ✔ | CTX-ACTOR-002, CTX-CON-014, CTX-EXT-005 |
+| FR-041 | 避免重複扣點（已廢止，由 FR-078、FR-080 取代） | 系統 SHALL 對同一會員已生成過的多維度分析報告 組合直接回傳已存結果且 MUST NOT 再次扣點；重複點擊或並行請求 MUST NOT 造成重複扣點。 | must | 3 | ✔ | CTX-ACTOR-002, CTX-CON-014, CTX-EXT-005 |
 | FR-042 | 點數有效期 | 系統 SHALL 為點數設定有效期：購買的點數為無限期，贈點有效期 90 天；過期點數 MUST NOT 可用於扣抵；扣抵順序為先到期先扣、無限期批次最後。 | must | 3 | ✔ | CTX-ACTOR-001, CTX-ACTOR-002, CTX-CON-014 |
 | FR-043 | 付款紀錄保存 | 系統 SHALL 在帳號存續期間永久保存付款紀錄，不受測驗結果保留期限影響；使用者刪除帳號時 SHALL 一併移除付款紀錄。 | must | 4 | ✔ | CTX-CON-012, CTX-EXT-001, CTX-ACTOR-004 |
 | FR-044 | 「此刻／今日」類入口 | 系統 SHALL 在首頁提供與維度卡分開的「此刻／今日」區塊，收納每日塔羅、今日盧恩、今日瑪雅 Kin 與即時星象；區塊內各項 MUST 標示其結果隨時間變動，且依各項規則呈現未登入、可抽取／已抽取、需付費與資料不足等狀態；未登入時 MUST NOT 載入任何抽取結果內容。 | should | 6 | ✘ | CTX-ACTOR-001, CTX-ACTOR-002, CTX-CON-016, CTX-ASM-004 |
@@ -65,6 +66,35 @@ MVP = 計畫書 §15 第一版範圍（含 user 補充）。Phase 對應 §11 Ph
 | FR-053 | 即時星象報告保存與存取 | 系統 SHALL 保存已生成的即時星象報告（含模型名稱、提示詞版本、輸入資料版本、計算所用時刻與生成時間），保存 3 個月後自動刪除；再次查看 MUST 讀取已保存內容且 MUST NOT 重新呼叫 AI；僅報告擁有者可存取，刪除帳號時 SHALL 一併移除。 | must | 6 | ✘ | CTX-ACTOR-002, CTX-CON-017, CTX-CON-012, CTX-EXT-005 |
 | FR-054 | 即時星象報告匯出 PDF | 系統 SHALL 允許報告擁有者在報告到期前將即時星象報告匯出為 PDF；匯出 MUST 讀取已保存內容，MUST NOT 重新呼叫 AI；僅報告擁有者可匯出。 | should | 6 | ✘ | CTX-ACTOR-002, CTX-CON-017, CTX-CON-014, CTX-ASM-019 |
 | FR-055 | 本命盤加入天王、海王、冥王 | 系統 SHALL 在本命盤計算結果中，於日、月、水、金、火、木、土與上升之外，加入天王、海王、冥王的星座與度數；既有的本命盤輸出與畫面 MUST 同步呈現，且既有七顆天體與上升的結果 MUST NOT 改變。 | must | 6 | ✘ | CTX-EXT-008, CTX-ASM-014, CTX-ASM-006 |
+| FR-056 | 自我分析的定義與登錄表 | 系統 SHALL 以登錄表列出所有自我分析，每個分析有一份定義（識別碼、版本、題目或選項、純函式計分、結果內容金鑰）；新增分析 MUST 只需新增定義並登錄，不需要新的 service、repository 或通用路由；識別碼不在登錄表中的請求 MUST 回傳 404。 | must | 7 | ✘ | CTX-CON-021, CTX-ACTOR-001 |
+| FR-057 | 自我分析的伺服器端驗證與計分 | 系統 MUST 在伺服器端驗證自我分析的作答並計分，MUST NOT 信任前端的分數；量表題 MUST 每題恰好一次、值在量表範圍內、不含未知題目；挑選題 MUST 只含清單內項目、數量符合規定、不重複；不合法 MUST 回傳 400 並指出問題；計分 MUST 為固定規則的純函式、不呼叫 AI。 | must | 7 | ✘ | CTX-CON-021, CTX-CON-003, CTX-CON-007 |
+| FR-058 | 自我分析的固定內容 ASSESSMENT | 系統 SHALL 以固定內容類型 ASSESSMENT 儲存各分析的結果文字，金鑰以分析識別碼開頭、合法金鑰由登錄表決定；內容 MUST 事先撰寫、不呼叫 AI；計分後需要顯示的內容尚未發佈時 MUST 回 404 且不保存結果；固定內容覆蓋檢查 MUST 納入所有已登錄分析的金鑰。 | must | 7 | ✘ | CTX-CON-021, CTX-CON-007, CTX-CON-005 |
+| FR-059 | 自我分析結果的保存、到期與刪除 | 系統 SHALL 在已登入使用者完成自我分析時，於 users/{uid}/assessmentAttempts 新增一筆紀錄（分析識別碼、版本、作答、結果、完成時間、到期時間）並保存 3 個月、到期後自動清除、刪除帳號與刪除測驗結果時一併刪除；訪客完成時 MUST NOT 寫入任何文件，結果只留在瀏覽器當次 session，登入後 SHALL 可選擇儲存。 | must | 7 | ✘ | CTX-CON-023, CTX-CON-012, CTX-EXT-005, CTX-ACTOR-001 |
+| FR-060 | 通用的測驗頁與結果頁 | 系統 SHALL 提供 /assessment/{id} 測驗頁（量表題：分頁、進度、已作答與未作答的區別、全部作答後才可送出、作答暫存於 sessionStorage；挑選題：挑選與排序）與 /analysis/{id} 結果頁（固定顯示「怎麼看這份結果」說明與免責聲明，以及該分析自己的結果區塊）。 | must | 7 | ✘ | CTX-CON-021, CTX-CON-024, CTX-ACTOR-001 |
+| FR-061 | 自我分析的入口與旗標 | 系統 SHALL 依登錄表在首頁與 /self-reports 為每個分析顯示卡片，每個分析各有入口旗標；旗標關閉時卡片 MUST NOT 出現，頁面本身仍可由網址進入；已有未到期結果時卡片亮起並連到結果頁。 | should | 7 | ✘ | CTX-CON-021, CTX-ACTOR-001 |
+| FR-062 | 題目為自行設計並註明未經驗證 | 所有分析的題目 MUST 為自行設計，MUST NOT 翻譯、改寫或使用任何既有量表的題目；每個測驗頁與結果頁 MUST 固定註明「這些題目是自行設計的自我探索題目，沒有經過信度與效度驗證，不是任何既有量表」；版本識別 MUST 帶 ref 標記；MUST NOT 以百分位、常模或「精準」的說法呈現結果。 | must | 7 | ✘ | CTX-CON-022, CTX-CON-015, CTX-CON-001 |
+| FR-063 | 九型人格 | 系統 SHALL 提供九型人格測驗（九個類型各有同數量的題目、5 點量表），計算九型各自的分數（0–100），最高分者為最突出的類型、側翼取相鄰兩型中分數較高者；最高分與次高分差距小於 10 分時 MUST 並列這兩型而不單獨斷定一型，MUST NOT 稱使用者「就是」某一型；每型有固定內容（核心動機、核心恐懼、壓力下與放鬆時的慣性、成長方向、可以留意的地方），聚焦「為什麼會這樣做」並與 MBTI 互補。 | should | 7 | ✘ | CTX-CON-021, CTX-CON-024, CTX-ASM-020, CTX-ASM-021 |
+| FR-064 | HEXACO 人格模型 | 系統 SHALL 提供 HEXACO 測驗（誠實謙遜、情緒性、外向性、宜人性、盡責性、開放性六個維度各有同數量的題目、含反向題、5 點量表），伺服器端計分為各維度 0–100 與低（< 40）、中（40–60）、高（> 60）；結果頁 SHALL 說明六個維度各自的意思並特別說明「誠實謙遜」，MUST NOT 把低分描述為不誠實或品格缺陷，MUST NOT 引用大五人格結果；HEXACO 發佈並開啟入口後 SHALL 取代大五人格測驗。 | must | 7 | ✘ | CTX-CON-021, CTX-CON-024, CTX-CON-025, CTX-ASM-020 |
+| FR-065 | VIA 品格優勢 | 系統 SHALL 提供品格優勢測驗（24 種優勢各有同數量的題目、5 點量表），計算 24 項分數並排序、取最突出的前 5 項，分數相同時 MUST 以固定規則決定先後使同樣作答永遠得到同樣結果；每項優勢有固定內容（是什麼、日常表現、用得太過時的樣子、如何發揮）；結果頁 MUST 以「我有哪些值得發揮的內在優勢」為主軸，MUST NOT 把排在後面的優勢描述成缺點。 | should | 7 | ✘ | CTX-CON-021, CTX-CON-024, CTX-ASM-020 |
+| FR-066 | 霍蘭德職業興趣（RIASEC） | 系統 SHALL 提供職業興趣測驗（六種類型各有同數量的自行設計題目、以喜歡程度作答），計算實作、研究、藝術、社會、企業、事務六型分數並取前三名組成三碼代碼（並列時以固定規則決定）；結果內容含六型特徵、偏好的工作環境與三碼組合的描述；結果頁 MUST 明確寫出「這是興趣，不是能力或適性的判定」，MUST NOT 列出「你適合當某某職業」的斷言。 | should | 7 | ✘ | CTX-CON-021, CTX-CON-024, CTX-CON-022, CTX-ASM-020 |
+| FR-067 | 情緒智商 | 系統 SHALL 提供情緒智商測驗（情緒覺察、情緒調節、同理心、人際情緒處理四個面向各有同數量的題目、含反向題），計算四面向各自的分數（0–100）與等級；MUST NOT 提供單一的「智商」總分，MUST NOT 使用百分位；每面向每等級有固定內容（現況、優勢、留意、可以練習的方向），並強調情緒能力可以練習而不是固定的。 | should | 7 | ✘ | CTX-CON-021, CTX-CON-024, CTX-CON-002, CTX-ASM-020 |
+| FR-068 | 依附風格 | 系統 SHALL 提供依附風格測驗，以「靠近的焦慮」與「親密的迴避」兩個連續向度各自的題目計分（各 0–100 與低、中、高），依兩個向度的高低對應到四個象限的中性描述，任一向度為中時 MUST 說明結果落在兩個象限之間；MUST NOT 貼固定標籤、MUST NOT 使用診斷用語或提及臨床診斷；結果頁 MUST 固定說明依附模式會隨關係與經驗改變、不是診斷也不是固定標籤。 | should | 7 | ✘ | CTX-CON-021, CTX-CON-024, CTX-ASM-020, CTX-ASM-023 |
+| FR-069 | 核心價值觀 | 系統 SHALL 提供約 40 項的價值清單，使用者從中挑選固定數量並把最重要的幾項排出順序；系統 MUST 驗證項目都在清單內、數量符合規定、沒有重複、排序只含已挑選的項目；結果列出最重要的幾項價值並附固定說明（可能代表什麼、在選擇中如何出現、與其他價值拉扯時可以怎麼想），以「什麼對我最重要？我為什麼做出某些選擇？」為主軸，MUST NOT 評價價值的好壞或高下。 | should | 7 | ✘ | CTX-CON-021, CTX-CON-024, CTX-ASM-020, CTX-ASM-023 |
+| FR-070 | 需求與動機 | 系統 SHALL 提供需求與動機測驗，依自我決定理論的三項基本心理需求（自主、勝任、關係）各有同數量的題目，計算三項各自的分數（0–100）與等級（分數代表目前需求被滿足的感受）；每項每等級有固定內容（什麼情境容易讓動力上升、哪些環境可能讓動力下降、可以怎麼調整）；偏低的需求 SHALL 列為「值得留意」，MUST NOT 把低分描述為使用者的缺陷。 | should | 7 | ✘ | CTX-CON-021, CTX-CON-024, CTX-ASM-020 |
+| FR-071 | 移除大五人格測驗 | HEXACO 發佈並確認可用後，系統 SHALL 把現有的大五人格測驗從產品中移除：關閉入口、刪除所有使用者的 bigFiveAttempts 與 Firestore 的 BIGFIVE 固定內容、移除頁面與 API 與 service 與常數與計分工具、移除到期清除與刪帳號與索引例外中的 bigFiveAttempts 處理、移除 useExploration 與入口卡片中的大五處理、更新固定內容覆蓋預期總數、以 REMOVED 需求移除主 spec big-five-test；MUST 先清資料再移除處理程式，刪除正式資料前 MUST 再向使用者確認。 | must | 7 | ✘ | CTX-CON-025, CTX-CON-012, CTX-EXT-005, CTX-ASM-024 |
+| FR-072 | 每個自我分析都能在多維度分析中被選擇 | 系統 SHALL 讓登錄表中的每一種自我分析都能在多維度分析中與既有系統任意組合（至少兩個系統），由 AI 交叉比對；分析定義 MUST 提供報告轉接（事實、解讀、特質術語）、特質映射與基礎點數，缺少任一項 MUST NOT 能登錄；使用者 SHALL 只能選擇自己有未到期結果的分析，沒有結果的顯示不可選並引導去做測驗；選擇後 MUST 以最新一筆未到期結果為輸入；訪客 MUST NOT 取得多維度分析。 | must | 7 | ✘ | CTX-CON-026, CTX-CON-014, CTX-CON-021, CTX-ACTOR-002, CTX-ASM-025 |
+| FR-073 | 自我分析在組合中的點數與映射覆蓋 | 自我分析在多維度組合中的點數 SHALL 沿用既有算法（各系統基礎點數加總 × 1.2 無條件捨去、上限 30、至少兩個系統），每個自我分析 MUST 有明確的基礎點數；每個自我分析的特質映射 MUST 通過既有的覆蓋檢查、以「傾向」描述並經審稿後才可納入多維度分析。 | must | 7 | ✘ | CTX-CON-026, CTX-CON-014, CTX-ASM-025 |
+| FR-074 | 單維度報告（規則版） | 系統 SHALL 為星座、血型、生命靈數、MBTI、瑪雅 Kin、八字、人類圖等穩定特質系統提供單維度報告，由規則與預寫片段組裝、全部免費、MUST NOT 呼叫 AI、MUST NOT 扣點；報告依固定順序含位置結論、系統的事實與解讀、本系統的歸納、影響面向推測、建議與反思、依據與限制；歸納中每一條推論 MUST 引用系統事實中的具體項目，找不到事實支持的推論 MUST NOT 產生；缺少必要資料（例如出生時間）的區塊 MUST 標示缺少並顯示補填提示，MUST NOT 以猜測值代替。 | must | 7 | ✘ | CTX-CON-027, CTX-CON-007, CTX-CON-009, CTX-ACTOR-001 |
+| FR-075 | 影響面向、系統性質標籤與時間性內容標示 | 單維度報告 SHALL 為每個歸納面向展開影響面向推測（時間、對象、生活領域），只顯示有片段的格子，MUST NOT 以其他組合代替；過去的格子 MUST 為假設並附確認問題，使用者的回答 MUST NOT 被儲存；每份報告 SHALL 顯示該系統的性質標籤（MBTI 明標為自製問卷、不等於官方量表）；八字大運與流年、生命靈數流年數等時間性內容 MUST 標示依據的系統與產生日期，其他系統的時間解讀 MUST 標示為依特質的推測。 | must | 7 | ✘ | CTX-CON-027, CTX-CON-028, CTX-CON-016, CTX-CON-015, CTX-ACTOR-001 |
+| FR-076 | 狀態系統的精簡報告 | 系統 SHALL 為塔羅、盧恩與星座運勢提供精簡報告，只含位置結論、事實與解讀、建議與反思、依據與限制，MUST NOT 含本系統的歸納與影響面向推測；塔羅與盧恩須已登入且當天已抽才能產生，缺少時回明確的原因；這些每日報告 MUST NOT 寫入快照。 | should | 7 | ✘ | CTX-CON-027, CTX-CON-018, CTX-CON-029, CTX-ACTOR-001 |
+| FR-077 | 單維度 AI 進階分析 | 系統 SHALL 讓已登入使用者花 1 點取得單維度的 AI 進階分析；扣點 MUST 以冪等鍵防止重複，生成或品質檢查失敗 MUST 退點，點數不足 MUST 拒絕且不呼叫 AI；輸入 MUST 只含事實與規則找出的面向，不含使用者自由文字；輸出每段 MUST 標為 AI 綜合推論並附依據；結果 MUST 寫入快照獨立的 ai 欄位，MUST NOT 改動規則產生的基本內容，再次分析只替換 ai。 | must | 7 | ✘ | CTX-CON-027, CTX-CON-014, CTX-CON-009, CTX-EXT-002, CTX-ACTOR-002 |
+| FR-078 | 多維度報告 | 系統 SHALL 讓已登入使用者把至少兩個穩定特質系統放在同一套特質本體上，由規則組裝成報告並存為快照，再由 AI 針對這個人改寫洞見（AI 解讀已含在價格內）；價格 = 各系統基本價之和 × 1.2 無條件捨去、上限 30 點；請求 MUST 帶 Idempotency-Key，重複請求只回報目前狀態且不重複扣點；回 202 與快照 id，之後輪詢 aiJob 與 ai；缺少資料回 422（PROFILE_REQUIRED、BLOOD_REQUIRED、MBTI_REQUIRED、BIRTH_TIME_REQUIRED、BIRTH_PLACE_REQUIRED）、規則找不到任何洞見回 422（NO_INSIGHTS），皆不扣點；失敗 MUST 退點；訪客 MUST NOT 取得。 | must | 7 | ✘ | CTX-CON-027, CTX-CON-028, CTX-CON-014, CTX-ASM-026, CTX-EXT-002, CTX-ACTOR-002 |
+| FR-079 | 報告快照的內容 | 系統 SHALL 為每份已發布的報告儲存快照：位置結論、各區塊當時的全文（不只存固定內容的參照）、所用系統、版本資訊（ontology、mapping、fragments、templates）、計算依據與產生時間；每一段 MUST 標示種類（事實、系統解讀、AI 綜合推論、使用者自述之一）與來源，缺種類 MUST 被拒絕；時間性內容 MUST 隨快照存入並標示產生日期，MUST NOT 隨年份自動更新。 | must | 7 | ✘ | CTX-CON-029, CTX-CON-027, CTX-ACTOR-001 |
+| FR-080 | 報告快照的存取、期限與清除 | 快照 MUST 僅本人可讀（他人讀取回找不到，不洩漏存在與否），API 輸入輸出 MUST 通過 schema 驗證；快照 SHALL 保存 6 個月，由每日到期作業清除，MUST NOT 對此集合開 Firestore TTL；刪除帳號與刪除資料的「報告」範圍 MUST 清除其全部快照，其他範圍 MUST NOT 動到快照；每人快照數有上限，超過時 MUST 先刪最舊的一份；相同的基本報告只保存一份，AI 分析不使它變成另一份；ai 只能加到本人、未到期的快照上。 | must | 7 | ✘ | CTX-CON-029, CTX-CON-012, CTX-CON-006, CTX-EXT-005, CTX-ASM-027, CTX-ACTOR-001 |
+| FR-081 | 特質本體 | 系統 SHALL 定義 28 條兩極特質軸（思考與認知、行動與節奏、情緒與表達、人際與關係、價值與動機五組），每條軸有穩定 ID 與恰好兩個端點，每個端點有名稱、說明與過度時的樣子，命名 MUST 為中性；另定義三組情境軸（時間 3、對象 10、生活領域 10，領域不含「人際關係」）；軸與端點 ID MUST 唯一且一經發布 MUST NOT 重用；內容改動 MUST 同步提高 ONTOLOGY_VERSION。 | must | 7 | ✘ | CTX-CON-028, CTX-ACTOR-003 |
+| FR-082 | 特質映射與覆蓋檢查 | 系統 SHALL 為每個系統提供映射條目（system、term、axisEnd、method），term MUST 為該系統真實存在的原語彙、axisEnd MUST 存在、MUST NOT 帶強度或信心；MBTI、人類圖、八字用結構式，星座、血型、生命靈數、瑪雅 Kin 用關鍵字式；八字十神語句 MUST NOT 映射；塔羅、盧恩、星座運勢標為 state，MUST NOT 進穩定特質映射；56 個端點每一個 MUST 至少有一條映射，或列在已確認無來源的清單（清單不得過期）；整體覆蓋率低於 80% MUST 失敗；映射標示 sourceGroup，內容改動 MUST 同步提高 MAPPING_VERSION。 | must | 7 | ✘ | CTX-CON-028, CTX-ACTOR-003 |
+| FR-083 | 情境片段 | 系統 SHALL 以（特質軸端點、情境值）為鍵提供預寫的一句話片段（10 個對象與 10 個生活領域）；時間值（過去、現在、未來）由模板產生；過去 MUST 為假設並附確認問題，未來只談傾向與可準備的方向，MUST NOT 使用醫療、法律、財務用語；片段 MUST 有覆蓋檢查，內容改動 MUST 同步提高 FRAGMENT_VERSION。 | must | 7 | ✘ | CTX-CON-028, CTX-CON-016, CTX-ACTOR-003 |
+| FR-084 | 計算依據（basis） | 系統 SHALL 為每份報告的事實附計算依據：系統（取自固定清單）、方法、規則版本與計算所用的輸入（只含必要欄位）；各重算型系統有規則版本常數與純函式 buildBasis，同一輸入與同一版規則 MUST 得到相同的 basis；塔羅與盧恩沿用現有的抽取版本，MBTI 的規則版本為作答時的測驗版本。 | must | 7 | ✘ | CTX-CON-027, CTX-CON-009, CTX-ACTOR-004 |
 
 ## Non-Functional Requirements
 
@@ -92,6 +122,14 @@ MVP = 計畫書 §15 第一版範圍（含 user 補充）。Phase 對應 §11 Ph
 | NFR-020 | compliance | 「此刻／今日」內容免責與語氣 | 100% 結果頁含免責說明；抽樣檢查 0 筆具體事件預測或專業建議 | must | CTX-CON-016, CTX-CON-001 |
 | NFR-021 | maintainability | 新增抽取型的重用性 | 未量化，需與相關人確認（例如共用程式碼比例或新增一種抽取型所需的改動檔案數） | should | CTX-CON-019 |
 | NFR-022 | accuracy | 星象計算準確度 | 未量化，需與相關人確認（與參考星曆比對的容許誤差，例如黃經差距） | should | CTX-EXT-008, CTX-CON-017 |
+| NFR-023 | maintainability | 新增一種自我分析的成本 | 未量化，需與相關人確認（例如新增一種分析所需的改動檔案數上限） | should | CTX-CON-021 |
+| NFR-024 | correctness | 計分的決定性 | 每個分析的計分測試通過；並列與切點邊界各有測試 | must | CTX-CON-021 |
+| NFR-025 | compliance | 內容無診斷用語 | 全文搜尋疾病、症、治療、障礙等字眼 0 筆不當使用；100% 結果頁含免責與註明 | must | CTX-CON-024, CTX-CON-022, CTX-CON-001 |
+| NFR-026 | privacy | 訪客與日誌的隱私 | 訪客送出後資料庫新增 0 份文件；日誌抽樣 0 筆含作答或結果內容 | must | CTX-CON-023, CTX-CON-006 |
+| NFR-027 | reliability | 移除大五人格的完整性 | 移除後 bigFiveAttempts 與 BIGFIVE 文件各為 0 筆；覆蓋檢查顯示缺少、未發佈、多出皆為 0；pnpm lint、pnpm test、nuxt build 通過 | must | CTX-CON-025, CTX-CON-012 |
+| NFR-028 | performance | 多維度組合的輸入長度與成本 | 未量化，需與相關人確認（最大組合的輸入 token 數與單份費用上限） | should | CTX-CON-026, CTX-CON-007, CTX-CON-014 |
+| NFR-029 | correctness | 映射覆蓋率與版本同步 | 覆蓋率檢查通過（≥ 80%）；未列入無來源清單的端點 0 個沒有映射；改動內容時版本常數同步提高的測試通過 | must | CTX-CON-028 |
+| NFR-030 | reliability | 報告快照的一致性 | 並行 N 次相同請求，快照只有 1 份且扣點一次；寫入 AI 分析前後基本內容相同 | must | CTX-CON-029, CTX-CON-014 |
 
 ## 待確認（已採納建議，以下為尚待落實或需外部確認）
 
@@ -111,3 +149,20 @@ MVP = 計畫書 §15 第一版範圍（含 user 補充）。Phase 對應 §11 Ph
 
 - 即時星象報告 PDF：是否扣點、下載或寄 email、是否共用 FR-034 的機制（CTX-ASM-019、FR-054）
 - 即時星象點數價格：需量測單份 AI 成本後決定（CTX-CON-017）
+
+## 「自我分析擴充」類待確認（2026-11-02）
+
+已確認：每一種單維度自我分析都要能在多維度分析中被選擇（CTX-CON-026）；保留 HEXACO 並取代大五人格（CTX-CON-025）；所有題目自行設計並註明沒有經過信度與效度驗證（CTX-CON-022）；依附風格用兩個向度加中性象限描述；九型要有側翼，並列門檻採建議值 10 分（CTX-ASM-021）；分階段上線（第一階段 HEXACO、九型、核心價值觀、需求與動機）。
+
+- 各分析題數與核心價值觀清單（約 40 項）的內容（CTX-ASM-020、CTX-ASM-023）
+- 是否請心理學專業人士審閱自行設計的題目與內容（CTX-ASM-022）
+- 依附風格四個象限的名稱與描述用語（CTX-ASM-023）
+- 移除大五人格時是否先匯出已存結果（預設不匯出，CTX-ASM-024）；刪除正式資料前須再確認（FR-071）
+- 各自我分析在多維度組合中的基礎點數與特質映射的內容（CTX-ASM-025）；最大組合的輸入長度與成本（NFR-028）
+
+## 報告架構補進分析（2026-11-03）
+
+報告架構（單維度報告、多維度報告、報告快照、特質本體與映射、情境片段、計算依據）早已實作並歸檔，但先前未納入分析；現依已歸檔的規格補進（FR-074 至 FR-084、NFR-029 至 NFR-030）。被它取代的舊需求（FR-006、015、016、018、020、041）與舊 use case（UC-007、009、012、013）已標為 deprecated。
+
+- 舊的詳細分析（5 點、八章節）與事先算好的 summary 組合（960 種）已不存在於實作中；FR-034（詳細分析報告書寄送 email）仍保留為規劃中，但依附的詳細分析已被取代，需要重新決定它的範圍
+- 每人快照上限的實際數字見 server/services/reportSnapshot.service.ts（CTX-ASM-027）；多維度報告價格規則已實作但未重新確認（CTX-ASM-026）

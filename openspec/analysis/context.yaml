@@ -1,7 +1,7 @@
 version: 1
 generatedBy: system-analysis
-updatedAt: 2026-10-27T19:00:00+08:00
-relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category]
+updatedAt: 2026-11-03T02:30:00+08:00
+relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions]
 source: ai_personality_app_plan.md
 
 actors:
@@ -155,6 +155,42 @@ constraints:
     description: "瑪雅 Kin 分兩處呈現且共用同一套演算法：今日 Kin（依台北當日日期，歸入「此刻／今日」類，免抽取）與生日 Kin（依使用者生日，歸入命理系統常駐分析，屬恆定特質）（user 已確認）"
     source: "user 對話（2026-10-27）"
     note: "曆法已確認為 Dreamspell；內容量未定，見 CTX-ASM-015"
+  - id: CTX-CON-021
+    category: business
+    description: "新增八種自我分析（九型人格、HEXACO、VIA 品格優勢、RIASEC 職業興趣、情緒智商、依附風格、核心價值觀、需求與動機）為免費、不扣點、固定題目與規則計分、結果文字事先寫好，不呼叫 AI（CTX-CON-007）；共用同一個測驗框架，新增一種分析不另寫一組 service、API 與頁面"
+    source: "openspec/changes/expand-self-analysis-dimensions/proposal.md、design.md 決定 1"
+  - id: CTX-CON-022
+    category: business
+    description: "所有題目一律自行設計，不翻譯、不改寫任何既有量表（VIA-IS、HEXACO-PI-R、ECR-R、BPNSFS、O*NET 等有版權或需授權）；因為沒有經過信度與效度驗證，每個測驗頁與結果頁須註明，版本識別帶 ref 標記；不使用百分位、常模或「精準」的說法（user 已確認）"
+    source: "user 對話（2026-11-02：「需註明題目都是自行設計, 不具有信度效度驗證」）；design.md 決定 6"
+  - id: CTX-CON-023
+    category: business
+    description: "自我分析結果的保存比照其他測驗結果：登入者保存 3 個月、到期自動清除、刪帳號與刪除測驗結果時一併刪除；訪客的結果不寫入任何伺服器文件，只留在當次瀏覽器 session（延伸 CTX-CON-012）"
+    source: "design.md 決定 2、3；延伸自 CTX-CON-012"
+  - id: CTX-CON-024
+    category: business
+    description: "結果內容守則：用「傾向」的語氣，不使用診斷用語，不提疾病、情緒障礙或治療，不與他人比較，不貼固定類型標籤；RIASEC 只描述興趣、不判定能力或職業適性；依附風格以兩個連續向度描述，不使用臨床標籤；EQ 不給單一總分並說明情緒能力可以練習；核心價值觀不評價價值的高下（延伸 CTX-CON-001、CTX-CON-016）"
+    source: "design.md 決定 7；user 附圖的注意事項（避免固定標籤或臨床診斷、興趣不等於能力）"
+  - id: CTX-CON-025
+    category: business
+    description: "HEXACO 取代現有的大五人格測驗：HEXACO 上線並確認可用後，把大五人格整個從產品中移除（頁面、API、入口、BIGFIVE 固定內容、已存結果、到期與刪帳號處理、主 spec）；移除會刪除正式資料（使用者的 bigFiveAttempts 與 Firestore 的 BIGFIVE 內容），執行前須再向使用者確認（user 已確認要移除）"
+    source: "user 對話（2026-11-02：「保留 HEXACO，移除大五人格」，並選擇「把大五人格測驗從產品中移除」）；design.md 決定 8"
+  - id: CTX-CON-026
+    category: business
+    description: "產品目標（user 已確認）：使用者做過的每一種單維度自我分析，都能在多維度分析中任選組合，由 AI 進行交叉比對；因此新增的八種自我分析都必須可在多維度分析中被選擇，每個分析須提供報告轉接、特質映射與組合中的基礎點數；使用者需有該分析未到期的結果才可選擇，訪客仍不可取得多維度分析（CTX-CON-014）"
+    source: "user 對話（2026-11-02：「本 app 目標是希望使用者做的每一種單維度自我分析，可以任選組合並讓 ai 進行進一步深入的交叉比對分析(多維度), 因此每一種單維度分析都應該要可以在多維度分析內供選擇」）"
+  - id: CTX-CON-027
+    category: business
+    description: "報告架構（已實作）：單維度報告由規則與預寫片段組裝，免費、不呼叫 AI、不扣點；多維度報告把至少兩個穩定特質系統放在同一套特質本體上由規則組裝，付費（點數），並由 AI 針對這個人改寫洞見；兩者都存為報告快照；AI 進階分析寫入快照獨立的 ai 欄位，不改動規則產生的基本內容"
+    source: "openspec/specs/single-dimension-report/spec.md、openspec/specs/report-snapshots/spec.md；POST /multi-reports（API-057）"
+  - id: CTX-CON-028
+    category: technical
+    description: "特質本體與映射：28 條兩極特質軸（五組、端點命名中性）與三組情境軸（時間 3、對象 10、領域 10）；各系統原語彙映射到軸端點（MBTI、人類圖、八字為結構式，星座、血型、生命靈數、瑪雅 Kin 為關鍵字式；八字十神語句不映射；塔羅、盧恩、星座運勢為狀態系統，不進穩定特質）；映射條目不帶強度；覆蓋率下限 80%；ONTOLOGY_VERSION、MAPPING_VERSION、FRAGMENT_VERSION 在內容改動時同步提高"
+    source: "openspec/specs/trait-ontology/spec.md、openspec/specs/trait-mapping/spec.md、openspec/specs/trait-context-fragments/spec.md"
+  - id: CTX-CON-029
+    category: business
+    description: "報告快照存當時全文（日後固定內容修改仍可重現）、含版本與計算依據；僅本人可讀；保存 6 個月，由每日到期作業清除，不開 Firestore TTL；每人快照數有上限，超過時刪最舊；訪客與塔羅、盧恩、星座運勢的每日報告不存快照；刪除帳號與刪除資料的「報告」範圍都清除快照"
+    source: "openspec/specs/report-snapshots/spec.md；openspec/specs/single-dimension-report/spec.md（組裝結果寫入快照）；延伸 CTX-CON-012"
 
 assumptions:
   - id: CTX-ASM-001
@@ -258,3 +294,48 @@ assumptions:
     impact: 影響 FR-054、CTX-EXT-007（若寄送 email）與點數規則
     status: pending-confirmation
     confirmedBy: "user 對話（2026-10-27：「仍能重複查看以及匯出 pdf（此功能尚未實作）」）"
+  - id: CTX-ASM-020
+    description: "各分析的題數暫定：九型 54（每型 6）、HEXACO 60（每維 10）、VIA 48（24 項各 2）、RIASEC 60（每型 10）、EQ 40（每面向 10）、依附風格 24（每向度 12）、需求與動機 18（每需求 6）；核心價值觀為從約 40 項清單挑 8 項、排出前 5"
+    impact: 影響 FR-063 至 FR-070 的題目撰寫量、測驗所需時間與結果的穩定度
+    status: pending-confirmation
+    confirmedBy: "design.md 決定 6（暫定，user 未逐項確認）"
+  - id: CTX-ASM-021
+    description: "九型人格的並列門檻暫定為最高分與次高分差距小於 10 分（0–100 分數），側翼取主型相鄰兩型中分數較高者；上線後依實測調整"
+    impact: 影響 FR-063 的並列判斷與結果呈現
+    status: partially-confirmed
+    confirmedBy: "user 對話（2026-11-02：要有側翼，門檻採建議值）；10 分為建議值"
+  - id: CTX-ASM-022
+    description: "自行設計的題目與固定內容由開發者撰寫，不等心理學專業人士審閱即可上線；是否之後請專業人士審閱尚未決定"
+    impact: 影響 FR-062 註明的措辭與內容的可信度主張
+    status: pending-confirmation
+    confirmedBy: "design.md Open Questions"
+  - id: CTX-ASM-023
+    description: "依附風格四個象限的名稱與描述用語、核心價值觀的清單（約 40 項）與各項說明，需要使用者審稿後才發佈"
+    impact: 影響 FR-068、FR-069 的內容發佈時程
+    status: pending-confirmation
+    confirmedBy: "design.md Open Questions"
+  - id: CTX-ASM-024
+    description: "移除大五人格時，使用者已存的結果不匯出、不遷移，直接刪除；各分析的上線順序為 HEXACO、九型、核心價值觀、需求與動機（第一階段），VIA、RIASEC（第二階段），EQ、依附風格（第三階段）"
+    impact: 影響 FR-071 的資料處理與各分析的上線順序
+    status: partially-confirmed
+    confirmedBy: "user 對話（2026-11-02：同意先做三種並保留 HEXACO 取代大五）；不匯出已存結果為預設，未明確確認"
+  - id: CTX-ASM-025
+    description: "各自我分析在多維度組合中的基礎點數預設 1 點（沿用組合算法：基礎點數加總 × 1.2、上限 30、至少兩個系統），需要較多運算的系統可調高；特質映射（術語 → 特質端點）由開發者撰寫並審稿，不是量表本身的內容"
+    impact: 影響 FR-072 與 FR-073 的點數與映射撰寫量，以及交叉比對的品質
+    status: pending-confirmation
+    confirmedBy: "design.md 決定 9（暫定，user 未確認點數與映射內容）"
+  - id: CTX-ASM-026
+    description: "多維度報告的價格 = 各系統基本價（人類圖 2、八字 3、其餘 1）之和 × 1.2、無條件捨去、上限 30 點、至少兩個系統；AI 解讀已含在內；此規則已在程式中實作（shared/utils/multiDimensionPricing.ts），尚未經 user 在對話中重新確認"
+    impact: 影響 FR-078 與 FR-073 的點數
+    status: partially-confirmed
+    confirmedBy: "程式實作；API-057 的描述"
+  - id: CTX-ASM-027
+    description: "每人快照數的上限為設定值（MAX_SNAPSHOTS_PER_USER，見 server/services/reportSnapshot.service.ts），保存期限 6 個月（SNAPSHOT_RETENTION_MONTHS）；分析中不寫死數字"
+    impact: 影響 FR-080
+    status: confirmed
+    confirmedBy: "已實作的 report-snapshots 規格"
+  - id: CTX-ASM-028
+    description: "報告 PDF 的下載規則沿用原詳細分析報告書的規則：每次下載扣 1 點，報告曾下載過者須提醒並經確認才重複扣點與下載；僅報告擁有者且報告未到期；PDF 讀取已保存的快照（含已有的 AI 分析），不重新呼叫 AI；交付方式由 email 寄送改為直接下載"
+    impact: 影響 FR-034、UC-021、RULE-032 與 API-061；Email 寄送服務（CTX-EXT-007）不再因此需求而需要
+    status: partially-confirmed
+    confirmedBy: "user 對話（2026-11-03：「改為下載pdf」）；扣點與重複下載規則沿用原規則，未重新確認"
