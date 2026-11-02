@@ -67,7 +67,7 @@
                             <!-- The stage: each part's own mark, the same size on every card -->
                             <div
                                 class="entry__stage"
-                                :class="{ 'entry__stage--stone': entry.result?.stone, 'entry__stage--card': entry.result?.cardIndex !== undefined }"
+                                :class="{ 'entry__stage--card': entry.result?.cardIndex !== undefined || entry.result?.runeIndex !== undefined }"
                             >
                                 <template v-if="entry.result">
                                     <span
@@ -83,10 +83,19 @@
                                         :aria-label="entry.result.main"
                                         :style="cardStyle(entry.result.cardIndex)"
                                     />
+                                    <!-- A rune is shown as its stone, turned round when it was drawn reversed -->
+                                    <span
+                                        v-else-if="entry.result.runeIndex !== undefined"
+                                        class="entry__stone"
+                                        :class="{ 'entry__stone--reversed': entry.result.reversed }"
+                                        role="img"
+                                        :aria-label="entry.result.main"
+                                        :style="spriteStyle(entry.result.runeIndex)"
+                                    />
                                     <span
                                         v-else
                                         class="entry__mark"
-                                        :class="{ 'entry__mark--reversed': entry.result.reversed, 'entry__mark--stone': entry.result.stone }"
+                                        :class="{ 'entry__mark--reversed': entry.result.reversed }"
                                     >{{ entry.result.mark }}</span>
                                 </template>
                                 <v-icon
@@ -162,7 +171,21 @@ import { ZODIAC_LABELS } from '../../shared/constants/zodiacLabels';
 import {
     TAROT_SPRITE, tarotSpriteCell,
 } from '../../shared/constants/tarotSprite';
+import {
+    RUNE_SPRITE, runeSpriteCell,
+} from '../../shared/constants/runeSprite';
 import { taipeiDateKey } from '../../shared/utils/time';
+
+/** Shows one cell of the sheet of rune pictures on the element it is set on */
+function spriteStyle(cell: number) {
+    const {
+        size, position,
+    } = runeSpriteCell(cell);
+
+    return {
+        backgroundImage: `url(${RUNE_SPRITE.url})`, backgroundSize: size, backgroundPosition: position,
+    };
+}
 
 /** Shows one cell of the sheet of tarot pictures on the element it is set on */
 function cardStyle(cell: number) {
@@ -198,10 +221,10 @@ type EntryResult = {
     mark: string;
     /** A small label above the mark */
     eyebrow?: string;
-    /** A reversed rune's character is turned around */
+    /** A reversed rune or card is turned around */
     reversed?: boolean;
-    /** The mark is laid on the picture of the stone, as the rune is on its page */
-    stone?: boolean;
+    /** The cell of the rune sheet that holds the stone with its rune */
+    runeIndex?: number;
     /** The cell of the tarot sheet that holds the picture of the card */
     cardIndex?: number;
 };
@@ -242,7 +265,7 @@ const runeResult = computed<EntryResult | null>(() => {
             sub: drawn.rune.meaning,
             mark: drawn.rune.glyph,
             reversed: drawn.rune.orientation === 'reversed',
-            stone: true,
+            runeIndex: drawn.rune.index,
         }
         : null;
 });
@@ -386,12 +409,7 @@ function back() {
     background: rgba(var(--v-theme-primary), 0.06);
 }
 
-/* The rune is on its stone, the picture of the rune page: no tint behind it */
-.entry__stage--stone {
-    background: url('/rune/stone-front.png') center / auto 100% no-repeat;
-}
-
-/* The card keeps its own 7:12 and the height of the stage; no tint behind it */
+/* The card and the stone keep their own ratio and the height of the stage; no tint behind them */
 .entry__stage--card {
     background: transparent;
 }
@@ -436,14 +454,13 @@ function back() {
     transform: rotate(180deg);
 }
 
-/* Sized to the stone (4:5 of the stage), and set in the middle of it as on the rune page */
-.entry__mark--stone {
-    font-size: calc(var(--stage-h) * 0.68);
-    line-height: 1;
-    color: #d4af60;
+.entry__stone {
+    height: 100%;
+    aspect-ratio: 4 / 5;
+    background-repeat: no-repeat;
 }
 
-.entry__mark--stone.entry__mark--reversed {
+.entry__stone--reversed {
     transform: rotate(180deg);
 }
 
@@ -529,7 +546,7 @@ function back() {
         justify-content: flex-end;
     }
 
-    .entry__mark:not(.entry__mark--stone) {
+    .entry__mark {
         font-size: 2.5rem;
     }
 }

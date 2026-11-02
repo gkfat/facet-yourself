@@ -12,6 +12,7 @@
                 :aria-label="interactive ? '抽出今天的符文' : undefined"
                 :disabled="interactive && busy ? true : undefined"
                 :tabindex="flipped ? -1 : undefined"
+                :style="spriteStyle(RUNE_SPRITE.back)"
                 @click="interactive && emit('reveal')"
             >
                 <!-- The back has no mark, the same on every stone: the rune is not told by the back -->
@@ -23,37 +24,29 @@
                 </span>
             </component>
 
-            <!-- Front: the picture when there is one, otherwise the rune's own character -->
+            <!-- Front: the stone with its rune already on it, a cell of the sheet that holds them all -->
             <div
                 class="stone__face stone__front"
                 :aria-hidden="!flipped"
             >
+                <!-- A reversed rune is the stone turned half round -->
                 <div
                     v-if="rune"
                     class="stone__art"
-                >
-                    <img
-                        v-if="rune.illustration"
-                        :src="rune.illustration"
-                        :alt="rune.name"
-                        class="stone__image"
-                        :class="{ 'stone__image--reversed': rune.orientation === 'reversed' }"
-                    >
-                    <!-- Only the rune is on the stone; a reversed rune is the character turned around -->
-                    <span
-                        v-else
-                        class="stone__glyph"
-                        role="img"
-                        :aria-label="`${rune.name}（${rune.meaning}）`"
-                        :class="{ 'stone__glyph--reversed': rune.orientation === 'reversed' }"
-                    >{{ rune.glyph }}</span>
-                </div>
+                    :class="{ 'stone__art--reversed': rune.orientation === 'reversed' }"
+                    role="img"
+                    :aria-label="`${rune.name}（${rune.meaning}）`"
+                    :style="spriteStyle(rune.index)"
+                />
             </div>
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
+import {
+    RUNE_SPRITE, runeSpriteCell,
+} from '../../../shared/constants/runeSprite';
 import type { RuneResponse } from '../../../shared/schemas/api/rune.schema';
 
 withDefaults(defineProps<{
@@ -73,6 +66,17 @@ withDefaults(defineProps<{
 });
 
 const emit = defineEmits<{ reveal: [] }>();
+
+/** Shows one cell of the sheet of stones on the element it is set on */
+function spriteStyle(cell: number) {
+    const {
+        size, position,
+    } = runeSpriteCell(cell);
+
+    return {
+        backgroundImage: `url(${RUNE_SPRITE.url})`, backgroundSize: size, backgroundPosition: position,
+    };
+}
 </script>
 
 <style scoped>
@@ -106,9 +110,7 @@ const emit = defineEmits<{ reveal: [] }>();
     padding: 0;
     border: 0;
     background-color: transparent;
-    background-position: center;
     background-repeat: no-repeat;
-    background-size: 100% 100%;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
 }
@@ -116,7 +118,6 @@ const emit = defineEmits<{ reveal: [] }>();
 /* The stone is drawn flat in a picture of its own; the shadow is part of it */
 .stone__back {
     color: #d8dee9;
-    background-image: url('/rune/stone-back.png');
 }
 
 button.stone__back {
@@ -137,43 +138,16 @@ button.stone__back:focus-visible {
 
 .stone__front {
     transform: rotateY(180deg);
-    background-image: url('/rune/stone-front.png');
 }
 
 .stone__art {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
     width: 100%;
     height: 100%;
-    /* Inside the gold line of the picture */
-    padding: 0;
-    text-align: center;
-    color: #deb978;
+    background-repeat: no-repeat;
 }
 
-.stone__glyph {
-    font-size: calc(var(--stone-width, min(200px, 56vw)) * 0.85);
-    line-height: 1;
-    /* The glyph sits a little high in its line box; this puts it in the middle of the stone */
-    color: #d4af60;
-}
-
-/* Turned around, the glyph sits as low as it sat high, so it is moved the other way */
-.stone__glyph--reversed {
+.stone__art--reversed {
     transform: rotate(180deg);
-}
-
-.stone__image--reversed {
-    transform: rotate(180deg);
-}
-
-.stone__image {
-    width: 70%;
-    height: 55%;
-    object-fit: contain;
 }
 
 @media (prefers-reduced-motion: reduce) {
