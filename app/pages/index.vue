@@ -344,6 +344,7 @@
 import {
     BAZI_ENTRY_ENABLED, ELEMENT_LABELS,
 } from '../../shared/constants/bazi';
+import { BIG_FIVE_ENTRY_ENABLED } from '../../shared/constants/bigFive';
 import { KIN_ENTRY_ENABLED } from '../../shared/constants/mayaKin';
 import {
     BLOOD_TYPE_LABELS, GENDER_LABELS, ZODIAC_LABELS,
@@ -463,6 +464,11 @@ const systems = [
             {
                 title: 'MBTI', tone: '#2f5d8a', text: '16 型人格，從回答問題的方式看如何獲取能量、接收資訊與做決定',
             },
+            ...(BIG_FIVE_ENTRY_ENABLED
+                ? [{
+                    title: '大五人格', tone: '#2e7d5b', text: '50 題，看開放性、盡責性、外向性、親和性與情緒敏感性各偏向哪一端',
+                }]
+                : []),
         ],
     },
 ];
@@ -596,6 +602,22 @@ const analyses = computed<Analysis[]>(() => {
             ready: true,
             to: mbti ? '/full-report/mbti' : '/test',
         },
+        ...(BIG_FIVE_ENTRY_ENABLED
+            ? [{
+                key: 'bigFive',
+                system: 'personality' as const,
+                title: '大五人格',
+                icon: 'mdi-chart-bar',
+                tone: '#2e7d5b',
+                description: '回答 50 題，看你在五個特質上偏向哪一端，也能與 MBTI 對照。',
+                need: progress.value.bigFiveDone ? '需要：大五人格測驗（已完成）' : '需要：回答 50 題，約 10 分鐘',
+                action: progress.value.bigFiveDone ? '看大五人格結果' : '開始測驗',
+                lockedHint: '開始測驗',
+                // The test is the way in, so it is always open
+                ready: true,
+                to: progress.value.bigFiveDone ? '/analysis/big-five' : '/big-five',
+            }]
+            : []),
     ];
 });
 

@@ -407,6 +407,52 @@ paths:
                   "$ref": "#/components/schemas/TestAttempt"
         "401":
           "$ref": "#/components/responses/Unauthorized"
+  "/big-five/results":
+    post:
+      operationId: submitBigFive
+      summary: "送出大五人格作答並取得結果"
+      description: "後端依固定規則計分（反向題反轉、平均、換算 0–100、分低／中／高三級），回傳五個特質的固定內容；已有 MBTI 結果時一併回傳四組對照。已登入者保存作答與分數 3 個月，訪客不寫入任何文件，結果只顯示。內容尚未發佈時回 404 且不保存。"
+      tags: [Tests]
+      security:
+        - bearerAuth: []
+        - guestSession: []
+        - {}
+      parameters:
+        - "$ref": "#/components/parameters/GuestSessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/BigFiveSubmissionRequest"
+      responses:
+        "200":
+          description: "大五人格結果"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/BigFiveResult"
+        "400":
+          "$ref": "#/components/responses/ValidationError"
+        "404":
+          "$ref": "#/components/responses/NotFound"
+  "/big-five/results/latest":
+    get:
+      operationId: getLatestBigFive
+      summary: "取得我最新的大五人格結果"
+      description: "回傳最新一筆未到期的結果（含內容與目前的 MBTI 對照）；沒有則 404。"
+      tags: [Tests]
+      responses:
+        "200":
+          description: "大五人格結果"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/BigFiveResult"
+        "401":
+          "$ref": "#/components/responses/Unauthorized"
+        "404":
+          "$ref": "#/components/responses/NotFound"
   "/human-design/calculations":
     post:
       operationId: calculateHumanDesign
@@ -1660,6 +1706,113 @@ components:
           type: string
           format: date-time
       required: [attemptId, testId, testVersion, result, completedAt, expiresAt]
+    BigFiveSubmissionRequest:
+      type: object
+      properties:
+        version:
+          type: string
+          description: "題目版本，目前為 ipip50-zh-v1"
+        answers:
+          type: array
+          description: "50 題各一個作答，值為 1 至 5 的整數"
+          items:
+            type: object
+            properties:
+              questionId:
+                type: string
+              value:
+                type: integer
+                minimum: 1
+                maximum: 5
+            required: [questionId, value]
+      required: [version, answers]
+    BigFiveResult:
+      type: object
+      properties:
+        version:
+          type: string
+        traits:
+          type: array
+          items:
+            type: object
+            properties:
+              trait:
+                type: string
+                enum: [openness, conscientiousness, extraversion, agreeableness, neuroticism]
+              name:
+                type: string
+              score:
+                type: integer
+                minimum: 0
+                maximum: 100
+                description: "使用者自己的作答偏向該特質高端的程度，不是與他人比較的名次"
+              level:
+                type: string
+                enum: [low, mid, high]
+              content:
+                "$ref": "#/components/schemas/FixedResultContent"
+            required: [trait, name, score, level, content]
+        combinations:
+          type: array
+          description: "兩個特質合起來的說法：只有兩個特質都不是居中的組合才有"
+          items:
+            type: object
+            properties:
+              traits:
+                type: array
+                minItems: 2
+                maxItems: 2
+                items:
+                  type: string
+                  enum: [openness, conscientiousness, extraversion, agreeableness, neuroticism]
+              sides:
+                type: array
+                minItems: 2
+                maxItems: 2
+                items:
+                  type: string
+                  enum: [high, low]
+              content:
+                "$ref": "#/components/schemas/FixedResultContent"
+            required: [traits, sides, content]
+        mbti:
+          allOf:
+            - "$ref": "#/components/schemas/MbtiType"
+          nullable: true
+        comparison:
+          type: array
+          description: "與 MBTI 的四組對照（沒有 MBTI 時為空）"
+          items:
+            type: object
+            properties:
+              pair:
+                type: string
+                enum: [ei, sn, tf, jp]
+              trait:
+                type: string
+              letter:
+                type: string
+              result:
+                type: string
+                enum: [match, differ, neutral]
+              content:
+                allOf:
+                  - "$ref": "#/components/schemas/FixedResultContent"
+                nullable: true
+            required: [pair, trait, letter, result, content]
+        completedAt:
+          type: integer
+          format: int64
+        persisted:
+          type: boolean
+          description: "訪客為 false"
+        saveFailed:
+          type: boolean
+        expiresAt:
+          type: integer
+          format: int64
+          nullable: true
+      required: [version, traits, combinations, mbti, comparison, completedAt, persisted, saveFailed, expiresAt]
     CombinationKey:
       type: object
       description: "多維度分析用到的維度；沒選的維度為 null"
@@ -2185,7 +2338,9 @@ components:
           type: integer
         deletedReportSnapshots:
           type: integer
-      required: [deletedAttempts, deletedReportSnapshots]
+        deletedBigFiveAttempts:
+          type: integer
+      required: [deletedAttempts, deletedReportSnapshots, deletedBigFiveAttempts]
     TodayStatus:
       type: object
       properties:

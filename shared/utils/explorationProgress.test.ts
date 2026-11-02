@@ -19,6 +19,7 @@ describe('explorationProgress', () => {
             total: 7,
             multiDimensionUnlocked: false,
             next: 'ZODIAC',
+            bigFiveDone: false,
         });
     });
 
@@ -81,5 +82,22 @@ describe('explorationProgress', () => {
 
         expect(all.completed).toBe(7);
         expect(all.next).toBeNull();
+    });
+
+    describe('the Big Five result', () => {
+        it('is told apart from the layers: it changes neither their count nor what can be combined', () => {
+            const without = explorationProgress(none);
+            const withBigFive = explorationProgress({
+                ...none, hasBigFive: true,
+            });
+
+            expect(without.bigFiveDone).toBe(false);
+            expect(withBigFive.bigFiveDone).toBe(true);
+            expect(withBigFive.completed).toBe(without.completed);
+            expect(withBigFive.total).toBe(without.total);
+            expect(withBigFive.multiDimensionUnlocked).toBe(false);
+            expect(withBigFive.next).toBe(without.next);
+            expect(withBigFive.done).toEqual(without.done);
+        });
     });
 });

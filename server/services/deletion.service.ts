@@ -13,7 +13,7 @@ const BATCH_LIMIT = 400;
 
 /** Sub-collections removed by each data scope. */
 const SCOPE_COLLECTIONS: Record<DeleteDataScope, readonly string[]> = {
-    RESULTS: ['testAttempts'],
+    RESULTS: ['testAttempts', 'bigFiveAttempts'],
     // A report kept as a snapshot is a report: deleting the member's reports deletes it too
     REPORTS: ['reportSnapshots'],
     HUMAN_DESIGN: ['humanDesign'],

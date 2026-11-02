@@ -3,6 +3,7 @@ import {
 } from 'vitest';
 import {
     baziContentKeys,
+    bigFiveContentKeys,
     expectedFixedContentIds,
     fixedContentId,
     isValidContentKey,
@@ -59,6 +60,43 @@ describe('isValidContentKey', () => {
             'aries',
         ]) {
             expect(isValidContentKey('BAZI', key), key).toBe(false);
+        }
+    });
+});
+
+describe('BIGFIVE keys', () => {
+    it('has the 15 trait contents, the 8 comparisons and the 24 combinations, each a legal key', () => {
+        const keys = bigFiveContentKeys();
+
+        expect(keys).toHaveLength(47);
+        expect(new Set(keys).size).toBe(47);
+
+        for (const key of keys) expect(isValidContentKey('BIGFIVE', key), key).toBe(true);
+    });
+
+    it('accepts the trait contents and the comparisons named in the design', () => {
+        expect(isValidContentKey('BIGFIVE', 'openness_high')).toBe(true);
+        expect(isValidContentKey('BIGFIVE', 'neuroticism_low')).toBe(true);
+        expect(isValidContentKey('BIGFIVE', 'compare_ei_differ')).toBe(true);
+        expect(isValidContentKey('BIGFIVE', 'compare_jp_match')).toBe(true);
+        expect(isValidContentKey('BIGFIVE', 'combo_openness_conscientiousness_high_low')).toBe(true);
+        expect(isValidContentKey('BIGFIVE', 'combo_extraversion_neuroticism_low_low')).toBe(true);
+    });
+
+    it('rejects a level, a pair or a verdict that does not exist', () => {
+        for (const key of [
+            'openness_extreme',
+            'openness',
+            'agreeable_high',
+            'compare_xx_match',
+            'compare_ei_neutral',
+            'compare_ei',
+            'extraversion_high_',
+            'combo_openness_conscientiousness_mid_high',
+            'combo_conscientiousness_openness_high_high',
+            'combo_openness_agreeableness_high_high',
+        ]) {
+            expect(isValidContentKey('BIGFIVE', key), key).toBe(false);
         }
     });
 });
@@ -216,9 +254,9 @@ describe('baziContentKeys', () => {
 describe('expectedFixedContentIds', () => {
     const ids = expectedFixedContentIds();
 
-    it('lists 44 single results, 123 BaZi contents and 44 tarot contents, 520 Kin contents and 39 rune contents and 60 sign horoscope contents, all unique', () => {
-        expect(ids).toHaveLength(830);
-        expect(new Set(ids).size).toBe(830);
+    it('lists 44 single results, 123 BaZi contents and 44 tarot contents, 520 Kin contents and 39 rune contents and 60 sign horoscope contents and 47 Big Five contents, all unique', () => {
+        expect(ids).toHaveLength(877);
+        expect(new Set(ids).size).toBe(877);
         expect(ids.filter((id) => id.startsWith('ZODIAC_'))).toHaveLength(12);
         expect(ids.filter((id) => id.startsWith('BLOOD_'))).toHaveLength(4);
         expect(ids.filter((id) => id.startsWith('MBTI_'))).toHaveLength(16);
@@ -229,6 +267,7 @@ describe('expectedFixedContentIds', () => {
         expect(ids.filter((id) => id.startsWith('KIN_TODAY_'))).toHaveLength(260);
         expect(ids.filter((id) => id.startsWith('RUNE_'))).toHaveLength(39);
         expect(ids.filter((id) => id.startsWith('HOROSCOPE_'))).toHaveLength(60);
+        expect(ids.filter((id) => id.startsWith('BIGFIVE_'))).toHaveLength(47);
     });
 
     it('uses the same id format as fixedContentId', () => {

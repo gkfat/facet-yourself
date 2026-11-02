@@ -20,6 +20,8 @@ export type ExplorationFacts = {
     bloodType: BloodType;
     mbti: string | null;
     hasHumanDesign: boolean;
+    /** A Big Five result that has not expired; it is not one of the layers a multi-dimension analysis combines */
+    hasBigFive?: boolean;
 };
 
 export type ExplorationProgress = {
@@ -30,6 +32,8 @@ export type ExplorationProgress = {
     multiDimensionUnlocked: boolean;
     /** The layer to suggest next, or null when everything is done. */
     next: ExplorationLayer | null;
+    /** The Big Five result is there. Kept apart from the layers: it changes neither their count nor what can be combined. */
+    bigFiveDone: boolean;
 };
 
 const MIN_ANALYSIS_DIMENSIONS = 2;
@@ -62,5 +66,6 @@ export function explorationProgress(facts: ExplorationFacts): ExplorationProgres
         total: EXPLORATION_LAYERS.length,
         multiDimensionUnlocked: EXPLORATION_LAYERS.filter((layer) => done[layer]).length >= MIN_ANALYSIS_DIMENSIONS,
         next: SUGGESTION_ORDER.find((layer) => !done[layer]) ?? null,
+        bigFiveDone: facts.hasBigFive === true,
     };
 }

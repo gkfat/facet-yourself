@@ -46,6 +46,22 @@ export const growthPracticeSchema = z.object({
     weeklyPractice: z.string().min(1),
 });
 
+/** The same trait in five everyday areas: what it looks like at work or study, with people, under stress, in a decision and in habits. */
+export const lifeContextsSchema = z.object({
+    work: z.string().min(1),
+    relationships: z.string().min(1),
+    stress: z.string().min(1),
+    decision: z.string().min(1),
+    habits: z.string().min(1),
+});
+
+/** What to build on, what habit to notice, and a question to think over. */
+export const growthReflectionSchema = z.object({
+    useStrength: z.string().min(1),
+    watchHabit: z.string().min(1),
+    reflectionQuestion: z.string().min(1),
+});
+
 /** Content body: shared by single results and summaries (plan 5.2). */
 export const fixedContentBodySchema = z.object({
     title: z.string().min(1),
@@ -67,6 +83,10 @@ export const fixedContentBodySchema = z.object({
     overuse: z.array(overuseSchema).default([]),
     /** Layer 3: growth the reader can act on */
     growthPractice: growthPracticeSchema.nullable().default(null),
+    /** How the trait shows in daily behaviour, in the areas of everyday life, and what to build on and reflect on (the Big Five report) */
+    dailyBehavior: z.string().default(''),
+    lifeContexts: lifeContextsSchema.nullable().default(null),
+    growthReflection: growthReflectionSchema.nullable().default(null),
     /** Every result must carry the entertainment / self-exploration disclaimer (RULE-023). */
     disclaimer: z.string().min(1),
 });

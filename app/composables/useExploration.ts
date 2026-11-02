@@ -5,6 +5,7 @@ import type { GuestProfileResponse } from '../../shared/schemas/api/guest.schema
 import type {
     BloodType, Gender,
 } from '../../shared/schemas/common';
+import { BIG_FIVE_ENTRY_ENABLED } from '../../shared/constants/bigFive';
 import {
     explorationProgress, type ExplorationFacts,
 } from '../../shared/utils/explorationProgress';
@@ -27,6 +28,7 @@ type ExplorationState = {
     gender: Gender | null;
     mbti: string | null;
     hasHumanDesign: boolean;
+    hasBigFive: boolean;
 };
 
 function emptyState(): ExplorationState {
@@ -37,6 +39,7 @@ function emptyState(): ExplorationState {
         gender: null,
         mbti: null,
         hasHumanDesign: false,
+        hasBigFive: false,
     };
 }
 
@@ -46,6 +49,19 @@ function statusOf(error: unknown): number | undefined {
     const candidate = error as { statusCode?: number; status?: number };
 
     return candidate.statusCode ?? candidate.status;
+}
+
+/** A guest's Big Five result lives in this tab only */
+function guestHasBigFive(): boolean {
+    if (!BIG_FIVE_ENTRY_ENABLED || !import.meta.client) return false;
+
+    try {
+        return sessionStorage.getItem('bigFiveResult') !== null;
+    } catch (error) {
+        console.warn('[useExploration] sessionStorage unavailable:', error);
+
+        return false;
+    }
 }
 
 /**
@@ -76,12 +92,29 @@ export const useExploration = () => {
         bloodType: state.value.bloodType,
         mbti: state.value.mbti,
         hasHumanDesign: state.value.hasHumanDesign,
+        hasBigFive: state.value.hasBigFive,
     }));
     const progress = computed(() => explorationProgress(facts.value));
 
     const reset = () => {
         state.value = emptyState();
     };
+
+    /** Whether the member has a Big Five result that has not expired; only asked while the entrances to the test are shown */
+    async function memberHasBigFive(): Promise<boolean> {
+        if (!BIG_FIVE_ENTRY_ENABLED) return false;
+
+        try {
+            await get('/api/big-five/results/latest');
+
+            return true;
+        } catch (error) {
+            // 404 only means no result yet.
+            if (statusOf(error) !== 404) console.error('[useExploration] Big Five check failed:', error);
+
+            return false;
+        }
+    }
 
     async function loadMember(): Promise<ExplorationState> {
         const profile = await get<ProfileResponse>('/api/profile');
@@ -102,6 +135,7 @@ export const useExploration = () => {
             gender: profile.gender,
             mbti: profile.mbti,
             hasHumanDesign,
+            hasBigFive: await memberHasBigFive(),
         };
     }
 
@@ -109,7 +143,9 @@ export const useExploration = () => {
         // After a page reload the id is only in sessionStorage until it is read back.
         restore();
 
-        if (!sessionId.value) return emptyState();
+        if (!sessionId.value) return {
+            ...emptyState(), hasBigFive: guestHasBigFive(),
+        };
 
         try {
             const profile = await get<GuestProfileResponse>(`/api/guest-sessions/${sessionId.value}/profile`, {}, 'optional');
@@ -121,6 +157,7 @@ export const useExploration = () => {
                 gender: profile.gender,
                 mbti: profile.mbti,
                 hasHumanDesign: profile.hasHumanDesign,
+                hasBigFive: guestHasBigFive(),
             };
         } catch (error) {
             // An expired session is gone: start over without it.

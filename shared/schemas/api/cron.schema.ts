@@ -7,6 +7,7 @@ export const dataExpiryResultSchema = z.object({
     deletedKinUnlocks: z.number().int().nonnegative(),
     deletedRuneDraws: z.number().int().nonnegative(),
     deletedReportSnapshots: z.number().int().nonnegative(),
+    deletedBigFiveAttempts: z.number().int().nonnegative(),
     clearedMbti: z.number().int().nonnegative(),
     /** Steps that hit an error; they are retried by the next run (counts only, never content). */
     failed: z.array(z.string()),
