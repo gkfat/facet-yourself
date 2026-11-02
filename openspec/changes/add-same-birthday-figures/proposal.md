@@ -1,0 +1,30 @@
+## Why
+
+單維度報告讀完之後沒有一個輕鬆、可分享的收尾。「跟你同一天生日的歷史人物」是常見、直覺的彩蛋，讓使用者有東西可以聊，也讓報告結尾不只停在免責與限制。
+
+## What Changes
+
+- 在每一種單維度報告的**最後**新增一張「跟你同一天生日的人物」卡片，列出 3 位同月同日出生的歷史人物（姓名、出生年、一句身分說明）。
+- 適用：星座、血型、生命靈數、MBTI、瑪雅 Kin、人類圖。
+- **不適用**：八字（依使用者指示排除）。今日運勢的塔羅、盧恩、星座運勢屬狀態系統，不是單維度的長效報告，也不加。
+- 人物資料為固定內容：366 天（含 2/29）× 3 位，由程式內常數提供，不呼叫 AI、不扣點。
+- 這張卡片只依出生月日挑人物，與各系統的解讀無關；卡片標明「只是同一天出生，與你的特質沒有因果關係」。
+- 沒有出生日期的情況（血型、MBTI 報告的使用者尚未填生日）不顯示此卡片，不報錯。
+
+## Capabilities
+
+### New Capabilities
+- `same-birthday-figures`: 同月同日出生的歷史人物資料集、挑選規則（每天 3 位、2/29 處理）與在報告尾端的呈現。
+
+### Modified Capabilities
+- `single-dimension-report`: 報告區塊順序新增最後一塊「同一天生日的人物」（八字與狀態系統除外）。
+
+## Impact
+
+- `shared/constants/`：新增人物資料（依月份拆檔）與查詢函式；測試涵蓋 366 天每天恰好 3 位、無重複、年份合理。
+- `shared/report/`：`SystemReportInput` 增加選填欄位；`assembleSingleReport` 在最後輸出一塊 `figures`；`SINGLE_REPORT_TEMPLATE_VERSION` 升版。
+- `server/services/singleReport.service.ts`：各 adapter 呼叫處帶入出生日期（有才帶）。
+- `app/components/SingleReportView.vue`：以小卡片呈現，位置在報告最末。
+- 既有快照不含此區塊（測試階段不處理舊資料，重新產生即可）。
+- 無新增套件、無 API 或 Firestore schema 變更（區塊沿用既有 `SnapshotBlock`）。
+- 內容風險：人物事實（出生日期、身分）需使用者審閱；寫入前以可查證的公開資料為準，不確定者不收錄。
