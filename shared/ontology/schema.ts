@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { ASSESSMENT_SYSTEM_IDS } from '../assessments/ids.ts';
 
 /** The five groups the 28 axes are sorted into; the axis id starts with the letter of its group. */
 export const TRAIT_GROUPS = [
@@ -67,6 +68,8 @@ export const MAPPING_SYSTEMS = [
     'TAROT',
     'RUNE',
     'HOROSCOPE',
+    // The self-analyses: terms and mappings only exist for those that are defined
+    ...ASSESSMENT_SYSTEM_IDS,
 ] as const;
 
 /** Systems that describe how things are today, not a lasting trait: they never feed the stable trait mapping. */

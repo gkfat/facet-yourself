@@ -1,6 +1,7 @@
 import {
     describe, expect, it,
 } from 'vitest';
+import { assessmentContentKeys } from '../assessments';
 import {
     baziContentKeys,
     bigFiveContentKeys,
@@ -98,6 +99,21 @@ describe('BIGFIVE keys', () => {
         ]) {
             expect(isValidContentKey('BIGFIVE', key), key).toBe(false);
         }
+    });
+});
+
+describe('ASSESSMENT keys', () => {
+    it('are the keys of the registry: every one is legal, and one that is in no definition is not', () => {
+        for (const key of assessmentContentKeys()) expect(isValidContentKey('ASSESSMENT', key), key).toBe(true);
+
+        expect(isValidContentKey('ASSESSMENT', 'enneagram_type-99-nope')).toBe(false);
+        expect(isValidContentKey('ASSESSMENT', '')).toBe(false);
+    });
+
+    it('are all expected before the contents are complete', () => {
+        const ids = expectedFixedContentIds().filter((id) => id.startsWith('ASSESSMENT_'));
+
+        expect(ids).toHaveLength(assessmentContentKeys().length);
     });
 });
 
@@ -255,8 +271,8 @@ describe('expectedFixedContentIds', () => {
     const ids = expectedFixedContentIds();
 
     it('lists 44 single results, 123 BaZi contents and 44 tarot contents, 520 Kin contents and 39 rune contents and 60 sign horoscope contents and 47 Big Five contents, all unique', () => {
-        expect(ids).toHaveLength(877);
-        expect(new Set(ids).size).toBe(877);
+        expect(ids).toHaveLength(895);
+        expect(new Set(ids).size).toBe(895);
         expect(ids.filter((id) => id.startsWith('ZODIAC_'))).toHaveLength(12);
         expect(ids.filter((id) => id.startsWith('BLOOD_'))).toHaveLength(4);
         expect(ids.filter((id) => id.startsWith('MBTI_'))).toHaveLength(16);

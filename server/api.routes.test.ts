@@ -26,8 +26,6 @@ const NOT_BUILT_YET = [
     // The "此刻／今日" capabilities (add-transit-report, add-today-section)
     '/today',
     '/transit-reports',
-    // The self-assessments (change expand-self-analysis-dimensions)
-    '/assessments',
     // Downloading a report snapshot as a PDF (UC-021)
     '/report-snapshots/{}/export',
 ];

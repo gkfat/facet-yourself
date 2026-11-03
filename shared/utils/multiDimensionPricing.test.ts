@@ -1,6 +1,9 @@
 import {
     describe, expect, it,
 } from 'vitest';
+import {
+    fakeScaleAssessment, fakeSelectionAssessment,
+} from '../assessments/testing';
 import { multiReportCost } from './multiDimensionPricing';
 
 describe('multiReportCost', () => {
@@ -53,5 +56,39 @@ describe('multiReportCost', () => {
         expect(multiReportCost([])).toBeNull();
         expect(multiReportCost(['ZODIAC'])).toBeNull();
         expect(multiReportCost(['ZODIAC', 'ZODIAC'])).toBeNull();
+    });
+});
+
+describe('multiReportCost with self-analyses', () => {
+    const scale = fakeScaleAssessment();
+    const pick = fakeSelectionAssessment();
+
+    it('prices a self-analysis at the base price its definition names, as any other system', () => {
+        // (1 + 1) x 1.2 = 2.4
+        expect(multiReportCost(['ZODIAC', 'HEXACO'], [scale, pick])).toBe(2);
+        // (1 + 1 + 1) x 1.2 = 3.6
+        expect(multiReportCost([
+            'ZODIAC',
+            'HEXACO',
+            'CORE_VALUES',
+        ], [scale, pick])).toBe(3);
+        // (1 + 3) x 1.2 = 4.8
+        expect(multiReportCost(['ZODIAC', 'HEXACO'], [
+            {
+                ...scale, basePrice: 3,
+            }, pick,
+        ])).toBe(4);
+    });
+
+    it('still never costs more than the cap', () => {
+        expect(multiReportCost(['BAZI', 'HEXACO'], [
+            {
+                ...scale, basePrice: 40,
+            },
+        ])).toBe(30);
+    });
+
+    it('does not price a self-analysis that is not defined', () => {
+        expect(() => multiReportCost(['ZODIAC', 'HEXACO'], [])).toThrow('No base price for HEXACO');
     });
 });

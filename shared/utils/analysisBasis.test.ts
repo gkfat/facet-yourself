@@ -1,6 +1,7 @@
 import {
     describe, expect, it,
 } from 'vitest';
+import { ASSESSMENT_SYSTEM_IDS } from '../assessments/ids';
 import {
     ANALYSIS_SYSTEMS, analysisBasisSchema,
 } from '../schemas/analysisBasis.schema';
@@ -38,8 +39,8 @@ describe('analysisBasisSchema', () => {
 });
 
 describe('RULE_VERSIONS', () => {
-    it('gives every system but MBTI a non-empty version', () => {
-        for (const system of ANALYSIS_SYSTEMS.filter((s) => s !== 'MBTI')) {
+    it('gives every system but MBTI and the self-analyses a non-empty version', () => {
+        for (const system of ANALYSIS_SYSTEMS.filter((s) => s !== 'MBTI' && !(ASSESSMENT_SYSTEM_IDS as readonly string[]).includes(s))) {
             expect(RULE_VERSIONS[system as keyof typeof RULE_VERSIONS]).toMatch(/\S/);
         }
     });

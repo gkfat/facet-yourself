@@ -84,6 +84,7 @@ import {
 } from '../../shared/constants/bazi';
 import { HUMAN_DESIGN_TYPE_LABELS } from '../../shared/constants/humanDesignLabels';
 import { BIG_FIVE_ENTRY_ENABLED } from '../../shared/constants/bigFive';
+import { assessmentCards } from '../utils/assessmentCards';
 import { KIN_ENTRY_ENABLED } from '../../shared/constants/mayaKin';
 import {
     BLOOD_TYPE_LABELS, ZODIAC_LABELS,
@@ -202,6 +203,21 @@ const items = computed<ReportCard[]>(() => {
                 action: progress.value.bigFiveDone ? '查看大五人格' : '開始測驗',
             }]
             : []),
+        ...assessmentCards().map((card) => {
+            const done = state.value.assessmentDone[card.id] === true;
+
+            return {
+                key: card.id,
+                system: 'personality' as const,
+                title: card.title,
+                icon: card.icon,
+                description: card.description,
+                done,
+                result: '已完成',
+                to: done ? card.resultTo : card.takeTo,
+                action: done ? `查看${card.title}` : '開始測驗',
+            };
+        }),
         {
             key: 'HUMAN_DESIGN',
             system: 'symbolic',

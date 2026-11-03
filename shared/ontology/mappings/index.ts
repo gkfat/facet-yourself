@@ -1,3 +1,4 @@
+import { ASSESSMENTS } from '../../assessments';
 import type { MappingEntry } from '../schema';
 import type { TermRegistry } from '../mapping';
 import {
@@ -31,6 +32,9 @@ import {
     ZODIAC_MAPPINGS, ZODIAC_TERMS,
 } from './zodiac';
 
+/** The terms of each self-analysis that is defined: the terms its own mapping speaks of */
+const ASSESSMENT_TERMS: TermRegistry = Object.fromEntries(ASSESSMENTS.map((definition) => [definition.systemId, [...new Set(definition.traitMappings.map((entry) => entry.term))]]));
+
 /** The terms every system really has. Filled in system by system as its mapping is written. */
 export const TERM_REGISTRY: TermRegistry = {
     ZODIAC: ZODIAC_TERMS,
@@ -43,6 +47,7 @@ export const TERM_REGISTRY: TermRegistry = {
     TAROT: TAROT_TERMS,
     RUNE: RUNE_TERMS,
     HOROSCOPE: HOROSCOPE_TERMS,
+    ...ASSESSMENT_TERMS,
 };
 
 /** Every mapping entry, trait and state alike. */
@@ -57,6 +62,7 @@ export const ALL_MAPPINGS: readonly MappingEntry[] = [
     ...TAROT_MAPPINGS,
     ...RUNE_MAPPINGS,
     ...HOROSCOPE_MAPPINGS,
+    ...ASSESSMENTS.flatMap((definition) => definition.traitMappings),
 ];
 
 /** The mapping of the lasting traits only: no state of today is ever part of it. */

@@ -1,20 +1,21 @@
 ## 1. 共用框架（第 0 階段，不開任何入口）
 
-- [ ] 1.1 新增 `shared/assessments/types.ts`：`AssessmentDefinition`（`id`、`version`、`kind`、題目或選項、`score`、`contentKeys`、`resultSchema`）與兩種作答形狀（量表、挑選）
-- [ ] 1.2 新增 `shared/assessments/index.ts` 登錄表與查詢函式；測試：每份定義的 id 不重複、版本帶 `ref` 標記、`contentKeys` 合法且不重複
-- [ ] 1.3 新增作答驗證與共用計分工具（量表：每題一次、範圍、無未知題；挑選：清單內、數量、不重複；反向題反轉、平均、0–100、三級判定），含單元測試
-- [ ] 1.4 `shared/utils/fixedContentKeys.ts`：加入 `ASSESSMENT`，合法金鑰與 `expectedFixedContentIds` 取自登錄表；更新相關測試與覆蓋預期總數
-- [ ] 1.5 新增 `shared/schemas/firestore/assessmentAttempt.schema.ts` 與 `shared/schemas/api/assessment.schema.ts`（請求、回應、紀錄文件）
-- [ ] 1.6 新增 `server/repositories/assessment.repository.ts` 與 `server/services/assessment.service.ts`：驗證、計分、讀固定內容（先確認可交付）、登入者寫入 `assessmentAttempts`、取最新未到期結果
-- [ ] 1.7 新增 `server/api/assessments/[id]/results.post.ts`（選用登入，訪客不寫入）與 `results/latest.get.ts`（需登入）；不存在的分析回 404；內容未發佈回 404 且不保存
-- [ ] 1.8 `routeAccess` 登記、更新 `openspec/analysis/render/api.yaml`，確認 `server/api.routes.test.ts` 通過
-- [ ] 1.9 服務與端點測試：登入者保存、訪客不寫入、作答不合法、內容未發佈不寫入、取最新與到期過濾
-- [ ] 1.10 `scripts/provision-firebase.ts` 的 `EXPIRY_QUERY_GROUPS`、`dataExpiry.service`、`deletion.service`（含「刪除我的結果」）納入 `assessmentAttempts`，補測試
-- [ ] 1.11 新增通用頁面 `app/pages/assessment/[id].vue`（量表版型：分頁、進度、已作答／未作答樣式、暫存於 sessionStorage；挑選版型）與 `app/pages/analysis/[id].vue`（共用的分數條、區塊卡片、「怎麼看」說明與免責、訪客結果與登入後儲存）
-- [ ] 1.12 首頁與 `/self-reports` 依登錄表產生卡片，每個分析各有入口旗標（預設關）；`useExploration` 增加各分析的完成狀態
-- [ ] 1.13 多維度整合的框架：分析定義增加 `reportInput`、`traitMappings`、`basePrice` 三個必要欄位，登錄表測試檢查三項都存在；`MappingSystem` 與 `MULTI_REPORT_SYSTEMS` 改為包含登錄表的所有分析；`multiReportCost` 的基礎點數取自定義；多維度分析的 API schema 與選擇畫面同步擴充（只開放有未到期結果的分析）
-- [ ] 1.14 多維度整合的測試：新增分析自動出現在可選清單、沒有結果的分析不可選、組合點數與上限、輸入長度檢查、映射覆蓋檢查
-- [ ] 1.15 `pnpm lint`、`pnpm test`、`nuxt build` 通過；執行 `scripts/provision-firebase.ts` 建立 `assessmentAttempts` 的索引例外
+- [x] 1.1 新增 `shared/assessments/types.ts`：`AssessmentDefinition`（`id`、`version`、`kind`、題目或選項、`score`、`contentKeys`、`resultSchema`）與兩種作答形狀（量表、挑選）
+- [x] 1.2 新增 `shared/assessments/index.ts` 登錄表與查詢函式；測試：每份定義的 id 不重複、版本帶 `ref` 標記、`contentKeys` 合法且不重複
+- [x] 1.3 新增作答驗證與共用計分工具（量表：每題一次、範圍、無未知題；挑選：清單內、數量、不重複；反向題反轉、平均、0–100、三級判定），含單元測試
+- [x] 1.4 `shared/utils/fixedContentKeys.ts`：加入 `ASSESSMENT`，合法金鑰與 `expectedFixedContentIds` 取自登錄表；更新相關測試與覆蓋預期總數
+- [x] 1.5 新增 `shared/schemas/firestore/assessmentAttempt.schema.ts` 與 `shared/schemas/api/assessment.schema.ts`（請求、回應、紀錄文件）
+- [x] 1.6 新增 `server/repositories/assessment.repository.ts` 與 `server/services/assessment.service.ts`：驗證、計分、讀固定內容（先確認可交付）、登入者寫入 `assessmentAttempts`、取最新未到期結果
+- [x] 1.7 新增 `server/api/assessments/[id]/results.post.ts`（選用登入，訪客不寫入）與 `results/latest.get.ts`（需登入）；不存在的分析回 404；內容未發佈回 404 且不保存
+- [x] 1.8 `routeAccess` 登記、更新 `openspec/analysis/render/api.yaml`，確認 `server/api.routes.test.ts` 通過
+- [x] 1.9 服務與端點測試：登入者保存、訪客不寫入、作答不合法、內容未發佈不寫入、取最新與到期過濾
+- [x] 1.10 `scripts/provision-firebase.ts` 的 `EXPIRY_QUERY_GROUPS`、`dataExpiry.service`、`deletion.service`（含「刪除我的結果」）納入 `assessmentAttempts`，補測試
+- [x] 1.11 新增通用頁面 `app/pages/assessment/[id].vue`（量表版型：分頁、進度、已作答／未作答樣式、暫存於 sessionStorage；挑選版型）與 `app/pages/analysis/[id].vue`（共用的分數條、區塊卡片、「怎麼看」說明與免責、訪客結果與登入後儲存）
+- [x] 1.12 首頁與 `/self-reports` 依登錄表產生卡片，每個分析各有入口旗標（預設關）；`useExploration` 增加各分析的完成狀態
+- [x] 1.13 多維度整合的框架：分析定義增加 `reportInput`、`traitMappings`、`basePrice` 三個必要欄位，登錄表測試檢查三項都存在；`MappingSystem` 與 `MULTI_REPORT_SYSTEMS` 改為包含登錄表的所有分析；`multiReportCost` 的基礎點數取自定義；多維度分析的 API schema 與選擇畫面同步擴充（只開放有未到期結果的分析）
+- [x] 1.14 多維度整合的測試：新增分析自動出現在可選清單、沒有結果的分析不可選、組合點數與上限、輸入長度檢查、映射覆蓋檢查
+- [x] 1.15 `pnpm lint`、`pnpm test`、`nuxt build` 通過
+- [x] 1.15b 執行 `scripts/provision-firebase.ts` 建立 `assessmentAttempts` 的索引例外（會動到正式 Firebase，需使用者同意）
 
 ## 2. 第一階段：HEXACO、九型人格、核心價值觀、需求與動機
 

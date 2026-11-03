@@ -1,3 +1,4 @@
+import type { AssessmentSystemId } from '../assessments/ids';
 import { analysisBasisSchema } from '../schemas/analysisBasis.schema';
 import type {
     AnalysisBasis, AnalysisSystem, BasisInputs,
@@ -5,8 +6,8 @@ import type {
 import { RUNE_DRAW_VERSION } from './rune';
 import { TAROT_DRAW_VERSION } from './tarot';
 
-/** Systems whose version is a constant here; MBTI takes the version of the test that was answered. */
-type VersionedSystem = Exclude<AnalysisSystem, 'MBTI'>;
+/** Systems whose version is a constant here; MBTI and the self-analyses take the version of the items that were answered. */
+type VersionedSystem = Exclude<AnalysisSystem, 'MBTI' | AssessmentSystemId>;
 
 /**
  * Version of each system's rules. Raise the one of a system whenever its calculation changes behavior (how a month is
@@ -25,7 +26,7 @@ export const RULE_VERSIONS: Readonly<Record<VersionedSystem, string>> = {
     RUNE: RUNE_DRAW_VERSION,
 };
 
-const METHODS: Readonly<Record<AnalysisSystem, string>> = {
+const METHODS: Readonly<Record<VersionedSystem | 'MBTI', string>> = {
     ZODIAC: 'sun-sign-from-birth-date',
     BAZI: 'bazi-four-pillars',
     NATAL_CHART: 'tropical-natal-chart',

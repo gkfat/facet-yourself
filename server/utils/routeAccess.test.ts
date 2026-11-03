@@ -22,6 +22,12 @@ describe('classifyRoute', () => {
         expect(classifyRoute('POST', '/api/human-design/calculations')).toBe('optional');
         expect(classifyRoute('POST', '/api/share-cards')).toBe('optional');
         expect(classifyRoute('POST', '/api/single-reports')).toBe('optional');
+        expect(classifyRoute('GET', '/api/assessments')).toBe('optional');
+        expect(classifyRoute('POST', '/api/assessments/enneagram/results')).toBe('optional');
+    });
+
+    it('needs a signed-in member for the latest result of an assessment', () => {
+        expect(classifyRoute('GET', '/api/assessments/enneagram/results/latest')).toBe('required');
     });
 
     it('lets webhook and cron verify themselves', () => {

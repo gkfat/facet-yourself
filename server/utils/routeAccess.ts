@@ -46,6 +46,12 @@ const RULES: readonly Rule[] = [
         method: 'POST', pattern: /^\/api\/big-five\/results$/, access: 'optional',
     },
     {
+        method: 'GET', pattern: /^\/api\/assessments$/, access: 'optional',
+    },
+    {
+        method: 'POST', pattern: /^\/api\/assessments\/[^/]+\/results$/, access: 'optional',
+    },
+    {
         method: 'POST', pattern: /^\/api\/single-reports$/, access: 'optional',
     },
     {

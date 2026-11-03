@@ -211,7 +211,9 @@ import { kinName, kinOf } from '../../../shared/utils/mayaKin';
 import { multiReportCost } from '../../../shared/utils/multiDimensionPricing';
 import { lifePathNumber } from '../../../shared/utils/numerology';
 import { zodiacFromIsoDate } from '../../../shared/utils/zodiac';
-import { DIMENSION_META } from '../../utils/reportDimensions';
+import {
+    DIMENSION_META, assessmentDimensions, type DimensionMeta,
+} from '../../utils/reportDimensions';
 
 useHead({ title: '多維度分析' });
 
@@ -280,15 +282,25 @@ function conclusionOf(system: MultiReportSystem): string {
         return `${stem}${ELEMENT_LABELS[stemElement(stem)]}日主`;
     }
     case 'HUMAN_DESIGN': return humanDesignType.value ?? '已計算';
+    default: return '已完成';
     }
 }
 
-const options = computed(() => DIMENSION_META.map((meta) => ({
-    ...meta, ready: progress.value.done[meta.value], conclusion: conclusionOf(meta.value),
+const dimensions = [...DIMENSION_META, ...assessmentDimensions()];
+
+/** Whether the member has what a dimension needs: a layer of the exploration, or a result of a self-analysis that has not expired */
+const readyOf = (meta: DimensionMeta) => (meta.assessmentId
+    ? state.value.assessmentDone[meta.assessmentId] === true
+    : Object.entries(progress.value.done).some(([layer, done]) => layer === meta.value && done));
+
+const options = computed(() => dimensions.map((meta) => ({
+    ...meta,
+    ready: readyOf(meta),
+    conclusion: conclusionOf(meta.value),
 })));
 
 const cost = computed(() => multiReportCost(selected.value));
-const metaOf = (system: string) => DIMENSION_META.find((meta) => meta.value === system);
+const metaOf = (system: string) => dimensions.find((meta) => meta.value === system);
 
 function toggle(option: { value: MultiReportSystem; ready: boolean }) {
     if (!option.ready) return;

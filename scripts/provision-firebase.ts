@@ -25,6 +25,7 @@ const EXPIRY_QUERY_GROUPS = [
     'runeDraws',
     'reportSnapshots',
     'bigFiveAttempts',
+    'assessmentAttempts',
 ];
 
 getScriptFirestore();

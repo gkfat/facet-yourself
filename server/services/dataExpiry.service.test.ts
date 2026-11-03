@@ -49,6 +49,9 @@ describe('DataExpiryService', () => {
         await db.doc('users/u1/bigFiveAttempts/old').set({ expiresAt: PAST });
         await db.doc('users/u1/bigFiveAttempts/new').set({ expiresAt: FUTURE });
         await db.doc('users/u2/bigFiveAttempts/old').set({ expiresAt: PAST });
+        await db.doc('users/u1/assessmentAttempts/old').set({ expiresAt: PAST });
+        await db.doc('users/u1/assessmentAttempts/new').set({ expiresAt: FUTURE });
+        await db.doc('users/u2/assessmentAttempts/old').set({ expiresAt: PAST });
 
         await db.doc('users/u1/payments/p1').set({ status: 'COMPLETED' });
         await db.doc('users/u1/pointBatches/b1').set({
@@ -67,6 +70,7 @@ describe('DataExpiryService', () => {
             deletedRuneDraws: 2,
             deletedReportSnapshots: 2,
             deletedBigFiveAttempts: 2,
+            deletedAssessmentAttempts: 2,
             clearedMbti: 1,
             failed: [],
         });
@@ -91,6 +95,9 @@ describe('DataExpiryService', () => {
         expect(paths).not.toContain('users/u1/bigFiveAttempts/old');
         expect(paths).not.toContain('users/u2/bigFiveAttempts/old');
         expect(paths).toContain('users/u1/bigFiveAttempts/new');
+        expect(paths).not.toContain('users/u1/assessmentAttempts/old');
+        expect(paths).not.toContain('users/u2/assessmentAttempts/old');
+        expect(paths).toContain('users/u1/assessmentAttempts/new');
     });
 
     it('clears an expired mbti but leaves a current one alone', async () => {
@@ -121,6 +128,7 @@ describe('DataExpiryService', () => {
             deletedRuneDraws: 0,
             deletedReportSnapshots: 0,
             deletedBigFiveAttempts: 0,
+            deletedAssessmentAttempts: 0,
             clearedMbti: 0,
         });
     });

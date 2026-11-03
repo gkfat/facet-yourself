@@ -9,6 +9,7 @@ import {
 } from './mappings';
 import { loadOntology } from './ontology';
 import { MAPPING_SYSTEMS } from './schema';
+import { ASSESSMENT_SYSTEM_IDS } from '../assessments/ids';
 
 const report = computeCoverage(STABLE_MAPPINGS, TERM_REGISTRY, loadOntology().endIds);
 
@@ -19,12 +20,12 @@ describe('the coverage of the real mapping', () => {
         expect([...report.uncoveredEnds].sort()).toEqual([...ACKNOWLEDGED_UNSOURCED_ENDS].sort());
     });
 
-    it('counts every term of the seven trait systems, and none of the three state systems', () => {
+    it('counts every term of the trait systems (the seven and the self-analyses that are defined), and none of the three state systems', () => {
         const traitSystems = MAPPING_SYSTEMS.filter((system) => ![
             'TAROT',
             'RUNE',
             'HOROSCOPE',
-        ].includes(system));
+        ].includes(system) && (!(ASSESSMENT_SYSTEM_IDS as readonly string[]).includes(system) || TERM_REGISTRY[system] !== undefined));
 
         expect(Object.keys(report.perSystem).sort()).toEqual([...traitSystems].sort());
 

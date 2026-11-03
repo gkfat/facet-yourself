@@ -35,4 +35,28 @@ export const SYSTEM_NATURE: Readonly<Record<MappingSystem, { label: string; trad
     MBTI: {
         label: '自製的 MBTI 風格問卷，不是官方量表，結果不等於經過正式工具驗證的類型', tradition: '自製的 MBTI 風格問卷',
     },
+    ENNEAGRAM: {
+        label: '自製的九型人格問卷，題目沒有經過信度與效度驗證，不是任何既有量表，也不是診斷', tradition: '自製的九型人格問卷',
+    },
+    HEXACO: {
+        label: '自製的 HEXACO 人格問卷，題目沒有經過信度與效度驗證，不是任何既有量表，也不是診斷', tradition: '自製的 HEXACO 人格問卷',
+    },
+    VIA_STRENGTHS: {
+        label: '自製的品格優勢問卷，題目沒有經過信度與效度驗證，不是任何既有量表，也不是診斷', tradition: '自製的品格優勢問卷',
+    },
+    RIASEC: {
+        label: '自製的職業興趣問卷，題目沒有經過信度與效度驗證，不是任何既有量表，也不是診斷', tradition: '自製的職業興趣問卷',
+    },
+    EMOTIONAL_INTELLIGENCE: {
+        label: '自製的情緒智商問卷，題目沒有經過信度與效度驗證，不是任何既有量表，也不是診斷', tradition: '自製的情緒智商問卷',
+    },
+    ATTACHMENT_STYLE: {
+        label: '自製的依附風格問卷，題目沒有經過信度與效度驗證，不是任何既有量表，也不是診斷', tradition: '自製的依附風格問卷',
+    },
+    CORE_VALUES: {
+        label: '自製的核心價值觀問卷，題目沒有經過信度與效度驗證，不是任何既有量表，也不是診斷', tradition: '自製的核心價值觀問卷',
+    },
+    PSYCHOLOGICAL_NEEDS: {
+        label: '自製的需求與動機問卷，題目沒有經過信度與效度驗證，不是任何既有量表，也不是診斷', tradition: '自製的需求與動機問卷',
+    },
 };

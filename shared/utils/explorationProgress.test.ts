@@ -61,6 +61,18 @@ describe('explorationProgress', () => {
         }).multiDimensionUnlocked).toBe(true);
     });
 
+    it('counts a self-analysis with a result as a dimension toward the unlock', () => {
+        expect(explorationProgress({
+            ...none, mbti: 'INTJ', assessmentsDone: 1,
+        }).multiDimensionUnlocked).toBe(true);
+        expect(explorationProgress({
+            ...none, assessmentsDone: 1,
+        }).multiDimensionUnlocked).toBe(false);
+        expect(explorationProgress({
+            ...none, assessmentsDone: 2,
+        }).multiDimensionUnlocked).toBe(true);
+    });
+
     it('suggests the quickest unfinished layer: MBTI, then blood type, then human design', () => {
         const withZodiac = {
             ...none, birthDate: '1990-01-01',

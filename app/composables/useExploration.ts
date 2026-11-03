@@ -6,6 +6,8 @@ import type {
     BloodType, Gender,
 } from '../../shared/schemas/common';
 import { BIG_FIVE_ENTRY_ENABLED } from '../../shared/constants/bigFive';
+import type { AssessmentSummary } from '../../shared/schemas/api/assessment.schema';
+import { anyAssessmentEntry } from '../utils/assessmentCards';
 import {
     explorationProgress, type ExplorationFacts,
 } from '../../shared/utils/explorationProgress';
@@ -29,6 +31,8 @@ type ExplorationState = {
     mbti: string | null;
     hasHumanDesign: boolean;
     hasBigFive: boolean;
+    /** Which self-analyses have a result that has not expired, by assessment id */
+    assessmentDone: Record<string, boolean>;
 };
 
 function emptyState(): ExplorationState {
@@ -40,6 +44,7 @@ function emptyState(): ExplorationState {
         mbti: null,
         hasHumanDesign: false,
         hasBigFive: false,
+        assessmentDone: {},
     };
 }
 
@@ -61,6 +66,21 @@ function guestHasBigFive(): boolean {
         console.warn('[useExploration] sessionStorage unavailable:', error);
 
         return false;
+    }
+}
+
+/** A guest's self-analysis results live in this tab only, one key each */
+function guestAssessmentDone(): Record<string, boolean> {
+    if (!anyAssessmentEntry() || !import.meta.client) return {};
+
+    try {
+        return Object.fromEntries(Array.from({ length: sessionStorage.length }, (_, index) => sessionStorage.key(index))
+            .filter((key): key is string => key?.startsWith('assessmentResult:') === true)
+            .map((key) => [key.slice('assessmentResult:'.length), true]));
+    } catch (error) {
+        console.warn('[useExploration] sessionStorage unavailable:', error);
+
+        return {};
     }
 }
 
@@ -93,6 +113,7 @@ export const useExploration = () => {
         mbti: state.value.mbti,
         hasHumanDesign: state.value.hasHumanDesign,
         hasBigFive: state.value.hasBigFive,
+        assessmentsDone: Object.values(state.value.assessmentDone).filter(Boolean).length,
     }));
     const progress = computed(() => explorationProgress(facts.value));
 
@@ -116,6 +137,21 @@ export const useExploration = () => {
         }
     }
 
+    /** Which self-analyses the member has a result for that has not expired; only asked while an entrance is shown */
+    async function memberAssessmentDone(): Promise<Record<string, boolean>> {
+        if (!anyAssessmentEntry()) return {};
+
+        try {
+            const summaries = await get<AssessmentSummary[]>('/api/assessments');
+
+            return Object.fromEntries(summaries.map((summary) => [summary.assessmentId, summary.hasResult === true]));
+        } catch (error) {
+            console.error('[useExploration] self-analysis check failed:', error);
+
+            return {};
+        }
+    }
+
     async function loadMember(): Promise<ExplorationState> {
         const profile = await get<ProfileResponse>('/api/profile');
         let hasHumanDesign = false;
@@ -136,6 +172,7 @@ export const useExploration = () => {
             mbti: profile.mbti,
             hasHumanDesign,
             hasBigFive: await memberHasBigFive(),
+            assessmentDone: await memberAssessmentDone(),
         };
     }
 
@@ -144,7 +181,7 @@ export const useExploration = () => {
         restore();
 
         if (!sessionId.value) return {
-            ...emptyState(), hasBigFive: guestHasBigFive(),
+            ...emptyState(), hasBigFive: guestHasBigFive(), assessmentDone: guestAssessmentDone(),
         };
 
         try {
@@ -158,6 +195,7 @@ export const useExploration = () => {
                 mbti: profile.mbti,
                 hasHumanDesign: profile.hasHumanDesign,
                 hasBigFive: guestHasBigFive(),
+                assessmentDone: guestAssessmentDone(),
             };
         } catch (error) {
             // An expired session is gone: start over without it.

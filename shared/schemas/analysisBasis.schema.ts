@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { ASSESSMENT_SYSTEM_IDS } from '../assessments/ids';
 
 /** The systems whose results come with a calculation basis (blood type is a stated fact, not a calculation). */
 export const ANALYSIS_SYSTEMS = [
@@ -12,6 +13,8 @@ export const ANALYSIS_SYSTEMS = [
     'MBTI',
     'TAROT',
     'RUNE',
+    // A self-analysis: the version of its items is its rule version
+    ...ASSESSMENT_SYSTEM_IDS,
 ] as const;
 
 export const analysisSystemSchema = z.enum(ANALYSIS_SYSTEMS);

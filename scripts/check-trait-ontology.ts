@@ -41,7 +41,7 @@ console.log(`${STABLE_MAPPINGS.length} trait entries, ${STATE_MAPPINGS.length} s
 
 console.log('Terms mapped, trait systems:');
 
-for (const system of MAPPING_SYSTEMS.filter((s) => !isStateSystem(s))) {
+for (const system of Object.keys(report.perSystem).filter((s): s is typeof MAPPING_SYSTEMS[number] => (MAPPING_SYSTEMS as readonly string[]).includes(s))) {
     const coverage = report.perSystem[system];
 
     if (!coverage) continue;

@@ -1,10 +1,12 @@
 import { z } from 'zod';
-import { MULTI_REPORT_SYSTEMS } from '../../report/systems';
+import {
+    MULTI_REPORT_SYSTEMS, isMultiReportSystem,
+} from '../../report/systems';
 import { SNAPSHOT_AI_JOB_STATUSES } from '../firestore/reportSnapshot.schema';
 
 /** Which lasting systems to put together: at least two, none twice (the Idempotency-Key header is the job id). */
 export const multiReportRequestSchema = z.object({
-    systems: z.array(z.enum(MULTI_REPORT_SYSTEMS)).min(2).max(MULTI_REPORT_SYSTEMS.length)
+    systems: z.array(z.string().refine(isMultiReportSystem, 'not a system that can be combined')).min(2).max(MULTI_REPORT_SYSTEMS.length)
         .refine((systems) => new Set(systems).size === systems.length, 'a system is chosen once'),
 });
 

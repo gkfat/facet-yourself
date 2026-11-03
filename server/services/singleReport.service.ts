@@ -1,4 +1,5 @@
 import { BaseService } from './base.service';
+import { AssessmentService } from './assessment.service';
 import { BaziService } from './bazi.service';
 import { FixedContentService } from './fixedContent.service';
 import { GuestSessionService } from './guestSession.service';
@@ -27,7 +28,9 @@ import { mayaKinReportInput } from '../../shared/report/adapters/mayaKin';
 import { mbtiReportInput } from '../../shared/report/adapters/mbti';
 import { numerologyReportInput } from '../../shared/report/adapters/numerology';
 import { zodiacReportInput } from '../../shared/report/adapters/zodiac';
-import type { SingleReportSystem } from '../../shared/report/systems';
+import type {
+    MultiReportSystem, SingleReportSystem,
+} from '../../shared/report/systems';
 import {
     bloodPeers, kinPeers, mbtiPeers, numerologyPeers, sameBirthdayPeers, showSome,
 } from '../../shared/report/peers';
@@ -46,6 +49,7 @@ import {
     scoreDimensions, type DimensionScore,
 } from '../../shared/utils/personalityScoring';
 import { isStateSystem } from '../../shared/ontology/mapping';
+import type { MappingSystem } from '../../shared/ontology/schema';
 import { RUNE_DRAW_VERSION } from '../../shared/utils/rune';
 import { TAROT_DRAW_VERSION } from '../../shared/utils/tarot';
 import { kinOf } from '../../shared/utils/mayaKin';
@@ -68,13 +72,14 @@ type SingleReportServiceOptions = {
     rune?: RuneService;
     horoscope?: HoroscopeService;
     analysis?: SingleAnalysisService;
+    assessments?: AssessmentService;
     clock?: () => number;
     /** In [0, 1): what chooses the people on the card at the end of a report; random unless a test fixes it */
     random?: () => number;
 };
 
 /** Where the member stands in the system of a single report: the one part. */
-const partsOf = (content: { systems: readonly SingleReportSystem[]; position: string }) => content.systems.map((system) => ({
+const partsOf = (content: { systems: readonly MappingSystem[]; position: string }) => content.systems.map((system) => ({
     system, position: content.position,
 }));
 
@@ -115,6 +120,7 @@ export class SingleReportService extends BaseService {
     private readonly rune: RuneService;
     private readonly horoscope: HoroscopeService;
     private readonly analysis: SingleAnalysisService;
+    private readonly assessments: AssessmentService;
     private readonly clock: () => number;
     private readonly random: () => number;
 
@@ -135,6 +141,7 @@ export class SingleReportService extends BaseService {
         this.rune = options.rune ?? new RuneService({ clock: this.clock });
         this.horoscope = options.horoscope ?? new HoroscopeService({ clock: this.clock });
         this.analysis = options.analysis ?? new SingleAnalysisService({ clock: this.clock });
+        this.assessments = options.assessments ?? new AssessmentService({ clock: this.clock });
     }
 
     async generate(asker: ReportAsker, system: SingleReportSystem): Promise<SingleReportResponse> {
@@ -181,11 +188,14 @@ export class SingleReportService extends BaseService {
      * for any of them (a birth time, a blood type, a published reading) stops the whole thing, exactly as it does for
      * its own report, so that nothing is paid for before everything is there.
      */
-    async memberInputs(uid: string, systems: readonly SingleReportSystem[]): Promise<SystemReportInput[]> {
+    async memberInputs(uid: string, systems: readonly MultiReportSystem[]): Promise<SystemReportInput[]> {
         const subject = await this.memberSubject(uid);
         const inputs: SystemReportInput[] = [];
 
-        for (const system of systems) inputs.push(await this.inputOf(subject, system));
+        for (const system of systems) {
+            // A self-analysis is made from the member's newest result of it, not from the profile
+            inputs.push(this.assessments.handles(system) ? await this.assessments.reportInputOf(uid, system) : await this.inputOf(subject, system));
+        }
 
         return inputs;
     }
@@ -310,7 +320,7 @@ export class SingleReportService extends BaseService {
         };
     }
 
-    private async inputOf(subject: Subject, system: SingleReportSystem): Promise<SystemReportInput> {
+    private async inputOf(subject: Subject, system: MappingSystem): Promise<SystemReportInput> {
         switch (system) {
         case 'ZODIAC': return this.zodiac(subject);
         case 'BLOOD': return this.blood(subject);

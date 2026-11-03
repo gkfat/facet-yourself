@@ -13,6 +13,9 @@ import {
     BONE_MIN_QIAN,
 } from '../constants/bazi.ts';
 import {
+    assessmentContentKeys, isAssessmentContentKey,
+} from '../assessments/index.ts';
+import {
     BIG_FIVE_LEVELS, BIG_FIVE_TRAITS,
 } from '../constants/bigFive.ts';
 import { horoscopeContentKeys } from '../constants/horoscope.ts';
@@ -41,6 +44,7 @@ export const FIXED_CONTENT_TYPES = [
     'RUNE',
     'HOROSCOPE',
     'BIGFIVE',
+    'ASSESSMENT',
 ] as const;
 
 export type FixedContentType = typeof FIXED_CONTENT_TYPES[number];
@@ -137,13 +141,14 @@ export function isValidContentKey(type: FixedContentType, key: string): boolean 
     case 'RUNE': return RUNE_KEY_SET.has(key);
     case 'HOROSCOPE': return HOROSCOPE_KEY_SET.has(key);
     case 'BIGFIVE': return BIG_FIVE_KEY_SET.has(key);
+    case 'ASSESSMENT': return isAssessmentContentKey(key);
     }
 }
 
 /**
  * Every document id that must exist before launch:
  * 12 + 4 + 16 + 12 single results, the 123 BaZi contents, the 44 tarot contents, the 260 + 260 Kin contents, the 39 rune
- * contents, the 60 sign horoscope contents and the 47 Big Five contents.
+ * contents, the 60 sign horoscope contents, the 47 Big Five contents and the contents of the self-assessments (as many as the registry lists).
  */
 export function expectedFixedContentIds(): string[] {
     const ids: string[] = [];
@@ -158,6 +163,7 @@ export function expectedFixedContentIds(): string[] {
     for (const key of runeContentKeys()) ids.push(fixedContentId('RUNE', key));
     for (const key of horoscopeContentKeys()) ids.push(fixedContentId('HOROSCOPE', key));
     for (const key of bigFiveContentKeys()) ids.push(fixedContentId('BIGFIVE', key));
+    for (const key of assessmentContentKeys()) ids.push(fixedContentId('ASSESSMENT', key));
 
     return ids;
 }

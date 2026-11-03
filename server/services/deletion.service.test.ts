@@ -15,6 +15,7 @@ async function seed(db: FakeFirestore) {
     });
     await db.doc('users/u1/testAttempts/a1').set({ result: 'INTJ' });
     await db.doc('users/u1/bigFiveAttempts/b1').set({ scores: {} });
+    await db.doc('users/u1/assessmentAttempts/a1').set({ assessmentId: 'hexaco' });
     await db.doc('users/u1/humanDesign/main').set({ x: 1 });
     await db.doc('users/u1/tarotDraws/2026-10-27').set({ cardIndex: 3 });
     await db.doc('users/u1/tarotDraws/2026-10-28').set({ cardIndex: 5 });
@@ -30,6 +31,7 @@ async function seed(db: FakeFirestore) {
     await db.doc('users/u2').set({ email: 'b@example.com' });
     await db.doc('users/u2/testAttempts/a9').set({ result: 'ENFP' });
     await db.doc('users/u2/bigFiveAttempts/b9').set({ scores: {} });
+    await db.doc('users/u2/assessmentAttempts/a9').set({ assessmentId: 'hexaco' });
     await db.doc('users/u2/tarotDraws/2026-10-27').set({ cardIndex: 9 });
     await db.doc('users/u2/kinUnlocks/2026-10-27').set({ kin: { kinNumber: 3 } });
     await db.doc('users/u2/runeDraws/2026-10-27').set({ symbolIndex: 9 });
@@ -86,6 +88,18 @@ describe('DeletionService.deleteData', () => {
         await service.deleteData('u1', ['RESULTS']);
 
         expect(db.paths().filter((p) => p.includes('/bigFiveAttempts/'))).toEqual(['users/u2/bigFiveAttempts/b9']);
+    });
+
+    it('deletes the self-analysis attempts together with the test results, and keeps those of other users', async () => {
+        await service.deleteData('u1', ['RESULTS']);
+
+        expect(db.paths().filter((p) => p.includes('/assessmentAttempts/'))).toEqual(['users/u2/assessmentAttempts/a9']);
+    });
+
+    it('leaves the self-analysis attempts alone when other data is deleted', async () => {
+        await service.deleteData('u1', ['REPORTS']);
+
+        expect(db.paths()).toContain('users/u1/assessmentAttempts/a1');
     });
 
     it('leaves the Big Five attempts alone when other data is deleted', async () => {
@@ -146,6 +160,12 @@ describe('DeletionService.deleteAccount', () => {
         await new DeletionService({ deleteAuthUser: async () => undefined }).deleteAccount('u1');
 
         expect(db.paths().filter((p) => p.includes('/runeDraws/'))).toEqual(['users/u2/runeDraws/2026-10-27']);
+    });
+
+    it('removes every self-analysis attempt of the user and keeps those of other users', async () => {
+        await new DeletionService({ deleteAuthUser: async () => undefined }).deleteAccount('u1');
+
+        expect(db.paths().filter((p) => p.includes('/assessmentAttempts/'))).toEqual(['users/u2/assessmentAttempts/a9']);
     });
 
     it('removes every Big Five attempt of the user and keeps those of other users', async () => {

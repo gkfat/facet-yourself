@@ -2,9 +2,12 @@ import {
     MAPPING_SYSTEMS, STATE_SYSTEMS, mappingEntrySchema,
     type MappingEntry, type MappingSystem,
 } from './schema';
+import { ASSESSMENT_SYSTEM_IDS } from '../assessments/ids.ts';
+
+const isAssessmentSystemId = (system: string): boolean => (ASSESSMENT_SYSTEM_IDS as readonly string[]).includes(system);
 
 /** Raise whenever a mapping entry is added, removed or pointed at another end; it is stored with every report (basis). */
-export const MAPPING_VERSION = 'mapping-v1';
+export const MAPPING_VERSION = 'mapping-v2';
 
 /**
  * Systems of one tradition share a source group. Two systems of the same group saying the same thing are one source
@@ -21,6 +24,15 @@ export const SOURCE_GROUPS: Readonly<Record<MappingSystem, string>> = {
     BLOOD: 'blood-type-folklore',
     TAROT: 'tarot',
     RUNE: 'rune',
+    // Our own questionnaires answered about oneself: one source however many of them agree
+    ENNEAGRAM: 'questionnaire',
+    HEXACO: 'questionnaire',
+    VIA_STRENGTHS: 'questionnaire',
+    RIASEC: 'questionnaire',
+    EMOTIONAL_INTELLIGENCE: 'questionnaire',
+    ATTACHMENT_STYLE: 'questionnaire',
+    CORE_VALUES: 'questionnaire',
+    PSYCHOLOGICAL_NEEDS: 'questionnaire',
 };
 
 /** MBTI, human design and BaZi are mapped by rules over their structure; the rest by what a term is known to stand for. */
@@ -35,6 +47,14 @@ export const METHOD_BY_SYSTEM: Readonly<Record<MappingSystem, MappingEntry['meth
     TAROT: 'keyword',
     RUNE: 'keyword',
     HOROSCOPE: 'keyword',
+    ENNEAGRAM: 'keyword',
+    HEXACO: 'keyword',
+    VIA_STRENGTHS: 'keyword',
+    RIASEC: 'keyword',
+    EMOTIONAL_INTELLIGENCE: 'keyword',
+    ATTACHMENT_STYLE: 'keyword',
+    CORE_VALUES: 'keyword',
+    PSYCHOLOGICAL_NEEDS: 'keyword',
 };
 
 export const isStateSystem = (system: MappingSystem): boolean => (STATE_SYSTEMS as readonly string[]).includes(system);
@@ -127,7 +147,8 @@ export function computeCoverage(entries: readonly MappingEntry[], terms: TermReg
     let total = 0;
     let mapped = 0;
 
-    for (const system of MAPPING_SYSTEMS.filter((s) => !isStateSystem(s))) {
+    // A self-analysis that has no terms yet is not defined: there is nothing of it to cover
+    for (const system of MAPPING_SYSTEMS.filter((s) => !isStateSystem(s) && (!isAssessmentSystemId(s) || terms[s] !== undefined))) {
         const systemTerms = terms[system] ?? [];
         const used = new Set(traitEntries.filter((entry) => entry.system === system).map((entry) => entry.term));
         const unmapped = systemTerms.filter((term) => !used.has(term));
@@ -167,11 +188,7 @@ export const MIN_OVERALL_COVERAGE = 0.8;
  * lightly (E6.B). A report that meets one of them draws no conclusion from it. Take an end off this list the day a
  * mapping really names it; the check fails when an end on the list has a source, so the list cannot go stale.
  */
-export const ACKNOWLEDGED_UNSOURCED_ENDS: readonly string[] = [
-    'A6.B',
-    'E4.B',
-    'E6.B',
-];
+export const ACKNOWLEDGED_UNSOURCED_ENDS: readonly string[] = ['E4.B'];
 
 /** What the coverage report says is missing: ends without a source that are not acknowledged, or too few terms mapped. */
 export function findCoverageIssues(

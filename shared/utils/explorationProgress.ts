@@ -22,6 +22,8 @@ export type ExplorationFacts = {
     hasHumanDesign: boolean;
     /** A Big Five result that has not expired; it is not one of the layers a multi-dimension analysis combines */
     hasBigFive?: boolean;
+    /** How many self-analyses have a result that has not expired: each one is a dimension a multi-dimension analysis can combine */
+    assessmentsDone?: number;
 };
 
 export type ExplorationProgress = {
@@ -64,7 +66,7 @@ export function explorationProgress(facts: ExplorationFacts): ExplorationProgres
         done,
         completed: EXPLORATION_LAYERS.filter((layer) => done[layer]).length,
         total: EXPLORATION_LAYERS.length,
-        multiDimensionUnlocked: EXPLORATION_LAYERS.filter((layer) => done[layer]).length >= MIN_ANALYSIS_DIMENSIONS,
+        multiDimensionUnlocked: EXPLORATION_LAYERS.filter((layer) => done[layer]).length + (facts.assessmentsDone ?? 0) >= MIN_ANALYSIS_DIMENSIONS,
         next: SUGGESTION_ORDER.find((layer) => !done[layer]) ?? null,
         bigFiveDone: facts.hasBigFive === true,
     };
