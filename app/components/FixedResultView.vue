@@ -185,6 +185,59 @@
         <!-- Optional extra content a page wants between the second and third card -->
         <slot name="after-insight" />
 
+        <!-- How it shows in daily life and in the areas of life, for the contents that have them -->
+        <v-card
+            v-if="result.dailyBehavior || dailyAreas.length"
+            variant="outlined"
+            class="mb-4"
+        >
+            <v-card-title>日常的樣子</v-card-title>
+            <v-card-text>
+                <p
+                    v-if="result.dailyBehavior"
+                    class="text-body-1 daily"
+                    :class="{ 'mb-4': dailyAreas.length }"
+                >
+                    {{ result.dailyBehavior }}
+                </p>
+                <section
+                    v-for="area in dailyAreas"
+                    :key="area.label"
+                    class="life-area"
+                >
+                    <h3 class="text-subtitle-1 font-weight-medium mb-1">
+                        {{ area.label }}
+                    </h3>
+                    <p class="mb-0">
+                        {{ area.text }}
+                    </p>
+                </section>
+            </v-card-text>
+        </v-card>
+
+        <!-- What to build on, what to notice, and a question to think over -->
+        <v-card
+            v-if="result.growthReflection"
+            variant="outlined"
+            class="mb-4"
+        >
+            <v-card-title>成長與反思</v-card-title>
+            <v-card-text>
+                <section
+                    v-for="row in reflectionRows"
+                    :key="row.label"
+                    class="life-area"
+                >
+                    <h3 class="text-subtitle-1 font-weight-medium mb-1">
+                        {{ row.label }}
+                    </h3>
+                    <p class="mb-0">
+                        {{ row.text }}
+                    </p>
+                </section>
+            </v-card-text>
+        </v-card>
+
         <!-- Something to do with it -->
         <v-card
             v-if="hasGrowth"
@@ -366,10 +419,39 @@ const strengthCards = computed(() => {
     return [...listed, ...extra];
 });
 
+const AREA_LABELS = [
+    ['work', '工作與學習'],
+    ['relationships', '人際關係'],
+    ['stress', '壓力與情緒'],
+    ['decision', '決策方式'],
+    ['habits', '習慣與自我管理'],
+] as const;
+
+const dailyAreas = computed(() => AREA_LABELS.map(([key, label]) => ({
+    label, text: props.result.lifeContexts?.[key] ?? '',
+})).filter((area) => area.text));
+
+const reflectionRows = computed(() => [
+    {
+        label: '可以發揮的地方', text: props.result.growthReflection?.useStrength ?? '',
+    },
+    {
+        label: '可以留意的習慣', text: props.result.growthReflection?.watchHabit ?? '',
+    },
+    {
+        label: '給自己的一個問題', text: props.result.growthReflection?.reflectionQuestion ?? '',
+    },
+].filter((row) => row.text));
+
 const hasGrowth = computed(() => Boolean(props.result.growthAdvice.trim() || props.result.growthPractice));
 </script>
 
 <style scoped>
+/* A content may give two lines in one text (what lifts the drive, what lowers it) */
+.daily {
+    white-space: pre-line;
+}
+
 /* The headline of the analysis: set apart as a quotation, with an accent edge. */
 .quote {
     margin: 0 0 20px;

@@ -68,7 +68,7 @@
                             color="success"
                         >
                             <v-radio
-                                v-for="option in SCALE_OPTIONS"
+                                v-for="option in scaleOptions"
                                 :key="option.value"
                                 :label="option.label"
                                 :value="option.value"
@@ -115,57 +115,60 @@
 
             <template v-else>
                 <p class="text-body-2 text-medium-emphasis mb-3">
-                    先選出 {{ definition.pick }} 項最符合你的，再把其中 {{ definition.rank }} 項依重要程度排序。已選 {{ draft.selected.length }}／{{ definition.pick }}。
+                    先選出 {{ definition.pick }} 項最符合你的，再從中依序點選最重要的 {{ definition.rank }} 項。已選 {{ draft.selected.length }}／{{ definition.pick }}，已排序 {{ draft.ranked.length }}／{{ definition.rank }}。
                 </p>
 
-                <v-row dense>
-                    <v-col
+                <!-- What has been picked, with the order of the most important ones -->
+                <v-card
+                    variant="outlined"
+                    class="mb-4"
+                >
+                    <v-card-text>
+                        <div class="text-subtitle-2 mb-2">
+                            已選擇的價值（點一下可排入最重要的順序，再點取消排序）
+                        </div>
+                        <div
+                            v-if="draft.selected.length"
+                            class="d-flex flex-wrap ga-2"
+                        >
+                            <v-chip
+                                v-for="id in orderedSelected"
+                                :key="id"
+                                size="large"
+                                :color="rankOf(id) > 0 ? 'success' : undefined"
+                                :variant="rankOf(id) > 0 ? 'flat' : 'tonal'"
+                                :prepend-icon="rankOf(id) > 0 ? 'mdi-numeric-' + rankOf(id) + '-circle' : undefined"
+                                closable
+                                @click="toggleRank(id)"
+                                @click:close="toggleOption(id)"
+                            >
+                                {{ nameOf(id) }}
+                            </v-chip>
+                        </div>
+                        <p
+                            v-else
+                            class="text-body-2 text-medium-emphasis mb-0"
+                        >
+                            還沒有選擇，從下方挑選。
+                        </p>
+                    </v-card-text>
+                </v-card>
+
+                <!-- Everything there is to pick from -->
+                <div class="text-subtitle-2 mb-2">
+                    所有選項
+                </div>
+                <div class="d-flex flex-wrap ga-2">
+                    <v-chip
                         v-for="option in definition.options"
                         :key="option.id"
-                        cols="12"
-                        sm="6"
+                        :title="option.description"
+                        :color="draft.selected.includes(option.id) ? 'success' : undefined"
+                        :variant="draft.selected.includes(option.id) ? 'flat' : 'outlined'"
+                        :disabled="!draft.selected.includes(option.id) && draft.selected.length >= definition.pick"
+                        @click="toggleOption(option.id)"
                     >
-                        <v-card
-                            class="question"
-                            :class="{ 'question--answered': draft.selected.includes(option.id) }"
-                            :disabled="!draft.selected.includes(option.id) && draft.selected.length >= definition.pick"
-                            @click="toggleOption(option.id)"
-                        >
-                            <v-card-text>
-                                <div class="d-flex align-center ga-2">
-                                    <span class="text-subtitle-1 font-weight-medium">{{ option.name }}</span>
-                                    <v-spacer />
-                                    <v-chip
-                                        v-if="rankOf(option.id) > 0"
-                                        size="small"
-                                        color="success"
-                                    >
-                                        第 {{ rankOf(option.id) }}
-                                    </v-chip>
-                                </div>
-                                <p class="text-body-2 mb-0">
-                                    {{ option.description }}
-                                </p>
-                            </v-card-text>
-                        </v-card>
-                    </v-col>
-                </v-row>
-
-                <div
-                    v-if="draft.selected.length === definition.pick"
-                    class="mt-4"
-                >
-                    <p class="text-body-2 mb-2">
-                        依序點選最重要的 {{ definition.rank }} 項（再點一次取消）：
-                    </p>
-                    <v-chip
-                        v-for="id in draft.selected"
-                        :key="id"
-                        class="mr-2 mb-2"
-                        :color="rankOf(id) > 0 ? 'success' : undefined"
-                        @click="toggleRank(id)"
-                    >
-                        {{ nameOf(id) }}
+                        {{ option.name }}
                     </v-chip>
                 </div>
 
@@ -217,6 +220,13 @@ const SCALE_OPTIONS = [
 ] as const;
 const SCALE_PAGE_SIZE = 5;
 
+/** What each answer says: "agree" unless the assessment asks something else */
+function optionsOf(labels: readonly string[] | undefined) {
+    return labels?.length === SCALE_OPTIONS.length ? SCALE_OPTIONS.map((option, index) => ({
+        value: option.value, label: labels[index] ?? option.label,
+    })) : SCALE_OPTIONS;
+}
+
 const route = useRoute();
 const rawId = String(route.params.id);
 const definition = findAssessment(rawId);
@@ -236,6 +246,7 @@ const submitted = ref(false);
 const submitError = ref<string | null>(null);
 
 const items = definition?.kind === 'scale' ? definition.items : [];
+const scaleOptions = optionsOf(definition?.kind === 'scale' ? definition.answerLabels : undefined);
 const pageCount = Math.max(1, Math.ceil(items.length / SCALE_PAGE_SIZE));
 const pageItems = computed(() => items.slice(page.value * SCALE_PAGE_SIZE, (page.value + 1) * SCALE_PAGE_SIZE));
 const isAnswered = (id: string) => draft.scale[id] !== undefined;
@@ -250,6 +261,9 @@ const canSubmit = computed(() => {
 
     return draft.selected.length === definition.pick && draft.ranked.length === definition.rank;
 });
+
+/** The ranked values first, from 1 on, left to right; then the ones picked and not ranked yet */
+const orderedSelected = computed(() => [...draft.ranked, ...draft.selected.filter((id) => !draft.ranked.includes(id))]);
 
 const nameOf = (id: string) => (definition?.kind === 'selection' ? definition.options.find((option) => option.id === id)?.name ?? id : id);
 const rankOf = (id: string) => draft.ranked.indexOf(id) + 1;

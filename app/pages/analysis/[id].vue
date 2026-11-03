@@ -92,17 +92,54 @@
                 >
                     <v-card-title>怎麼看這份結果</v-card-title>
                     <v-card-text>
-                        <p class="text-body-2 mb-2">
+                        <p
+                            v-if="isRanked"
+                            class="text-body-2 mb-2"
+                        >
+                            每一項有 0 到 100 的分數，只用來排出先後：分數越高，代表你的回答越偏向這一項。前幾名是你目前最突出的，後面的只是較不突出。
+                        </p>
+                        <p
+                            v-else-if="view === 'code'"
+                            class="text-body-2 mb-2"
+                        >
+                            每一型有 0 到 100 的分數，代表你對這一類活動的喜歡程度；分數最高的三型，依序排成你的三碼興趣代碼。
+                        </p>
+                        <p
+                            v-else-if="definition.kind === 'scale'"
+                            class="text-body-2 mb-2"
+                        >
                             分數是 0 到 100，代表你自己的回答偏向這個面向的程度：偏低（低於 40）、居中（40 到 60）、偏高（高於 60）。
                         </p>
+                        <p
+                            v-else
+                            class="text-body-2 mb-2"
+                        >
+                            這份結果沒有分數，列出的是你自己選出的項目，以及你排的先後順序。
+                        </p>
                         <p class="text-body-2 mb-0">
-                            題目由本站自行設計，沒有經過信度與效度驗證，也不是任何既有量表。結果只描述你的自我回答，不與他人比較，也不是診斷；面向沒有好壞，只是不同的傾向。
+                            題目由本站自行設計，沒有經過信度與效度驗證，也不是任何既有量表。結果只描述你的自我回答，不與他人比較，也不是診斷；沒有好壞高下，只是不同的傾向。
                         </p>
                     </v-card-text>
                 </v-card>
 
                 <v-card
-                    v-if="scores.length"
+                    v-if="definition.kind === 'scale' && !ownLayout && notes.length"
+                    variant="outlined"
+                    class="mb-4"
+                >
+                    <v-card-text>
+                        <p
+                            v-for="line in notes"
+                            :key="line"
+                            class="text-body-1 mb-1"
+                        >
+                            {{ line }}
+                        </p>
+                    </v-card-text>
+                </v-card>
+
+                <v-card
+                    v-if="scores.length && !ownLayout"
                     variant="outlined"
                     class="mb-4"
                 >
@@ -142,12 +179,30 @@
                     </v-card-text>
                 </v-card>
 
-                <FixedResultView
-                    v-for="(item, index) in result.content"
-                    :key="item.key"
-                    :result="item"
-                    :show-disclaimer="index === result.content.length - 1"
+                <AssessmentCodeResult
+                    v-if="view === 'code'"
+                    :names="dimensionNames"
+                    :result="result"
                 />
+                <AssessmentRankedResult
+                    v-else-if="isRanked"
+                    :names="dimensionNames"
+                    :result="result"
+                />
+                <AssessmentSelectionResult
+                    v-else-if="definition.kind === 'selection'"
+                    :names="optionNames"
+                    :result="result"
+                    :synthesis="synthesis"
+                />
+                <template v-else>
+                    <FixedResultView
+                        v-for="(item, index) in result.content"
+                        :key="item.key"
+                        :result="item"
+                        :show-disclaimer="index === result.content.length - 1"
+                    />
+                </template>
 
                 <div class="d-flex justify-center mb-4">
                     <v-btn
@@ -176,7 +231,7 @@
 
 <script lang="ts" setup>
 import {
-    findAssessment, type DimensionScore,
+    findAssessment, type AssessmentSynthesis, type DimensionScore,
 } from '../../../shared/assessments';
 import type { AssessmentResult } from '../../../shared/schemas/api/assessment.schema';
 
@@ -207,6 +262,49 @@ const saveError = ref<string | null>(null);
 
 /** What a dimension is called and what its two ends lean toward, when the assessment says */
 const infoOf = (dimension: string) => (definition?.kind === 'scale' ? definition.dimensions?.find((info) => info.id === dimension) : undefined);
+
+/** Whether the result is laid out as a ranked list: the first few told in full, then all of them in order */
+const view = computed(() => (definition?.kind === 'scale' ? definition.view : undefined));
+const isRanked = computed(() => view.value === 'ranked');
+
+/** Whether the result is told by its own layout, so that the general score bars and notes are left out */
+const ownLayout = computed(() => view.value !== undefined);
+
+/** What each dimension of a scale is called, by id */
+const dimensionNames = computed<Record<string, string>>(() => (definition?.kind === 'scale' ? Object.fromEntries((definition.dimensions ?? []).map((info) => [info.id, info.name])) : {}));
+
+/** What each option of a pick is called, by id */
+const optionNames = computed<Record<string, string>>(() => (definition?.kind === 'selection' ? Object.fromEntries(definition.options.map((option) => [option.id, option.name])) : {}));
+
+/** What the picks say together, when the assessment says */
+const synthesis = computed<AssessmentSynthesis>(() => {
+    const empty = {
+        portrait: [], tensions: [],
+    };
+
+    if (!definition || !result.value) return empty;
+
+    try {
+        return definition.synthesisOf?.(result.value.result) ?? empty;
+    } catch (error) {
+        console.warn('[assessment] result does not fit the definition:', error);
+
+        return empty;
+    }
+});
+
+/** What the assessment says about the result beyond its scores, when it does */
+const notes = computed<string[]>(() => {
+    if (!definition || !result.value) return [];
+
+    try {
+        return definition.notesOf?.(result.value.result) ?? [];
+    } catch (error) {
+        console.warn('[assessment] result does not fit the definition:', error);
+
+        return [];
+    }
+});
 
 /** The dimension scores of a result that has them; a result of another shape just shows its contents */
 const scores = computed<DimensionScore[]>(() => {

@@ -43,6 +43,12 @@ export type DimensionScore = {
 /** What the contents of a result are, by content key, once they are read */
 export type AssessmentContents = Readonly<Record<string, FixedResultResponse>>;
 
+/** What the picks say together, as sentences: the kind of person they add up to, and where they may pull against each other */
+export type AssessmentSynthesis = {
+    portrait: string[];
+    tensions: string[];
+};
+
 type Common = {
     id: AssessmentId;
     /** The id of the assessment as a system of a multi-dimension report */
@@ -56,6 +62,10 @@ type Common = {
     contentKeysOf: (result: unknown) => string[];
     /** The result as it must be, or a thrown error: what is stored and what comes back out of the store go through it */
     parseResult: (raw: unknown) => unknown;
+    /** A few lines about the result that the dimension scores do not say (a wing, a tie) shown at the top of the result page */
+    notesOf?: (result: unknown) => string[];
+    /** What all the picks of a result say together; for a pick from a list */
+    synthesisOf?: (result: unknown) => AssessmentSynthesis;
     /** Multi-dimension: what a result is worth to a multi-dimension report */
     reportInput: (result: unknown, contents: AssessmentContents) => SystemReportInput;
     /** Multi-dimension: the terms of the assessment pointed at the ends of the trait axes */
@@ -76,6 +86,10 @@ export type ScaleAssessment = Common & {
     kind: 'scale';
     items: readonly ScaleItem[];
     dimensions?: readonly ScaleDimensionInfo[];
+    /** The five answers, from 1 to 5, when "agree" is not what is being asked (liking, for one) */
+    answerLabels?: readonly string[];
+    /** How the result page lays the result out: `ranked` is a list put in order, the first few told in full; `code` is the few that make up a code, with what the set says */
+    view?: 'ranked' | 'code';
     evaluate: (answers: readonly ScaleAnswer[]) => unknown;
 };
 
@@ -99,6 +113,8 @@ type CommonSpec<Result> = {
     resultSchema: z.ZodType<Result>;
     contentKeys: (result: Result) => string[];
     reportInput: (result: Result, contents: AssessmentContents) => SystemReportInput;
+    notes?: (result: Result) => string[];
+    synthesis?: (result: Result) => AssessmentSynthesis;
     traitMappings: readonly MappingEntry[];
     basePrice: number;
 };
@@ -106,6 +122,8 @@ type CommonSpec<Result> = {
 export type ScaleAssessmentSpec<Result> = CommonSpec<Result> & {
     items: readonly ScaleItem[];
     dimensions?: readonly ScaleDimensionInfo[];
+    answerLabels?: readonly string[];
+    view?: 'ranked' | 'code';
     score: (answers: readonly ScaleAnswer[]) => Result;
 };
 
@@ -126,6 +144,10 @@ function commonOf<Result>(spec: CommonSpec<Result>): Common {
         contentKeysOf: (result) => spec.contentKeys(spec.resultSchema.parse(result)),
         parseResult: (raw) => spec.resultSchema.parse(raw),
         reportInput: (result, contents) => spec.reportInput(spec.resultSchema.parse(result), contents),
+        synthesisOf: spec.synthesis ? (result) => spec.synthesis?.(spec.resultSchema.parse(result)) ?? {
+            portrait: [], tensions: [],
+        } : undefined,
+        notesOf: spec.notes ? (result) => spec.notes?.(spec.resultSchema.parse(result)) ?? [] : undefined,
         traitMappings: spec.traitMappings,
         basePrice: spec.basePrice,
     };
@@ -138,6 +160,8 @@ export function defineScaleAssessment<Result>(spec: ScaleAssessmentSpec<Result>)
         kind: 'scale',
         items: spec.items,
         dimensions: spec.dimensions,
+        answerLabels: spec.answerLabels,
+        view: spec.view,
         evaluate: (answers) => spec.resultSchema.parse(spec.score(answers)),
     };
 }
