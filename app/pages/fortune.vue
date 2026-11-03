@@ -3,6 +3,7 @@
         <ReportBanner
             title="今日運勢"
             :headline="drawDate"
+            :tagline="selected ? selectedLabel : undefined"
             tone="amber"
         />
 
@@ -137,16 +138,15 @@
 
         <!-- Opened here: its own content, with a way back -->
         <template v-else>
-            <div class="d-flex align-center ga-2 mb-4">
-                <v-btn
-                    variant="text"
-                    prepend-icon="mdi-arrow-left"
-                    @click="back"
-                >
-                    今日運勢
-                </v-btn>
-                <span class="text-subtitle-1 font-weight-medium">{{ selectedLabel }}</span>
-            </div>
+            <v-fab
+                app
+                extended
+                color="primary"
+                location="bottom end"
+                prepend-icon="mdi-arrow-left"
+                text="今日運勢"
+                @click="back"
+            />
             <FortuneTarotPanel v-if="selected === 'tarot'" />
             <FortuneKinPanel v-else-if="selected === 'kin'" />
             <FortuneRunePanel v-else-if="selected === 'rune'" />

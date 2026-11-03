@@ -7,6 +7,15 @@
             tone="green"
         />
 
+        <v-alert
+            type="info"
+            variant="tonal"
+            density="compact"
+            class="mb-4"
+        >
+            這份報告的題目沒有經過信度與效度驗證，只能幫你自我探索，不是心理評估或診斷。
+        </v-alert>
+
         <v-progress-circular
             v-if="loading"
             indeterminate
@@ -451,6 +460,17 @@
                 </v-btn>
             </div>
         </template>
+
+        <!-- Back to where the reports are listed -->
+        <v-fab
+            app
+            extended
+            color="primary"
+            location="bottom end"
+            to="/self-reports"
+            prepend-icon="mdi-arrow-left"
+            text="自我分析報告"
+        />
     </div>
 </template>
 

@@ -9,6 +9,16 @@
         />
 
         <v-alert
+            v-if="meta?.system === 'MBTI'"
+            type="info"
+            variant="tonal"
+            density="compact"
+            class="mb-4"
+        >
+            這份報告的題目沒有經過信度與效度驗證，只能幫你自我探索，不是心理評估或診斷。
+        </v-alert>
+
+        <v-alert
             v-if="!meta"
             type="info"
             variant="tonal"
@@ -113,8 +123,33 @@
                     :report="report"
                     :refresh="refresh"
                 />
+
+                <div
+                    v-if="meta.system === 'MBTI'"
+                    class="d-flex justify-center my-4"
+                >
+                    <v-btn
+                        variant="outlined"
+                        prepend-icon="mdi-restart"
+                        to="/test?retake=1"
+                    >
+                        重新測驗
+                    </v-btn>
+                </div>
             </template>
         </template>
+
+        <!-- Back to where the reports are listed: today's fortune for the reports of today, the self-analysis reports for the rest -->
+        <v-fab
+            v-if="meta"
+            app
+            extended
+            color="primary"
+            location="bottom end"
+            :to="backTo.to"
+            :prepend-icon="backTo.icon"
+            :text="backTo.label"
+        />
     </div>
 </template>
 
@@ -205,6 +240,15 @@ const NEED_MESSAGES: Readonly<Record<SingleReportNeed, { type: 'info' | 'warning
         type: 'info', text: '這份報告需要的內容還在準備中，晚一點再回來看看。',
     },
 };
+
+/** Where the floating button leads back to */
+const backTo = meta && isStateSystem(meta.system)
+    ? {
+        to: '/fortune', label: '今日運勢', icon: 'mdi-cards-playing-outline',
+    }
+    : {
+        to: '/self-reports', label: '自我分析報告', icon: 'mdi-arrow-left',
+    };
 
 /** The AI analysis is for the reports built from birth data and the like; today's state is not kept, so it has none */
 const canAnalyse = computed(() => Boolean(report.value) && !isStateSystem(report.value?.systems[0] ?? 'ZODIAC'));
