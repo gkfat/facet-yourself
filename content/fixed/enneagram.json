@@ -1,0 +1,333 @@
+[
+  {
+    "contentType": "ASSESSMENT",
+    "key": "enneagram_type-1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "第 1 型・原則者：追求正確與改進",
+      "summary": "你很在意事情是否做得對、做得好，心裡有一把清楚的尺。你傾向從「怎麼更好」來看世界，也常用同樣的標準看待自己。",
+      "strengths": [
+        "有原則、可靠，重視品質",
+        "看得到可以改進的地方，也願意動手",
+        "自律，說到做到"
+      ],
+      "blindSpots": [
+        "容易對自己和別人過於挑剔",
+        "壓抑的不滿可能以緊繃或挑剔的形式冒出來"
+      ],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "練習把「夠好」也當成一種完成，替自己留一點不必完美的空間。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這個量表上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。傾向不等於你就是某一型。",
+      "dailyBehavior": "壓力下你會更嚴格、更緊繃，對細節與別人的失誤更敏感；放鬆時你能更輕鬆、幽默，也更能接受事情本來的樣子。",
+      "coreNeeds": {
+        "pursuit": "把事情做對，讓自己和世界變得更好。",
+        "securitySource": "覺得自己正直、行為合乎標準的時候，你最安心。",
+        "deepWorry": "害怕犯錯、被認為有缺失或不夠正直。",
+        "innerConflict": "想放鬆與自在，卻又覺得應該先把該做的做到最好。"
+      },
+      "growthReflection": {
+        "useStrength": "把「求好」用在值得投入的事上，帶來可靠與品質。",
+        "watchHabit": "留意內在那個評判的聲音，是否讓你很少真正滿意自己。",
+        "reflectionQuestion": "我最近對自己說過最嚴厲的一句話是什麼？我會對朋友這樣說嗎？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "enneagram_type-2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "第 2 型・助人者：希望被需要，習慣先照顧別人",
+      "summary": "你很容易察覺別人的需要，也樂於付出。對你來說，被需要、被感謝，是感受到自己有價值的重要來源。",
+      "strengths": [
+        "體貼、善於照顧人",
+        "能很快建立溫暖的連結",
+        "願意付出時間與心力"
+      ],
+      "blindSpots": [
+        "可能忽略自己的需要，付出後才感到疲憊或委屈",
+        "期待被回報卻不好意思說出口"
+      ],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "在付出之前先問自己：我現在需要什麼？學著把需要直接說出來。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這個量表上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。傾向不等於你就是某一型。",
+      "dailyBehavior": "壓力下你可能更努力地付出，並更在意別人是否看見；放鬆時你會更能照顧自己，也能坦然接受別人的好意。",
+      "coreNeeds": {
+        "pursuit": "被愛、被需要，與人有溫暖的連結。",
+        "securitySource": "感覺自己對別人有幫助、被喜歡的時候，你最安心。",
+        "deepWorry": "害怕不被愛，或自己沒有人需要。",
+        "innerConflict": "想付出卻也想被照顧，而兩者常難以同時說出口。"
+      },
+      "growthReflection": {
+        "useStrength": "把「體貼」用在能真正幫上忙、也不耗損自己的地方。",
+        "watchHabit": "留意「我只是想幫你」背後，是否也藏著期待。",
+        "reflectionQuestion": "最近一次我說「沒關係」時，其實我需要什麼？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "enneagram_type-3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "第 3 型・成就者：重視成果與被肯定",
+      "summary": "你有明確的目標，也很會把事情推進。成果與別人的肯定，是你確認自己價值的重要方式。",
+      "strengths": [
+        "行動力強、效率高",
+        "能設定目標並達成",
+        "善於適應場合、鼓舞他人"
+      ],
+      "blindSpots": [
+        "可能把價值全放在成果上，忽略內在的感受",
+        "為了維持形象，容易分不清真正的想法與該有的表現"
+      ],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "停下來問自己：如果沒有人看見，我還想做這件事嗎？",
+      "disclaimer": "本內容為自我探索參考，只描述你在這個量表上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。傾向不等於你就是某一型。",
+      "dailyBehavior": "壓力下你可能更拼命、更在意形象；放鬆時你會更真誠，能夠為了享受而做事，不是為了證明。",
+      "coreNeeds": {
+        "pursuit": "有成就、被肯定，成為有價值的人。",
+        "securitySource": "事情有進展、被看見與稱讚的時候，你最安心。",
+        "deepWorry": "害怕失敗、沒有價值，或被視為無能。",
+        "innerConflict": "想要真實的自己被接受，又擔心不夠亮眼就不被需要。"
+      },
+      "growthReflection": {
+        "useStrength": "把「行動與效率」用在真正在乎的目標上。",
+        "watchHabit": "留意你是否常用忙碌來避開不舒服的感受。",
+        "reflectionQuestion": "如果暫時沒有任何成果可以展示，我還是有價值的理由是什麼？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "enneagram_type-4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "第 4 型・個人主義者：在意獨特與真實",
+      "summary": "你的情感深刻，對自己是誰、什麼才真實很在意。你容易被美與有意義的事打動，也常感覺自己有些不同。",
+      "strengths": [
+        "情感豐富、有同理與創意",
+        "重視真實，不隨波逐流",
+        "能在困難中看到深度與意義"
+      ],
+      "blindSpots": [
+        "容易沉浸在失落或「缺少什麼」的感覺中",
+        "拿自己和別人比較，覺得自己少了什麼"
+      ],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "留意眼前已經擁有的，不只看缺少的；用創作或書寫為感受找出口。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這個量表上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。傾向不等於你就是某一型。",
+      "dailyBehavior": "壓力下你可能更退縮、更沉浸在情緒；放鬆時你會更穩定，能在日常中找到意義，而不必一直追求特別。",
+      "coreNeeds": {
+        "pursuit": "找到真實的自己，活出獨特而有意義的樣子。",
+        "securitySource": "能表達真實的感受、被理解的時候，你最安心。",
+        "deepWorry": "害怕自己沒有身分、沒有意義，或太平凡。",
+        "innerConflict": "渴望被理解與連結，卻又怕靠近後失去自己的獨特。"
+      },
+      "growthReflection": {
+        "useStrength": "把「深刻與真實」用在創作、陪伴與理解別人的深層感受。",
+        "watchHabit": "留意把自己和別人比較時，是否放大了「我少了什麼」。",
+        "reflectionQuestion": "此刻我已經擁有哪些，是我曾經很想要的？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "enneagram_type-5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "第 5 型・探究者：需要獨處與理解",
+      "summary": "你喜歡觀察與思考，需要足夠的空間與時間，來弄懂事情與補充能量。你傾向謹慎地分配自己的精力與參與。",
+      "strengths": [
+        "善於分析、專注深入",
+        "獨立，不輕易被情緒左右",
+        "能提出有見地的看法"
+      ],
+      "blindSpots": [
+        "可能與人拉開距離，讓人覺得難以靠近",
+        "準備不夠就不敢行動，錯過參與的機會"
+      ],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "在還沒準備到百分之百時，也試著小小地參與、表達，讓別人更認識你。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這個量表上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。傾向不等於你就是某一型。",
+      "dailyBehavior": "壓力下你可能更退回自己的空間、更封閉；放鬆時你會更投入，也更願意與人分享自己的想法。",
+      "coreNeeds": {
+        "pursuit": "理解事情，擁有足夠的知識與自己的空間。",
+        "securitySource": "有足夠的獨處、資訊與自主權的時候，你最安心。",
+        "deepWorry": "害怕被需求淹沒、能力不足，或被侵入自己的空間。",
+        "innerConflict": "渴望連結，又擔心投入太多會耗盡自己。"
+      },
+      "growthReflection": {
+        "useStrength": "把「專注與洞察」用在需要深入理解的問題上。",
+        "watchHabit": "留意「我還需要多了解一點」是否變成延後行動的理由。",
+        "reflectionQuestion": "這週我可以和哪一個人，分享一個還沒完全想清楚的想法？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "enneagram_type-6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "第 6 型・忠誠者：預想風險、重視可靠",
+      "summary": "你習慣預想可能出錯的地方，做好準備，也很重視忠誠與可以依靠的關係。你對安全與信任特別敏感。",
+      "strengths": [
+        "負責、可靠，能預見問題",
+        "忠誠，重視承諾",
+        "在需要時能提出謹慎的提醒"
+      ],
+      "blindSpots": [
+        "容易焦慮或反覆懷疑，難以安心",
+        "把還沒發生的風險想得太多，延誤決定"
+      ],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "把擔心寫下來，分成「現在能做的」與「無法控制的」，先做能做的一小步。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這個量表上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。傾向不等於你就是某一型。",
+      "dailyBehavior": "壓力下你可能更焦慮、更多疑；放鬆時你會更信任自己與他人，能在不確定中保持穩定。",
+      "coreNeeds": {
+        "pursuit": "安全、支持與可以信任的依靠。",
+        "securitySource": "有可靠的人、清楚的規則與準備的時候，你最安心。",
+        "deepWorry": "害怕失去支持、沒有保障，或被逼到無法應付的處境。",
+        "innerConflict": "想相信別人，又忍不住先檢查是否可靠。"
+      },
+      "growthReflection": {
+        "useStrength": "把「謹慎與忠誠」用在保護自己在乎的人與事。",
+        "watchHabit": "留意腦中的最壞情境，是否比真實發生的更多。",
+        "reflectionQuestion": "現在最擔心的事，有什麼證據顯示它真的會發生？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "enneagram_type-7",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "第 7 型・熱情者：嚮往多樣與自由",
+      "summary": "你充滿好奇與活力，喜歡有許多選擇與新鮮的體驗。你傾向把注意力放在有趣與正面的事情上，不想被困住。",
+      "strengths": [
+        "樂觀、有活力、點子多",
+        "帶動氣氛，讓人感到輕鬆",
+        "能快速轉換、適應變化"
+      ],
+      "blindSpots": [
+        "容易分心，難以把事情做到底",
+        "避開不舒服的感受，反而讓它們累積"
+      ],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "挑一件事專心做到最後，也允許自己在難受的感覺裡待一會兒。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這個量表上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。傾向不等於你就是某一型。",
+      "dailyBehavior": "壓力下你可能更分散、更急著找新的刺激；放鬆時你會更專注，能深入享受眼前的一件事。",
+      "coreNeeds": {
+        "pursuit": "自由、快樂與豐富的體驗。",
+        "securitySource": "有許多選擇、能保持輕鬆與期待的時候，你最安心。",
+        "deepWorry": "害怕被困住、痛苦或匱乏。",
+        "innerConflict": "想擁有一切可能，又不想為了一個選擇放棄其他。"
+      },
+      "growthReflection": {
+        "useStrength": "把「熱情與樂觀」用在開啟新的可能與鼓舞他人。",
+        "watchHabit": "留意轉換話題或計畫，是不是為了避開某種感受。",
+        "reflectionQuestion": "最近有沒有一個不舒服的感受，我一直繞過它？它想告訴我什麼？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "enneagram_type-8",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "第 8 型・挑戰者：想自己作主，也願意保護",
+      "summary": "你有力量感，習慣自己作主、直接表達，遇到不公會挺身而出。你傾向保護自己在乎的人，也不喜歡被控制。",
+      "strengths": [
+        "有決斷力與行動力",
+        "直接坦率，值得依靠",
+        "願意為在乎的人與公平站出來"
+      ],
+      "blindSpots": [
+        "可能過於強勢，讓人不敢靠近",
+        "不願示弱，把脆弱藏得很深"
+      ],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "在需要時讓信任的人看到你柔軟的一面，示弱不會讓你失去力量。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這個量表上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。傾向不等於你就是某一型。",
+      "dailyBehavior": "壓力下你可能更強硬、更控制；放鬆時你會更溫柔，能放下防備，照顧身邊的人。",
+      "coreNeeds": {
+        "pursuit": "自己作主，保護自己與在乎的人。",
+        "securitySource": "握有主導權、不受制於人的時候，你最安心。",
+        "deepWorry": "害怕被控制、被傷害，或顯得軟弱。",
+        "innerConflict": "渴望親近，又擔心放下防備後被傷害。"
+      },
+      "growthReflection": {
+        "useStrength": "把「力量與直率」用在保護他人與推動公平。",
+        "watchHabit": "留意強硬的態度，是否讓別人不敢說出真實的想法。",
+        "reflectionQuestion": "上一次我讓別人看到我的脆弱，是什麼時候？結果如何？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "enneagram_type-9",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "第 9 型・和平者：重視和諧，淡化自己的需要",
+      "summary": "你重視身邊的平靜與和諧，能理解各方的立場。你傾向避開衝突，也常把自己的需要放在後面。",
+      "strengths": [
+        "包容、讓人感到安心",
+        "能理解不同立場、善於調解",
+        "穩定、不急躁"
+      ],
+      "blindSpots": [
+        "可能順著別人，卻不確定自己真正想要什麼",
+        "拖延重要的事，讓不滿悄悄累積"
+      ],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "每天練習表達一個小小的偏好，讓自己的想法也被聽見。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這個量表上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。傾向不等於你就是某一型。",
+      "dailyBehavior": "壓力下你可能更退縮、更麻木地迴避；放鬆時你會更有精神，能清楚表達自己的想法與行動。",
+      "coreNeeds": {
+        "pursuit": "平靜、和諧與不被打擾的連結。",
+        "securitySource": "身邊平和、關係沒有裂痕的時候，你最安心。",
+        "deepWorry": "害怕衝突、分離，或失去連結。",
+        "innerConflict": "想要和諧，也想要自己的想法被看見，兩者常彼此拉扯。"
+      },
+      "growthReflection": {
+        "useStrength": "把「包容與平衡」用在化解衝突與凝聚團體。",
+        "watchHabit": "留意「都可以」說出口之前，是否真的都可以。",
+        "reflectionQuestion": "如果今天只能選一件我想要的事，我會選什麼？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "enneagram_tie",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "兩個類型的分數很接近",
+      "summary": "你的回答裡，有兩個類型的分數非常接近，所以這份結果沒有只挑出一型，而是把兩者並列。兩段內容都值得讀，看看哪一段更像你的動機，而不是更像你的行為；也可以隔一段時間再做一次，看傾向有沒有變化。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "",
+      "disclaimer": "本內容為自我探索參考，只描述你在這個量表上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。傾向不等於你就是某一型。"
+    }
+  }
+]

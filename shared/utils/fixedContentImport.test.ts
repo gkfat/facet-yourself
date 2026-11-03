@@ -206,7 +206,7 @@ describe('computeCoverage', () => {
         })));
 
         expect(report).toMatchObject({
-            expected: 895, published: 895, complete: true,
+            expected: 1004, published: 1004, complete: true,
         });
     });
 
@@ -227,6 +227,6 @@ describe('computeCoverage', () => {
         expect(report.missing).toEqual(all.slice(0, 2));
         expect(report.unpublished).toHaveLength(1);
         expect(report.unexpected).toEqual(['ZODIAC_aries_XXXX']);
-        expect(report.published).toBe(895 - 2 - 1);
+        expect(report.published).toBe(1004 - 2 - 1);
     });
 });

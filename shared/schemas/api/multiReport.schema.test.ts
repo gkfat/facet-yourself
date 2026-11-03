@@ -12,6 +12,6 @@ describe('multiReportRequestSchema', () => {
         expect(multiReportRequestSchema.safeParse({ systems: ['ZODIAC'] }).success).toBe(false);
         expect(multiReportRequestSchema.safeParse({ systems: ['ZODIAC', 'ZODIAC'] }).success).toBe(false);
         expect(multiReportRequestSchema.safeParse({ systems: ['ZODIAC', 'TAROT'] }).success).toBe(false);
-        expect(multiReportRequestSchema.safeParse({ systems: ['ZODIAC', 'ENNEAGRAM'] }).success).toBe(false);
+        expect(multiReportRequestSchema.safeParse({ systems: ['ZODIAC', 'EMOTIONAL_INTELLIGENCE'] }).success).toBe(false);
     });
 });

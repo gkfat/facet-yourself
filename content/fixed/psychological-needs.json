@@ -1,0 +1,200 @@
+[
+  {
+    "contentType": "ASSESSMENT",
+    "key": "psychological-needs_autonomy_low",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "自主偏低：最近比較常覺得是被推著走",
+      "summary": "你這陣子可能覺得很多事不是自己選的，節奏與做法常被別人決定。這不是你的問題，而是目前環境可能少了讓你作主的空間。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "從眼前最小的事開始：挑一件可以自己決定怎麼做的事，哪怕只是順序或時間。也可以試著對決定你節奏的人，說出你的偏好。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這個量表上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。分數只代表你這陣子的感受，會隨環境改變。",
+      "dailyBehavior": "動力容易上升的情境：能自己決定做事的方式、順序或時間；有人說明「為什麼要做」而不只是「要做什麼」；哪怕只是小事，也有選擇的餘地。\n動力容易下降的環境：被密集監控、規則很細、沒有討論餘地；每件事都有人預先決定好。",
+      "growthReflection": {
+        "useStrength": "把想要作主的感覺當成有用的訊號，告訴你在乎什麼。",
+        "watchHabit": "留意把「不得不」當成唯一的說法，其實有些事還有選擇。",
+        "reflectionQuestion": "本週有哪一件事，我可以自己決定怎麼做？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "psychological-needs_autonomy_mid",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "自主居中：有時自己作主，有時被安排",
+      "summary": "你這陣子在自己選擇與被安排之間取得平衡，有些事由你決定，有些事需要配合。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "留意哪些事你一向願意配合、哪些會讓你不舒服，替後者多爭取一點空間。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這個量表上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。分數只代表你這陣子的感受，會隨環境改變。",
+      "dailyBehavior": "動力容易上升的情境：在配合的前提下，仍能保有一部分自己決定的空間；理解事情的目的。\n動力容易下降的環境：選擇空間突然縮小，或規定在沒有說明下改變。",
+      "growthReflection": {
+        "useStrength": "彈性：能在配合與主張之間切換。",
+        "watchHabit": "留意自己是否在不知不覺間讓出了該有的選擇。",
+        "reflectionQuestion": "哪一個選擇，我最想要自己決定？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "psychological-needs_autonomy_high",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "自主偏高：最近多半覺得是自己在選擇",
+      "summary": "你這陣子覺得自己的行動多半出自自己的想法與選擇，也有空間照自己的節奏走。這是很重要的資源。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "保持這份自主，也留意在團體中，別人也需要自己的選擇空間。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這個量表上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。分數只代表你這陣子的感受，會隨環境改變。",
+      "dailyBehavior": "動力容易上升的情境：能照自己的方式做事、目標與自己在意的事一致。\n動力容易下降的環境：被突然要求依指令行事、缺乏說明的規定。",
+      "growthReflection": {
+        "useStrength": "把自主的感覺用在承擔、也用在邀請別人一起決定。",
+        "watchHabit": "留意堅持自己的方式時，是否忽略了合作的需要。",
+        "reflectionQuestion": "我的自主感，來自哪些環境或安排？我怎麼保住它？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "psychological-needs_competence_low",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "勝任偏低：最近比較常覺得做不好或沒地方發揮",
+      "summary": "你這陣子可能覺得自己不夠好，或擅長的事少有機會用上。這不代表你能力不足，常常只是目標太難、回饋太少或沒有合適的舞台。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "把大目標拆成小到做得到的步驟，並記錄每一次完成。找一個機會用上你最擅長的事，累積一些可見的成果。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這個量表上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。分數只代表你這陣子的感受，會隨環境改變。",
+      "dailyBehavior": "動力容易上升的情境：任務難度剛好、有清楚的回饋、看得到自己的進步；能用上自己擅長的事。\n動力容易下降的環境：目標過高又沒有支援；只看到錯誤、少有肯定；一直做不擅長也看不到成果的事。",
+      "growthReflection": {
+        "useStrength": "你有想做好的心，這是很好的出發點。",
+        "watchHabit": "留意「我就是不行」的想法，是否忽略了已經做到的事。",
+        "reflectionQuestion": "最近有哪一件小事我做得不錯，只是沒有注意到？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "psychological-needs_competence_mid",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "勝任居中：有做得到的事，也有感到吃力的事",
+      "summary": "你這陣子對自己的能力有基本的信心，也有一些事讓你覺得吃力。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "替自己挑一個稍微有挑戰的目標，並約定一個檢查成果的時間。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這個量表上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。分數只代表你這陣子的感受，會隨環境改變。",
+      "dailyBehavior": "動力容易上升的情境：挑戰適中、有學習新東西的機會、能看到成果。\n動力容易下降的環境：長期重複而沒有成長，或突然加碼的高難度。",
+      "growthReflection": {
+        "useStrength": "穩定：有基本的信心，願意學習。",
+        "watchHabit": "留意是否一直停在舒適區，而錯過進步的機會。",
+        "reflectionQuestion": "我最想在哪一方面變得更好？第一步是什麼？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "psychological-needs_competence_high",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "勝任偏高：最近多半覺得自己有能力、有進步",
+      "summary": "你這陣子覺得自己有能力面對事情，也看得到努力的成果與進步。這份感覺是很好的動力來源。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "持續替自己安排新的挑戰，也記得休息，避免只用成果衡量自己。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這個量表上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。分數只代表你這陣子的感受，會隨環境改變。",
+      "dailyBehavior": "動力容易上升的情境：新的挑戰、能教別人、看得到具體成果。\n動力容易下降的環境：重複而沒有挑戰的工作，或長時間沒有回饋。",
+      "growthReflection": {
+        "useStrength": "把能力用來幫助別人，也繼續學習。",
+        "watchHabit": "留意把價值全放在表現上，累了也不敢停。",
+        "reflectionQuestion": "我的能力，除了表現，還能為誰帶來幫助？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "psychological-needs_relatedness_low",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "關係偏低：最近比較常覺得有距離、少有被理解",
+      "summary": "你這陣子可能覺得和別人之間有些距離，或少有人真正了解你。這是一種感受，不代表你不值得被關心。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "從一個很小的接觸開始：傳一則訊息給一位你信任的人，或加入一個輕鬆的聚會。品質比數量重要，一位能說心裡話的人就很有幫助。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這個量表上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。分數只代表你這陣子的感受，會隨環境改變。",
+      "dailyBehavior": "動力容易上升的情境：和信任的人說說話、做事有人一起、被接納而不被評價。\n動力容易下降的環境：長期獨自面對、被排除在群體外、沒有人可以放心說話。",
+      "growthReflection": {
+        "useStrength": "你有想被理解的心，這份心會引領你找到適合的連結。",
+        "watchHabit": "留意因為怕被拒絕而先退開，反而讓距離拉大。",
+        "reflectionQuestion": "這週我可以主動聯絡哪一位讓我感到自在的人？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "psychological-needs_relatedness_mid",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "關係居中：有連結，也有想要更多的地方",
+      "summary": "你這陣子在關係上有一些支持，也有想要更靠近或更被理解的時候。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "找出哪一段關係最讓你覺得被支持，替它多留一些時間。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這個量表上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。分數只代表你這陣子的感受，會隨環境改變。",
+      "dailyBehavior": "動力容易上升的情境：和在乎的人有品質的相處、被接納的感覺。\n動力容易下降的環境：長時間缺少交流，或關係中常有誤會。",
+      "growthReflection": {
+        "useStrength": "穩定：有一些可以依靠的連結。",
+        "watchHabit": "留意是否因為忙碌，而讓重要的連結慢慢淡掉。",
+        "reflectionQuestion": "我最想多花時間陪伴的人是誰？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "psychological-needs_relatedness_high",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "關係偏高：最近多半覺得被關心、有歸屬",
+      "summary": "你這陣子覺得身邊有人關心你，也有被接納和連結的感覺。這份支持是很重要的資源。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "珍惜並維持這些連結，也留意別人是否同樣得到你的關心。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這個量表上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。分數只代表你這陣子的感受，會隨環境改變。",
+      "dailyBehavior": "動力容易上升的情境：和重要的人相處、一起做事、被接納與信任。\n動力容易下降的環境：長期分隔、冷淡或被忽略的環境。",
+      "growthReflection": {
+        "useStrength": "把這份被支持的感覺，轉成對別人的陪伴。",
+        "watchHabit": "留意為了維持連結而壓下自己的想法。",
+        "reflectionQuestion": "最近我是否也讓別人感受到被關心？"
+      }
+    }
+  }
+]

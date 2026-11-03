@@ -1,0 +1,722 @@
+[
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_creativity",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "創造力：想出新穎又有用的做法",
+      "summary": "你習慣從不同角度看事情，喜歡把想法變成實際的東西。",
+      "strengths": [
+        "創造力"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "挑一個點子做出最簡單的版本，邀請別人回饋，讓創意落地。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能常替日常小事想新方法，或在工作與生活中帶入新意。",
+      "overuse": [
+        {
+          "strength": "創造力",
+          "whenOverused": "點子很多卻很少完成，或讓別人覺得你不切實際。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "挑一個點子做出最簡單的版本，邀請別人回饋，讓創意落地。",
+        "watchHabit": "留意「創造力」用得太過時的樣子：點子很多卻很少完成，或讓別人覺得你不切實際。",
+        "reflectionQuestion": "最近有哪個點子，我可以先做出一個小版本？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_curiosity",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "好奇心：對新事物保持興趣，想探索",
+      "summary": "你對世界充滿疑問，喜歡探索未知，也容易被新的事物吸引。",
+      "strengths": [
+        "好奇心"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "挑一個最感興趣的主題深入下去，也把你學到的和別人分享。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能愛問問題、喜歡嘗試新活動，並在陌生的環境中仍感到有趣。",
+      "overuse": [
+        {
+          "strength": "好奇心",
+          "whenOverused": "興趣太分散，沒有一件事深入，或讓人覺得你問太多。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "挑一個最感興趣的主題深入下去，也把你學到的和別人分享。",
+        "watchHabit": "留意「好奇心」用得太過時的樣子：興趣太分散，沒有一件事深入，或讓人覺得你問太多。",
+        "reflectionQuestion": "最近我最想弄懂的一件事是什麼？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_judgment",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "判斷力：仔細思考、從各角度衡量",
+      "summary": "你習慣客觀衡量資訊，不輕易被情緒或偏見帶著走，也願意修正自己。",
+      "strengths": [
+        "判斷力"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "為決定設定期限，蒐集到夠用的資訊就行動，也相信自己的判斷。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能在別人爭論時，能冷靜地整理各方的論點，幫大家做出較周全的決定。",
+      "overuse": [
+        {
+          "strength": "判斷力",
+          "whenOverused": "想得太多而遲遲不決定，或讓人覺得你太挑剔。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "為決定設定期限，蒐集到夠用的資訊就行動，也相信自己的判斷。",
+        "watchHabit": "留意「判斷力」用得太過時的樣子：想得太多而遲遲不決定，或讓人覺得你太挑剔。",
+        "reflectionQuestion": "我現在有哪個決定，其實已經有足夠的資訊可以做了？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_love-of-learning",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "熱愛學習：喜歡學新東西、精進自己",
+      "summary": "你喜歡不斷成長，學習本身就讓你覺得滿足，也願意持續累積。",
+      "strengths": [
+        "熱愛學習"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "把學到的東西教給別人或實際應用，讓知識變成能力。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能常看書、上課、自學，也會把學到的知識用在生活上。",
+      "overuse": [
+        {
+          "strength": "熱愛學習",
+          "whenOverused": "只學不用，或看輕還沒有學過那麼多的人。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "把學到的東西教給別人或實際應用，讓知識變成能力。",
+        "watchHabit": "留意「熱愛學習」用得太過時的樣子：只學不用，或看輕還沒有學過那麼多的人。",
+        "reflectionQuestion": "最近學到的哪一件事，我可以馬上用出來？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_perspective",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "洞察力：看見全局，給人有智慧的建議",
+      "summary": "你能看見事情的全貌，也能理解其中的意義，常給人沉穩而有深度的看法。",
+      "strengths": [
+        "洞察力"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "把你的看法說得具體一點，並先聽對方的處境，建議會更貼近。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能在別人迷惘時，幫他們看清楚重點，或提出不同的角度。",
+      "overuse": [
+        {
+          "strength": "洞察力",
+          "whenOverused": "太抽象而顯得遙遠，或對別人的細節不夠耐心。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "把你的看法說得具體一點，並先聽對方的處境，建議會更貼近。",
+        "watchHabit": "留意「洞察力」用得太過時的樣子：太抽象而顯得遙遠，或對別人的細節不夠耐心。",
+        "reflectionQuestion": "最近別人帶著什麼困擾來找我？我怎麼回應的？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_bravery",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "勇敢：面對恐懼仍然行動",
+      "summary": "你能在恐懼、壓力或反對中，仍然做你認為對的事。",
+      "strengths": [
+        "勇敢"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "分辨哪些風險值得冒，先做準備，再勇敢行動。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能在需要時說出不受歡迎的真話，或願意嘗試有風險但有意義的事。",
+      "overuse": [
+        {
+          "strength": "勇敢",
+          "whenOverused": "為了證明勇敢而冒不必要的風險，或忽略別人的擔心。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "分辨哪些風險值得冒，先做準備，再勇敢行動。",
+        "watchHabit": "留意「勇敢」用得太過時的樣子：為了證明勇敢而冒不必要的風險，或忽略別人的擔心。",
+        "reflectionQuestion": "我現在避開的一件事，其實值得我勇敢面對嗎？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_perseverance",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "毅力：有始有終，遇到困難也堅持",
+      "summary": "你對自己訂下的目標有耐力，能在困難中持續前進。",
+      "strengths": [
+        "毅力"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "定期問自己：這個目標還是我要的嗎？堅持之餘也保留調整的彈性。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能在長期的任務中保持步調，也在別人放棄時仍然堅持。",
+      "overuse": [
+        {
+          "strength": "毅力",
+          "whenOverused": "該停不停，固執在不再有效的做法上。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "定期問自己：這個目標還是我要的嗎？堅持之餘也保留調整的彈性。",
+        "watchHabit": "留意「毅力」用得太過時的樣子：該停不停，固執在不再有效的做法上。",
+        "reflectionQuestion": "我現在堅持的事，仍然對我有意義嗎？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_honesty",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "正直：真誠、言行一致",
+      "summary": "你對自己和別人都誠實，不假裝，也重視言行一致。",
+      "strengths": [
+        "正直"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "說真話時多想一步：怎麼說，對方才聽得進去。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能不喜歡虛假的客套，會坦白說出想法，也讓人覺得可以信任。",
+      "overuse": [
+        {
+          "strength": "正直",
+          "whenOverused": "說得太直而傷人，或批判別人不夠誠實。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "說真話時多想一步：怎麼說，對方才聽得進去。",
+        "watchHabit": "留意「正直」用得太過時的樣子：說得太直而傷人，或批判別人不夠誠實。",
+        "reflectionQuestion": "最近有哪一次，我說真話的方式可以更溫和？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_zest",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "活力：對生活充滿熱情與精力",
+      "summary": "你以飽滿的精力與熱情投入生活，讓日子充滿動力。",
+      "strengths": [
+        "活力"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "把活力用在重要的事上，也安排真正的休息。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能一早就想動起來、喜歡運動或活動，也帶動周圍的氣氛。",
+      "overuse": [
+        {
+          "strength": "活力",
+          "whenOverused": "耗盡自己而忘了休息，或讓不同節奏的人覺得有壓力。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "把活力用在重要的事上，也安排真正的休息。",
+        "watchHabit": "留意「活力」用得太過時的樣子：耗盡自己而忘了休息，或讓不同節奏的人覺得有壓力。",
+        "reflectionQuestion": "我的精力主要花在哪些事上？夠不夠回補？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_love",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "愛：重視並維持親密的關係",
+      "summary": "你珍惜與重要的人之間深的連結，能給予也能接受關愛。",
+      "strengths": [
+        "愛"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "在給予關愛的同時，也讓自己的需要被看見。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能花時間陪伴在乎的人，也能自在地表達感情。",
+      "overuse": [
+        {
+          "strength": "愛",
+          "whenOverused": "把重心全放在關係，忽略自己的需要。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "在給予關愛的同時，也讓自己的需要被看見。",
+        "watchHabit": "留意「愛」用得太過時的樣子：把重心全放在關係，忽略自己的需要。",
+        "reflectionQuestion": "我最近有好好表達對重要的人的在乎嗎？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_kindness",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "善良：樂於幫助別人、對人體貼",
+      "summary": "你願意為別人做好事，在乎別人的福祉，也常出手相助。",
+      "strengths": [
+        "善良"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "在伸手之前先問：對方需要什麼？並記得照顧自己的界線。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能很自然地分享、照顧與關心，也不求回報。",
+      "overuse": [
+        {
+          "strength": "善良",
+          "whenOverused": "幫太多而耗盡自己，或在別人沒要求時過度介入。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "在伸手之前先問：對方需要什麼？並記得照顧自己的界線。",
+        "watchHabit": "留意「善良」用得太過時的樣子：幫太多而耗盡自己，或在別人沒要求時過度介入。",
+        "reflectionQuestion": "最近我幫別人時，有先問過對方需要什麼嗎？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_social-intelligence",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "社交智慧：理解自己與他人的感受",
+      "summary": "你能敏銳地理解人與場合，知道怎麼讓人感到被理解。",
+      "strengths": [
+        "社交智慧"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "在照顧別人感受的同時，也練習說出自己的想法。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能在團體裡留意誰需要被聽見，或在緊張時化解氣氛。",
+      "overuse": [
+        {
+          "strength": "社交智慧",
+          "whenOverused": "過度顧及別人而壓下自己的想法，或顯得太圓滑。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "在照顧別人感受的同時，也練習說出自己的想法。",
+        "watchHabit": "留意「社交智慧」用得太過時的樣子：過度顧及別人而壓下自己的想法，或顯得太圓滑。",
+        "reflectionQuestion": "最近有哪一次，我壓下了真正想說的話？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_teamwork",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "團隊合作：願意為團體付出，與人共事",
+      "summary": "你重視團體的成功，願意與人合作並盡自己的本分。",
+      "strengths": [
+        "團隊合作"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "在合作中也表達你的想法，讓團隊多一份聲音。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能在團隊裡可靠地完成任務，也在意夥伴是否被照顧。",
+      "overuse": [
+        {
+          "strength": "團隊合作",
+          "whenOverused": "為了配合團體而失去自己的意見，或過度依賴共識。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "在合作中也表達你的想法，讓團隊多一份聲音。",
+        "watchHabit": "留意「團隊合作」用得太過時的樣子：為了配合團體而失去自己的意見，或過度依賴共識。",
+        "reflectionQuestion": "在團隊中，我的獨特貢獻是什麼？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_fairness",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "公平：對每個人一視同仁",
+      "summary": "你相信每個人都該被公平對待，也努力讓規則一致。",
+      "strengths": [
+        "公平"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "在堅持公平的同時，也聽聽每個人背後的情況。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能在分配資源或處理爭議時，注意是否公正，不偏袒任何一方。",
+      "overuse": [
+        {
+          "strength": "公平",
+          "whenOverused": "太拘泥規則，而忽略人的特殊處境。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "在堅持公平的同時，也聽聽每個人背後的情況。",
+        "watchHabit": "留意「公平」用得太過時的樣子：太拘泥規則，而忽略人的特殊處境。",
+        "reflectionQuestion": "最近有哪一次，我因為公平而忽略了某人的處境？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_leadership",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "領導力：帶領大家朝共同目標前進",
+      "summary": "你擅長鼓舞並組織他人，讓團體合作順利、保持良好的關係。",
+      "strengths": [
+        "領導力"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "授權給夥伴，並在決定前先聽見他們的想法。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能自然地站出來協調、分工，也讓夥伴覺得被尊重。",
+      "overuse": [
+        {
+          "strength": "領導力",
+          "whenOverused": "太強勢而不容易聽見別人，或把事情全攬在自己身上。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "授權給夥伴，並在決定前先聽見他們的想法。",
+        "watchHabit": "留意「領導力」用得太過時的樣子：太強勢而不容易聽見別人，或把事情全攬在自己身上。",
+        "reflectionQuestion": "最近我帶領別人時，夥伴的聲音有被聽見嗎？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_forgiveness",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "寬恕：原諒別人，給人再一次的機會",
+      "summary": "你能放下對別人的怨，相信人可以改變，不把傷害一直放在心上。",
+      "strengths": [
+        "寬恕"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "寬恕並不代表沒有界線，可以原諒，也說清楚你的底線。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能在衝突之後，願意先伸出手修復關係。",
+      "overuse": [
+        {
+          "strength": "寬恕",
+          "whenOverused": "縱容重複的傷害，或太快原諒而沒說出自己的感受。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "寬恕並不代表沒有界線，可以原諒，也說清楚你的底線。",
+        "watchHabit": "留意「寬恕」用得太過時的樣子：縱容重複的傷害，或太快原諒而沒說出自己的感受。",
+        "reflectionQuestion": "有沒有一件事，我該說出感受而不是只是原諒？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_humility",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "謙遜：不誇耀，讓成績自己說話",
+      "summary": "你不自我誇耀，能看到自己與別人的價值，也樂於承認不足。",
+      "strengths": [
+        "謙遜"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "清楚說出自己的貢獻，謙遜與被看見並不衝突。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能把功勞分給夥伴，被稱讚時淡然，也願意向別人請教。",
+      "overuse": [
+        {
+          "strength": "謙遜",
+          "whenOverused": "過度低調而讓自己的貢獻被忽略。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "清楚說出自己的貢獻，謙遜與被看見並不衝突。",
+        "watchHabit": "留意「謙遜」用得太過時的樣子：過度低調而讓自己的貢獻被忽略。",
+        "reflectionQuestion": "最近有哪一次，我可以替自己的貢獻說句話？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_prudence",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "審慎：謹慎選擇，三思而後行",
+      "summary": "你謹慎、有遠見，行動前會想過長遠的後果。",
+      "strengths": [
+        "審慎"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "替自己設一個「夠了就行動」的標準，讓審慎帶來行動而不是拖延。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能在選擇時衡量風險、提前準備，也避免說出不必要的話。",
+      "overuse": [
+        {
+          "strength": "審慎",
+          "whenOverused": "過度謹慎而錯過機會，或顯得太保守。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "替自己設一個「夠了就行動」的標準，讓審慎帶來行動而不是拖延。",
+        "watchHabit": "留意「審慎」用得太過時的樣子：過度謹慎而錯過機會，或顯得太保守。",
+        "reflectionQuestion": "我現在有哪件事，因為想太久而還沒開始？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_self-regulation",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "自我調節：管理自己的情緒與行為",
+      "summary": "你能管理自己的衝動、習慣與情緒，讓行為符合自己的目標。",
+      "strengths": [
+        "自我調節"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "把規律當成支持，而不是懲罰；也留一些彈性給自己。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能有穩定的作息，在壓力下仍能維持自己的步調。",
+      "overuse": [
+        {
+          "strength": "自我調節",
+          "whenOverused": "過度壓抑感受，或對自己太嚴苛。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "把規律當成支持，而不是懲罰；也留一些彈性給自己。",
+        "watchHabit": "留意「自我調節」用得太過時的樣子：過度壓抑感受，或對自己太嚴苛。",
+        "reflectionQuestion": "最近我壓下的情緒，現在需要被看見嗎？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_appreciation-of-beauty",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "欣賞美好：注意並讚嘆美與卓越",
+      "summary": "你對美、自然與卓越的表現特別敏感，也能從中得到感動。",
+      "strengths": [
+        "欣賞美好"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "把你注意到的美，分享給身邊的人，讓更多人也感受到。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能在路上停下來看風景，或在音樂、藝術和他人的善意中被打動。",
+      "overuse": [
+        {
+          "strength": "欣賞美好",
+          "whenOverused": "沉迷在理想的美而不滿足於日常的普通。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "把你注意到的美，分享給身邊的人，讓更多人也感受到。",
+        "watchHabit": "留意「欣賞美好」用得太過時的樣子：沉迷在理想的美而不滿足於日常的普通。",
+        "reflectionQuestion": "今天我注意到的一件美好的事是什麼？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_gratitude",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "感恩：覺察並珍惜好事",
+      "summary": "你能看見生活中的好事，並心存感激，也表達出來。",
+      "strengths": [
+        "感恩"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "每天寫下一件感謝的事，也直接把感謝說給對方聽。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能常記得別人的好，也在日常中說謝謝。",
+      "overuse": [
+        {
+          "strength": "感恩",
+          "whenOverused": "忽略了需要改善的地方，或因為感恩而壓下不滿。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "每天寫下一件感謝的事，也直接把感謝說給對方聽。",
+        "watchHabit": "留意「感恩」用得太過時的樣子：忽略了需要改善的地方，或因為感恩而壓下不滿。",
+        "reflectionQuestion": "這週有哪個人，我想當面對他說謝謝？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_hope",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "希望：期待好的未來，並為此努力",
+      "summary": "你對未來抱持期待，相信努力有意義，也會為此規劃與行動。",
+      "strengths": [
+        "希望"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "把期待轉成具體的下一步，也預先想好可能的阻礙。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能在低潮時仍看得到可能性，也能鼓舞身邊的人。",
+      "overuse": [
+        {
+          "strength": "希望",
+          "whenOverused": "過度樂觀而低估風險，或忽略眼前的困難。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "把期待轉成具體的下一步，也預先想好可能的阻礙。",
+        "watchHabit": "留意「希望」用得太過時的樣子：過度樂觀而低估風險，或忽略眼前的困難。",
+        "reflectionQuestion": "我對未來的期待裡，現在能做的第一步是什麼？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_humor",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "幽默：帶來笑聲，看到事情有趣的一面",
+      "summary": "你能看到事情有趣的一面，把笑聲帶給別人，也緩和壓力。",
+      "strengths": [
+        "幽默"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "在適合的時候認真，讓幽默成為連結而不是迴避。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能是團體裡的開心果，也用幽默面對低潮。",
+      "overuse": [
+        {
+          "strength": "幽默",
+          "whenOverused": "用玩笑迴避認真的話題，或讓人覺得你不夠嚴肅。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "在適合的時候認真，讓幽默成為連結而不是迴避。",
+        "watchHabit": "留意「幽默」用得太過時的樣子：用玩笑迴避認真的話題，或讓人覺得你不夠嚴肅。",
+        "reflectionQuestion": "最近我用玩笑帶過的一件事，其實值得認真談嗎？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "via-strengths_spirituality",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "信念與靈性：相信比自己更大的意義",
+      "summary": "你有堅定的信念，相信比自己更大的意義，也從中得到穩定與力量。",
+      "strengths": [
+        "信念與靈性"
+      ],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "尊重不同的信念，把你的信念落實在日常的善意中。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上較突出的品格優勢，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。排在後面的優勢只是「較不突出」，不代表不足。",
+      "dailyBehavior": "你可能透過信仰、冥想或沉思，找到平靜與方向。",
+      "overuse": [
+        {
+          "strength": "信念與靈性",
+          "whenOverused": "把自己的信念強加給別人，或因信念而排斥不同的人。"
+        }
+      ],
+      "growthReflection": {
+        "useStrength": "尊重不同的信念，把你的信念落實在日常的善意中。",
+        "watchHabit": "留意「信念與靈性」用得太過時的樣子：把自己的信念強加給別人，或因信念而排斥不同的人。",
+        "reflectionQuestion": "我的信念，如何體現在今天的一個小選擇？"
+      }
+    }
+  }
+]

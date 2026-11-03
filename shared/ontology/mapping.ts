@@ -7,7 +7,7 @@ import { ASSESSMENT_SYSTEM_IDS } from '../assessments/ids.ts';
 const isAssessmentSystemId = (system: string): boolean => (ASSESSMENT_SYSTEM_IDS as readonly string[]).includes(system);
 
 /** Raise whenever a mapping entry is added, removed or pointed at another end; it is stored with every report (basis). */
-export const MAPPING_VERSION = 'mapping-v2';
+export const MAPPING_VERSION = 'mapping-v5';
 
 /**
  * Systems of one tradition share a source group. Two systems of the same group saying the same thing are one source
@@ -184,11 +184,11 @@ export const MIN_OVERALL_COVERAGE = 0.8;
 
 /**
  * Ends that no system's reading names in so many words, and that are therefore left without a source rather than
- * given a stretched one: practical function over beauty (A6.B), content with what one has (E4.B) and sharing the load
- * lightly (E6.B). A report that meets one of them draws no conclusion from it. Take an end off this list the day a
- * mapping really names it; the check fails when an end on the list has a source, so the list cannot go stale.
+ * given a stretched one. None is left: the self-analyses name them all. A report that meets one of them draws no
+ * conclusion from it. Add an end here only when no reading names it; the check fails when an end on the list has a
+ * source, so the list cannot go stale.
  */
-export const ACKNOWLEDGED_UNSOURCED_ENDS: readonly string[] = ['E4.B'];
+export const ACKNOWLEDGED_UNSOURCED_ENDS: readonly string[] = [];
 
 /** What the coverage report says is missing: ends without a source that are not acknowledged, or too few terms mapped. */
 export function findCoverageIssues(

@@ -7,12 +7,12 @@ import type { AssessmentId } from './ids.ts';
  * contents are published and a whole test has been taken; the pages themselves work without it.
  */
 export const ASSESSMENT_ENTRY_ENABLED: Readonly<Record<AssessmentId, boolean>> = {
-    'enneagram': false,
+    'enneagram': true,
     'hexaco': true,
-    'via-strengths': false,
-    'riasec': false,
+    'via-strengths': true,
+    'riasec': true,
     'emotional-intelligence': false,
     'attachment-style': false,
-    'core-values': false,
-    'psychological-needs': false,
+    'core-values': true,
+    'psychological-needs': true,
 };

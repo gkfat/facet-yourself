@@ -271,8 +271,8 @@ describe('expectedFixedContentIds', () => {
     const ids = expectedFixedContentIds();
 
     it('lists 44 single results, 123 BaZi contents and 44 tarot contents, 520 Kin contents and 39 rune contents and 60 sign horoscope contents and 47 Big Five contents, all unique', () => {
-        expect(ids).toHaveLength(895);
-        expect(new Set(ids).size).toBe(895);
+        expect(ids).toHaveLength(1004);
+        expect(new Set(ids).size).toBe(1004);
         expect(ids.filter((id) => id.startsWith('ZODIAC_'))).toHaveLength(12);
         expect(ids.filter((id) => id.startsWith('BLOOD_'))).toHaveLength(4);
         expect(ids.filter((id) => id.startsWith('MBTI_'))).toHaveLength(16);

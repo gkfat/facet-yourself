@@ -23,7 +23,8 @@ describe('the systems a multi-dimension report can combine', () => {
             'CORE_VALUES',
         ]);
         expect(isMultiReportSystem('CORE_VALUES', definitions)).toBe(true);
-        expect(isMultiReportSystem('CORE_VALUES')).toBe(false);
+        expect(isMultiReportSystem('CORE_VALUES', [])).toBe(false);
+        expect(isMultiReportSystem('EMOTIONAL_INTELLIGENCE')).toBe(false);
         expect(isMultiReportSystem('TAROT')).toBe(false);
     });
 });

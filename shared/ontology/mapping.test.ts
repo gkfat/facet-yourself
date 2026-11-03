@@ -188,8 +188,8 @@ describe('acknowledged ends without a source', () => {
         expect(findCoverageIssues(report, 0, ['A1.A']).join('\n')).toMatch(/take it off ACKNOWLEDGED_UNSOURCED_ENDS/);
     });
 
-    it('are the one end of the axes that no mapping names yet', () => {
-        expect([...ACKNOWLEDGED_UNSOURCED_ENDS].sort()).toEqual(['E4.B']);
+    it('are none now: every end of the axes has a mapping that names it', () => {
+        expect([...ACKNOWLEDGED_UNSOURCED_ENDS]).toEqual([]);
     });
 });
 

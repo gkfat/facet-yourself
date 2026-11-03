@@ -4,7 +4,12 @@ import {
     ASSESSMENT_SYSTEM_BY_ID,
     type AssessmentSystemId,
 } from './ids.ts';
+import { CORE_VALUES_ASSESSMENT } from './coreValues.ts';
+import { ENNEAGRAM_ASSESSMENT } from './enneagram.ts';
 import { HEXACO_ASSESSMENT } from './hexaco.ts';
+import { VIA_ASSESSMENT } from './via.ts';
+import { RIASEC_ASSESSMENT } from './riasec.ts';
+import { PSYCHOLOGICAL_NEEDS_ASSESSMENT } from './psychologicalNeeds.ts';
 import type { AssessmentDefinition } from './types.ts';
 
 export * from './ids.ts';
@@ -14,7 +19,14 @@ export * from './types.ts';
  * Every self-assessment there is, one definition each. A new assessment is a new definition added here: nothing else
  * needs a route, a service or a collection of its own. The definitions are added as the assessments are built.
  */
-export const ASSESSMENTS: readonly AssessmentDefinition[] = [HEXACO_ASSESSMENT];
+export const ASSESSMENTS: readonly AssessmentDefinition[] = [
+    HEXACO_ASSESSMENT,
+    ENNEAGRAM_ASSESSMENT,
+    CORE_VALUES_ASSESSMENT,
+    PSYCHOLOGICAL_NEEDS_ASSESSMENT,
+    RIASEC_ASSESSMENT,
+    VIA_ASSESSMENT,
+];
 
 export function findAssessment(id: string, definitions: readonly AssessmentDefinition[] = ASSESSMENTS): AssessmentDefinition | null {
     return definitions.find((definition) => definition.id === id) ?? null;

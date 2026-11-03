@@ -1,0 +1,882 @@
+[
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_freedom",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "自由：能自己決定怎麼生活與選擇",
+      "summary": "對你來說，自由可能代表不被過多規定，能照自己的想法與節奏走。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與安全或責任拉扯時，可以想想：我需要多少彈性，又願意為此承擔什麼？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能在選工作、安排時間或做決定時，優先保留彈性與選擇的空間。",
+      "growthReflection": {
+        "useStrength": "把「自由」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「自由」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "如果我完全自由，我最想先改變生活中的哪一件事？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_security",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "安全：生活穩固、不用擔心意外",
+      "summary": "對你來說，安全可能代表有保障、能預期、不必時時擔心。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與自由或冒險拉扯時，可以想想：多少保障會讓我安心到願意嘗試？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能在做決定時先考慮風險、準備後路，或偏好穩固的選項。",
+      "growthReflection": {
+        "useStrength": "把「安全」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「安全」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "目前最讓我安心的是什麼？我還需要什麼才夠？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_achievement",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "成就：達成目標、做出成果",
+      "summary": "對你來說，成就可能代表努力有成果、能證明自己的能力。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與平衡或關係拉扯時，可以想想：怎樣的成就才是我真正想要的？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能習慣設定目標、追蹤進度，也在完成後感到最有力量。",
+      "growthReflection": {
+        "useStrength": "把「成就」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「成就」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "我最近完成的事裡，哪一件最讓我滿足？為什麼？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_relationships",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "關係：與重要的人有深的連結",
+      "summary": "對你來說，關係可能代表被理解、被陪伴，也有能彼此依靠的人。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與獨立或成就拉扯時，可以想想：我想給關係多少時間，才不會留遺憾？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能把時間與心力優先留給在乎的人，做決定時會想到他們。",
+      "growthReflection": {
+        "useStrength": "把「關係」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「關係」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "我最想多陪伴的人是誰？我可以怎麼做？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_creativity",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "創造：表達想法、做出新的東西",
+      "summary": "對你來說，創造可能代表把想法變成實際的東西，用自己的方式表達。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與秩序或安全拉扯時，可以想想：我需要多少空間，才能讓點子成形？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能喜歡嘗試新做法、動手做出作品，或在日常中找不一樣的角度。",
+      "growthReflection": {
+        "useStrength": "把「創造」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「創造」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "我最近有沒有做出一件讓自己驕傲的東西？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_order",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "秩序：事情有條理、有規則可循",
+      "summary": "對你來說，秩序可能代表清楚的規則、整齊的環境與可預期的流程。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與自由或創造拉扯時，可以想想：哪些事需要有序，哪些可以保留彈性？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能習慣整理、安排與遵守約定，不喜歡混亂的狀態。",
+      "growthReflection": {
+        "useStrength": "把「秩序」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「秩序」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "生活中哪一塊的秩序，最能讓我安定？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_influence",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "影響力：能帶動他人、產生改變",
+      "summary": "對你來說，影響力可能代表讓事情因為自己而有所不同。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與謙遜或關係拉扯時，可以想想：我想帶來什麼樣的改變？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能願意站出來提出看法、帶領他人或爭取資源。",
+      "growthReflection": {
+        "useStrength": "把「影響力」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「影響力」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "我最想對哪件事或哪些人，產生正面的影響？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_honesty",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "誠實：說真話、與自己的想法一致",
+      "summary": "對你來說，誠實可能代表言行一致，不說違心的話。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與和諧或善良拉扯時，可以想想：怎樣說出真話，同時顧及對方的感受？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能在表達意見或面對錯誤時，傾向坦白，也期待對方如此。",
+      "growthReflection": {
+        "useStrength": "把「誠實」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「誠實」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "最近有沒有一件事，我該說卻沒有說出口？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_family",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "家庭：與家人的關係與照顧",
+      "summary": "對你來說，家庭可能代表歸屬、責任，也是被支持的地方。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與成就或自由拉扯時，可以想想：我想為家人做到什麼，又為自己保留什麼？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能把家人放在選擇的前面，也願意為家人調整計畫。",
+      "growthReflection": {
+        "useStrength": "把「家庭」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「家庭」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "家人中，我最想多花時間在誰身上？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_health",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "健康：身心狀態良好",
+      "summary": "對你來說，健康可能代表有足夠的精力做想做的事，也能好好休息。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與成就或責任拉扯時，可以想想：沒有健康，我想做的事還能持續多久？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能會注意作息、運動與飲食，也傾向把身體的訊號放在心上。",
+      "growthReflection": {
+        "useStrength": "把「健康」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「健康」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "目前我的身心，最需要被照顧的是哪一塊？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_growth",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "成長：不斷學習與變得更好",
+      "summary": "對你來說，成長可能代表比以前更有能力、更了解自己。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與安穩或平衡拉扯時，可以想想：我想成長到哪裡，現在的步調適合嗎？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能喜歡挑戰、接受回饋，也會為了進步調整做法。",
+      "growthReflection": {
+        "useStrength": "把「成長」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「成長」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "一年前的我和現在的我，有什麼不同？下一步想往哪裡？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_learning",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "學習：不斷取得新知與技能",
+      "summary": "對你來說，學習可能代表理解世界、讓自己擁有更多選擇。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與行動或效率拉扯時，可以想想：我是否需要把學到的用出來？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能喜歡讀書、上課、研究，也對不懂的事想弄明白。",
+      "growthReflection": {
+        "useStrength": "把「學習」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「學習」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "最近我學到的哪一件事，最想用在生活裡？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_adventure",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "冒險：嘗試新鮮與刺激的體驗",
+      "summary": "對你來說，冒險可能代表離開熟悉的地方、體驗未知。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與安全或穩定拉扯時，可以想想：我願意為這場冒險承擔多少風險？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能願意接受不確定，喜歡新的地方、新的做法。",
+      "growthReflection": {
+        "useStrength": "把「冒險」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「冒險」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "我最想嘗試、卻一直沒開始的一件事是什麼？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_stability",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "穩定：生活步調與環境不要大起大落",
+      "summary": "對你來說，穩定可能代表可預期的收入、關係與日常節奏。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與成長或冒險拉扯時，可以想想：哪些事我想維持穩定，哪些可以改變？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能偏好熟悉的環境，變動前會先做好準備。",
+      "growthReflection": {
+        "useStrength": "把「穩定」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「穩定」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "我生活中哪一部分的穩定，最值得守住？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_kindness",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "善良：對人溫和、願意幫助",
+      "summary": "對你來說，善良可能代表體貼、不傷害別人，也願意伸出手。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與誠實或界線拉扯時，可以想想：善良也包含對自己好。",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能習慣顧及別人的感受，遇到需要幫忙的人會想幫。",
+      "growthReflection": {
+        "useStrength": "把「善良」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「善良」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "最近我對自己，有沒有也像對別人一樣溫和？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_justice",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "公平：每個人被公正對待",
+      "summary": "對你來說，公平可能代表規則一致、不偏袒，也保護弱勢。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與關係或和諧拉扯時，可以想想：怎樣的處理，才是各方都能接受的公平？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能對不公平的事敏感，也願意為此發聲。",
+      "growthReflection": {
+        "useStrength": "把「公平」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「公平」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "我最近覺得不公平的一件事，我可以做什麼？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_respect",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "尊重：被尊重，也尊重別人",
+      "summary": "對你來說，尊重可能代表被認真對待、界線被看見。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與直接或競爭拉扯時，可以想想：怎樣表達不同意，也能保有尊重？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能很在意說話的方式與態度，也會留意對方的立場。",
+      "growthReflection": {
+        "useStrength": "把「尊重」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「尊重」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "我在哪些時候，最容易覺得不被尊重？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_independence",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "獨立：靠自己，不依賴別人",
+      "summary": "對你來說，獨立可能代表自己扛得起事情，不需要別人替自己決定。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與關係或合作拉扯時，可以想想：適度求助，也是獨立的一部分。",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能習慣自己處理問題，也不太願意麻煩別人。",
+      "growthReflection": {
+        "useStrength": "把「獨立」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「獨立」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "最近有哪件事，我其實可以請別人幫忙？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_community",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "社群：屬於某個群體，一起做事",
+      "summary": "對你來說，社群可能代表歸屬感，與一群人共同前進。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與獨立或自由拉扯時，可以想想：我想給群體多少時間？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能願意投入團體、參與活動，也在意自己在群體中的角色。",
+      "growthReflection": {
+        "useStrength": "把「社群」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「社群」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "我最想屬於、或最想貢獻的群體是哪一個？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_wealth",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "財富：擁有充足的金錢與資源",
+      "summary": "對你來說，財富可能代表選擇的空間、對未來的保障，或對自己努力的回報。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與時間或關係拉扯時，可以想想：多少才夠？它讓我換到了什麼？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能會規劃收入、儲蓄與投資，也留意機會的報酬。",
+      "growthReflection": {
+        "useStrength": "把「財富」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「財富」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "對我來說，「夠了」大約是什麼樣子？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_recognition",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "被認可：自己的努力與價值被看見",
+      "summary": "對你來說，被認可可能代表被肯定、被重視，知道自己做的事有意義。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與真實或謙遜拉扯時，可以想想：我最想被看見的是什麼？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能在得到回饋時特別有力氣，也在意別人怎麼看待自己的成果。",
+      "growthReflection": {
+        "useStrength": "把「被認可」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「被認可」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "我最希望誰看見我做的哪件事？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_spirituality",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "信念與靈性：相信比自己更大的意義",
+      "summary": "對你來說，信念與靈性可能代表生命有更大的意義，或內在的指引。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與現實或理性拉扯時，可以想想：我的信念如何落實在日常？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能透過信仰、冥想、儀式或沉思，讓自己安定。",
+      "growthReflection": {
+        "useStrength": "把「信念與靈性」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「信念與靈性」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "我的信念，在哪個時刻最能支持我？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_nature",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "自然：親近大自然",
+      "summary": "對你來說，自然可能代表放鬆、被療癒與回到本來的節奏。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與忙碌或都市生活拉扯時，可以想想：怎樣讓自然成為日常的一部分？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能喜歡散步、爬山、露營，或在綠色的環境中恢復精神。",
+      "growthReflection": {
+        "useStrength": "把「自然」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「自然」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "這週我可以安排一次什麼樣的親近自然？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_beauty",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "美：欣賞與創造美好的事物",
+      "summary": "對你來說，美可能代表感受力與品味，生活中的細節也很重要。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與實用或預算拉扯時，可以想想：哪些美對我最重要？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能會注意環境、設計、藝術，並讓生活保有美感。",
+      "growthReflection": {
+        "useStrength": "把「美」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「美」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "最近我遇到最美的一件事是什麼？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_humor",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "幽默：笑與輕鬆",
+      "summary": "對你來說，幽默可能代表用輕鬆的態度面對生活，也和人拉近距離。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與認真或嚴肅的場合拉扯時，可以想想：怎樣的幽默讓所有人都舒服？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能常開玩笑、也善於從事情中找到趣味。",
+      "growthReflection": {
+        "useStrength": "把「幽默」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「幽默」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "最近讓我笑得最開心的事是什麼？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_peace",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "平靜：內心與環境安定",
+      "summary": "對你來說，平靜可能代表不受打擾、情緒穩定，有安靜的時間。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與成就或參與拉扯時，可以想想：平靜是否也需要主動去創造？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能避開不必要的衝突，也為自己留一些獨處與緩衝。",
+      "growthReflection": {
+        "useStrength": "把「平靜」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「平靜」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "我最容易感到平靜的時刻與地方是什麼？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_balance",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "平衡：工作、生活與休息的協調",
+      "summary": "對你來說，平衡可能代表不讓某一部分占滿生活，各個面向都有空間。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與成就或投入拉扯時，可以想想：現在的失衡是階段性的，還是已成慣性？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能會調整行程、拒絕過量的事，讓自己保持不失衡。",
+      "growthReflection": {
+        "useStrength": "把「平衡」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「平衡」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "我現在的生活，哪一塊最少被照顧？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_courage",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "勇氣：面對恐懼仍然行動",
+      "summary": "對你來說，勇氣可能代表在害怕的時候，仍然做對自己重要的事。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與安全或審慎拉扯時，可以想想：勇氣不是沒有恐懼，而是選擇行動。",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能願意開口、嘗試，或面對困難的對話。",
+      "growthReflection": {
+        "useStrength": "把「勇氣」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「勇氣」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "我最近避開的一件事，其實可以試著面對嗎？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_loyalty",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "忠誠：對人或承諾的長久信守",
+      "summary": "對你來說，忠誠可能代表可靠，在別人需要的時候不會離開。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與自由或成長拉扯時，可以想想：忠誠也需要適時更新與對話。",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能重視承諾，也會長時間守住關係與團體。",
+      "growthReflection": {
+        "useStrength": "把「忠誠」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「忠誠」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "我最想對誰、或對什麼事，保持忠誠？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_responsibility",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "責任：把該做的事承擔起來",
+      "summary": "對你來說，責任可能代表可靠、有擔當，對自己與別人負責。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與自由或輕鬆拉扯時，可以想想：哪些責任是我選擇的，哪些可以分擔？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能習慣把事情做完、遵守約定，遇到問題先想自己能做什麼。",
+      "growthReflection": {
+        "useStrength": "把「責任」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「責任」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "現在我承擔的責任裡，有哪些可以放下或分給別人？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_curiosity",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "好奇：想探索、想知道為什麼",
+      "summary": "對你來說，好奇可能代表對世界保持興趣，不輕易滿足於表面的答案。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與專注或完成拉扯時，可以想想：這個好奇，值得我投入多少時間？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能愛問問題、嘗試不同的領域，並被新點子吸引。",
+      "growthReflection": {
+        "useStrength": "把「好奇」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「好奇」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "最近我最想弄清楚的一件事是什麼？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_excellence",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "卓越：把事情做到最好",
+      "summary": "對你來說，卓越可能代表高標準，在乎細節與品質。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與平衡或效率拉扯時，可以想想：哪些事值得追求卓越，哪些做到夠好就好？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能花很多心力琢磨，不滿足於「差不多」。",
+      "growthReflection": {
+        "useStrength": "把「卓越」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「卓越」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "哪一件事，我真正想把它做到最好？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_contribution",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "貢獻：為他人或社會帶來價值",
+      "summary": "對你來說，貢獻可能代表自己的存在對別人有幫助、有意義。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與自己的需要拉扯時，可以想想：怎樣貢獻，同時也不耗盡自己？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能投入志工、分享知識，或在工作中看重對他人的影響。",
+      "growthReflection": {
+        "useStrength": "把「貢獻」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「貢獻」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "我最想貢獻的對象或議題是什麼？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_authenticity",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "真實：做自己，不假裝",
+      "summary": "對你來說，真實可能代表想法、感受與行動一致，不戴面具。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與和諧或適應拉扯時，可以想想：在不同場合，怎樣的真實是恰當的？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能不喜歡虛假的客套，也傾向讓人看到真實的自己。",
+      "growthReflection": {
+        "useStrength": "把「真實」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「真實」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "有哪些時候，我最像真正的自己？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_simplicity",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "簡單：不要太多，生活清爽",
+      "summary": "對你來說，簡單可能代表不複雜、不被物質或雜事占滿。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與成就或豐富拉扯時，可以想想：我真正需要的是什麼？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能偏好少而精的選擇，也定期整理與減少負擔。",
+      "growthReflection": {
+        "useStrength": "把「簡單」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「簡單」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "我可以先放下哪一件多餘的事或物？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_fun",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "快樂：享受當下、有趣的事",
+      "summary": "對你來說，快樂可能代表輕鬆自在、玩得盡興，與開心的事相處。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與責任或成就拉扯時，可以想想：快樂也是生活值得的一部分。",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能願意為好玩的事花時間，也會替自己安排放鬆。",
+      "growthReflection": {
+        "useStrength": "把「快樂」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「快樂」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "最近我做的哪一件事，讓我感到純粹的開心？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_tradition",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "傳統：尊重與延續過去的做法",
+      "summary": "對你來說，傳統可能代表根源與認同，也是穩定的指引。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與創新或改變拉扯時，可以想想：哪些傳統值得延續，哪些可以調整？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能重視節慶、家族的做法與長期留下來的價值。",
+      "growthReflection": {
+        "useStrength": "把「傳統」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「傳統」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "我想傳承下去的一個傳統是什麼？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_leadership",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "領導：帶領他人朝目標前進",
+      "summary": "對你來說，領導可能代表主動承擔、為團隊指出方向。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與合作或謙遜拉扯時，可以想想：好的領導，也需要聽見別人。",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能習慣站在前面、做決定，也願意為結果負責。",
+      "growthReflection": {
+        "useStrength": "把「領導」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「領導」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "我最近帶領別人做的一件事，結果如何？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_compassion",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "同理：感受並理解別人的處境",
+      "summary": "對你來說，同理可能代表能感受別人的難處，並給予支持。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與界線或自我照顧拉扯時，可以想想：同理別人，也要照顧自己的感受。",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能很容易察覺別人的情緒，也願意陪伴與傾聽。",
+      "growthReflection": {
+        "useStrength": "把「同理」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「同理」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "最近我陪伴別人的一次經驗，帶給我什麼？"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "core-values_collaboration",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "合作：與人一起完成事情",
+      "summary": "對你來說，合作可能代表彼此補位，一起做出單獨做不到的成果。",
+      "strengths": [],
+      "blindSpots": [],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "與獨立或效率拉扯時，可以想想：怎樣的合作方式最適合我？",
+      "disclaimer": "本內容為自我探索參考，只描述你自己選出的價值，不評價價值的好壞或高下，也不與他人比較；清單由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。",
+      "dailyBehavior": "你可能喜歡團隊作業，也在意大家是否都有被聽見。",
+      "growthReflection": {
+        "useStrength": "把「合作」用在你真正在乎的選擇上，讓它成為你做決定的依據之一。",
+        "watchHabit": "留意「合作」是否讓你忽略了其他同樣重要的價值。",
+        "reflectionQuestion": "我最享受的一次合作經驗是什麼？為什麼？"
+      }
+    }
+  }
+]
