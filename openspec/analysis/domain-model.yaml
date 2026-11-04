@@ -1,7 +1,7 @@
 version: 1
 generatedBy: domain-modeling
-updatedAt: 2026-11-03T03:00:00+08:00
-relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions]
+updatedAt: 2026-11-05T12:00:00+08:00
+relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, ai-analysis-question-history]
 
 entities:
   - id: ENT-001
@@ -55,7 +55,7 @@ entities:
     name: FixedContent
     nameZh: "固定內容"
     description: "事先算好的固定結果內容：單項（星座／血型／MBTI）與多維度分析報告"
-    useCases: ["UC-004", "UC-005", "UC-019", "UC-023", "UC-024", "UC-025", "UC-026", "UC-031", "UC-032", "UC-044", "UC-050"]
+    useCases: ["UC-004", "UC-005", "UC-019", "UC-023", "UC-024", "UC-025", "UC-026", "UC-031", "UC-032", "UC-044", "UC-050", "UC-054"]
     attributes:
       - { name: contentType, type: "enum", description: "SUMMARY｜ZODIAC｜BLOOD｜MBTI｜TAROT｜RUNE｜KIN_TODAY｜KIN_BIRTH" }
       - { name: key, type: "VO-004 | string", description: "summary 用組合鍵，單項用對應值" }
@@ -99,7 +99,7 @@ entities:
     name: PointAccount
     nameZh: "點數帳戶"
     description: "會員的點數帳戶，管理批次與異動"
-    useCases: ["UC-002", "UC-011", "UC-014", "UC-050", "UC-049"]
+    useCases: ["UC-002", "UC-011", "UC-014", "UC-050", "UC-049", "UC-054"]
     attributes:
       - { name: userId, type: "string", description: "" }
       - { name: availableBalance, type: "int", description: "未過期批次剩餘點數合計" }
@@ -118,7 +118,7 @@ entities:
     name: PointTransaction
     nameZh: "點數異動"
     description: "點數發放、購買、扣除與返還的不可變紀錄"
-    useCases: ["UC-002", "UC-011", "UC-014", "UC-050", "UC-049"]
+    useCases: ["UC-002", "UC-011", "UC-014", "UC-050", "UC-049", "UC-054"]
     attributes:
       - { name: transactionId, type: "string", description: "" }
       - { name: type, type: "enum", description: "GRANT｜PURCHASE｜DEDUCT｜REFUND" }
@@ -146,7 +146,7 @@ entities:
     name: AiUsageRecord
     nameZh: "AI 用量紀錄"
     description: "每次 AI 呼叫的用量與成本"
-    useCases: ["UC-020", "UC-049", "UC-050"]
+    useCases: ["UC-020", "UC-049", "UC-050", "UC-054"]
     attributes:
       - { name: recordId, type: "string", description: "" }
       - { name: userId, type: "string", description: "" }
@@ -297,19 +297,19 @@ entities:
   - id: ENT-024
     name: ReportSnapshot
     nameZh: "報告快照"
-    description: "已登入會員的一份報告（單維度或多維度），存當時全文、版本與計算依據；AI 分析在獨立欄位"
-    useCases: ["UC-047", "UC-049", "UC-050", "UC-051", "UC-052", "UC-048", "UC-021"]
+    description: "已登入會員的一份單維度報告，存當時全文、版本與計算依據；AI 報告另存於 AiReport（ENT-028），不再寫入快照；舊的多維度快照與 ai、aiJob 欄位不再寫入、不遷移"
+    useCases: ["UC-047", "UC-049", "UC-050", "UC-051", "UC-052", "UC-048", "UC-021", "UC-054"]
     attributes:
       - { name: snapshotId, type: "string", description: "" }
       - { name: userId, type: "string", description: "" }
-      - { name: kind, type: "enum", description: "SINGLE 或 MULTI" }
+      - { name: kind, type: "enum", description: "SINGLE 或 MULTI（MULTI 為舊資料，不再新增）" }
       - { name: systems, type: "string[]", description: "單維度 1 個、多維度至少 2 個系統" }
       - { name: position, type: "string", description: "位置結論" }
       - { name: blocks, type: "VO-028[]", description: "各區塊當時的全文" }
       - { name: versions, type: "VO-030", description: "ontology、mapping、fragments、templates 版本" }
       - { name: basis, type: "VO-031[]", description: "各系統的計算依據" }
-      - { name: ai, type: "VO-032 | null", description: "AI 進階分析，尚未分析時為 null" }
-      - { name: aiJob, type: "VO-033 | null", description: "最近一次 AI 分析要求的狀態" }
+      - { name: ai, type: "VO-032 | null", description: "已廢止：不再寫入，舊資料隨快照到期（AI 報告見 ENT-028）" }
+      - { name: aiJob, type: "VO-033 | null", description: "已廢止：不再寫入，舊資料隨快照到期" }
       - { name: generatedAt, type: "timestamp", description: "" }
       - { name: expiresAt, type: "timestamp", description: "產生後 6 個月" }
   - id: ENT-025
@@ -325,7 +325,7 @@ entities:
     name: TraitMapping
     nameZh: "特質映射"
     description: "各系統原語彙到軸端點的映射；程式內的固定定義"
-    useCases: ["UC-047", "UC-050", "UC-053"]
+    useCases: ["UC-047", "UC-050", "UC-053", "UC-054"]
     attributes:
       - { name: mappingVersion, type: "string", description: "內容改動時同步提高" }
       - { name: entries, type: "VO-036[]", description: "映射條目" }
@@ -340,6 +340,24 @@ entities:
       - { name: text, type: "string", description: "預寫的一句話" }
       - { name: confirmQuestion, type: "string | null", description: "過去格子的確認問題，回答不儲存" }
       - { name: fragmentVersion, type: "string", description: "內容改動時同步提高" }
+  - id: ENT-028
+    name: AiReport
+    nameZh: "AI 報告"
+    description: "唯一一種 AI 報告：由一個以上單維度報告綜合而成，帶使用者的選填提問；自帶生成狀態與退點，6 個月到期；取代快照上的 ai 欄位與規則組裝的多維度報告"
+    useCases: ["UC-054", "UC-055", "UC-056", "UC-052"]
+    attributes:
+      - { name: id, type: "string", description: "即請求的 Idempotency-Key" }
+      - { name: userId, type: "string", description: "存於該使用者自己的 aiReports 之下，僅本人可讀" }
+      - { name: sources, type: "VO-037[]", description: "所用的單維度報告，至少一筆" }
+      - { name: question, type: "VO-038 | null", description: "使用者的提問，沒提問為 null" }
+      - { name: status, type: "enum", description: "GENERATING | COMPLETED | FAILED" }
+      - { name: failureReason, type: "string | null", description: "失敗原因（點數已退）；逾時為 STALE" }
+      - { name: blocks, type: "VO-028[]", description: "完成前只含事實攤開塊；完成後附加導師的各段（AI_INFERENCE）" }
+      - { name: cost, type: "number", description: "實際扣的點數" }
+      - { name: modelName, type: "string | null", description: "完成前為 null" }
+      - { name: promptVersion, type: "string | null", description: "完成前為 null" }
+      - { name: createdAt, type: "timestamp", description: "" }
+      - { name: expiresAt, type: "timestamp", description: "建立後 6 個月" }
 
 valueObjects:
   - id: VO-001
@@ -354,19 +372,19 @@ valueObjects:
   - id: VO-002
     name: BloodType
     nameZh: "血型"
-    useCases: ["UC-003", "UC-004", "UC-050"]
+    useCases: ["UC-003", "UC-004", "UC-050", "UC-054"]
     attributes:
       - { name: value, type: "enum", description: "A｜B｜O｜AB｜UNKNOWN" }
   - id: VO-003
     name: MbtiType
     nameZh: "MBTI 類型"
-    useCases: ["UC-005", "UC-050"]
+    useCases: ["UC-005", "UC-050", "UC-054"]
     attributes:
       - { name: value, type: "enum", description: "16 型" }
   - id: VO-004
     name: CombinationKey
     nameZh: "組合鍵"
-    useCases: ["UC-019", "UC-050", "UC-049"]
+    useCases: ["UC-019", "UC-050", "UC-049", "UC-054"]
     attributes:
       - { name: zodiac, type: "enum", description: "" }
       - { name: mbti, type: "enum", description: "" }
@@ -375,7 +393,7 @@ valueObjects:
   - id: VO-005
     name: HumanDesignResult
     nameZh: "人類圖結果"
-    useCases: ["UC-008", "UC-049", "UC-050"]
+    useCases: ["UC-008", "UC-049", "UC-050", "UC-054"]
     attributes:
       - { name: type, type: "enum", description: "5 種能量類型" }
       - { name: centers, type: "object", description: "9 大能量中心" }
@@ -404,7 +422,7 @@ valueObjects:
   - id: VO-008
     name: ReportSection
     nameZh: "報告章節"
-    useCases: ["UC-049", "UC-050", "UC-051"]
+    useCases: ["UC-049", "UC-050", "UC-051", "UC-054"]
     attributes:
       - { name: title, type: "string", description: "八章節之一" }
       - { name: content, type: "string", description: "" }
@@ -413,7 +431,7 @@ valueObjects:
   - id: VO-009
     name: AnalysisInput
     nameZh: "分析輸入"
-    useCases: ["UC-049", "UC-050"]
+    useCases: ["UC-049", "UC-050", "UC-054"]
     attributes:
       - { name: inputVersion, type: "string", description: "資料版本" }
       - { name: profile, type: "object", description: "星座、血型、MBTI" }
@@ -573,7 +591,7 @@ valueObjects:
   - id: VO-029
     name: SnapshotSegment
     nameZh: "快照段落"
-    useCases: ["UC-047", "UC-049", "UC-051"]
+    useCases: ["UC-047", "UC-049", "UC-051", "UC-054"]
     attributes:
       - { name: text, type: "string", description: "當時的全文" }
       - { name: kind, type: "enum", description: "FACT | SYSTEM_INTERPRETATION | AI_INFERENCE | USER_STATEMENT，必填" }
@@ -600,18 +618,24 @@ valueObjects:
       - { name: ruleVersion, type: "string", description: "同輸入同版本得到相同依據" }
       - { name: inputs, type: "object", description: "只含計算必需的欄位" }
   - id: VO-032
+    status: deprecated
+    reason: "AI 報告改存於獨立的 AiReport（ENT-028）而不是快照的 ai 欄位；不再寫入、不遷移"
+    supersededBy: ["ENT-028"]
     name: SnapshotAi
     nameZh: "快照的 AI 分析"
-    useCases: ["UC-049", "UC-050"]
+    useCases: ["UC-049", "UC-050", "UC-054"]
     attributes:
       - { name: sections, type: "object[]", description: "每段標為 AI 綜合推論並附依據" }
       - { name: modelName, type: "string", description: "" }
       - { name: promptVersion, type: "string", description: "" }
       - { name: generatedAt, type: "timestamp", description: "" }
   - id: VO-033
+    status: deprecated
+    reason: "AI 報告自帶 status 與 failureReason（ENT-028）；不再寫入、不遷移"
+    supersededBy: ["ENT-028"]
     name: SnapshotAiJob
     nameZh: "AI 分析要求"
-    useCases: ["UC-049", "UC-050"]
+    useCases: ["UC-049", "UC-050", "UC-054"]
     attributes:
       - { name: status, type: "enum", description: "GENERATING | COMPLETED | FAILED" }
       - { name: failureReason, type: "string | null", description: "" }
@@ -635,13 +659,35 @@ valueObjects:
   - id: VO-036
     name: MappingEntry
     nameZh: "映射條目"
-    useCases: ["UC-050", "UC-053"]
+    useCases: ["UC-050", "UC-053", "UC-054"]
     attributes:
       - { name: system, type: "string", description: "" }
       - { name: term, type: "string", description: "該系統真實存在的原語彙" }
       - { name: axisEnd, type: "string", description: "指向既有的軸端點" }
       - { name: method, type: "enum", description: "structural | keyword" }
       - { name: sourceGroup, type: "string", description: "同源系統共用一組" }
+  - id: VO-037
+    name: AiReportSource
+    nameZh: "AI 報告的來源"
+    useCases: ["UC-054", "UC-055"]
+    attributes:
+      - { name: system, type: "enum", description: "穩定特質系統（含自我分析）" }
+      - { name: snapshotId, type: "string", description: "對應的單維度報告快照；來源之後被清除時只剩 id，不依賴它顯示" }
+      - { name: position, type: "string", description: "當時的位置結論，讓來源被清除後仍看得懂" }
+  - id: VO-038
+    name: AiReportQuestion
+    nameZh: "AI 報告的提問"
+    useCases: ["UC-054", "UC-055"]
+    attributes:
+      - { name: text, type: "string", description: "前後空白去除、100 字（以字元計）內；空白視為沒有；是唯一允許進入 prompt 的自由文字" }
+  - id: VO-039
+    name: AiReportSectionSpec
+    nameZh: "AI 報告的章節規格"
+    useCases: ["UC-054", "UC-055"]
+    attributes:
+      - { name: key, type: "enum", description: "highlights | positives | negatives | past | present | future | question | conclusion，依此順序" }
+      - { name: title, type: "string", description: "" }
+      - { name: points, type: "{ min, max }", description: "條列數量：值得注意的點、共同的優勢、共同的劣勢、回應提問、結論各 3 到 5，未來 2 到 4，過去與現在 0" }
 
 aggregates:
   - id: AGG-001
@@ -672,7 +718,7 @@ aggregates:
     name: FixedContentItem
     root: ENT-005
     members: ["VO-004"]
-    useCases: ["UC-004", "UC-019", "UC-023", "UC-024", "UC-025", "UC-026", "UC-044", "UC-050"]
+    useCases: ["UC-004", "UC-019", "UC-023", "UC-024", "UC-025", "UC-026", "UC-044", "UC-050", "UC-054"]
     rationale: "單筆固定內容的版本與審核狀態須一致；組合唯一"
   - id: AGG-006
     status: deprecated
@@ -694,7 +740,7 @@ aggregates:
     name: PointLedger
     root: ENT-008
     members: ["ENT-009", "ENT-010"]
-    useCases: ["UC-002", "UC-011", "UC-014", "UC-027", "UC-050", "UC-049"]
+    useCases: ["UC-002", "UC-011", "UC-014", "UC-027", "UC-050", "UC-049", "UC-054"]
     rationale: "餘額、批次與異動必須同一交易內更新，防止超扣與重複入帳"
   - id: AGG-009
     name: PaymentRecord
@@ -706,7 +752,7 @@ aggregates:
     name: AiUsage
     root: ENT-012
     members: []
-    useCases: ["UC-020", "UC-027", "UC-049", "UC-050"]
+    useCases: ["UC-020", "UC-027", "UC-049", "UC-050", "UC-054"]
     rationale: "追加式用量紀錄，單筆即一致性邊界"
   - id: AGG-011
     status: deprecated
@@ -777,8 +823,8 @@ aggregates:
     name: ReportSnapshotRecord
     root: ENT-024
     members: ["VO-028", "VO-029", "VO-030", "VO-031", "VO-032", "VO-033"]
-    useCases: ["UC-047", "UC-049", "UC-050", "UC-051", "UC-052", "UC-048", "UC-021"]
-    rationale: "報告全文、版本、依據與 AI 欄位同屬一份快照，須一致保存、一起到期、一起刪除；AI 欄位的寫入不得改動基本內容"
+    useCases: ["UC-047", "UC-049", "UC-050", "UC-051", "UC-052", "UC-048", "UC-021", "UC-054"]
+    rationale: "報告全文、版本與依據同屬一份快照，須一致保存、一起到期、一起刪除；AI 報告不再寫入快照（見 AGG-025），舊的 ai、aiJob 欄位隨快照到期"
   - id: AGG-022
     name: TraitOntologyDefinition
     root: ENT-025
@@ -789,7 +835,7 @@ aggregates:
     name: TraitMappingDefinition
     root: ENT-026
     members: ["VO-036"]
-    useCases: ["UC-047", "UC-050", "UC-053"]
+    useCases: ["UC-047", "UC-050", "UC-053", "UC-054"]
     rationale: "各系統的映射須一起通過覆蓋檢查，版本一起提高"
   - id: AGG-024
     name: ContextFragmentSet
@@ -797,6 +843,12 @@ aggregates:
     members: []
     useCases: ["UC-047", "UC-053"]
     rationale: "片段須與軸端點與情境值一一對應並一起通過覆蓋檢查"
+  - id: AGG-025
+    name: AiReportRecord
+    root: ENT-028
+    members: ["VO-037", "VO-038", "VO-028", "VO-029"]
+    useCases: ["UC-054", "UC-055", "UC-052"]
+    rationale: "報告的來源、提問、狀態、內容與扣點必須一起建立、一起完成或失敗；失敗標記與退點在同一交易內完成且只退一次；來源與提問隨報告一起到期、一起刪除"
 
 domainEvents:
   - id: EVT-001
@@ -831,12 +883,12 @@ domainEvents:
     name: PointsDeducted
     triggeredBy: AGG-008
     description: "點數被扣除"
-    useCases: ["UC-027", "UC-050", "UC-049"]
+    useCases: ["UC-027", "UC-050", "UC-049", "UC-054"]
   - id: EVT-007
     name: PointsRefunded
     triggeredBy: AGG-008
     description: "生成失敗後點數返還"
-    useCases: ["UC-027", "UC-049", "UC-050"]
+    useCases: ["UC-027", "UC-049", "UC-050", "UC-054"]
   - id: EVT-008
     status: deprecated
     reason: "詳細分析已被取代，改以 AI 分析寫入快照事件表達"
@@ -846,10 +898,13 @@ domainEvents:
     description: "詳細分析生成完成"
     useCases: ["UC-009", "UC-013"]
   - id: EVT-009
+    status: deprecated
+    reason: "快照不再承載 AI 分析；改由 AI 報告失敗事件表達"
+    supersededBy: ["EVT-034"]
     name: SnapshotAiAnalysisFailed
     triggeredBy: AGG-021
     description: "快照的 AI 分析生成或品質檢查失敗（aiJob 標為 FAILED，已扣點返還）"
-    useCases: ["UC-049", "UC-050"]
+    useCases: ["UC-049", "UC-050", "UC-054"]
   - id: EVT-010
     name: PaymentCompleted
     triggeredBy: AGG-009
@@ -884,7 +939,7 @@ domainEvents:
     name: AiUsageRecorded
     triggeredBy: AGG-010
     description: "AI 呼叫用量被記錄"
-    useCases: ["UC-020", "UC-027", "UC-049", "UC-050"]
+    useCases: ["UC-020", "UC-027", "UC-049", "UC-050", "UC-054"]
   - id: EVT-017
     name: HumanDesignCalculated
     triggeredBy: AGG-012
@@ -947,12 +1002,15 @@ domainEvents:
     name: ReportSnapshotSaved
     triggeredBy: AGG-021
     description: "已登入會員的報告以全文保存為快照（相同的基本報告只保存一份）"
-    useCases: ["UC-047", "UC-050"]
+    useCases: ["UC-047", "UC-050", "UC-054"]
   - id: EVT-029
+    status: deprecated
+    reason: "AI 結果不再寫入快照的 ai 欄位；改由 AI 報告完成事件表達"
+    supersededBy: ["EVT-033"]
     name: SnapshotAiAnalysisAdded
     triggeredBy: AGG-021
     description: "AI 進階分析寫入快照的 ai 欄位（再次分析只替換 ai）"
-    useCases: ["UC-049", "UC-050"]
+    useCases: ["UC-049", "UC-050", "UC-054"]
   - id: EVT-030
     name: ReportSnapshotExpired
     triggeredBy: AGG-021
@@ -963,6 +1021,26 @@ domainEvents:
     triggeredBy: AGG-021
     description: "新增快照使總數超過上限，最舊的一份被刪除"
     useCases: ["UC-052"]
+  - id: EVT-032
+    name: AiReportAccepted
+    triggeredBy: AGG-025
+    description: "AI 報告受理：已扣點、已建立生成中的報告（含來源、提問與事實攤開），背景開始生成"
+    useCases: ["UC-054"]
+  - id: EVT-033
+    name: AiReportCompleted
+    triggeredBy: AGG-025
+    description: "AI 報告完成：通過品質檢查，導師的各段附加到報告，狀態為 COMPLETED"
+    useCases: ["UC-054", "UC-055"]
+  - id: EVT-034
+    name: AiReportFailed
+    triggeredBy: AGG-025
+    description: "AI 報告失敗（模型出錯、拒絕、被截斷、逾時、輸出未通過品質檢查，或生成中而工作程序消失的 STALE）：標為失敗並退回所扣點數"
+    useCases: ["UC-054", "UC-055"]
+  - id: EVT-035
+    name: AiReportExpired
+    triggeredBy: AGG-025
+    description: "AI 報告超過 6 個月被每日作業清除"
+    useCases: ["UC-052"]
 
 businessRules:
   - id: RULE-001
@@ -972,15 +1050,15 @@ businessRules:
   - id: RULE-002
     description: "血型為未知時不計入組合鍵與分析"
     appliesTo: ["VO-004"]
-    useCases: ["UC-004", "UC-050"]
+    useCases: ["UC-004", "UC-050", "UC-054"]
   - id: RULE-003
     description: "多維度分析報告 的組合鍵只有「星座+MBTI」與「星座+MBTI+血型」兩種，缺 MBTI 不可取得；共 960 種"
     appliesTo: ["VO-004"]
-    useCases: ["UC-019", "UC-050"]
+    useCases: ["UC-019", "UC-050", "UC-054"]
   - id: RULE-004
     description: "訪客不可取得多維度分析報告 與詳細分析，使用點數前必須已登入"
     appliesTo: ["AGG-001"]
-    useCases: ["UC-050", "UC-049"]
+    useCases: ["UC-050", "UC-049", "UC-054"]
   - id: RULE-005
     status: deprecated
     reason: "summary 組合已不存在，多維度報告改為規則組裝後存快照"
@@ -998,7 +1076,7 @@ businessRules:
   - id: RULE-007
     description: "點數僅能從未過期批次扣抵，順序為先到期先扣、無限期批次最後，餘額不得為負，扣抵須原子且冪等"
     appliesTo: ["AGG-008"]
-    useCases: ["UC-050", "UC-049"]
+    useCases: ["UC-050", "UC-049", "UC-054"]
   - id: RULE-008
     description: "購買的點數為無限期，贈點有效期 90 天；過期點數不可用"
     appliesTo: ["ENT-009"]
@@ -1010,7 +1088,7 @@ businessRules:
   - id: RULE-010
     description: "詳細分析生成失敗時，已扣點數須返還"
     appliesTo: ["AGG-008"]
-    useCases: ["UC-049", "UC-050"]
+    useCases: ["UC-049", "UC-050", "UC-054"]
   - id: RULE-011
     description: "付款 webhook 須驗簽，並以事件 ID 冪等處理"
     appliesTo: ["AGG-009"]
@@ -1022,11 +1100,11 @@ businessRules:
   - id: RULE-013
     description: "人類圖須同時有出生時間與出生地點才可計算"
     appliesTo: ["VO-005"]
-    useCases: ["UC-008", "UC-049", "UC-050"]
+    useCases: ["UC-008", "UC-049", "UC-050", "UC-054"]
   - id: RULE-014
     description: "會員的測驗結果、多維度分析報告、MBTI 欄位與人類圖結果保存 3 個月，以各筆產生時間起算"
     appliesTo: ["ENT-004"]
-    useCases: ["UC-005", "UC-017", "UC-050"]
+    useCases: ["UC-005", "UC-017", "UC-050", "UC-054"]
   - id: RULE-015
     description: "付款紀錄於帳號存續期間永久保存，刪除帳號時一併移除"
     appliesTo: ["AGG-009"]
@@ -1038,7 +1116,7 @@ businessRules:
   - id: RULE-017
     description: "固定結果（單項、summary、人類圖）不呼叫 AI"
     appliesTo: ["AGG-005"]
-    useCases: ["UC-004", "UC-008", "UC-050"]
+    useCases: ["UC-004", "UC-008", "UC-050", "UC-054"]
   - id: RULE-018
     description: "單項免費結果不儲存，每次重新取得"
     appliesTo: ["AGG-005"]
@@ -1051,9 +1129,12 @@ businessRules:
     appliesTo: ["AGG-007"]
     useCases: ["UC-012"]
   - id: RULE-020
+    status: deprecated
+    reason: "AI 報告的內容規則改由 RULE-096（輸出品質把關）與 RULE-097（導師視角與內容界線）涵蓋；AI 不再逐段附依據"
+    supersededBy: ["RULE-096", "RULE-097"]
     description: "AI 分析（單維度進階分析與多維度報告的 ai 欄位）須區分直接觀察與 AI 推測、每段附依據，不得含診斷式內容"
     appliesTo: ["AGG-021"]
-    useCases: ["UC-049", "UC-050"]
+    useCases: ["UC-049", "UC-050", "UC-054"]
   - id: RULE-021
     description: "固定內容組合須唯一，經審核才可發布"
     appliesTo: ["AGG-005"]
@@ -1061,11 +1142,11 @@ businessRules:
   - id: RULE-022
     description: "AI 生成須受 Token、頻率、額度與逾時限制"
     appliesTo: ["AGG-010"]
-    useCases: ["UC-049", "UC-050", "UC-020"]
+    useCases: ["UC-049", "UC-050", "UC-020", "UC-054"]
   - id: RULE-023
     description: "所有結果與報告須附娛樂／自我探索性質的免責說明"
     appliesTo: ["ENT-005"]
-    useCases: ["UC-004", "UC-005", "UC-008", "UC-050", "UC-051"]
+    useCases: ["UC-004", "UC-005", "UC-008", "UC-050", "UC-051", "UC-054"]
   - id: RULE-024
     description: "刪除帳號時移除該使用者的全部紀錄（個人資料、測驗結果、summary、詳細分析、人類圖、點數、付款），僅保留贈點紀錄；AI 用量紀錄保留但清除 userId"
     appliesTo: ["AGG-001"]
@@ -1073,7 +1154,7 @@ businessRules:
   - id: RULE-025
     description: "同一請求（相同冪等鍵）的並行生成或扣點只處理一次：點數帳本只扣一次，快照只保存一份"
     appliesTo: ["AGG-021", "AGG-008"]
-    useCases: ["UC-049", "UC-050"]
+    useCases: ["UC-049", "UC-050", "UC-054"]
   - id: RULE-026
     description: "分享卡不得包含不必要的個人資料"
     appliesTo: ["VO-011"]
@@ -1317,13 +1398,19 @@ businessRules:
     appliesTo: ["AGG-021"]
     useCases: ["UC-047"]
   - id: RULE-084
+    status: deprecated
+    reason: "單維度 AI 進階分析合併為唯一一種 AI 報告（RULE-094）；結果不再寫入快照的 ai 欄位"
+    supersededBy: ["RULE-094"]
     description: "單維度 AI 進階分析 1 點，扣點以冪等鍵防止重複，生成或品質檢查失敗退點，點數不足拒絕且不呼叫 AI；輸入只含事實與規則找出的面向；輸出每段標為 AI 綜合推論並附依據；結果寫入快照獨立的 ai 欄位，不改動基本內容，再次分析只替換 ai"
     appliesTo: ["AGG-021"]
-    useCases: ["UC-049"]
+    useCases: ["UC-049", "UC-054"]
   - id: RULE-085
+    status: deprecated
+    reason: "多維度報告合併為唯一一種 AI 報告（RULE-094、RULE-099）；POST /multi-reports 已移除，規則組裝的跨系統報告不再保存"
+    supersededBy: ["RULE-094", "RULE-099"]
     description: "多維度報告：至少兩個穩定特質系統、請求帶 Idempotency-Key、規則組裝後存快照並由 AI 改寫洞見；價格為各系統基本價之和 × 1.2 無條件捨去、上限 30；缺資料回 422（不扣點）、規則找不到洞見回 422 NO_INSIGHTS（不扣點）；失敗退點；訪客不可取得"
     appliesTo: ["AGG-021"]
-    useCases: ["UC-050"]
+    useCases: ["UC-050", "UC-054"]
   - id: RULE-086
     description: "快照存各區塊當時的全文，含版本、計算依據與產生時間；每段標示種類（事實、系統解讀、AI 綜合推論、使用者自述）與來源，缺種類被拒絕；時間性內容隨快照存入並標示產生日期，不隨年份自動更新"
     appliesTo: ["AGG-021"]
@@ -1333,9 +1420,9 @@ businessRules:
     appliesTo: ["AGG-021"]
     useCases: ["UC-051", "UC-052"]
   - id: RULE-088
-    description: "每人快照數有上限，超過時先刪最舊的一份；相同的基本報告只保存一份，AI 分析不使它變成另一份；ai 只能加到本人、未到期的快照上"
+    description: "每人快照數有上限，超過時先刪最舊的一份；相同的基本報告只保存一份；AI 報告不寫入快照（見 RULE-100），建立 AI 報告時相同的單維度報告重用而不複製"
     appliesTo: ["AGG-021"]
-    useCases: ["UC-049", "UC-052"]
+    useCases: ["UC-049", "UC-052", "UC-054"]
   - id: RULE-089
     description: "特質本體有 28 條兩極軸（五組），每軸恰有兩個端點，每個端點有名稱、說明與過度時的樣子，命名中性；情境軸為時間 3、對象 10、領域 10，領域不含「人際關係」；ID 唯一且一經發布不重用；內容改動時同步提高 ONTOLOGY_VERSION"
     appliesTo: ["AGG-022"]
@@ -1356,3 +1443,35 @@ businessRules:
     description: "每份報告的事實附計算依據（系統取自固定清單、方法、規則版本、必要的輸入）；同一輸入與同一版規則得到相同的依據；塔羅與盧恩沿用現有抽取版本，MBTI 的規則版本為作答時的測驗版本"
     appliesTo: ["AGG-021"]
     useCases: ["UC-047"]
+  - id: RULE-094
+    description: "建立 AI 報告：選一個以上、互不相同的穩定特質系統（含自我分析）並可附提問；價格為一個系統 1 點、兩個以上為各系統基本價之和 × 1.2 無條件捨去且上限 30；請求帶 Idempotency-Key（即報告 id），重複請求只回報目前狀態且不重複扣點；建立前確保每個系統的單維度報告已保存並記在 sources；所需資料不齊、點數不足、請求無效時在扣點與呼叫 AI 之前拒絕；每人每小時與每日有生成次數上限；訪客不可取得"
+    appliesTo: ["AGG-025", "AGG-008"]
+    useCases: ["UC-054", "UC-056"]
+  - id: RULE-095
+    description: "使用者的提問是唯一進入 prompt 的自由文字，以資料而非指令處理：100 字內、前後空白去除、空白視為沒有；系統 prompt 聲明提問不得改變 AI 的角色、輸出格式或任何規則，無關或違規的要求一律忽略；提問隨報告保存並隨報告到期、刪除"
+    appliesTo: ["AGG-025"]
+    useCases: ["UC-054"]
+  - id: RULE-096
+    description: "AI 報告的輸出須通過品質檢查才可顯示：章節依固定順序且只在有提問時才有回應提問；開頭與每一條列夠長、條列數量符合章節規格；不含診斷或醫療字眼、生死或壽命的預言、百分比；只引用規則真的找到的洞見，且兩個以上系統時「值得注意的點」至少引用一條；違反即視為生成失敗並退點，絕對語氣只計為警告"
+    appliesTo: ["AGG-025"]
+    useCases: ["UC-054"]
+  - id: RULE-097
+    description: "導師視角與內容界線（CTX-CON-030）：AI 以融合心理學、命相學、神秘學專家視角的同一位導師，縱觀過去、現在、未來的狀態、可能發生的事件類型與提醒；談未來只說可能與傾向，不給確切日期、人名或結果，不下吉凶斷言，不預言壽命、疾病、婚姻成敗或財運，不做診斷，不給醫療、法律、財務建議；交給 AI 的內容只含今天的日期、各來源報告的事實與面向、洞見候選與提問，不含使用者 id 或電子郵件；prompt 版本隨報告保存"
+    appliesTo: ["AGG-025"]
+    useCases: ["UC-054"]
+  - id: RULE-098
+    description: "AI 報告的骨架：事實攤開（每份來源報告只列標題與一句摘要，由系統取自該報告、不由 AI 撰寫、AI 完成前就存在）→ 值得注意的點 → 共同的優勢 → 共同的劣勢與需要留意的地方 → 過去 → 現在 → 未來 → 回應你的提問（有提問才有）→ 結論與提醒；除過去與現在外每一部分是一段開頭加條列；共同的優勢與劣勢取各份報告共同指向的；回應提問先給直接的回答再展開條列；結論條列具體可執行的提醒"
+    appliesTo: ["AGG-025"]
+    useCases: ["UC-054", "UC-055"]
+  - id: RULE-099
+    description: "兩個以上系統時，規則把各系統放進同一套特質本體找出跨系統洞見，只作為 AI 的輸入素材（洞見候選），不保存為報告也不單獨呈現；找不到任何洞見回 NO_INSIGHTS 且不扣點，不產生報告"
+    appliesTo: ["AGG-025", "AGG-023"]
+    useCases: ["UC-054"]
+  - id: RULE-100
+    description: "AI 報告存於使用者自己的集合，僅本人可讀（他人、不存在或已到期都回找不到）；保存 6 個月（建立時間加 6 個月），由每日到期作業清除，不開 Firestore TTL；刪除帳號與刪除資料的「報告」範圍清除全部 AI 報告，其他範圍不動；報告自足，來源報告被清除後仍可閱讀；再問一次新增一份而不覆蓋舊報告；舊快照的 ai、aiJob 欄位不再寫入、不遷移"
+    appliesTo: ["AGG-025"]
+    useCases: ["UC-055", "UC-052"]
+  - id: RULE-101
+    description: "AI 報告失敗時，在同一交易內標為失敗、記下原因並退回所扣點數，且只退一次；生成中而逾時（工作程序消失）的報告在被讀取（列表或單份）時標為失敗並退點；失敗的報告保留在列表並可帶原來源與原問題再問一次"
+    appliesTo: ["AGG-025", "AGG-008"]
+    useCases: ["UC-054", "UC-055"]

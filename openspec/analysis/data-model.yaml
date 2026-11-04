@@ -1,7 +1,7 @@
 version: 1
 generatedBy: data-modeling
-updatedAt: 2026-11-03T02:30:00+08:00
-relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions]
+updatedAt: 2026-11-05T12:00:00+08:00
+relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, ai-analysis-question-history]
 store: firestore
 storeNotes: "資料庫為 Firestore（CTX-CON-004）；僅由 Nuxt 伺服器端以 Admin SDK 存取，firestore.rules 全擋 client（CTX-CON-013）。以集合／子集合表達「表」，以決定性文件 ID 取代唯一約束。"
 
@@ -89,7 +89,7 @@ tables:
     primaryKey: "contentType 與 key 組成的決定性 ID，例如 SUMMARY_aries_INTJ_A、ZODIAC_aries"
     aggregate: AGG-005
     domainModel: ["ENT-005", "VO-004"]
-    api: ["API-007", "API-008", "API-011", "API-031", "API-032", "API-033", "API-034", "API-027", "API-042", "API-044", "API-046", "API-047", "API-055", "API-057", "API-058", "API-059", "API-060"]
+    api: ["API-007", "API-008", "API-011", "API-031", "API-032", "API-033", "API-034", "API-027", "API-042", "API-044", "API-046", "API-047", "API-055", "API-063", "API-058", "API-059", "API-060"]
     columns:
       - { name: "contentType", type: "string", constraints: "required；SUMMARY|ZODIAC|BLOOD|MBTI|TAROT|RUNE|KIN_TODAY|KIN_BIRTH|ASSESSMENT" }
       - { name: "key", type: "string", constraints: "required；summary 為組合鍵，單項為對應值；TAROT 為 <牌序 0–21>_<upright|reversed>；RUNE 為 <符文序 0–23>_<upright|reversed>（9 枚對稱符文只有 upright）；KIN_TODAY 與 KIN_BIRTH 為 Kin 1–260；ASSESSMENT 以分析識別碼開頭，例如 enneagram_type-4、riasec_code-IAS，合法金鑰由登錄表（ENT-021）決定" }
@@ -170,7 +170,7 @@ tables:
     primaryKey: "batchId"
     aggregate: AGG-008
     domainModel: ["ENT-009"]
-    api: ["API-001", "API-021", "API-026", "API-029", "API-057"]
+    api: ["API-001", "API-021", "API-026", "API-029", "API-063"]
     columns:
       - { name: "batchId", type: "string", constraints: "PK" }
       - { name: "source", type: "string", constraints: "required；WELCOME|PURCHASE" }
@@ -188,7 +188,7 @@ tables:
     primaryKey: "由操作決定的 ID，例如 welcome、summary_{summaryId}、report_{reportId}、refund_{reportId}、purchase_{paymentId}"
     aggregate: AGG-008
     domainModel: ["ENT-010"]
-    api: ["API-001", "API-026", "API-022", "API-029", "API-048", "API-057"]
+    api: ["API-001", "API-026", "API-022", "API-029", "API-048", "API-063"]
     columns:
       - { name: "transactionId", type: "string", constraints: "PK；決定性 ID 作為冪等鍵（RULE-007、RULE-025）" }
       - { name: "type", type: "string", constraints: "required；GRANT|PURCHASE|DEDUCT|REFUND" }
@@ -240,7 +240,7 @@ tables:
     primaryKey: "recordId（自動產生）"
     aggregate: AGG-010
     domainModel: ["ENT-012"]
-    api: ["API-035", "API-029", "API-048", "API-056", "API-057"]
+    api: ["API-035", "API-029", "API-048", "API-063"]
     columns:
       - { name: "recordId", type: "string", constraints: "PK" }
       - { name: "userId", type: "string", constraints: "nullable；帳號刪除時清除" }
@@ -277,7 +277,7 @@ tables:
     primaryKey: "date（YYYY-MM-DD）"
     aggregate: AGG-014
     domainModel: ["ENT-017"]
-    api: ["API-011", "API-010", "API-026", "API-027", "API-036", "API-057"]
+    api: ["API-011", "API-010", "API-026", "API-027", "API-036", "API-063"]
     columns:
       - { name: "date", type: "string", constraints: "PK；YYYY-MM-DD" }
       - { name: "counters", type: "map", constraints: "計數器：testsCompleted、summariesObtained、reportsCompleted、reportsFailed、paymentsCompleted、shareCardsCreated 等；以 Firestore increment 原子遞增" }
@@ -449,24 +449,49 @@ tables:
     primaryKey: "snapshotId（自動產生）"
     aggregate: AGG-021
     domainModel: ["ENT-024", "VO-028", "VO-029", "VO-030", "VO-031", "VO-032", "VO-033"]
-    api: ["API-053", "API-054", "API-055", "API-056", "API-057", "API-061", "API-028", "API-029", "API-037"]
+    api: ["API-053", "API-054", "API-055", "API-063", "API-061", "API-028", "API-029", "API-037"]
     columns:
       - { name: "snapshotId", type: "string", constraints: "PK" }
-      - { name: "kind", type: "string", constraints: "required；SINGLE（單維度）或 MULTI（多維度）" }
+      - { name: "kind", type: "string", constraints: "required；SINGLE（單維度）；MULTI（多維度）為舊資料，不再新增（規則組裝的跨系統報告不再保存）" }
       - { name: "systems", type: "array<string>", constraints: "required；單維度為 1 個、多維度至少 2 個系統；多維度現含 7 個既有系統，自我分析納入後含 8 個自我分析（FR-072）" }
       - { name: "position", type: "string", constraints: "required；位置結論" }
       - { name: "blocks", type: "array<map>", constraints: "報告區塊（key, title, segments[]）；偉人卡片不存入，回應時才附加" }
       - { name: "versions", type: "map", constraints: "本體、映射、片段與模板版本" }
       - { name: "basis", type: "array<map>", constraints: "分析依據" }
-      - { name: "ai", type: "map", constraints: "nullable；使用者要求 AI 分析後才有" }
-      - { name: "aiJob", type: "map", constraints: "nullable；最近一次 AI 分析要求的狀態" }
+      - { name: "ai", type: "map", constraints: "已廢止（舊資料）：不再寫入、不遷移，隨快照到期；AI 報告見 DATA-027" }
+      - { name: "aiJob", type: "map", constraints: "已廢止（舊資料）：不再寫入、不遷移，隨快照到期；AI 報告自帶 status 與 failureReason（DATA-027）" }
       - { name: "generatedAt", type: "timestamp", constraints: "required" }
       - { name: "downloadCount", type: "int", constraints: "規劃中（尚未實作）；預設 0；PDF 每次下載 +1（UC-021）" }
       - { name: "lastDownloadedAt", type: "timestamp", constraints: "規劃中（尚未實作）；nullable；供重複下載時提醒上次下載時間" }
       - { name: "expiresAt", type: "timestamp", constraints: "required；= generatedAt + 6 個月，由每日到期作業清除（不用 TTL）" }
     indexes:
       - { fields: ["expiresAt ASC"], scope: "COLLECTION_GROUP", purpose: "排程清除到期資料（UC-017）" }
-    notes: "報告的實際落地集合，取代 summaries 與 detailedReports（DATA-007、DATA-008）。領域概念為 ReportSnapshot（ENT-024，AGG-021）；本體、映射與片段（ENT-025 至 ENT-027）是程式內的固定定義，不落地。"
+    notes: "報告的實際落地集合，取代 summaries 與 detailedReports（DATA-007、DATA-008）。領域概念為 ReportSnapshot（ENT-024，AGG-021）；本體、映射與片段（ENT-025 至 ENT-027）是程式內的固定定義，不落地。AI 結果不再寫入這裡，改存 aiReports（DATA-027）；建立 AI 報告時每個系統的單維度報告各存（或重用）一份。"
+
+  - id: DATA-027
+    name: aiReports
+    path: "users/{userId}/aiReports/{id}"
+    primaryKey: "id（文件 id，即請求的 Idempotency-Key）"
+    aggregate: AGG-025
+    domainModel: ["ENT-028", "VO-037", "VO-038", "VO-028", "VO-029", "VO-039"]
+    api: ["API-063", "API-064", "API-065"]
+    columns:
+      - { name: "id", type: "string", constraints: "PK；即 Idempotency-Key（8 到 64 個英數、- 或 _），重複請求命中同一份" }
+      - { name: "sources", type: "array<map>", constraints: "required；至少一筆；每筆 { system, snapshotId, position }；snapshotId 是對 reportSnapshots 的弱參照，來源被清除時不影響閱讀" }
+      - { name: "question", type: "string", constraints: "nullable；使用者的提問，前後空白去除、100 字（以字元計）內；沒提問為 null" }
+      - { name: "status", type: "string", constraints: "required；GENERATING | COMPLETED | FAILED" }
+      - { name: "failureReason", type: "string", constraints: "nullable；失敗原因（點數已退）；生成中而逾時為 STALE" }
+      - { name: "blocks", type: "array<map>", constraints: "報告區塊（key, title, segments[]，沿用快照的結構）；完成前只有事實攤開塊（facts:{system}，每份來源一塊，標題為位置結論、一句摘要）；完成後附加導師各段（ai:highlights、ai:positives、ai:negatives、ai:past、ai:present、ai:future、ai:question（有提問才有）、ai:conclusion），每段第一句是開頭、其後是條列重點" }
+      - { name: "cost", type: "int", constraints: "required；實際扣的點數（一個系統 1 點，多個依組合計價）" }
+      - { name: "modelName", type: "string", constraints: "nullable；完成前為 null" }
+      - { name: "promptVersion", type: "string", constraints: "nullable；完成前為 null" }
+      - { name: "createdAt", type: "timestamp", constraints: "required；epoch 毫秒；列表依此降序、最多 100 筆" }
+      - { name: "expiresAt", type: "timestamp", constraints: "required；epoch 毫秒；= createdAt + 6 個月，由每日到期作業清除（不用 TTL）" }
+    indexes:
+      - { fields: ["expiresAt ASC"], scope: "COLLECTION_GROUP", purpose: "排程清除到期資料（UC-052）；單欄位索引豁免已由 provision-firebase.ts 與 firestore.indexes.json 建立" }
+      - { fields: ["createdAt DESC"], scope: "COLLECTION", purpose: "分析紀錄列表（UC-055）；單欄位排序，不需另建複合索引" }
+    notes: "領域概念為 AiReport（ENT-028，AGG-025）：來源、提問、狀態、內容與扣點同一個聚合；建立時文件與扣點在同一交易寫入，完成與失敗（含退點）各在一個交易內更新，只退一次。取代 reportSnapshots 的 ai、aiJob 欄位；舊資料不遷移。刪帳號與刪除「報告」範圍時連同 reportSnapshots 一併清除（RULE-100）。"
+
 
 relationships:
   - id: REL-001
@@ -630,3 +655,13 @@ relationships:
     to: DATA-026
     type: one-to-many
     description: "會員擁有多份報告快照（子集合，隨帳號刪除、到期清除）"
+  - id: REL-032
+    from: DATA-001
+    to: DATA-027
+    type: one-to-many
+    description: "會員擁有多份 AI 報告（子集合，隨帳號刪除、隨「報告」範圍刪除、到期清除）"
+  - id: REL-033
+    from: DATA-027
+    to: DATA-026
+    type: many-to-many
+    description: "一份 AI 報告用了一至多份單維度報告快照（sources[].snapshotId），同一份快照可被多份 AI 報告使用；弱參照，不做外鍵：快照被清除或被每人上限擠掉後，AI 報告仍可閱讀"

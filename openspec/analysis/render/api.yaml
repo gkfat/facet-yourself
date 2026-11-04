@@ -970,6 +970,80 @@ paths:
           "$ref": "#/components/responses/Unauthorized"
         "404":
           "$ref": "#/components/responses/NotFound"
+  "/ai-reports":
+    get:
+      operationId: listAiReports
+      summary: "列出我的 AI 報告"
+      description: "只回傳呼叫者自己未到期的 AI 報告卡片（含生成中、完成、失敗已退點），新到舊，最多 100 筆。每筆含 sources（用了哪些單維度報告）與提問（沒提問為 null），不含報告內容；內容以 GET /ai-reports/{id} 讀取。報告保存 6 個月。生成中而逾時的報告在此被標為失敗並退點。"
+      tags: [ReportSnapshots]
+      responses:
+        "200":
+          description: "AI 報告卡片清單"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/AiReportSummary"
+        "401":
+          "$ref": "#/components/responses/Unauthorized"
+    post:
+      operationId: createAiReport
+      summary: "取得 AI 報告"
+      description: "把一個以上的穩定特質系統（星座、血型、MBTI、生命靈數、瑪雅 Kin、八字、人類圖，以及九個自我分析）與選填的提問（100 字內）交給 AI。一個系統 1 點；兩個以上由規則先找跨系統洞見、AI 只拿這些洞見當素材，價格 = 各系統基本價（人類圖 2、八字 3、其餘 1）之和 × 1.2，無條件捨去，上限 30 點。每個系統的單維度報告會先確保已保存並記在 sources。回傳 202 與報告 id，再以 GET /ai-reports 輪詢；失敗退點。缺資料回 422（PROFILE_REQUIRED、BLOOD_REQUIRED、MBTI_REQUIRED、ASSESSMENT_REQUIRED、BIRTH_TIME_REQUIRED、BIRTH_PLACE_REQUIRED），多系統找不到任何洞見回 422（NO_INSIGHTS），皆不扣點。需 Idempotency-Key（即報告 id）。"
+      tags: [ReportSnapshots]
+      parameters:
+        - "$ref": "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/AiReportRequest"
+      responses:
+        "202":
+          description: "已受理（同一個 Idempotency-Key 重複請求只回報目前狀態，不重複扣點）"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/AiReportAccepted"
+        "400":
+          "$ref": "#/components/responses/ValidationError"
+        "401":
+          "$ref": "#/components/responses/Unauthorized"
+        "402":
+          "$ref": "#/components/responses/InsufficientPoints"
+        "422":
+          description: "缺少報告需要的資料，或兩個以上系統的規則找不到任何洞見（NO_INSIGHTS）"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponse"
+        "429":
+          "$ref": "#/components/responses/RateLimited"
+  "/ai-reports/{id}":
+    get:
+      operationId: getAiReport
+      summary: "查看 AI 報告"
+      description: "回傳一份 AI 報告的全文：先是事實攤開（各來源單維度報告的標題與摘要），再是導師的各段（值得注意的點、共同的優勢、共同的劣勢、過去、現在、未來、回應提問（有提問才有）、結論與提醒），每段是一段開頭加條列。僅本人可讀：他人的 id、不存在的 id 與已到期的都回 404。生成中而逾時的報告在此被標為失敗並退點。不呼叫 AI、不扣點。"
+      tags: [ReportSnapshots]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "AI 報告"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/AiReportItem"
+        "401":
+          "$ref": "#/components/responses/Unauthorized"
+        "404":
+          "$ref": "#/components/responses/NotFound"
   "/report-snapshots":
     get:
       operationId: listReportSnapshots
@@ -1085,109 +1159,6 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
-  "/single-reports/analysis":
-    post:
-      operationId: createSingleReportAnalysis
-      summary: "取得單維度報告的 AI 進階分析"
-      description: "對自己已保存的一份單維度報告取得 AI 進階分析：扣 1 點後非同步生成（逾時 120 秒視為失敗），回傳 202，再以 POST /single-reports 輪詢報告的 aiJob 與 ai。結果寫入報告獨立的 ai 欄位，不改動基本內容；再次分析只替換 ai。輸入只含該報告的事實與規則找出的面向；失敗退點。需 Idempotency-Key（即 aiJob 的 id）。"
-      tags: [ReportSnapshots]
-      parameters:
-        - "$ref": "#/components/parameters/IdempotencyKey"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                snapshotId:
-                  type: string
-              required: [snapshotId]
-      responses:
-        "202":
-          description: "已受理（同一個 Idempotency-Key 重複請求只回報目前狀態，不重複扣點）"
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    enum: [GENERATING, COMPLETED, FAILED]
-                  pointsDeducted:
-                    type: integer
-                required: [status, pointsDeducted]
-        "400":
-          "$ref": "#/components/responses/ValidationError"
-        "401":
-          "$ref": "#/components/responses/Unauthorized"
-        "402":
-          "$ref": "#/components/responses/InsufficientPoints"
-        "404":
-          "$ref": "#/components/responses/NotFound"
-        "409":
-          description: "這份報告的分析正在生成中"
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ErrorResponse"
-        "429":
-          "$ref": "#/components/responses/RateLimited"
-  "/multi-reports":
-    post:
-      operationId: createMultiReport
-      summary: "取得多維度報告"
-      description: "把至少兩個穩定特質系統（星座、血型、MBTI、生命靈數、瑪雅 Kin、八字、人類圖，以及九型人格 ENNEAGRAM、HEXACO、VIA 品格優勢 VIA_STRENGTHS、職業興趣 RIASEC、情緒智商 EMOTIONAL_INTELLIGENCE、依附風格 ATTACHMENT_STYLE、核心價值觀 CORE_VALUES、需求與動機 PSYCHOLOGICAL_NEEDS）放在一起，由規則組裝報告並保存為快照，再由 AI 針對這個人改寫洞見。一律用點數付費、AI 解讀已含在內：價格 = 各系統基本價（人類圖 2、八字 3、其餘含八種自我分析預設 1）之和 × 1.2，無條件捨去，上限 30 點。回傳 202 與快照 id，再以 GET /report-snapshots/{id} 輪詢 aiJob 與 ai；失敗退點。缺資料回 422（PROFILE_REQUIRED、BLOOD_REQUIRED、MBTI_REQUIRED、ASSESSMENT_REQUIRED（所選自我分析沒有未到期結果，回應指出是哪一個）、BIRTH_TIME_REQUIRED、BIRTH_PLACE_REQUIRED），規則找不到任何洞見回 422（NO_INSIGHTS），皆不扣點。需 Idempotency-Key。"
-      tags: [ReportSnapshots]
-      parameters:
-        - "$ref": "#/components/parameters/IdempotencyKey"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                systems:
-                  type: array
-                  minItems: 2
-                  uniqueItems: true
-                  items:
-                    type: string
-                    enum: [ZODIAC, BLOOD, MBTI, NUMEROLOGY, MAYA_KIN, BAZI, HUMAN_DESIGN, ENNEAGRAM, HEXACO, VIA_STRENGTHS, RIASEC, EMOTIONAL_INTELLIGENCE, ATTACHMENT_STYLE, CORE_VALUES, PSYCHOLOGICAL_NEEDS]
-              required: [systems]
-      responses:
-        "202":
-          description: "已受理（同一個 Idempotency-Key 重複請求只回報目前狀態，不重複扣點）"
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  snapshotId:
-                    type: string
-                  status:
-                    type: string
-                    enum: [GENERATING, COMPLETED, FAILED]
-                  pointsDeducted:
-                    type: integer
-                required: [snapshotId, status, pointsDeducted]
-        "400":
-          "$ref": "#/components/responses/ValidationError"
-        "401":
-          "$ref": "#/components/responses/Unauthorized"
-        "402":
-          "$ref": "#/components/responses/InsufficientPoints"
-        "404":
-          "$ref": "#/components/responses/NotFound"
-        "422":
-          description: "缺少報告需要的資料，或規則找不到任何洞見（NO_INSIGHTS）"
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ErrorResponse"
-        "429":
-          "$ref": "#/components/responses/RateLimited"
   "/rune/daily":
     get:
       operationId: getDailyRune
@@ -2632,6 +2603,109 @@ components:
           nullable: true
           description: "插畫來源；尚無插畫時為 null"
       required: [index, name, glyph, meaning, orientation, illustration]
+    AiReportSource:
+      type: object
+      description: "AI 報告所用的一份單維度報告"
+      properties:
+        system:
+          type: string
+        snapshotId:
+          type: string
+          description: "對應的單維度報告快照；之後被清除時只剩 id，不依賴它顯示"
+        position:
+          type: string
+          description: "當時的位置結論，例如「太陽天蠍座」"
+      required: [system, snapshotId, position]
+    AiReportSummary:
+      type: object
+      description: "分析紀錄列表的一張卡片：不含報告內容"
+      properties:
+        id:
+          type: string
+          description: "即建立時的 Idempotency-Key"
+        sources:
+          type: array
+          items:
+            "$ref": "#/components/schemas/AiReportSource"
+        question:
+          type: string
+          nullable: true
+          maxLength: 100
+          description: "使用者的提問；沒提問為 null"
+        status:
+          type: string
+          enum: [GENERATING, COMPLETED, FAILED]
+        failureReason:
+          type: string
+          nullable: true
+          description: "失敗原因（點數已退）；生成中而逾時為 STALE"
+        cost:
+          type: integer
+          description: "實際扣的點數"
+        createdAt:
+          type: integer
+          description: "epoch 毫秒；報告保存到建立後 6 個月"
+      required: [id, sources, question, status, failureReason, cost, createdAt]
+    AiReportItem:
+      allOf:
+        - "$ref": "#/components/schemas/AiReportSummary"
+        - type: object
+          properties:
+            blocks:
+              type: array
+              description: "先是事實攤開（每份來源報告一塊，只有標題與一句摘要，不由 AI 撰寫，建立時就存在），完成後附加導師的各段（key 為 ai:highlights、ai:positives、ai:negatives、ai:past、ai:present、ai:future、ai:question（有提問才有）、ai:conclusion）；每段的第一句是開頭，其後各句是條列重點"
+              items:
+                type: object
+                properties:
+                  key:
+                    type: string
+                  title:
+                    type: string
+                  segments:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        text:
+                          type: string
+                        kind:
+                          type: string
+                          enum: [FACT, SYSTEM_INTERPRETATION, AI_INFERENCE]
+            modelName:
+              type: string
+              nullable: true
+              description: "完成前為 null"
+            promptVersion:
+              type: string
+              nullable: true
+              description: "完成前為 null"
+          required: [blocks, modelName, promptVersion]
+    AiReportRequest:
+      type: object
+      properties:
+        systems:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items:
+            type: string
+            enum: [ZODIAC, BLOOD, MBTI, NUMEROLOGY, MAYA_KIN, BAZI, HUMAN_DESIGN, ENNEAGRAM, HEXACO, VIA_STRENGTHS, RIASEC, EMOTIONAL_INTELLIGENCE, ATTACHMENT_STYLE, CORE_VALUES, PSYCHOLOGICAL_NEEDS]
+        question:
+          type: string
+          maxLength: 100
+          description: "選填，使用者想問的一段話（100 字內，前後空白去除，空白視為沒有）；以資料而非指令交給 AI，會與報告一併保存"
+      required: [systems]
+    AiReportAccepted:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum: [GENERATING, COMPLETED, FAILED]
+        pointsDeducted:
+          type: integer
+      required: [id, status, pointsDeducted]
     ReportSnapshotItem:
       type: object
       properties:
@@ -2661,10 +2735,10 @@ components:
           type: string
           nullable: true
           enum: [GENERATING, COMPLETED, FAILED]
-          description: "AI 解讀的進度；從未要求時為 null"
+          description: "已廢止：快照不再寫入 AI 解讀，舊資料隨快照到期；AI 報告見 GET /ai-reports；從未要求時為 null"
         aiAugmented:
           type: boolean
-          description: "是否已有 AI 進階分析（存放在獨立欄位 ai，不在基本內容裡）"
+          description: "已廢止：快照不再寫入 ai 欄位，舊資料隨快照到期；AI 報告見 GET /ai-reports"
         generatedAt:
           type: integer
           description: "epoch 毫秒"
@@ -2717,11 +2791,11 @@ components:
             ai:
               type: object
               nullable: true
-              description: "AI 進階分析：與規則產生的 blocks 分開存放、並存，不取代基本內容；尚未要求時為 null。含 blocks、modelName、promptVersion、generatedAt"
+              description: "已廢止（舊資料）：快照不再寫入 ai 欄位，隨快照到期；AI 報告另存，見 AiReportItem。尚未要求時為 null"
             aiJob:
               type: object
               nullable: true
-              description: "最近一次 AI 進階分析的進度（id、status：GENERATING／COMPLETED／FAILED、failureReason、createdAt）；失敗已退點。從未要求時為 null"
+              description: "已廢止（舊資料）：快照不再寫入 aiJob，隨快照到期；AI 報告自帶 status 與 failureReason。從未要求時為 null"
           required: [blocks, versions, basis, ai, aiJob]
     SingleReport:
       allOf:

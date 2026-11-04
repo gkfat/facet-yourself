@@ -1,7 +1,7 @@
 version: 1
 generatedBy: requirement-modeling
-updatedAt: 2026-11-03T02:30:00+08:00
-relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions]
+updatedAt: 2026-11-05T12:00:00+08:00
+relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, ai-analysis-question-history]
 
 stories:
   - id: STORY-001
@@ -294,12 +294,18 @@ stories:
     requirements: ["FR-076"]
     useCases: ["UC-048"]
   - id: STORY-049
+    status: deprecated
+    reason: "單維度 AI 進階分析與多維度報告合併為唯一一種 AI 報告（change ai-analysis-question-history）"
+    supersededBy: ["STORY-054"]
     actor: CTX-ACTOR-002
     want: "花 1 點取得某個系統的 AI 進階分析"
     benefit: "在規則版報告之外多看到針對我的綜合推論"
     requirements: ["FR-077", "FR-079", "FR-080"]
     useCases: ["UC-049"]
   - id: STORY-050
+    status: deprecated
+    reason: "多維度報告合併為唯一一種 AI 報告（change ai-analysis-question-history）"
+    supersededBy: ["STORY-054"]
     actor: CTX-ACTOR-002
     want: "把至少兩個系統放在一起取得多維度報告"
     benefit: "看到不同系統之間的呼應與拉扯"
@@ -313,9 +319,9 @@ stories:
     useCases: ["UC-051"]
   - id: STORY-052
     actor: CTX-ACTOR-004
-    want: "到期、刪帳號或刪除報告時乾淨地清除快照"
+    want: "到期、刪帳號或刪除報告時乾淨地清除快照與 AI 報告（含我問過的問題）"
     benefit: "符合保留政策並降低個資風險"
-    requirements: ["FR-080"]
+    requirements: ["FR-080", "FR-088"]
     useCases: ["UC-052"]
   - id: STORY-053
     actor: CTX-ACTOR-003
@@ -323,6 +329,24 @@ stories:
     benefit: "報告引用的軸端點與片段不會有缺口"
     requirements: ["FR-081", "FR-082", "FR-083"]
     useCases: ["UC-053"]
+  - id: STORY-054
+    actor: CTX-ACTOR-002
+    want: "選一個或多個我做過的分析，附上想問的事，請 AI 綜合分析"
+    benefit: "得到一份針對我的提問、先看事實再看優勢與劣勢、過去現在未來與結論的報告"
+    requirements: ["FR-085", "FR-086", "NFR-031", "NFR-032"]
+    useCases: ["UC-054"]
+  - id: STORY-055
+    actor: CTX-ACTOR-002
+    want: "在分析紀錄回頭看我所有的 AI 報告，並在生成中或失敗時知道狀況"
+    benefit: "不必重新付費就能再讀，失敗時知道已退點並能再問一次"
+    requirements: ["FR-087", "FR-088"]
+    useCases: ["UC-055"]
+  - id: STORY-056
+    actor: CTX-ACTOR-002
+    want: "讀完某個系統的單維度報告後，直接進入深入分析"
+    benefit: "不必自己重選系統，也能順手加選其他維度做綜合分析"
+    requirements: ["FR-085", "FR-087"]
+    useCases: ["UC-056"]
 
 useCases:
   - id: UC-001
@@ -449,7 +473,7 @@ useCases:
   - id: UC-007
     status: deprecated
     reason: "取得多維度分析報告改為 POST /multi-reports：規則組裝並存快照"
-    supersededBy: ["UC-050"]
+    supersededBy: ["UC-054"]
     title: "取得多維度分析報告"
     actor: CTX-ACTOR-001
     requirements: ["FR-006", "FR-007", "FR-038", "FR-041", "FR-014", "FR-042", "FR-032", "FR-040"]
@@ -496,7 +520,7 @@ useCases:
   - id: UC-009
     status: deprecated
     reason: "生成詳細分析改為單維度 AI 進階分析與多維度報告"
-    supersededBy: ["UC-049", "UC-050"]
+    supersededBy: ["UC-054"]
     title: "生成詳細分析"
     actor: CTX-ACTOR-002
     requirements: ["FR-015", "FR-016", "FR-017", "FR-018", "FR-019", "FR-022", "FR-014", "FR-038", "FR-036"]
@@ -593,7 +617,7 @@ useCases:
   - id: UC-013
     status: deprecated
     reason: "重新生成詳細分析改為再次要求 AI 進階分析，只替換快照的 ai 欄位"
-    supersededBy: ["UC-049"]
+    supersededBy: ["UC-054"]
     title: "重新生成詳細分析"
     actor: CTX-ACTOR-002
     requirements: ["FR-020", "FR-038", "FR-019", "FR-014"]
@@ -765,7 +789,7 @@ useCases:
       - { condition: "重複送出同一請求", handling: "以冪等鍵僅處理一次", constraints: ["NFR-017"] }
     postconditions:
       - "使用者取得 PDF；已扣 1 點（失敗則返還）；該快照的下載次數 +1"
-    note: "原本是詳細分析報告書寄送 email，改為直接下載（user 已確認）；每次下載扣 1 點、重複下載須確認的規則沿用原規則，未重新確認（CTX-ASM-028）；此功能尚未實作"
+    note: "原本是詳細分析報告書寄送 email，改為直接下載（user 已確認）；每次下載扣 1 點、重複下載須確認的規則沿用原規則，未重新確認（CTX-ASM-028）；此功能尚未實作。待確認（change ai-analysis-question-history）：AI 報告已不寫入快照而另存於 aiReports，步驟 5「含已有的 AI 分析」不再成立；PDF 的範圍是只含單維度報告快照，還是也要能下載 AI 報告，需與 user 確認後再改 FR-034，這裡先不改變範圍"
 
   - id: UC-022
     title: "瀏覽「此刻／今日」區塊"
@@ -1313,6 +1337,9 @@ useCases:
       - "沒有任何快照被新增"
 
   - id: UC-049
+    status: deprecated
+    reason: "單維度 AI 進階分析與多維度報告合併為唯一一種 AI 報告（UC-054）；POST /single-reports/analysis 已移除"
+    supersededBy: ["UC-054"]
     title: "取得單維度 AI 進階分析"
     actor: CTX-ACTOR-002
     requirements: ["FR-077", "FR-079", "FR-080"]
@@ -1337,6 +1364,9 @@ useCases:
       - "快照的 ai 欄位已更新；再次分析只替換 ai"
 
   - id: UC-050
+    status: deprecated
+    reason: "多維度報告合併為唯一一種 AI 報告（UC-054）；POST /multi-reports 已移除；規則組裝的跨系統報告不再保存與呈現"
+    supersededBy: ["UC-054"]
     title: "取得多維度報告"
     actor: CTX-ACTOR-002
     requirements: ["FR-078", "FR-079", "FR-080"]
@@ -1371,7 +1401,7 @@ useCases:
       - "使用者已登入"
     mainFlow:
       - { step: 1, action: "使用者開啟報告列表，系統回傳本人未到期的快照（依產生時間新到舊）" }
-      - { step: 2, action: "使用者選擇一份，系統回傳當時的全文、版本、依據與 ai 欄位；時間性內容不隨時間更新" }
+      - { step: 2, action: "使用者選擇一份，系統回傳當時的全文、版本與依據；時間性內容不隨時間更新（AI 報告不在快照內，見 UC-055）" }
       - { step: 3, action: "讀取不呼叫 AI、不扣點、不重新計算" }
     alternateFlows:
       - { condition: "快照屬於他人或不存在", handling: "回傳找不到，不洩漏存在與否", constraints: ["NFR-003"] }
@@ -1380,21 +1410,21 @@ useCases:
       - "快照內容不變"
 
   - id: UC-052
-    title: "清除報告快照"
+    title: "清除報告快照與 AI 報告"
     actor: CTX-ACTOR-004
-    requirements: ["FR-080"]
+    requirements: ["FR-080", "FR-088"]
     stories: ["STORY-052"]
     preconditions:
-      - "有到期的快照，或使用者刪除帳號或選擇刪除「報告」範圍，或使用者的快照數超過上限"
+      - "有到期的快照或 AI 報告，或使用者刪除帳號或選擇刪除「報告」範圍，或使用者的快照數超過上限"
     mainFlow:
-      - { step: 1, action: "每日到期作業掃描並清除超過 6 個月的快照，不對此集合開 TTL" }
-      - { step: 2, action: "使用者刪除帳號時，全部快照隨帳號一併清除；刪除資料的「報告」範圍清除全部快照，其他範圍不動快照" }
+      - { step: 1, action: "每日到期作業掃描並清除超過 6 個月的快照與 AI 報告（aiReports，到期時間為建立時間加 6 個月），不對這些集合開 TTL" }
+      - { step: 2, action: "使用者刪除帳號時，全部快照與 AI 報告隨帳號一併清除；刪除資料的「報告」範圍清除全部快照與 AI 報告（含提問），其他範圍不動", constraints: ["NFR-031"] }
       - { step: 3, action: "新增快照使總數超過上限時，先刪最舊的一份再保存" }
     alternateFlows:
       - { condition: "清除作業的某一步失敗", handling: "回報失敗的步驟，下次執行再試，不影響其他步驟" }
       - { condition: "刪除他人的快照", handling: "不會發生：刪除僅限該使用者的子集合" }
     postconditions:
-      - "到期、刪除或超過上限的快照已不存在，其他使用者的快照不受影響"
+      - "到期、刪除或超過上限的快照與到期、刪除的 AI 報告已不存在，其他使用者的資料不受影響"
 
   - id: UC-053
     title: "檢查特質本體、映射與情境片段"
@@ -1414,3 +1444,72 @@ useCases:
       - { condition: "改了內容但沒提高版本", handling: "檢查失敗" }
     postconditions:
       - "通過檢查後版本常數與內容一致"
+
+  - id: UC-054
+    title: "建立 AI 報告"
+    actor: CTX-ACTOR-002
+    requirements: ["FR-085", "FR-086", "NFR-031", "NFR-032"]
+    stories: ["STORY-054"]
+    preconditions:
+      - "使用者已登入"
+      - "至少選擇一個穩定特質系統（含自我分析），且每個所選系統都有所需資料（自我分析須有未到期的結果）"
+      - "點數足夠"
+    mainFlow:
+      - { step: 1, action: "使用者在「綜合分析」頁選一個以上、互不相同的系統，可選填提問（100 字內），確認後前端帶 Idempotency-Key（即報告 id）送出" }
+      - { step: 2, action: "後端驗證系統選擇與提問長度（超過 100 字回 400），並讀取每個系統所需的資料；缺資料回 422 且不扣點", constraints: ["NFR-001", "NFR-031"] }
+      - { step: 3, action: "兩個以上系統時，規則把各系統放進同一套特質本體找出跨系統洞見作為 AI 的輸入素材；找不到任何洞見回 422（NO_INSIGHTS）且不扣點" }
+      - { step: 4, action: "後端驗證點數足夠與生成次數上限，並確保每個系統的單維度報告已保存（相同的重用，不複製）", constraints: ["NFR-030"] }
+      - { step: 5, action: "後端以冪等方式扣點（一個系統 1 點；多個系統為各系統基本價之和 × 1.2 捨去、上限 30），建立生成中的 AI 報告（含 sources、提問與已列好的事實攤開），回 202 與報告 id", constraints: ["NFR-017", "NFR-030"] }
+      - { step: 6, action: "背景以今天的日期、各來源報告的事實與面向、洞見候選與提問組成輸入，呼叫 AI；提問以資料而非指令交給 AI", constraints: ["NFR-031"] }
+      - { step: 7, action: "後端檢查輸出的章節順序、條列數量、字眼與引用；通過後把導師的各段附加到報告並標為完成", constraints: ["NFR-032"] }
+      - { step: 8, action: "前端導向「分析紀錄」，使用者看到報告生成中並於完成後閱讀（見 UC-055）" }
+    alternateFlows:
+      - { condition: "訪客嘗試取得", handling: "拒絕並引導登入" }
+      - { condition: "點數不足", handling: "回 402 並引導購點，不扣點、不呼叫 AI" }
+      - { condition: "選取的系統為空、重複或含不支援的系統，或提問過長", handling: "回 400，不扣點" }
+      - { condition: "超過每小時或每日的生成次數上限", handling: "回 429，不扣點" }
+      - { condition: "AI 生成失敗、逾時或輸出未通過品質檢查", handling: "同一交易內標為失敗、記下原因並退回所扣點數，報告保留供再問一次", constraints: ["NFR-032"] }
+      - { condition: "提問要求 AI 忽略規則、診斷或預測確切事件", handling: "該部分不被回應；輸出仍須通過品質檢查，否則視為失敗並退點", constraints: ["NFR-031", "NFR-032"] }
+      - { condition: "相同 Idempotency-Key 重複請求", handling: "只回報目前狀態，不重複扣點、不重複生成", constraints: ["NFR-017"] }
+    postconditions:
+      - "aiReports 有一筆報告（完成，或失敗且點數已退）；來源單維度快照不變；再問一次會新增一份而不覆蓋"
+    note: "取代 UC-049 與 UC-050；自我分析納入可選系統見 UC-046"
+
+  - id: UC-055
+    title: "閱讀分析紀錄與 AI 報告"
+    actor: CTX-ACTOR-002
+    requirements: ["FR-087", "FR-088"]
+    stories: ["STORY-055"]
+    preconditions:
+      - "使用者已登入"
+    mainFlow:
+      - { step: 1, action: "使用者從 header 的「分析紀錄」進入，系統回傳本人未到期的 AI 報告卡片（新到舊、最多 100 筆，不含報告內容），顯示時間、來源位置結論、提問與狀態" }
+      - { step: 2, action: "有生成中的報告時，前端定期重新讀取，完成或失敗後刷新點數" }
+      - { step: 3, action: "使用者點「查看報告」，系統回傳該報告全文；報告頁依骨架顯示分析概要、事實攤開、值得注意的點、共同的優勢與劣勢、過去現在未來的垂直時間線、回應提問與結論", constraints: ["NFR-003"] }
+      - { step: 4, action: "讀取不呼叫 AI、不扣點、不重新計算" }
+    alternateFlows:
+      - { condition: "訪客開啟分析紀錄", handling: "只顯示登入提示，不導回首頁" }
+      - { condition: "報告生成中", handling: "報告頁顯示進度與已列好的事實，完成後自動更新" }
+      - { condition: "報告失敗", handling: "顯示已退點與失敗原因，可帶原系統與原問題「再問一次」" }
+      - { condition: "生成中的報告超過逾時門檻仍無結果", handling: "讀取時標為失敗並退點（工作程序已消失）", constraints: ["NFR-032"] }
+      - { condition: "報告屬於他人、不存在或已到期", handling: "回傳找不到，不洩漏存在與否", constraints: ["NFR-003"] }
+      - { condition: "還沒有任何報告", handling: "顯示說明與建立入口" }
+    postconditions:
+      - "報告內容不變；不產生新的扣點"
+
+  - id: UC-056
+    title: "從單維度報告進入深入分析"
+    actor: CTX-ACTOR-002
+    requirements: ["FR-085", "FR-087"]
+    stories: ["STORY-056"]
+    preconditions:
+      - "使用者開啟某個穩定特質系統的單維度報告（塔羅、盧恩與星座運勢沒有此入口）"
+    mainFlow:
+      - { step: 1, action: "報告最後顯示「深入分析」入口（一個系統 1 點起）" }
+      - { step: 2, action: "使用者點入口，進入「綜合分析」表單，該系統已預選，可加選其他系統與填寫提問" }
+      - { step: 3, action: "後續依 UC-054" }
+    alternateFlows:
+      - { condition: "訪客", handling: "入口顯示為登入，不進入表單" }
+      - { condition: "預選的系統使用者尚未備齊資料", handling: "該系統在表單中無法選取並顯示需要什麼" }
+    postconditions:
+      - "未建立任何報告，直到使用者送出"

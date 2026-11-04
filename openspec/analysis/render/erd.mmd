@@ -27,6 +27,8 @@ erDiagram
     users ||--o{ assessmentAttempts : "會員擁有多筆自我分析紀錄（子集合，隨帳號刪除、到期清除）"
     fixedContents ||--o{ assessmentAttempts : "邏輯關聯：以分析識別碼與結果組成 ASSESSMENT 內容金鑰查詢，不存外鍵"
     users ||--o{ reportSnapshots : "會員擁有多份報告快照（子集合，隨帳號刪除、到期清除）"
+    users ||--o{ aiReports : "會員擁有多份 AI 報告（子集合，隨帳號刪除、隨「報告」範圍刪除、到期清除）"
+    aiReports }o..o{ reportSnapshots : "sources[].snapshotId 弱參照，不做外鍵：來源被清除後 AI 報告仍可閱讀"
     users {
         string userId PK
         string email
@@ -230,10 +232,23 @@ erDiagram
         array_map_ blocks
         map versions
         array_map_ basis
-        map ai
-        map aiJob
+        map ai_deprecated
+        map aiJob_deprecated
         timestamp generatedAt
         int downloadCount
         timestamp lastDownloadedAt
+        timestamp expiresAt
+    }
+    aiReports {
+        string id PK
+        array_map_ sources
+        string question
+        string status
+        string failureReason
+        array_map_ blocks
+        int cost
+        string modelName
+        string promptVersion
+        timestamp createdAt
         timestamp expiresAt
     }

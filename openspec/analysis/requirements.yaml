@@ -1,7 +1,7 @@
 version: 1
 generatedBy: system-analysis
-updatedAt: 2026-11-03T02:30:00+08:00
-relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions]
+updatedAt: 2026-11-05T12:00:00+08:00
+relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, ai-analysis-question-history]
 source: ai_personality_app_plan.md
 
 # phase: 對應計畫書 §11 Phase 1-5；mvp 表示屬 §15 第一版範圍
@@ -60,7 +60,7 @@ functional:
   - id: FR-006
     status: deprecated
     reason: "多維度報告改為由規則組裝後存快照，不再查詢事先算好的 summary 組合"
-    supersededBy: ["FR-078"]
+    supersededBy: ["FR-085"]
     title: 多維度分析報告 查詢
     description: 系統 SHALL 在已登入使用者扣點後，依「星座+MBTI」或「星座+MBTI+血型」組合從 Firestore 查詢對應的事先算好的多維度分析報告；血型「不知道」時 MUST 使用星座+MBTI 組合。查詢 MUST NOT 呼叫 AI API。
     priority: must
@@ -139,7 +139,7 @@ functional:
   - id: FR-015
     status: deprecated
     reason: "AI 輸入改為規則找出的事實與面向（不含自由文字），不再有獨立的正規化分析資料"
-    supersededBy: ["FR-077", "FR-078"]
+    supersededBy: ["FR-085", "FR-086"]
     title: 測驗資料正規化
     description: 系統 SHALL 將使用者的標籤、測驗分數、實際答案與作答紀錄整理為可供 AI 使用的正規化分析資料，並保留資料版本。
     priority: must
@@ -150,7 +150,7 @@ functional:
   - id: FR-016
     status: deprecated
     reason: "詳細分析（5 點、八章節）已被單維度 AI 進階分析（1 點）與多維度報告取代"
-    supersededBy: ["FR-077", "FR-078"]
+    supersededBy: ["FR-085", "FR-086"]
     title: AI 深度報告生成
     description: 系統 SHALL 在已具備星座與 MBTI 結果（血型、人類圖選填）、點數餘額足夠（5 點）並扣點後呼叫 AI 供應商，依正規化資料生成包含八個建議章節（概況、行為模式、交叉觀察、優勢與盲點、感情與溝通、工作與決策、成長行動、依據與限制）的報告。
     priority: must
@@ -189,7 +189,7 @@ functional:
   - id: FR-020
     status: deprecated
     reason: "重新分析改為只替換快照的 ai 欄位（單維度再扣 1 點），不再保留多份詳細分析"
-    supersededBy: ["FR-077"]
+    supersededBy: ["FR-085"]
     title: 詳細分析重新生成
     description: 系統 SHALL 在使用者要求重新分析或新增資料時重新生成詳細分析；若該會員已生成過該組合的詳細分析，重新生成 MUST 扣 5 點，且 MUST 保留舊報告。
     priority: should
@@ -337,7 +337,7 @@ functional:
   - id: FR-041
     status: deprecated
     reason: "重複請求的防重複扣點改由冪等鍵與快照的「相同報告只保存一份」落實"
-    supersededBy: ["FR-078", "FR-080"]
+    supersededBy: ["FR-085", "FR-080"]
     title: 避免重複扣點
     description: 系統 SHALL 對同一會員已生成過的多維度分析報告 組合直接回傳已存結果且 MUST NOT 再次扣點；重複點擊或並行請求 MUST NOT 造成重複扣點。
     priority: must
@@ -670,6 +670,9 @@ functional:
     context: [CTX-CON-027, CTX-CON-018, CTX-CON-029, CTX-ACTOR-001]
     source: "openspec/specs/single-dimension-report/spec.md"
   - id: FR-077
+    status: deprecated
+    reason: "單維度 AI 進階分析與多維度報告合併為唯一一種 AI 報告（change ai-analysis-question-history）：改為 POST /ai-reports，結果存 aiReports 集合，不再寫入快照的 ai 欄位，提問取代「輸入不含使用者自由文字」"
+    supersededBy: ["FR-085", "FR-086"]
     title: 單維度 AI 進階分析
     description: 系統 SHALL 讓已登入使用者花 1 點取得單維度的 AI 進階分析；扣點 MUST 以冪等鍵防止重複，生成或品質檢查失敗 MUST 退點，點數不足 MUST 拒絕且不呼叫 AI；輸入 MUST 只含事實與規則找出的面向，不含使用者自由文字；輸出每段 MUST 標為 AI 綜合推論並附依據；結果 MUST 寫入快照獨立的 ai 欄位，MUST NOT 改動規則產生的基本內容，再次分析只替換 ai。
     priority: must
@@ -678,6 +681,9 @@ functional:
     context: [CTX-CON-027, CTX-CON-014, CTX-CON-009, CTX-EXT-002, CTX-ACTOR-002]
     source: "openspec/specs/single-dimension-report/spec.md"
   - id: FR-078
+    status: deprecated
+    reason: "多維度報告合併為唯一一種 AI 報告（change ai-analysis-question-history）：POST /multi-reports 移除；規則組裝的跨系統報告不再保存與呈現，只作 AI 的輸入素材（洞見候選）"
+    supersededBy: ["FR-085", "FR-086", "FR-087"]
     title: 多維度報告
     description: 系統 SHALL 讓已登入使用者把至少兩個穩定特質系統放在同一套特質本體上，由規則組裝成報告並存為快照，再由 AI 針對這個人改寫洞見（AI 解讀已含在價格內）；價格 = 各系統基本價之和 × 1.2 無條件捨去、上限 30 點；請求 MUST 帶 Idempotency-Key，重複請求只回報目前狀態且不重複扣點；回 202 與快照 id，之後輪詢 aiJob 與 ai；缺少資料回 422（PROFILE_REQUIRED、BLOOD_REQUIRED、MBTI_REQUIRED、BIRTH_TIME_REQUIRED、BIRTH_PLACE_REQUIRED）、規則找不到任何洞見回 422（NO_INSIGHTS），皆不扣點；失敗 MUST 退點；訪客 MUST NOT 取得。
     priority: must
@@ -695,7 +701,7 @@ functional:
     source: "openspec/specs/report-snapshots/spec.md"
   - id: FR-080
     title: 報告快照的存取、期限與清除
-    description: 快照 MUST 僅本人可讀（他人讀取回找不到，不洩漏存在與否），API 輸入輸出 MUST 通過 schema 驗證；快照 SHALL 保存 6 個月，由每日到期作業清除，MUST NOT 對此集合開 Firestore TTL；刪除帳號與刪除資料的「報告」範圍 MUST 清除其全部快照，其他範圍 MUST NOT 動到快照；每人快照數有上限，超過時 MUST 先刪最舊的一份；相同的基本報告只保存一份，AI 分析不使它變成另一份；ai 只能加到本人、未到期的快照上。
+    description: 快照 MUST 僅本人可讀（他人讀取回找不到，不洩漏存在與否），API 輸入輸出 MUST 通過 schema 驗證；快照 SHALL 保存 6 個月，由每日到期作業清除，MUST NOT 對此集合開 Firestore TTL；刪除帳號與刪除資料的「報告」範圍 MUST 清除其全部快照，其他範圍 MUST NOT 動到快照；每人快照數有上限，超過時 MUST 先刪最舊的一份；相同的基本報告只保存一份；AI 分析不寫入快照（AI 報告另存，見 FR-088），快照上舊的 ai、aiJob 欄位不再寫入。
     priority: must
     phase: 7
     mvp: false
@@ -733,6 +739,38 @@ functional:
     mvp: false
     context: [CTX-CON-027, CTX-CON-009, CTX-ACTOR-004]
     source: "openspec/specs/analysis-basis/spec.md"
+  - id: FR-085
+    title: AI 報告（建立）
+    description: 系統 SHALL 只提供一種 AI 報告，讓已登入使用者選一個以上、互不相同的穩定特質系統（含自我分析）並可選填一段提問（100 字內、前後空白去除、空白視為沒有）來建立；價格 MUST 為一個系統 1 點、兩個以上為各系統基本價之和 × 1.2 無條件捨去且上限 30 點；請求 MUST 帶 Idempotency-Key（即報告 id），重複請求只回報目前狀態且不重複扣點；回 202 與報告 id；建立前 MUST 確保每個系統的單維度報告已保存並記在 sources（system、snapshotId、當時的位置結論）；兩個以上系統時規則 MUST 先找跨系統洞見作為 AI 的輸入素材，找不到任何洞見回 422 NO_INSIGHTS；缺資料回 422、點數不足回 402、提問過長或系統選擇無效回 400，皆不扣點且不呼叫 AI；生成失敗或品質檢查失敗 MUST 在同一交易內標為失敗並退點（只退一次）；每人每小時與每日有生成次數上限；訪客 MUST NOT 取得。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-027, CTX-CON-028, CTX-CON-014, CTX-CON-030, CTX-ASM-026, CTX-ASM-029, CTX-EXT-002, CTX-ACTOR-002]
+    source: "openspec/changes/ai-analysis-question-history/specs/ai-report/spec.md；POST /ai-reports；server/services/aiReport.service.ts"
+  - id: FR-086
+    title: AI 報告的骨架與導師視角
+    description: 系統 SHALL 讓 AI 報告依固定順序呈現：事實攤開（每份來源報告只列標題與一句摘要，由系統取自該報告、在 AI 完成前就存在、MUST NOT 由 AI 撰寫）、值得注意的點、共同的優勢、共同的劣勢與需要留意的地方、過去、現在、未來、回應你的提問（只有提問時才有）、結論與提醒；除過去與現在外，每一部分 MUST 是一段開頭加條列重點（值得注意的點、共同的優勢、共同的劣勢、回應提問、結論各 3 到 5 點，未來 2 到 4 點對應的提醒）；優勢與劣勢 MUST 取各份報告共同指向的；系統 prompt MUST 要求 AI 以融合心理學、命相學與神秘學視角的同一位導師，縱觀提問者的過去、現在與未來的狀態、可能發生的事件類型與提醒，並逐章說明開頭與條列的寫法與數量；談未來只說可能與傾向，MUST NOT 給確切日期、人名或結果、吉凶斷言、壽命或疾病或婚姻成敗或財運的預言，MUST NOT 做診斷或給醫療、法律、財務建議；交給 AI 的內容 MUST 只含今天的日期、各來源報告的系統與位置結論與事實與面向與限制、規則找到的洞見候選與提問，不含使用者 id 或電子郵件；Prompt 版本 MUST 隨報告保存。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-027, CTX-CON-030, CTX-CON-009, CTX-EXT-002, CTX-ACTOR-002]
+    source: "openspec/changes/ai-analysis-question-history/specs/ai-report/spec.md；server/ai/reportPrompt.ts；shared/schemas/firestore/aiAnalysis.schema.ts"
+  - id: FR-087
+    title: 分析紀錄與 AI 報告頁
+    description: 系統 SHALL 提供會員專屬的「分析紀錄」（header nav，/ai-reports）與 GET /api/ai-reports，以單一列表呈現使用者未到期的 AI 報告卡片（新到舊、最多 100 筆，不含報告內容，顯示建立時間、來源位置結論、提問與狀態），並提供 GET /api/ai-reports/{id} 與報告頁讀取全文；報告頁依骨架呈現（分析概要、事實攤開、值得注意的點、共同的優勢與劣勢、過去現在未來的垂直時間線、回應提問、結論），條列以清單呈現；生成中 MUST 顯示進度並自動更新，完成或失敗後刷新點數；失敗 MUST 顯示已退點並可帶原系統與原問題「再問一次」；生成中而逾時的報告 MUST 在被讀取時標為失敗並退點；他人的、不存在的與已到期的報告 MUST 回找不到；單維度報告最後 MUST 提供「深入分析」入口並預選該系統，「綜合分析」頁（/report）作為建立表單，送出後導向分析紀錄；訪客開啟分析紀錄 MUST 只見登入提示。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-027, CTX-CON-029, CTX-CON-014, CTX-ACTOR-002]
+    source: "openspec/changes/ai-analysis-question-history/specs/ai-report/spec.md、site-navigation/spec.md、single-dimension-report/spec.md"
+  - id: FR-088
+    title: AI 報告的存取、期限與清除
+    description: 系統 SHALL 把 AI 報告存於使用者自己的 aiReports 集合（一份一筆，id 為冪等鍵，含 sources、提問、狀態、內容、點數、模型與 prompt 版本、建立與到期時間），MUST 僅本人可讀；報告 SHALL 保存 6 個月（建立時間加 6 個月），由每日到期作業清除，MUST NOT 對此集合開 Firestore TTL；刪除帳號與刪除資料的「報告」範圍 MUST 清除其全部 AI 報告，其他範圍 MUST NOT 動到，也 MUST NOT 影響其他使用者；報告 MUST 自足，來源單維度報告被清除後仍可閱讀；再問一次 MUST 新增一份而不覆蓋舊報告；快照上舊的 ai、aiJob 欄位不再寫入、不遷移，隨快照到期。
+    priority: must
+    phase: 7
+    mvp: false
+    context: [CTX-CON-029, CTX-CON-012, CTX-CON-006, CTX-EXT-005, CTX-ASM-027, CTX-ACTOR-001]
+    source: "openspec/changes/ai-analysis-question-history/specs/ai-report/spec.md；firestore.indexes.json；scripts/provision-firebase.ts"
 
 nonFunctional:
   - id: NFR-001
@@ -986,8 +1024,24 @@ nonFunctional:
   - id: NFR-030
     category: reliability
     title: 報告快照的一致性
-    description: 同一份基本報告 MUST 只保存一份；AI 分析寫入或替換 MUST NOT 改動基本內容、版本、依據與時間；重複請求與並行請求 MUST NOT 造成重複扣點或重複保存。
-    metric: "並行 N 次相同請求，快照只有 1 份且扣點一次；寫入 AI 分析前後基本內容相同"
+    description: 同一份基本報告 MUST 只保存一份；建立 AI 報告 MUST NOT 改動來源快照的基本內容、版本、依據與時間，相同的單維度報告 MUST 重用而不複製；重複請求與並行請求 MUST NOT 造成重複扣點或重複保存。
+    metric: "並行 N 次相同請求，快照只有 1 份且扣點一次；建立 AI 報告前後來源快照內容相同；重複建立 AI 報告後單維度快照數不增加"
     priority: must
     context: [CTX-CON-029, CTX-CON-014]
-    source: "openspec/specs/report-snapshots/spec.md；延伸 NFR-017"
+    source: "openspec/specs/report-snapshots/spec.md；延伸 NFR-017；openspec/changes/ai-analysis-question-history/design.md"
+  - id: NFR-031
+    category: security
+    title: 使用者提問的處理
+    description: 使用者的提問是唯一進入 prompt 的自由文字，MUST 以「資料而非指令」處理：長度上限 100 字（以字元計）、前後空白去除；系統 prompt MUST 聲明提問不得改變 AI 的角色、輸出格式或任何規則，無關或違規的要求一律忽略；AI 輸出 MUST 經結構與品質檢查，違反即判失敗並退點；提問隨 AI 報告保存，納入 6 個月到期、刪報告與刪帳號的清除。
+    metric: "101 字提問被拒絕且不扣點；系統 prompt 含「不是指令」與忽略違規要求的規則；要求忽略規則或診斷的提問不影響輸出須通過的品質檢查；刪除報告後提問一併清除"
+    priority: must
+    context: [CTX-CON-030, CTX-CON-009, CTX-EXT-002]
+    source: "openspec/changes/ai-analysis-question-history/design.md（提問處理、Prompt 注入）；shared/schemas/api/aiQuestion.schema.ts；server/ai/reportPrompt.ts"
+  - id: NFR-032
+    category: correctness
+    title: AI 報告的輸出品質把關
+    description: AI 報告的輸出 MUST 通過品質檢查才可顯示：章節缺少、重複或順序不符（回應提問只在有提問時出現）、開頭過短、條列數量不符或單點過短、含診斷或醫療字眼、含生死或壽命的預言、含百分比、引用規則沒有找到的洞見，或兩個以上系統時「值得注意的點」沒有引用任何洞見，MUST 視為生成失敗並退點；絕對語氣只計為警告；事實攤開 MUST 取自來源報告而非 AI 撰寫。
+    metric: "各失敗條件各有測試且結果為失敗並退點；絕對語氣只產生警告；事實塊的每一句取自來源報告"
+    priority: must
+    context: [CTX-CON-030, CTX-CON-009, CTX-CON-014]
+    source: "openspec/changes/ai-analysis-question-history/specs/ai-report/spec.md；server/ai/quality.ts；延伸 NFR-007、NFR-013"

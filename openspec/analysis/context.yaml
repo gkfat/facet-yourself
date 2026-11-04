@@ -1,7 +1,7 @@
 version: 1
 generatedBy: system-analysis
-updatedAt: 2026-11-03T02:30:00+08:00
-relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions]
+updatedAt: 2026-11-05T12:00:00+08:00
+relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, ai-analysis-question-history]
 source: ai_personality_app_plan.md
 
 actors:
@@ -181,16 +181,21 @@ constraints:
     source: "user 對話（2026-11-02：「本 app 目標是希望使用者做的每一種單維度自我分析，可以任選組合並讓 ai 進行進一步深入的交叉比對分析(多維度), 因此每一種單維度分析都應該要可以在多維度分析內供選擇」）"
   - id: CTX-CON-027
     category: business
-    description: "報告架構（已實作）：單維度報告由規則與預寫片段組裝，免費、不呼叫 AI、不扣點；多維度報告把至少兩個穩定特質系統放在同一套特質本體上由規則組裝，付費（點數），並由 AI 針對這個人改寫洞見；兩者都存為報告快照；AI 進階分析寫入快照獨立的 ai 欄位，不改動規則產生的基本內容"
-    source: "openspec/specs/single-dimension-report/spec.md、openspec/specs/report-snapshots/spec.md；POST /multi-reports（API-057）"
+    description: "報告架構（已實作）：單維度報告由規則與預寫片段組裝，免費、不呼叫 AI、不扣點，存為報告快照；AI 只有一種「AI 報告」：由一個以上單維度報告綜合而成（sources 記錄所用報告），一個系統 1 點、多個系統依組合計價，兩個以上系統時規則先找跨系統洞見作為 AI 的輸入素材，AI 報告另存於 aiReports 集合，不改動快照；規則組裝的多維度報告不再保存與呈現"
+    source: "openspec/specs/single-dimension-report/spec.md、openspec/specs/report-snapshots/spec.md；openspec/changes/ai-analysis-question-history/（取代原 POST /multi-reports 與單維度 AI 進階分析）"
   - id: CTX-CON-028
     category: technical
     description: "特質本體與映射：28 條兩極特質軸（五組、端點命名中性）與三組情境軸（時間 3、對象 10、領域 10）；各系統原語彙映射到軸端點（MBTI、人類圖、八字為結構式，星座、血型、生命靈數、瑪雅 Kin 為關鍵字式；八字十神語句不映射；塔羅、盧恩、星座運勢為狀態系統，不進穩定特質）；映射條目不帶強度；覆蓋率下限 80%；ONTOLOGY_VERSION、MAPPING_VERSION、FRAGMENT_VERSION 在內容改動時同步提高"
     source: "openspec/specs/trait-ontology/spec.md、openspec/specs/trait-mapping/spec.md、openspec/specs/trait-context-fragments/spec.md"
   - id: CTX-CON-029
     category: business
-    description: "報告快照存當時全文（日後固定內容修改仍可重現）、含版本與計算依據；僅本人可讀；保存 6 個月，由每日到期作業清除，不開 Firestore TTL；每人快照數有上限，超過時刪最舊；訪客與塔羅、盧恩、星座運勢的每日報告不存快照；刪除帳號與刪除資料的「報告」範圍都清除快照"
-    source: "openspec/specs/report-snapshots/spec.md；openspec/specs/single-dimension-report/spec.md（組裝結果寫入快照）；延伸 CTX-CON-012"
+    description: "報告快照存當時全文（日後固定內容修改仍可重現）、含版本與計算依據；僅本人可讀；保存 6 個月，由每日到期作業清除，不開 Firestore TTL；每人快照數有上限，超過時刪最舊；訪客與塔羅、盧恩、星座運勢的每日報告不存快照；刪除帳號與刪除資料的「報告」範圍都清除快照；AI 報告不存快照，另存於 aiReports 集合，同樣保存 6 個月、不開 TTL、由每日到期作業清除，並納入刪報告與刪帳號"
+    source: "openspec/specs/report-snapshots/spec.md；openspec/specs/single-dimension-report/spec.md（組裝結果寫入快照）；延伸 CTX-CON-012；openspec/changes/ai-analysis-question-history/design.md"
+
+  - id: CTX-CON-030
+    category: business
+    description: "AI 報告的內容界線（user 已確認）：AI 以融合心理學、命相學、神秘學專家視角的同一位導師，縱觀使用者的過去、現在、未來的狀態、可能發生的事件類型與提醒；談未來只說可能與傾向，不給確切日期、人名或結果，不下吉凶斷言，不預言壽命、疾病、婚姻成敗或財運，不做診斷，不給醫療、法律、財務建議；使用者的提問是唯一允許進入 prompt 的自由文字（100 字內，以資料而非指令處理）；這取代先前「AI 輸入不含使用者自由文字」與「不預測具體事件」的限制"
+    source: "user 對話（2026-11-05：「提示 ai 應以心理學、命相學、神秘學等專家角度綜合成一位導師，縱觀提問者在過去、現在、未來的狀態及可能發生的事件與提醒」；「可輸入一段文字(100 字內), 與報告一起送給 ai 做分析」）"
 
 assumptions:
   - id: CTX-ASM-001
@@ -326,9 +331,9 @@ assumptions:
     confirmedBy: "design.md 決定 9（暫定，user 未確認點數與映射內容）"
   - id: CTX-ASM-026
     description: "多維度報告的價格 = 各系統基本價（人類圖 2、八字 3、其餘 1）之和 × 1.2、無條件捨去、上限 30 點、至少兩個系統；AI 解讀已含在內；此規則已在程式中實作（shared/utils/multiDimensionPricing.ts），尚未經 user 在對話中重新確認"
-    impact: 影響 FR-078 與 FR-073 的點數
+    impact: 影響 FR-085（原 FR-078）與 FR-073 的點數；一個系統的價格見 CTX-ASM-029
     status: partially-confirmed
-    confirmedBy: "程式實作；API-057 的描述"
+    confirmedBy: "程式實作；API-057 的描述（已由 AI 報告 POST /ai-reports 取代）"
   - id: CTX-ASM-027
     description: "每人快照數的上限為設定值（MAX_SNAPSHOTS_PER_USER，見 server/services/reportSnapshot.service.ts），保存期限 6 個月（SNAPSHOT_RETENTION_MONTHS）；分析中不寫死數字"
     impact: 影響 FR-080
@@ -339,3 +344,8 @@ assumptions:
     impact: 影響 FR-034、UC-021、RULE-032 與 API-061；Email 寄送服務（CTX-EXT-007）不再因此需求而需要
     status: partially-confirmed
     confirmedBy: "user 對話（2026-11-03：「改為下載pdf」）；扣點與重複下載規則沿用原規則，未重新確認"
+  - id: CTX-ASM-029
+    description: "AI 報告的一個系統固定 1 點（不論是哪個系統，含人類圖、八字），兩個以上系統才依各系統基本價之和 × 1.2 計價（人類圖 2、八字 3、其餘 1，無條件捨去、上限 30）；事實攤開的「摘要」取自來源報告自己說的第一句（概覽，沒有就取歸納，再沒有就取第一個事實）；分析紀錄最多列 100 筆、不分頁"
+    impact: 影響 FR-085、FR-086、FR-087 的點數與畫面
+    status: partially-confirmed
+    confirmedBy: "user 對話（2026-11-05：事實攤開只寫 title 與 summary；選 1 到 N 個維度同一流程）；單一系統固定 1 點沿用原單維度分析的價格，未重新確認"
