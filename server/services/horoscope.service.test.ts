@@ -8,7 +8,10 @@ import { dailyHoroscopeResponseSchema } from '../../shared/schemas/api/horoscope
 import {
     HOROSCOPE_BODIES, horoscopeContentKeys,
 } from '../../shared/constants/horoscope';
-import { ZODIACS } from '../../shared/schemas/common';
+import { GuestSessionService } from './guestSession.service';
+import {
+    ZODIACS, type Zodiac,
+} from '../../shared/schemas/common';
 import {
     NotFoundError, UnprocessableError,
 } from '../../shared/types/errors';
@@ -183,5 +186,49 @@ describe('HoroscopeService', () => {
 
         expect(db.paths()).toEqual(before);
         expect(db.paths().filter((path) => path.includes('point'))).toEqual([]);
+    });
+
+    describe('for a guest', () => {
+        const startSession = async (sign: string | null) => {
+            const sessions = new GuestSessionService({ clock: () => clock.now });
+            const { sessionId } = await sessions.create();
+
+            if (sign) {
+                await sessions.saveProfile(sessionId, {
+                    birthData: {
+                        birthDate: '1990-11-05', zodiac: sign as Zodiac, birthTime: null, birthPlace: null,
+                    },
+                    bloodType: 'O',
+                    gender: null,
+                });
+            }
+
+            return sessionId;
+        };
+
+        it('reads the sky for the sign of the birth date kept in the session, as for a member', async () => {
+            const sessionId = await startSession('scorpio');
+
+            expect(await service.getTodayForGuest(sessionId)).toEqual(await service.getToday('u1'));
+        });
+
+        it('writes nothing', async () => {
+            const sessionId = await startSession('scorpio');
+            const before = db.paths();
+
+            await service.getTodayForGuest(sessionId);
+
+            expect(db.paths()).toEqual(before);
+        });
+
+        it('asks for the birth date when the session has none', async () => {
+            const sessionId = await startSession(null);
+
+            await expect(service.getTodayForGuest(sessionId)).rejects.toBeInstanceOf(UnprocessableError);
+        });
+
+        it('asks for the birth date when the session is unknown', async () => {
+            await expect(service.getTodayForGuest('x'.repeat(32))).rejects.toBeInstanceOf(UnprocessableError);
+        });
     });
 });

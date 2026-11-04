@@ -1,6 +1,6 @@
 import { BaseService } from './base.service';
 import {
-    DailyDrawEngine, type DailyDrawRecord,
+    DailyDrawEngine, guestDrawSubject, type DailyDrawRecord,
 } from './dailyDraw.engine';
 import { FixedContentService } from './fixedContent.service';
 import { RuneRepository } from '../repositories/rune.repository';
@@ -86,6 +86,20 @@ export class RuneService extends BaseService {
                 userId: uid,
             });
         }
+
+        return this.toResponse(result.date, result.record, result.content);
+    }
+
+    /** A visitor never has a kept draw: asking only tells the date. */
+    getTodayForGuest(): DailyRuneResponse {
+        return {
+            date: this.engine.today(), drawn: false,
+        };
+    }
+
+    /** A visitor's draw: decided by the session and the date, and not stored. */
+    async drawForGuest(sessionId: string): Promise<DailyRuneResponse> {
+        const result = await this.engine.drawEphemeral(guestDrawSubject(sessionId));
 
         return this.toResponse(result.date, result.record, result.content);
     }

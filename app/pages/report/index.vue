@@ -6,23 +6,9 @@
             tone="green"
         />
 
-        <v-alert
-            v-if="!isAuthenticated"
-            type="info"
-            variant="tonal"
-            class="mb-4"
-        >
-            多維度分析要登入後，用點數取得。登入後也可以回到這裡看過去的報告。
-            <template #append>
-                <v-btn
-                    to="/login"
-                    size="small"
-                    color="primary"
-                >
-                    去登入
-                </v-btn>
-            </template>
-        </v-alert>
+        <GuestNotice v-if="!isAuthenticated">
+            多維度分析要登入後，用點數取得，登入後也可以回到這裡看過去的報告。
+        </GuestNotice>
 
         <template v-else>
             <p class="text-body-2 mb-4">

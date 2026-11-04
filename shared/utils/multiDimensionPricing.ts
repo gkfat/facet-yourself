@@ -46,3 +46,17 @@ export function multiReportCost(systems: readonly MultiReportSystem[], definitio
 
     return Math.min(MAX_COST, Math.floor((base * MULTI_REPORT_WEIGHT_TENTHS) / TENTHS));
 }
+
+/** The report that "how many analyses is this many points" is measured in: three dimensions. */
+export const POINTS_YARDSTICK: readonly MultiReportSystem[] = [
+    'ZODIAC',
+    'MBTI',
+    'NUMEROLOGY',
+];
+
+/** How many reports of the yardstick's size the points pay for, rounded down. */
+export function yardstickReach(points: number, definitions: readonly AssessmentDefinition[] = ASSESSMENTS): number {
+    const cost = multiReportCost(POINTS_YARDSTICK, definitions);
+
+    return cost === null || cost <= 0 ? 0 : Math.floor(points / cost);
+}

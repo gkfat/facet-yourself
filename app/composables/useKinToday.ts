@@ -1,3 +1,4 @@
+import { kinTodayResponseSchema } from '../../shared/schemas/api/mayaKin.schema';
 import type { KinTodayResponse } from '../../shared/schemas/api/mayaKin.schema';
 
 /** `missing`: the content for today's Kin is not published yet (404). */
@@ -17,13 +18,13 @@ function statusOf(error: unknown): number | undefined {
  */
 export function useKinToday() {
     const {
-        get, post, 
-    } = useApi();
+        ask, reveal,
+    } = useFortuneAccess<KinTodayResponse>('kin', kinTodayResponseSchema);
     const today = useState<KinTodayResponse | null>('kinToday', () => null);
     const status = useState<KinTodayStatus>('kinTodayStatus', () => 'idle');
     const unlocking = ref(false);
 
-    async function run(request: () => Promise<KinTodayResponse>): Promise<void> {
+    async function run(request: () => Promise<KinTodayResponse | null>): Promise<void> {
         try {
             today.value = await request();
             status.value = 'ready';
@@ -43,7 +44,7 @@ export function useKinToday() {
     async function load(): Promise<void> {
         if (status.value !== 'ready') status.value = 'loading';
 
-        await run(() => get<KinTodayResponse>('/api/kin/today'));
+        await run(() => ask('/api/kin/today'));
     }
 
     /** Unlock today's Kin; an earlier unlock of the same day comes back unchanged. */
@@ -53,7 +54,7 @@ export function useKinToday() {
         unlocking.value = true;
 
         try {
-            await run(() => post<KinTodayResponse>('/api/kin/today'));
+            await run(() => reveal('/api/kin/today'));
         } finally {
             unlocking.value = false;
         }

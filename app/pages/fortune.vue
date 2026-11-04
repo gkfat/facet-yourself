@@ -7,6 +7,10 @@
             tone="amber"
         />
 
+        <GuestNotice>
+            每天翻一翻，看看今天給你的提醒。登入後可以保存每天的紀錄，也能看見自己運勢的流動。
+        </GuestNotice>
+
         <!-- The way in: one card for each -->
         <template v-if="!selected">
             <v-row class="entries">
@@ -198,7 +202,6 @@ function cardStyle(cell: number) {
     };
 }
 
-definePageMeta({ middleware: 'member' });
 useHead({ title: '今日運勢' });
 
 type FortuneView = 'tarot' | 'kin' | 'rune' | 'horoscope';

@@ -1,3 +1,4 @@
+import { dailyRuneResponseSchema } from '../../shared/schemas/api/rune.schema';
 import type { DailyRuneResponse } from '../../shared/schemas/api/rune.schema';
 
 /** `missing`: the content for today's rune is not published yet (404). */
@@ -17,13 +18,13 @@ function statusOf(error: unknown): number | undefined {
  */
 export function useDailyRune() {
     const {
-        get, post, 
-    } = useApi();
+        ask, reveal,
+    } = useFortuneAccess<DailyRuneResponse>('rune', dailyRuneResponseSchema);
     const today = useState<DailyRuneResponse | null>('dailyRune', () => null);
     const status = useState<DailyRuneStatus>('dailyRuneStatus', () => 'idle');
     const drawing = ref(false);
 
-    async function run(request: () => Promise<DailyRuneResponse>): Promise<void> {
+    async function run(request: () => Promise<DailyRuneResponse | null>): Promise<void> {
         try {
             today.value = await request();
             status.value = 'ready';
@@ -43,7 +44,7 @@ export function useDailyRune() {
     async function load(): Promise<void> {
         if (status.value !== 'ready') status.value = 'loading';
 
-        await run(() => get<DailyRuneResponse>('/api/rune/daily'));
+        await run(() => ask('/api/rune/daily'));
     }
 
     /** Draw today's rune; an earlier draw of the same day comes back unchanged. */
@@ -53,7 +54,7 @@ export function useDailyRune() {
         drawing.value = true;
 
         try {
-            await run(() => post<DailyRuneResponse>('/api/rune/daily'));
+            await run(() => reveal('/api/rune/daily'));
         } finally {
             drawing.value = false;
         }

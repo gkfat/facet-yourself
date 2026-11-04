@@ -1,3 +1,4 @@
+import { dailyTarotResponseSchema } from '../../shared/schemas/api/tarot.schema';
 import type { DailyTarotResponse } from '../../shared/schemas/api/tarot.schema';
 
 /** `missing`: the content for today's card is not published yet (404). */
@@ -17,13 +18,13 @@ function statusOf(error: unknown): number | undefined {
  */
 export function useDailyTarot() {
     const {
-        get, post, 
-    } = useApi();
+        ask, reveal,
+    } = useFortuneAccess<DailyTarotResponse>('tarot', dailyTarotResponseSchema);
     const today = useState<DailyTarotResponse | null>('dailyTarot', () => null);
     const status = useState<DailyTarotStatus>('dailyTarotStatus', () => 'idle');
     const drawing = ref(false);
 
-    async function run(request: () => Promise<DailyTarotResponse>): Promise<void> {
+    async function run(request: () => Promise<DailyTarotResponse | null>): Promise<void> {
         try {
             today.value = await request();
             status.value = 'ready';
@@ -43,7 +44,7 @@ export function useDailyTarot() {
     async function load(): Promise<void> {
         if (status.value !== 'ready') status.value = 'loading';
 
-        await run(() => get<DailyTarotResponse>('/api/tarot/daily'));
+        await run(() => ask('/api/tarot/daily'));
     }
 
     /** Draw today's card; an earlier draw of the same day comes back unchanged. */
@@ -53,7 +54,7 @@ export function useDailyTarot() {
         drawing.value = true;
 
         try {
-            await run(() => post<DailyTarotResponse>('/api/tarot/daily'));
+            await run(() => reveal('/api/tarot/daily'));
         } finally {
             drawing.value = false;
         }

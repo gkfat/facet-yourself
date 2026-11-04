@@ -169,4 +169,51 @@ describe('TarotService', () => {
             });
         });
     });
+
+    describe('for a guest', () => {
+        const SESSION = 'g'.repeat(32);
+
+        it('draws from the session and the date, and stores nothing', async () => {
+            const picked = drawDailyCard(`guest:${SESSION}`, TODAY);
+            const key = `${picked.cardIndex}_${picked.orientation}`;
+
+            await db.doc(`fixedContents/TAROT_${key}`).set(contentDoc(key));
+
+            const response = dailyTarotResponseSchema.parse(await service.drawForGuest(SESSION));
+
+            expect(response).toMatchObject({
+                date: TODAY,
+                drawn: true,
+                card: {
+                    index: picked.cardIndex, orientation: picked.orientation,
+                },
+                content: { key },
+            });
+            expect(db.paths().filter((path) => path.includes('tarotDraws'))).toEqual([]);
+        });
+
+        it('gives the same card for the same session on the same day', async () => {
+            const picked = drawDailyCard(`guest:${SESSION}`, TODAY);
+            const key = `${picked.cardIndex}_${picked.orientation}`;
+
+            await db.doc(`fixedContents/TAROT_${key}`).set(contentDoc(key));
+
+            const first = await service.drawForGuest(SESSION);
+
+            clock.now += 3 * 60 * 60 * 1000;
+
+            expect(await service.drawForGuest(SESSION)).toEqual(first);
+        });
+
+        it('never tells what was drawn when asked', () => {
+            expect(dailyTarotResponseSchema.parse(service.getTodayForGuest())).toEqual({
+                date: TODAY, drawn: false,
+            });
+        });
+
+        it('is a 404 that stores nothing when the content is not published', async () => {
+            await expect(service.drawForGuest(SESSION)).rejects.toBeInstanceOf(NotFoundError);
+            expect(db.paths().filter((path) => path.includes('tarotDraws'))).toEqual([]);
+        });
+    });
 });

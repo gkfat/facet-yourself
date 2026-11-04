@@ -13,6 +13,22 @@
                 </NuxtLink>
             </v-app-bar-title>
 
+            <nav
+                v-if="mdAndUp"
+                class="header-nav"
+                aria-label="主要選單"
+            >
+                <v-btn
+                    v-for="item in navItems"
+                    :key="item.to"
+                    :to="item.to"
+                    variant="text"
+                    size="small"
+                >
+                    {{ item.label }}
+                </v-btn>
+            </nav>
+
             <v-spacer />
 
             <v-btn
@@ -26,7 +42,7 @@
                 {{ balance ?? '—' }} 點
             </v-btn>
             <v-btn
-                v-if="isAuthenticated"
+                v-if="isAuthenticated || (initialized && !mdAndUp)"
                 icon="mdi-menu"
                 variant="text"
                 aria-label="開啟選單"
@@ -76,17 +92,18 @@
         </v-dialog>
 
         <v-navigation-drawer
-            v-if="isAuthenticated"
+            v-if="isAuthenticated || !mdAndUp"
             v-model="drawer"
             location="right"
             temporary
         >
             <v-list
+                v-if="!mdAndUp"
                 nav
                 density="comfortable"
             >
                 <v-list-item
-                    v-for="item in menuItems"
+                    v-for="item in navItems"
                     :key="item.to"
                     :to="item.to"
                     :prepend-icon="item.icon"
@@ -94,7 +111,10 @@
                     @click="drawer = false"
                 />
             </v-list>
-            <template #append>
+            <template
+                v-if="isAuthenticated"
+                #append
+            >
                 <v-divider />
                 <v-list
                     nav
@@ -120,6 +140,7 @@
 </template>
 
 <script lang="ts" setup>
+import { useDisplay } from 'vuetify';
 import { WELCOME_BATCH_VALID_DAYS } from '../../shared/constants/points';
 import { KIN_ENTRY_ENABLED } from '../../shared/constants/mayaKin';
 import { RUNE_ENTRY_ENABLED } from '../../shared/constants/runes';
@@ -129,16 +150,12 @@ type MenuItem = {
     to: string;
     label: string;
     icon: string;
+    /** Left out of the list a visitor sees */
+    memberOnly?: boolean;
 };
 
-/** What the member does: their data and their reports */
-const menuItems: MenuItem[] = [
-    {
-        to: '/profile', label: '個人資料', icon: 'mdi-account-outline',
-    },
-    {
-        to: '/self-reports', label: '自我分析報告', icon: 'mdi-file-document-outline',
-    },
+/** The main routes, in the header from md up and in the drawer below it */
+const allNavItems: MenuItem[] = [
     ...(TAROT_ENTRY_ENABLED || KIN_ENTRY_ENABLED || RUNE_ENTRY_ENABLED
         ? [
             {
@@ -147,7 +164,16 @@ const menuItems: MenuItem[] = [
         ]
         : []),
     {
+        to: '/profile', label: '個人資料', icon: 'mdi-account-outline', memberOnly: true,
+    },
+    {
+        to: '/self-reports', label: '自我探索', icon: 'mdi-file-document-outline',
+    },
+    {
         to: '/report', label: '多維度分析', icon: 'mdi-layers-outline',
+    },
+    {
+        to: '/pricing', label: '點數方案', icon: 'mdi-tag-outline',
     },
 ];
 
@@ -165,9 +191,12 @@ const accountItems: MenuItem[] = [
 ];
 
 const drawer = ref(false);
+const { mdAndUp } = useDisplay();
 const {
-    isAuthenticated, initialized, user, initAuthListener, signOut, welcomePoints, dismissWelcome,
+    isAuthenticated, initialized, initAuthListener, signOut, welcomePoints, dismissWelcome,
 } = useAuth();
+const { viewer } = useViewer();
+const navItems = computed(() => allNavItems.filter((item) => !item.memberOnly || isAuthenticated.value));
 const {
     balance, refresh: refreshPoints, clear: clearPoints,
 } = usePoints();
@@ -179,18 +208,6 @@ async function logout() {
     // Pages for members only have nothing left to show
     await navigateTo('/');
 }
-
-/**
- * Who is looking, once that is known. Firebase restores a session in two steps (the user first, the ID token a
- * moment later), and a member's requests need the token, so until both are there nobody can be told apart
- * from a visitor: treat that stretch as "unknown" rather than loading the visitor's data by mistake.
- */
-const viewer = computed<'unknown' | 'member' | 'guest'>(() => {
-    if (!initialized.value) return 'unknown';
-    if (isAuthenticated.value) return 'member';
-
-    return user.value ? 'unknown' : 'guest';
-});
 
 // Reload what belongs to whoever is looking, once per change of viewer.
 watch(viewer, async (who) => {
@@ -222,6 +239,18 @@ onMounted(() => {
 /* A full-width backdrop on a page must not add a horizontal scrollbar. */
 .layout-main {
     overflow-x: clip;
+}
+
+/* The title takes only its own width, so the links sit right next to it */
+:deep(.v-toolbar-title) {
+    flex: 0 0 auto;
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-left: 16px;
 }
 
 .login-promo {

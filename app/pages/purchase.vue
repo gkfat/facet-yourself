@@ -83,6 +83,7 @@ const {
     isAuthenticated, initAuthListener,
 } = useAuth();
 const { post } = useApi();
+const route = useRoute();
 
 const packages = ref<PointPackageItem[]>([]);
 const selected = ref<string | null>(null);
@@ -97,6 +98,11 @@ onMounted(async () => {
 
     try {
         packages.value = await $fetch<PointPackageItem[]>('/api/point-packages');
+
+        // The plan picked on the pricing page comes in already chosen
+        const wanted = route.query.package;
+
+        if (typeof wanted === 'string' && packages.value.some((item) => item.packageId === wanted)) selected.value = wanted;
     } catch (err) {
         console.error('[purchase] failed to load packages:', err);
         loadError.value = '無法載入方案，請稍後再試。';

@@ -4,7 +4,9 @@ import {
 import {
     fakeScaleAssessment, fakeSelectionAssessment,
 } from '../assessments/testing';
-import { multiReportCost } from './multiDimensionPricing';
+import {
+    multiReportCost, yardstickReach,
+} from './multiDimensionPricing';
 
 describe('multiReportCost', () => {
     it('is the sum of the systems\' own prices times 1.2, rounded down', () => {
@@ -90,5 +92,19 @@ describe('multiReportCost with self-analyses', () => {
 
     it('does not price a self-analysis that is not defined', () => {
         expect(() => multiReportCost(['ZODIAC', 'HEXACO'], [])).toThrow('No base price for HEXACO');
+    });
+});
+
+describe('yardstickReach', () => {
+    it('counts how many three-dimension reports the points pay for, rounded down', () => {
+        // ZODIAC + MBTI + NUMEROLOGY = 3 x 1.2 = 3.6, so 3 points
+        expect(yardstickReach(2)).toBe(0);
+        expect(yardstickReach(3)).toBe(1);
+        expect(yardstickReach(8)).toBe(2);
+        expect(yardstickReach(30)).toBe(10);
+    });
+
+    it('is zero for no points', () => {
+        expect(yardstickReach(0)).toBe(0);
     });
 });

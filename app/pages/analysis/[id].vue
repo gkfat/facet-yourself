@@ -236,7 +236,7 @@
             location="bottom end"
             to="/self-reports"
             prepend-icon="mdi-arrow-left"
-            text="自我分析報告"
+            text="自我探索"
         />
     </div>
 </template>

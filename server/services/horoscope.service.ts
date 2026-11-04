@@ -1,6 +1,7 @@
 import { BaseService } from './base.service';
 import { FixedContentService } from './fixedContent.service';
 import { computeTransitChart } from '../astrology/transitChart';
+import { GuestSessionService } from './guestSession.service';
 import { UserRepository } from '../repositories/user.repository';
 import {
     HOROSCOPE_AREAS, horoscopeContentKey, type HoroscopeBody,
@@ -15,6 +16,7 @@ import {
 
 type HoroscopeServiceOptions = {
     users?: UserRepository;
+    guests?: GuestSessionService;
     content?: FixedContentService;
     clock?: () => number;
 };
@@ -28,12 +30,14 @@ export class HoroscopeService extends BaseService {
     protected serviceName = 'horoscope';
 
     private readonly users: UserRepository;
+    private readonly guests: GuestSessionService;
     private readonly content: FixedContentService;
     private readonly clock: () => number;
 
     constructor(options: HoroscopeServiceOptions = {}) {
         super();
         this.users = options.users ?? new UserRepository();
+        this.guests = options.guests ?? new GuestSessionService({ clock: options.clock });
         this.content = options.content ?? new FixedContentService();
         this.clock = options.clock ?? Date.now;
     }
@@ -45,8 +49,17 @@ export class HoroscopeService extends BaseService {
             throw new NotFoundError('User');
         }
 
-        const sign = user.birthData?.zodiac;
+        return this.forSign(user.birthData?.zodiac);
+    }
 
+    /** A visitor's sign comes from the birth date kept in the guest session. */
+    async getTodayForGuest(sessionId: string): Promise<DailyHoroscopeResponse> {
+        const birthData = await this.guests.getBirthData(sessionId);
+
+        return this.forSign(birthData?.zodiac);
+    }
+
+    private async forSign(sign: Zodiac | undefined): Promise<DailyHoroscopeResponse> {
         if (!sign) {
             throw new UnprocessableError('Fill in your birth date first', 'PROFILE_REQUIRED');
         }

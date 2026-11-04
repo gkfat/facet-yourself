@@ -177,4 +177,31 @@ describe('KinUnlockService', () => {
             });
         });
     });
+
+    describe('for a guest', () => {
+        it('gives today\'s Kin with its content and stores nothing', async () => {
+            const kin = await seedFor(TODAY);
+
+            expect(kinTodayResponseSchema.parse(await service.unlockForGuest())).toMatchObject({
+                date: TODAY,
+                unlocked: true,
+                kin,
+                content: {
+                    contentType: 'KIN_TODAY', key: String(kin.kinNumber),
+                },
+            });
+            expect(unlocks()).toHaveLength(0);
+            expect(db.paths().filter((path) => path.includes('kinUnlocks'))).toEqual([]);
+        });
+
+        it('never tells the Kin when asked', () => {
+            expect(kinTodayResponseSchema.parse(service.getTodayForGuest())).toEqual({
+                date: TODAY, unlocked: false,
+            });
+        });
+
+        it('is a 404 when the content is not published', async () => {
+            await expect(service.unlockForGuest()).rejects.toBeInstanceOf(NotFoundError);
+        });
+    });
 });

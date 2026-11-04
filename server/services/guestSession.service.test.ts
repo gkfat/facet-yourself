@@ -127,6 +127,28 @@ describe('GuestSessionService', () => {
         });
     });
 
+    describe('isActive', () => {
+        it('is true for a live session', async () => {
+            const { sessionId } = await service.create();
+
+            expect(await service.isActive(sessionId)).toBe(true);
+        });
+
+        it('is false for an unknown, expired or claimed session', async () => {
+            const claimed = await service.create();
+            const expired = await service.create();
+
+            expect(await service.isActive('nope')).toBe(false);
+
+            await db.doc('users/u1').set(emptyUser);
+            await service.claim(claimed.sessionId, 'u1');
+            expect(await service.isActive(claimed.sessionId)).toBe(false);
+
+            clock.now += 2 * DAY;
+            expect(await service.isActive(expired.sessionId)).toBe(false);
+        });
+    });
+
     describe('getProfile', () => {
         it('returns what the guest has entered so far', async () => {
             const { sessionId } = await service.create();

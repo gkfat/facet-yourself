@@ -15,6 +15,7 @@ describe('classifyRoute', () => {
         expect(classifyRoute('GET', '/api/fixed-results/maya-kin?birthDate=2000-01-01')).toBe('public');
         expect(classifyRoute('GET', '/api/tests')).toBe('public');
         expect(classifyRoute('GET', '/api/tests/mbti')).toBe('public');
+        expect(classifyRoute('GET', '/api/home/preview?sign=aries&lifePath=7')).toBe('public');
     });
 
     it('allows anonymous or guest callers on optional endpoints', () => {
@@ -23,7 +24,18 @@ describe('classifyRoute', () => {
         expect(classifyRoute('POST', '/api/share-cards')).toBe('optional');
         expect(classifyRoute('POST', '/api/single-reports')).toBe('optional');
         expect(classifyRoute('GET', '/api/assessments')).toBe('optional');
+        expect(classifyRoute('GET', '/api/tarot/daily')).toBe('optional');
+        expect(classifyRoute('POST', '/api/tarot/daily')).toBe('optional');
+        expect(classifyRoute('GET', '/api/rune/daily')).toBe('optional');
+        expect(classifyRoute('POST', '/api/rune/daily')).toBe('optional');
+        expect(classifyRoute('GET', '/api/kin/today')).toBe('optional');
+        expect(classifyRoute('POST', '/api/kin/today')).toBe('optional');
+        expect(classifyRoute('GET', '/api/horoscope/daily')).toBe('optional');
         expect(classifyRoute('POST', '/api/assessments/enneagram/results')).toBe('optional');
+    });
+
+    it('keeps writing a horoscope out of reach', () => {
+        expect(classifyRoute('POST', '/api/horoscope/daily')).toBe('required');
     });
 
     it('needs a signed-in member for the latest result of an assessment', () => {
@@ -40,15 +52,8 @@ describe('classifyRoute', () => {
         expect(classifyRoute('POST', '/api/summaries')).toBe('required');
         expect(classifyRoute('DELETE', '/api/account')).toBe('required');
         expect(classifyRoute('GET', '/api/unknown')).toBe('required');
-        expect(classifyRoute('GET', '/api/kin/today')).toBe('required');
         expect(classifyRoute('GET', '/api/report-snapshots')).toBe('required');
         expect(classifyRoute('GET', '/api/report-snapshots/abc')).toBe('required');
-        expect(classifyRoute('GET', '/api/horoscope/daily')).toBe('required');
-        expect(classifyRoute('GET', '/api/rune/daily')).toBe('required');
-        expect(classifyRoute('POST', '/api/rune/daily')).toBe('required');
-        expect(classifyRoute('POST', '/api/kin/today')).toBe('required');
-        expect(classifyRoute('GET', '/api/tarot/daily')).toBe('required');
-        expect(classifyRoute('POST', '/api/tarot/daily')).toBe('required');
     });
 
     it('does not make a public path public for other methods', () => {

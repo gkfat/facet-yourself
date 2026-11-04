@@ -11,6 +11,11 @@ import {
     addMonths, taipeiDateKey,
 } from '../../shared/utils/time';
 
+/** The seed of a visitor's draw: the prefix keeps it apart from every account's uid. */
+export function guestDrawSubject(sessionId: string): string {
+    return `guest:${sessionId}`;
+}
+
 /** What is stored for one draw, whatever it is a draw of. */
 export type DailyDrawRecord = {
     symbolIndex: number;
@@ -116,6 +121,29 @@ export class DailyDrawEngine {
             record: stored.record,
             content: same ? content : await this.contentOf(stored.record),
             created: stored.created,
+        };
+    }
+
+    /**
+     * A visitor's draw: picked from the guest's subject (see {@link guestDrawSubject}) and today's date like a
+     * member's, but nothing is stored, so the same session gets the same symbol for the rest of the Taipei day.
+     * The content is read first: a symbol without published content is a 404.
+     */
+    async drawEphemeral(subject: string): Promise<DailyDrawResult> {
+        const now = this.clock();
+        const date = taipeiDateKey(new Date(now));
+        const picked = this.config.pick(subject, date);
+        const content = await this.content.getPublished(this.config.contentType, this.config.contentKey(picked.symbolIndex, picked.orientation));
+
+        return {
+            date,
+            record: {
+                ...picked,
+                drawnAt: now,
+                expiresAt: now,
+                drawVersion: this.config.drawVersion,
+            },
+            content,
         };
     }
 

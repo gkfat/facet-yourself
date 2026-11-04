@@ -94,6 +94,24 @@ export class KinUnlockService extends BaseService {
         return this.toResponse(date, stored, sameKin ? content : await this.contentOf(stored));
     }
 
+    /** A visitor never has an unlocked day: asking only tells the date. */
+    getTodayForGuest(): KinTodayResponse {
+        return {
+            date: taipeiDateKey(new Date(this.clock())), unlocked: false,
+        };
+    }
+
+    /** A visitor's Kin of today: it follows from the date alone, so nothing is stored. */
+    async unlockForGuest(): Promise<KinTodayResponse> {
+        const date = taipeiDateKey(new Date(this.clock()));
+        const kin = kinOf(date);
+        const content = await this.content.getPublished('KIN_TODAY', String(kin.kinNumber));
+
+        return {
+            date, unlocked: true, kin, content,
+        };
+    }
+
     private async readUnlock(uid: string, date: string): Promise<KinUnlockDoc | null> {
         const snap = await this.repository.ref(uid, date).get();
 

@@ -20,6 +20,10 @@ function statusOf(error: unknown): number | undefined {
  */
 export function useDailyHoroscope() {
     const { get } = useApi();
+    const { settled } = useViewer();
+    const {
+        restore, sessionId, 
+    } = useGuestSession();
     const today = useState<DailyHoroscopeResponse | null>('dailyHoroscope', () => null);
     const status = useState<DailyHoroscopeStatus>('dailyHoroscopeStatus', () => 'idle');
 
@@ -27,14 +31,27 @@ export function useDailyHoroscope() {
         if (status.value !== 'ready') status.value = 'loading';
 
         try {
-            today.value = await get<DailyHoroscopeResponse>('/api/horoscope/daily');
+            const who = await settled();
+
+            // A visitor's birth date is kept in the guest session: without a session there is none to read from
+            if (who === 'guest') restore();
+
+            if (who === 'guest' && !sessionId.value) {
+                today.value = null;
+                status.value = 'needsProfile';
+
+                return;
+            }
+
+            today.value = await get<DailyHoroscopeResponse>('/api/horoscope/daily', {}, 'optional');
             status.value = 'ready';
         } catch (error) {
             const code = statusOf(error);
 
             if (code === 404) {
                 status.value = 'missing';
-            } else if (code === 422) {
+            } else if (code === 422 || code === 401) {
+                // 401: the visitor's session (and the birth date kept in it) has expired, so there is no sign to read
                 status.value = 'needsProfile';
             } else {
                 console.error('[useDailyHoroscope] request failed:', error);

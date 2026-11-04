@@ -20,6 +20,7 @@ export default defineNuxtPlugin({
                             secondary: '#5b6b7c',
                             background: '#f6f7f9',
                             surface: '#ffffff',
+                            info: '#4a6f93',
                             success: '#2e7d5b',
                             warning: '#b7791f',
                             error: '#c94f4f',
@@ -29,7 +30,14 @@ export default defineNuxtPlugin({
             },
             icons: {
                 defaultSet: 'mdi',
-                aliases,
+                // Alerts take their icons from here: outlined ones sit quieter than the filled defaults
+                aliases: {
+                    ...aliases,
+                    info: 'mdi-information-outline',
+                    success: 'mdi-check-circle-outline',
+                    warning: 'mdi-alert-outline',
+                    error: 'mdi-alert-circle-outline',
+                },
                 sets: { mdi },
             },
             display: {

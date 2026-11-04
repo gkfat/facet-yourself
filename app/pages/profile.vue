@@ -4,6 +4,10 @@
             我的資料
         </h1>
 
+        <GuestNotice>
+            填寫的資料會用來計算星座與各項分析。
+        </GuestNotice>
+
         <v-card class="mb-4">
             <v-card-title>出生日期</v-card-title>
             <v-card-text>

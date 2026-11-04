@@ -1,8 +1,14 @@
 <template>
-    <div>
-        <h1 class="text-h5 mb-4">
-            自我分析報告
-        </h1>
+    <div class="report-page">
+        <ReportBanner
+            title="自我探索"
+            headline="選一個角度，開始認識自己"
+            tone="green"
+        />
+
+        <GuestNotice>
+            你做的單一維度分析會顯示在這裡。
+        </GuestNotice>
 
         <section
             v-for="system in systems"
@@ -95,7 +101,7 @@ import { kinName, kinOf } from '../../shared/utils/mayaKin';
 import { lifePathNumber } from '../../shared/utils/numerology';
 import { zodiacFromIsoDate } from '../../shared/utils/zodiac';
 
-useHead({ title: '自我分析報告' });
+useHead({ title: '自我探索' });
 
 type SystemKey = 'symbolic' | 'personality';
 

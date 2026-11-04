@@ -52,6 +52,9 @@ import { isStateSystem } from '../../shared/ontology/mapping';
 import type { MappingSystem } from '../../shared/ontology/schema';
 import { RUNE_DRAW_VERSION } from '../../shared/utils/rune';
 import { TAROT_DRAW_VERSION } from '../../shared/utils/tarot';
+import type { DailyHoroscopeResponse } from '../../shared/schemas/api/horoscope.schema';
+import type { DailyRuneResponse } from '../../shared/schemas/api/rune.schema';
+import type { DailyTarotResponse } from '../../shared/schemas/api/tarot.schema';
 import { kinOf } from '../../shared/utils/mayaKin';
 import { lifePathNumber } from '../../shared/utils/numerology';
 import { taipeiDateKey } from '../../shared/utils/time';
@@ -82,6 +85,13 @@ type SingleReportServiceOptions = {
 const partsOf = (content: { systems: readonly MappingSystem[]; position: string }) => content.systems.map((system) => ({
     system, position: content.position,
 }));
+
+/** Where the state of today comes from: a member's records, or what a guest's session and the date give */
+type TodaySource = {
+    tarot: () => Promise<DailyTarotResponse>;
+    rune: () => Promise<DailyRuneResponse>;
+    horoscope: () => Promise<DailyHoroscopeResponse>;
+};
 
 /** Who asks: a signed-in member (the report is kept) or a guest with a session (it is not). */
 export type ReportAsker = { uid: string } | { guestSessionId: string | null };
@@ -221,43 +231,62 @@ export class SingleReportService extends BaseService {
     }
 
     /**
-     * The report of today's state (tarot, runes, sign horoscope): made from what the member has today, for members only,
-     * and never kept. It is a day's state, so a snapshot per day would only push the lasting reports out of the 20 a
-     * member can keep.
+     * The report of today's state (tarot, runes, sign horoscope): made from what the asker has today and never kept.
+     * It is a day's state, so a snapshot per day would only push the lasting reports out of the 20 a member can keep.
+     * A guest's draw is not stored, but it follows from the session and the date, so it is worked out again here.
      */
     private async generateToday(asker: ReportAsker, system: SingleReportSystem): Promise<SingleReportResponse> {
-        if (!('uid' in asker)) {
-            throw new UnprocessableError('Sign in to see the report of today', 'LOGIN_REQUIRED');
-        }
-
-        const content = assembleSingleReport(await this.todayInput(asker.uid, system));
+        const input = 'uid' in asker
+            ? await this.todayInput(asker.uid, system)
+            : await this.todayInputForGuest(asker.guestSessionId, system);
+        const content = assembleSingleReport(input);
 
         return {
             ...content, id: null, generatedAt: this.clock(), expiresAt: null, persisted: false, aiAugmented: false, ai: null, aiJob: null, aiStatus: null, parts: partsOf(content),
         };
     }
 
-    private async todayInput(uid: string, system: SingleReportSystem): Promise<SystemReportInput> {
+    private todayInput(uid: string, system: SingleReportSystem): Promise<SystemReportInput> {
+        return this.todayInputOf(system, {
+            tarot: () => this.tarot.getToday(uid),
+            rune: () => this.rune.getToday(uid),
+            horoscope: () => this.horoscope.getToday(uid),
+        });
+    }
+
+    private async todayInputForGuest(sessionId: string | null, system: SingleReportSystem): Promise<SystemReportInput> {
+        if (!sessionId || !(await this.guests.isActive(sessionId))) {
+            throw new UnprocessableError('Start a session to see the report of today', 'LOGIN_REQUIRED');
+        }
+
+        return this.todayInputOf(system, {
+            tarot: () => this.tarot.drawForGuest(sessionId),
+            rune: () => this.rune.drawForGuest(sessionId),
+            horoscope: () => this.horoscope.getTodayForGuest(sessionId),
+        });
+    }
+
+    private async todayInputOf(system: SingleReportSystem, today: TodaySource): Promise<SystemReportInput> {
         switch (system) {
         case 'TAROT': {
-            const today = await this.tarot.getToday(uid);
+            const drawn = await today.tarot();
 
-            if (!today.drawn) throw new UnprocessableError('Draw today\'s card first', 'NOT_DRAWN');
+            if (!drawn.drawn) throw new UnprocessableError('Draw today\'s card first', 'NOT_DRAWN');
 
             return tarotReportInput({
-                date: today.date, card: today.card, content: today.content, drawVersion: TAROT_DRAW_VERSION,
+                date: drawn.date, card: drawn.card, content: drawn.content, drawVersion: TAROT_DRAW_VERSION,
             });
         }
         case 'RUNE': {
-            const today = await this.rune.getToday(uid);
+            const drawn = await today.rune();
 
-            if (!today.drawn) throw new UnprocessableError('Draw today\'s rune first', 'NOT_DRAWN');
+            if (!drawn.drawn) throw new UnprocessableError('Draw today\'s rune first', 'NOT_DRAWN');
 
             return runeReportInput({
-                date: today.date, rune: today.rune, content: today.content, drawVersion: RUNE_DRAW_VERSION,
+                date: drawn.date, rune: drawn.rune, content: drawn.content, drawVersion: RUNE_DRAW_VERSION,
             });
         }
-        case 'HOROSCOPE': return horoscopeReportInput({ horoscope: await this.horoscope.getToday(uid) });
+        case 'HOROSCOPE': return horoscopeReportInput({ horoscope: await today.horoscope() });
         default: throw new ValidationError(`No report of today for ${String(system)}`);
         }
     }

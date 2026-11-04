@@ -220,4 +220,51 @@ describe('RuneService', () => {
             });
         });
     });
+
+    describe('for a guest', () => {
+        const SESSION = 'g'.repeat(32);
+
+        it('draws from the session and the date, and stores nothing', async () => {
+            const picked = drawDailyRune(`guest:${SESSION}`, TODAY);
+            const key = `${picked.runeIndex}_${picked.orientation}`;
+
+            await db.doc(`fixedContents/RUNE_${key}`).set(contentDoc(key));
+
+            const response = dailyRuneResponseSchema.parse(await service.drawForGuest(SESSION));
+
+            expect(response).toMatchObject({
+                date: TODAY,
+                drawn: true,
+                rune: {
+                    index: picked.runeIndex, orientation: picked.orientation,
+                },
+                content: { key },
+            });
+            expect(db.paths().filter((path) => path.includes('runeDraws'))).toEqual([]);
+        });
+
+        it('gives the same rune for the same session on the same day', async () => {
+            const picked = drawDailyRune(`guest:${SESSION}`, TODAY);
+            const key = `${picked.runeIndex}_${picked.orientation}`;
+
+            await db.doc(`fixedContents/RUNE_${key}`).set(contentDoc(key));
+
+            const first = await service.drawForGuest(SESSION);
+
+            clock.now += 3 * 60 * 60 * 1000;
+
+            expect(await service.drawForGuest(SESSION)).toEqual(first);
+        });
+
+        it('never tells what was drawn when asked', () => {
+            expect(dailyRuneResponseSchema.parse(service.getTodayForGuest())).toEqual({
+                date: TODAY, drawn: false,
+            });
+        });
+
+        it('is a 404 that stores nothing when the content is not published', async () => {
+            await expect(service.drawForGuest(SESSION)).rejects.toBeInstanceOf(NotFoundError);
+            expect(db.paths().filter((path) => path.includes('runeDraws'))).toEqual([]);
+        });
+    });
 });

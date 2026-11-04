@@ -91,6 +91,19 @@ export class GuestSessionService extends BaseService {
     }
 
     /**
+     * Whether the session can still be used: missing, expired and claimed sessions are all "not active".
+     */
+    async isActive(sessionId: string): Promise<boolean> {
+        const snap = await this.repository.sessionRef(sessionId).get();
+
+        if (!snap.exists) return false;
+
+        const session = guestSessionDocSchema.parse(this.fromFirestore(snap.data()));
+
+        return session.expiresAt.getTime() > this.clock() && !session.claimedBy;
+    }
+
+    /**
      * Birth data the guest has entered, or null when the session is missing, expired, claimed or has none.
      */
     async getBirthData(sessionId: string): Promise<ProfileInput['birthData'] | null> {

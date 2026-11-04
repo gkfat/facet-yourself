@@ -303,6 +303,27 @@ describe('SingleReportService', () => {
             }).generate({ uid: 'u1' }, 'TAROT')).rejects.toMatchObject({ code: 'NOT_DRAWN' });
             await expect(withToday(drawn).generate({ guestSessionId: null }, 'TAROT')).rejects.toMatchObject({ code: 'LOGIN_REQUIRED' });
         });
+
+        describe('for a guest', () => {
+            const sessionId = 'g'.repeat(32);
+            const guestToday = (guestDraw: unknown) => new SingleReportService({
+                clock: () => clock.now,
+                tarot: { drawForGuest: async () => guestDraw } as never,
+                guests: { isActive: async (id: string) => id === sessionId } as never,
+            });
+
+            it('is made from the draw the session and the date give, and is not kept', async () => {
+                const report = await guestToday(drawn).generate({ guestSessionId: sessionId }, 'TAROT');
+
+                expect(report.position).toContain('愚者');
+                expect(report.persisted).toBe(false);
+                expect(snapshotPaths()).toHaveLength(0);
+            });
+
+            it('asks for a session when it is missing or no longer live', async () => {
+                await expect(guestToday(drawn).generate({ guestSessionId: 'x'.repeat(32) }, 'TAROT')).rejects.toMatchObject({ code: 'LOGIN_REQUIRED' });
+            });
+        });
     });
 
     describe('the MBTI report', () => {

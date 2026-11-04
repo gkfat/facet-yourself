@@ -247,7 +247,7 @@ const backTo = meta && isStateSystem(meta.system)
         to: '/fortune', label: '今日運勢', icon: 'mdi-cards-playing-outline',
     }
     : {
-        to: '/self-reports', label: '自我分析報告', icon: 'mdi-arrow-left',
+        to: '/self-reports', label: '自我探索', icon: 'mdi-arrow-left',
     };
 
 /** The AI analysis is for the reports built from birth data and the like; today's state is not kept, so it has none */
