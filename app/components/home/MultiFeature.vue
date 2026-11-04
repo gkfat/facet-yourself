@@ -5,7 +5,7 @@
     >
         <div class="multi__body">
             <div class="multi__copy">
-                <span class="multi__eyebrow">多維度分析</span>
+                <span class="multi__eyebrow">綜合分析</span>
                 <h2
                     id="multi-title"
                     class="multi__title"
@@ -24,7 +24,7 @@
                         class="multi__cta"
                         append-icon="mdi-arrow-right"
                     >
-                        {{ unlocked ? '開始多維度分析' : '先完成 2 個維度' }}
+                        {{ unlocked ? '開始綜合分析' : '先完成 2 個維度' }}
                     </v-btn>
                     <v-btn
                         to="/pricing"

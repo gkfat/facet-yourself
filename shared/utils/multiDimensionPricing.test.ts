@@ -5,7 +5,7 @@ import {
     fakeScaleAssessment, fakeSelectionAssessment,
 } from '../assessments/testing';
 import {
-    multiReportCost, yardstickReach,
+    aiReportCost, multiReportCost, yardstickReach,
 } from './multiDimensionPricing';
 
 describe('multiReportCost', () => {
@@ -106,5 +106,20 @@ describe('yardstickReach', () => {
 
     it('is zero for no points', () => {
         expect(yardstickReach(0)).toBe(0);
+    });
+});
+
+describe('aiReportCost', () => {
+    it('is one point for one system, whichever it is', () => {
+        expect(aiReportCost(['ZODIAC'])).toBe(1);
+        expect(aiReportCost(['BAZI'])).toBe(1);
+    });
+
+    it('is the price of the combination for several systems', () => {
+        expect(aiReportCost(['ZODIAC', 'BLOOD'])).toBe(multiReportCost(['ZODIAC', 'BLOOD']));
+    });
+
+    it('is not offered for no system', () => {
+        expect(aiReportCost([])).toBeNull();
     });
 });

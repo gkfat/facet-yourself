@@ -1,21 +1,11 @@
 <template>
     <div class="report-page">
         <ReportBanner
-            title="多維度報告"
-            :headline="report ? report.position : undefined"
+            title="分析報告"
+            :headline="headline"
             :extended="Boolean(report)"
             tone="green"
         />
-
-        <v-btn
-            to="/report"
-            variant="text"
-            size="small"
-            prepend-icon="mdi-arrow-left"
-            class="mb-2"
-        >
-            多維度分析
-        </v-btn>
 
         <v-card
             v-if="loading"
@@ -47,7 +37,7 @@
 
         <template v-else-if="report">
             <v-card
-                v-if="report.aiJob?.status === 'GENERATING'"
+                v-if="report.status === 'GENERATING'"
                 variant="outlined"
                 class="mb-4"
             >
@@ -57,40 +47,51 @@
                         class="mb-2"
                     />
                     <p class="text-body-2 mb-0">
-                        正在針對你改寫洞見，通常不到一分鐘；下面是規則已經找出的內容，可以先看。
+                        導師正在閱讀你的報告，通常不到一分鐘；下面是你帶來的事實，可以先看。
                     </p>
                 </v-card-text>
             </v-card>
 
             <v-alert
-                v-else-if="report.aiJob?.status === 'FAILED'"
+                v-else-if="report.status === 'FAILED'"
                 type="warning"
                 variant="tonal"
                 class="mb-4"
             >
-                AI 改寫這次沒有成功，已把點數退回。下面是規則找出的內容，仍然可以閱讀。
+                這次分析沒有成功，已退回 {{ report.cost }} 點。下面是你帶來的事實，仍然可以閱讀。
                 <template #append>
                     <v-btn
-                        to="/report"
+                        :to="retryTo(report)"
                         size="small"
                         variant="text"
                     >
-                        再試一次
+                        再問一次
                     </v-btn>
                 </template>
             </v-alert>
 
-            <MultiReportView :report="report" />
+            <AiReportView :report="report" />
         </template>
+
+        <!-- Back to the list of analyses, as the other reports go back to theirs -->
+        <v-fab
+            app
+            extended
+            color="primary"
+            location="bottom end"
+            to="/ai-reports"
+            prepend-icon="mdi-arrow-left"
+            text="分析紀錄"
+        />
     </div>
 </template>
 
 <script lang="ts" setup>
 import {
-    reportSnapshotDetailSchema, type ReportSnapshotDetail,
-} from '../../../shared/schemas/api/reportSnapshot.schema';
+    aiReportItemSchema, type AiReportItem,
+} from '../../../shared/schemas/api/aiReport.schema';
 
-useHead({ title: '多維度報告' });
+useHead({ title: '分析報告' });
 
 const POLL_MS = 3000;
 
@@ -99,28 +100,36 @@ const { get } = useApi();
 const { initAuthListener } = useAuth();
 const { refresh: refreshPoints } = usePoints();
 
-const report = ref<ReportSnapshotDetail | null>(null);
+const report = ref<AiReportItem | null>(null);
 const loading = ref(true);
 const missing = ref(false);
 const failed = ref(false);
+
+const headline = computed(() => {
+    const sources = report.value?.sources ?? [];
+
+    if (sources.length === 0) return undefined;
+
+    return sources.length === 1 ? `深入分析：${sources[0]?.position}` : `綜合分析：${sources.length} 個維度`;
+});
 
 async function load(silent = false) {
     if (!silent) loading.value = true;
 
     try {
-        report.value = reportSnapshotDetailSchema.parse(await get<unknown>(`/api/report-snapshots/${String(route.params.id)}`));
+        report.value = aiReportItemSchema.parse(await get<unknown>(`/api/ai-reports/${String(route.params.id)}`));
     } catch (error) {
         const failure = error as { statusCode?: number };
 
         if (silent) {
-            console.error('[report] refresh failed:', error);
+            console.error('[ai-report] refresh failed:', error);
 
             return;
         }
 
         if (failure.statusCode === 404) missing.value = true;
         else {
-            console.error('[report] failed to load:', error);
+            console.error('[ai-report] failed to load:', error);
             failed.value = true;
         }
     } finally {
@@ -128,10 +137,10 @@ async function load(silent = false) {
     }
 }
 
-// While the AI is rewriting, look again until it is done or has failed (a failure gives the points back)
+// While the report is being made, look again until it is done or has failed (a failure gives the points back)
 let timer: ReturnType<typeof setInterval> | null = null;
 
-watch(() => report.value?.aiJob?.status, (status) => {
+watch(() => report.value?.status, (status) => {
     if (timer) clearInterval(timer);
 
     timer = status === 'GENERATING' ? setInterval(() => void load(true).then(refreshPoints), POLL_MS) : null;

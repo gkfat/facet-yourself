@@ -106,8 +106,8 @@ const typeLabel = {
 
 const reasonLabel = {
     WELCOME: '註冊贈點',
-    SINGLE_AI_ANALYSIS: 'AI 進階分析',
-    MULTI_REPORT: '多維度報告',
+    SINGLE_AI_ANALYSIS: '深入分析',
+    MULTI_REPORT: '綜合分析',
     PURCHASE: '購買點數',
 } as const;
 

@@ -1,20 +1,16 @@
 <template>
     <div class="report-page">
         <ReportBanner
-            title="多維度分析"
-            headline="把不同的系統放在一起看"
+            title="綜合分析"
+            headline="綜觀並深入分析不同面向的你"
             tone="green"
         />
 
         <GuestNotice v-if="!isAuthenticated">
-            多維度分析要登入後，用點數取得，登入後也可以回到這裡看過去的報告。
+            綜合分析要登入後，用點數取得，登入後可以在「分析紀錄」回頭看過去的報告。
         </GuestNotice>
 
         <template v-else>
-            <p class="text-body-2 mb-4">
-                選兩個以上的系統，規則會找出它們共同指向、彼此拉扯的地方，由 AI 產生獨一無二的解讀。
-            </p>
-
             <v-alert
                 v-if="problem"
                 :type="problem.type"
@@ -42,63 +38,54 @@
             >
                 <v-card-text class="pa-5">
                     <div class="text-subtitle-1 font-weight-medium mb-3">
-                        選擇要放在一起看的維度
+                        選擇要分析的維度
                     </div>
 
-                    <v-row
-                        dense
+                    <DimensionWeb
+                        :options="options"
+                        :selected="selected"
                         class="mb-4"
+                    />
+
+                    <v-chip-group
+                        v-model="selected"
+                        multiple
+                        column
+                        class="chips mb-4"
                     >
-                        <v-col
+                        <v-chip
                             v-for="option in options"
                             :key="option.value"
-                            cols="6"
-                            sm="4"
-                            md="2"
+                            :value="option.value"
+                            :disabled="!option.ready"
+                            :title="option.ready ? undefined : `需要：${option.need}`"
+                            :prepend-icon="option.icon"
+                            filter
+                            variant="outlined"
+                            color="primary"
+                            size="large"
                         >
-                            <v-card
-                                variant="outlined"
-                                height="100%"
-                                :class="['option', { 'option--on': selected.includes(option.value) }]"
-                                :disabled="!option.ready"
-                                @click="toggle(option)"
-                            >
-                                <v-card-text class="pa-3">
-                                    <div class="d-flex align-center ga-2">
-                                        <v-icon
-                                            :icon="option.icon"
-                                            :style="{ color: option.tone }"
-                                        />
-                                        <span class="text-subtitle-2 font-weight-medium">{{ option.label }}</span>
-                                        <v-spacer />
-                                        <v-icon
-                                            v-if="selected.includes(option.value)"
-                                            icon="mdi-check-circle"
-                                            color="primary"
-                                            size="20"
-                                        />
-                                    </div>
-                                    <p
-                                        v-if="option.ready"
-                                        class="text-body-2 mt-1 mb-0 conclusion"
-                                    >
-                                        {{ option.conclusion }}
-                                    </p>
-                                    <p
-                                        v-else
-                                        class="text-caption text-medium-emphasis mt-1 mb-0"
-                                    >
-                                        需要：{{ option.need }}
-                                    </p>
-                                </v-card-text>
-                            </v-card>
-                        </v-col>
-                    </v-row>
+                            {{ option.label }}
+                        </v-chip>
+                    </v-chip-group>
+
+                    <v-textarea
+                        v-model="question"
+                        label="想問 AI 的事（選填）"
+                        placeholder="例如：我最近在猶豫要不要換工作，這些特質怎麼看？"
+                        :counter="AI_QUESTION_MAX_LENGTH"
+                        :maxlength="AI_QUESTION_MAX_LENGTH"
+                        rows="2"
+                        auto-grow
+                        variant="outlined"
+                        hide-details="auto"
+                        class="mb-4"
+                    />
 
                     <div class="d-flex flex-wrap align-center ga-3">
                         <div>
                             <div class="text-body-1 font-weight-medium">
-                                {{ cost === null ? '請選擇至少兩個系統' : `已選 ${selected.length} 個系統，共 ${cost} 點` }}
+                                {{ cost === null ? '請選擇至少一個系統' : `已選 ${selected.length} 個系統，共 ${cost} 點` }}
                             </div>
                         </div>
                         <v-spacer />
@@ -112,67 +99,8 @@
                             prepend-icon="mdi-creation-outline"
                             @click="start"
                         >
-                            {{ cost === null ? '開始生成多維度分析' : `開始生成多維度分析（${cost} 點）` }}
+                            {{ startLabel }}
                         </v-btn>
-                    </div>
-                </v-card-text>
-            </v-card>
-
-            <div class="text-h6 mb-2">
-                我的多維度報告
-            </div>
-            <p
-                v-if="!reports.length"
-                class="text-body-2 text-medium-emphasis"
-            >
-                還沒有報告。
-            </p>
-            <v-card
-                v-for="item in reports"
-                :key="item.id"
-                variant="outlined"
-                class="mb-3"
-            >
-                <v-card-text>
-                    <div class="d-flex flex-wrap align-center ga-2 mb-2">
-                        <span class="text-subtitle-1 font-weight-medium">{{ item.systems.length }} 維度分析</span>
-                        <span class="text-caption text-medium-emphasis">{{ new Date(item.generatedAt).toLocaleString('zh-TW') }}</span>
-                        <v-spacer />
-                        <template v-if="item.aiStatus === 'GENERATING'">
-                            <v-progress-circular
-                                indeterminate
-                                size="18"
-                                width="2"
-                                class="mr-1"
-                            />
-                            <span class="text-body-2">生成中，通常不到一分鐘…</span>
-                        </template>
-                        <template v-else>
-                            <span
-                                v-if="item.aiStatus === 'FAILED'"
-                                class="text-body-2 text-warning mr-2"
-                            >AI 改寫沒有成功，已退點</span>
-                            <v-btn
-                                :to="`/report/${item.id}`"
-                                color="primary"
-                                size="small"
-                                append-icon="mdi-arrow-right"
-                            >
-                                前往閱讀
-                            </v-btn>
-                        </template>
-                    </div>
-                    <div class="d-flex flex-wrap ga-2">
-                        <v-chip
-                            v-for="part in item.parts"
-                            :key="part.system"
-                            size="small"
-                            variant="tonal"
-                            :prepend-icon="metaOf(part.system)?.icon"
-                            :style="{ color: metaOf(part.system)?.tone }"
-                        >
-                            <span class="chip__text">{{ part.position }}</span>
-                        </v-chip>
                     </div>
                 </v-card-text>
             </v-card>
@@ -182,28 +110,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ELEMENT_LABELS } from '../../../shared/constants/bazi';
-import { HUMAN_DESIGN_TYPE_LABELS } from '../../../shared/constants/humanDesignLabels';
-import {
-    BLOOD_TYPE_LABELS, ZODIAC_LABELS,
-} from '../../../shared/constants/zodiacLabels';
+import { AI_QUESTION_MAX_LENGTH } from '../../../shared/constants/ai';
 import type { MultiReportSystem } from '../../../shared/report/systems';
-import type { HumanDesignResponse } from '../../../shared/schemas/api/humanDesign.schema';
-import type { MultiReportAccepted } from '../../../shared/schemas/api/multiReport.schema';
-import type { ReportSnapshotItem } from '../../../shared/schemas/api/reportSnapshot.schema';
-import { dayPillarOf } from '../../../shared/utils/bazi/dayPillar';
-import { stemElement } from '../../../shared/utils/bazi/ganzhi';
-import { kinName, kinOf } from '../../../shared/utils/mayaKin';
-import { multiReportCost } from '../../../shared/utils/multiDimensionPricing';
-import { lifePathNumber } from '../../../shared/utils/numerology';
-import { zodiacFromIsoDate } from '../../../shared/utils/zodiac';
+import type { AiReportAccepted } from '../../../shared/schemas/api/aiReport.schema';
+import { aiReportCost } from '../../../shared/utils/multiDimensionPricing';
 import {
     DIMENSION_META, assessmentDimensions, type DimensionMeta,
 } from '../../utils/reportDimensions';
 
-useHead({ title: '多維度分析' });
-
-const POLL_MS = 3000;
+useHead({ title: '綜合分析' });
 
 type Problem = {
     type: 'error' | 'warning' | 'info';
@@ -215,9 +130,7 @@ type Problem = {
 const {
     isAuthenticated, initAuthListener,
 } = useAuth();
-const {
-    get, post,
-} = useApi();
+const { post } = useApi();
 const {
     state, progress,
 } = useExploration();
@@ -225,52 +138,8 @@ const { refresh: refreshPoints } = usePoints();
 
 const selected = ref<MultiReportSystem[]>([]);
 const starting = ref(false);
+const question = ref('');
 const problem = ref<Problem | null>(null);
-const reports = ref<ReportSnapshotItem[]>([]);
-
-/** The human design type of a member's chart; the progress facts only know that a chart exists. */
-const humanDesignType = ref<string | null>(null);
-
-watch(() => [progress.value.done.HUMAN_DESIGN, isAuthenticated.value], async ([done, signedIn]) => {
-    humanDesignType.value = null;
-
-    if (!done || !signedIn) return;
-
-    try {
-        humanDesignType.value = HUMAN_DESIGN_TYPE_LABELS[(await get<HumanDesignResponse>('/api/human-design')).type];
-    } catch (error) {
-        console.error('[report] human design type failed:', error);
-    }
-}, { immediate: true });
-
-/** Where the member stands in each system, as that system's own report says it, worked out here from what they have entered */
-function conclusionOf(system: MultiReportSystem): string {
-    const birthDate = state.value.birthData?.birthDate ?? null;
-    const blood = state.value.bloodType;
-
-    switch (system) {
-    case 'ZODIAC': return birthDate ? `太陽${ZODIAC_LABELS[zodiacFromIsoDate(birthDate)]}` : '';
-    case 'BLOOD': return blood === 'UNKNOWN' ? '' : BLOOD_TYPE_LABELS[blood];
-    case 'MBTI': return state.value.mbti ?? '';
-    case 'NUMEROLOGY': return birthDate ? `生命靈數 ${lifePathNumber(birthDate)}` : '';
-    case 'MAYA_KIN': {
-        if (!birthDate) return '';
-
-        const kin = kinOf(birthDate);
-
-        return `Kin ${kin.kinNumber}・${kinName(kin)}`;
-    }
-    case 'BAZI': {
-        if (!birthDate || !state.value.birthData?.birthTime) return '';
-
-        const { stem } = dayPillarOf(birthDate);
-
-        return `${stem}${ELEMENT_LABELS[stemElement(stem)]}日主`;
-    }
-    case 'HUMAN_DESIGN': return humanDesignType.value ?? '已計算';
-    default: return '已完成';
-    }
-}
 
 const dimensions = [...DIMENSION_META, ...assessmentDimensions()];
 
@@ -282,50 +151,32 @@ const readyOf = (meta: DimensionMeta) => (meta.assessmentId
 const options = computed(() => dimensions.map((meta) => ({
     ...meta,
     ready: readyOf(meta),
-    conclusion: conclusionOf(meta.value),
 })));
 
-const cost = computed(() => multiReportCost(selected.value));
-const metaOf = (system: string) => dimensions.find((meta) => meta.value === system);
+const cost = computed(() => aiReportCost(selected.value));
+const startLabel = computed(() => {
+    if (cost.value === null) return '開始分析';
 
-function toggle(option: { value: MultiReportSystem; ready: boolean }) {
-    if (!option.ready) return;
-
-    selected.value = selected.value.includes(option.value)
-        ? selected.value.filter((value) => value !== option.value)
-        : [...selected.value, option.value];
-}
-
-async function loadReports() {
-    try {
-        const all = await get<ReportSnapshotItem[]>('/api/report-snapshots');
-
-        reports.value = all.filter((item) => item.kind === 'MULTI');
-    } catch (error) {
-        console.error('[report] failed to list reports:', error);
-    }
-}
-
-// While a report is being made, look at the list again until none is, so that "go and read" appears when it is done
-let timer: ReturnType<typeof setInterval> | null = null;
-
-function watchRunning() {
-    if (timer) return;
-
-    timer = setInterval(async () => {
-        await loadReports();
-
-        if (!reports.value.some((item) => item.aiStatus === 'GENERATING') && timer) {
-            clearInterval(timer);
-            timer = null;
-            void refreshPoints();
-        }
-    }, POLL_MS);
-}
-
-onBeforeUnmount(() => {
-    if (timer) clearInterval(timer);
+    return `${selected.value.length === 1 ? '開始深入分析' : '開始綜合分析'}（${cost.value} 點）`;
 });
+
+// A link may bring the systems and the question (a report's own page, or "ask again"): choose them once what the member has is known
+const route = useRoute();
+const requested = typeof route.query.systems === 'string' ? route.query.systems.split(',') : [];
+let preselected = requested.length === 0;
+
+if (typeof route.query.question === 'string') question.value = [...route.query.question].slice(0, AI_QUESTION_MAX_LENGTH).join('');
+
+watch(options, (all) => {
+    if (preselected) return;
+
+    const wanted = all.filter((option) => option.ready && requested.includes(option.value)).map((option) => option.value);
+
+    if (wanted.length === 0) return;
+
+    selected.value = wanted;
+    preselected = true;
+}, { immediate: true });
 
 function problemFrom(error: unknown): Problem {
     const failure = error as {
@@ -355,7 +206,7 @@ function problemFrom(error: unknown): Problem {
 
     if (code === 'NO_INSIGHTS') {
         return {
-            type: 'info', message: '這個組合目前沒有找到跨系統的洞見，沒有扣點。換一個組合，或多加一個系統試試。',
+            type: 'info', message: '這個組合目前沒有找到跨系統的洞見，沒有扣點。換一個組合，或只選一個系統試試。',
         };
     }
 
@@ -381,17 +232,18 @@ async function start() {
     problem.value = null;
 
     try {
-        const accepted = await post<MultiReportAccepted>(
-            '/api/multi-reports',
-            { systems: selected.value },
+        await post<AiReportAccepted>(
+            '/api/ai-reports',
+            { systems: selected.value, question: question.value.trim() || undefined },
             { headers: { 'Idempotency-Key': crypto.randomUUID().replaceAll('-', '') } },
         );
 
-        // The report shows up in the list below at once, as being made
         selected.value = [];
-        await Promise.all([refreshPoints(), loadReports()]);
+        question.value = '';
+        await refreshPoints();
 
-        if (accepted.status === 'GENERATING') watchRunning();
+        // The list of AI reports shows it being made and the result when it is done
+        await navigateTo('/ai-reports');
     } catch (error) {
         console.error('[report] failed to start:', error);
         problem.value = problemFrom(error);
@@ -400,26 +252,14 @@ async function start() {
     }
 }
 
-// Who is looking, and their data and points, are loaded by the layout once per change of viewer; this page only reads
-// its own list (loading them here too would race the layout's load)
-async function readReports() {
-    await loadReports();
-
-    if (reports.value.some((item) => item.aiStatus === 'GENERATING')) watchRunning();
-}
-
-onMounted(() => {
-    initAuthListener();
-
-    if (isAuthenticated.value) void readReports();
-});
-
-watch(isAuthenticated, (signedIn) => {
-    if (signedIn) void readReports();
-});
+onMounted(initAuthListener);
 </script>
 
 <style scoped>
+.chips :deep(.v-slide-group__content) {
+    justify-content: center;
+}
+
 .picker {
     background: rgba(var(--v-theme-primary), 0.03);
 }
@@ -432,21 +272,4 @@ watch(isAuthenticated, (signedIn) => {
     box-shadow: 0 4px 14px rgba(var(--v-theme-primary), 0.35);
 }
 
-.conclusion {
-    font-weight: 600;
-}
-
-.chip__text {
-    color: rgb(var(--v-theme-on-surface));
-}
-
-.option {
-    cursor: pointer;
-    transition: border-color 0.15s, background-color 0.15s;
-}
-
-.option--on {
-    border-color: rgb(var(--v-theme-primary));
-    background: rgba(var(--v-theme-primary), 0.06);
-}
 </style>

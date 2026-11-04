@@ -169,8 +169,8 @@ try {
     });
     check('guest: test scored on the server (ESTJ), not saved', guestResult.status === 200 && val(guestResult.body, 'result') === 'ESTJ' && val(guestResult.body, 'persisted') === false, JSON.stringify(guestResult.body).slice(0, 160));
     check('guest: result carries the disclaimer', val(guestResult.body, 'content.disclaimer') === '僅供娛樂與自我探索');
-    const guestMultiReport = await call('POST', '/multi-reports');
-    check('guest: cannot get a multi-dimension report (401)', guestMultiReport.status === 401);
+    const guestMultiReport = await call('POST', '/ai-reports');
+    check('guest: cannot get an AI report (401)', guestMultiReport.status === 401);
 
     // ---- login
     const token = await idTokenFor(UID);

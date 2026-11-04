@@ -25,7 +25,7 @@
                             icon="mdi-layers-triple-outline"
                             size="20"
                         />
-                        <span>綜合不同維度的分析報告，做多維度分析</span>
+                        <span>綜合不同維度的分析報告，做綜合分析</span>
                     </li>
                     <li>
                         <v-icon

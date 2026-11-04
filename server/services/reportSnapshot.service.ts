@@ -146,22 +146,6 @@ export class ReportSnapshotService extends BaseService {
         });
     }
 
-    /** The report whose AI analysis was asked for with this job id (the Idempotency-Key), or null: how a retry finds its report. */
-    async findByJob(uid: string, jobId: string): Promise<{ id: string; status: NonNullable<ReportSnapshotDoc['aiJob']>['status'] } | null> {
-        const now = this.clock();
-        const recent = await this.repository.snapshotsRef(uid).orderBy('generatedAt', 'desc').limit(MAX_SNAPSHOTS_PER_USER).get();
-
-        for (const snap of recent.docs) {
-            const doc = reportSnapshotDocSchema.parse(snap.data());
-
-            if (doc.expiresAt > now && doc.aiJob?.id === jobId) return {
-                id: snap.id, status: doc.aiJob.status,
-            };
-        }
-
-        return null;
-    }
-
     /** The member's reports that have not expired, newest first. */
     async list(uid: string): Promise<ReportSnapshotItem[]> {
         const now = this.clock();

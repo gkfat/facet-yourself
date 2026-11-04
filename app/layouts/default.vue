@@ -77,7 +77,7 @@
             <v-card>
                 <v-card-title>歡迎加入！</v-card-title>
                 <v-card-text>
-                    你收到系統贈送的 {{ welcomePoints }} 點，可用在多維度分析。贈送的點數自發放日起 {{ WELCOME_BATCH_VALID_DAYS }} 天內有效。
+                    你收到系統贈送的 {{ welcomePoints }} 點，可用在綜合分析。贈送的點數自發放日起 {{ WELCOME_BATCH_VALID_DAYS }} 天內有效。
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer />
@@ -170,7 +170,10 @@ const allNavItems: MenuItem[] = [
         to: '/self-reports', label: '自我探索', icon: 'mdi-file-document-outline',
     },
     {
-        to: '/report', label: '多維度分析', icon: 'mdi-layers-outline',
+        to: '/report', label: '綜合分析', icon: 'mdi-layers-outline',
+    },
+    {
+        to: '/ai-reports', label: '分析紀錄', icon: 'mdi-creation-outline', memberOnly: true,
     },
     {
         to: '/pricing', label: '點數方案', icon: 'mdi-tag-outline',

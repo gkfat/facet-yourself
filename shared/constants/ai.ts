@@ -9,7 +9,7 @@ export const DEFAULT_AI_PRICE_INPUT_PER_MTOK = 0.25;
 export const DEFAULT_AI_PRICE_OUTPUT_PER_MTOK = 2;
 
 /** Upper bound for one report's output (decision: standard length). */
-export const REPORT_MAX_OUTPUT_TOKENS = 4000;
+export const REPORT_MAX_OUTPUT_TOKENS = 8000;
 
 /** One generation attempt is abandoned after this long and counts as a failure (NFR-009). */
 export const REPORT_TIMEOUT_MS = 120_000;
@@ -30,3 +30,6 @@ export const REPORT_DISCLAIMER = '本報告為娛樂與自我探索用途，由 
 
 /** Points for the AI analysis of one system's report (the base report is free). */
 export const SINGLE_ANALYSIS_COST = 1;
+
+/** The member's own question that may go with an AI analysis, in characters. */
+export const AI_QUESTION_MAX_LENGTH = 100;

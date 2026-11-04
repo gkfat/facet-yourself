@@ -35,6 +35,9 @@ const EXPIRING_GROUPS = [
     {
         group: 'assessmentAttempts', key: 'deletedAssessmentAttempts',
     },
+    {
+        group: 'aiReports', key: 'deletedAiReports',
+    },
 ] as const;
 
 export class DataExpiryService extends BaseService {
@@ -64,6 +67,7 @@ export class DataExpiryService extends BaseService {
             deletedRuneDraws: 0,
             deletedReportSnapshots: 0,
             deletedAssessmentAttempts: 0,
+            deletedAiReports: 0,
             clearedMbti: 0,
             failed: [],
         };

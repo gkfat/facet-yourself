@@ -46,6 +46,8 @@ describe('DataExpiryService', () => {
         await db.doc('users/u1/reportSnapshots/old').set({ expiresAt: PAST });
         await db.doc('users/u1/reportSnapshots/new').set({ expiresAt: FUTURE });
         await db.doc('users/u2/reportSnapshots/old').set({ expiresAt: PAST });
+        await db.doc('users/u1/aiReports/old').set({ expiresAt: PAST });
+        await db.doc('users/u1/aiReports/new').set({ expiresAt: FUTURE });
         await db.doc('users/u1/assessmentAttempts/old').set({ expiresAt: PAST });
         await db.doc('users/u1/assessmentAttempts/new').set({ expiresAt: FUTURE });
         await db.doc('users/u2/assessmentAttempts/old').set({ expiresAt: PAST });
@@ -67,6 +69,7 @@ describe('DataExpiryService', () => {
             deletedRuneDraws: 2,
             deletedReportSnapshots: 2,
             deletedAssessmentAttempts: 2,
+            deletedAiReports: 1,
             clearedMbti: 1,
             failed: [],
         });
@@ -88,6 +91,8 @@ describe('DataExpiryService', () => {
         expect(paths).not.toContain('users/u1/reportSnapshots/old');
         expect(paths).not.toContain('users/u2/reportSnapshots/old');
         expect(paths).toContain('users/u1/reportSnapshots/new');
+        expect(paths).not.toContain('users/u1/aiReports/old');
+        expect(paths).toContain('users/u1/aiReports/new');
         expect(paths).not.toContain('users/u1/assessmentAttempts/old');
         expect(paths).not.toContain('users/u2/assessmentAttempts/old');
         expect(paths).toContain('users/u1/assessmentAttempts/new');
@@ -121,6 +126,7 @@ describe('DataExpiryService', () => {
             deletedRuneDraws: 0,
             deletedReportSnapshots: 0,
             deletedAssessmentAttempts: 0,
+            deletedAiReports: 0,
             clearedMbti: 0,
         });
     });

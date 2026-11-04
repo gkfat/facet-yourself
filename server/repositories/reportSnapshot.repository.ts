@@ -19,6 +19,15 @@ export class ReportSnapshotRepository {
         return this.snapshotsRef(uid).doc(snapshotId);
     }
 
+    /** users/{uid}/aiReports/{id}: the member's AI reports, kept beside the reports they are made from */
+    aiReportsRef(uid: string) {
+        return this.db.collection('users').doc(uid).collection('aiReports');
+    }
+
+    aiReportRef(uid: string, id: string) {
+        return this.aiReportsRef(uid).doc(id);
+    }
+
     batch() {
         return this.db.batch();
     }

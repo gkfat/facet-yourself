@@ -5,7 +5,6 @@ import { FixedContentService } from './fixedContent.service';
 import { GuestSessionService } from './guestSession.service';
 import { HoroscopeService } from './horoscope.service';
 import { NatalChartService } from './natalChart.service';
-import { SingleAnalysisService } from './singleAnalysis.service';
 import { RuneService } from './rune.service';
 import { TarotService } from './tarot.service';
 import { ReportSnapshotService } from './reportSnapshot.service';
@@ -74,7 +73,6 @@ type SingleReportServiceOptions = {
     tarot?: TarotService;
     rune?: RuneService;
     horoscope?: HoroscopeService;
-    analysis?: SingleAnalysisService;
     assessments?: AssessmentService;
     clock?: () => number;
     /** In [0, 1): what chooses the people on the card at the end of a report; random unless a test fixes it */
@@ -129,7 +127,6 @@ export class SingleReportService extends BaseService {
     private readonly tarot: TarotService;
     private readonly rune: RuneService;
     private readonly horoscope: HoroscopeService;
-    private readonly analysis: SingleAnalysisService;
     private readonly assessments: AssessmentService;
     private readonly clock: () => number;
     private readonly random: () => number;
@@ -150,7 +147,6 @@ export class SingleReportService extends BaseService {
         this.tarot = options.tarot ?? new TarotService({ clock: this.clock });
         this.rune = options.rune ?? new RuneService({ clock: this.clock });
         this.horoscope = options.horoscope ?? new HoroscopeService({ clock: this.clock });
-        this.analysis = options.analysis ?? new SingleAnalysisService({ clock: this.clock });
         this.assessments = options.assessments ?? new AssessmentService({ clock: this.clock });
     }
 
@@ -172,9 +168,6 @@ export class SingleReportService extends BaseService {
         }
 
         const { id } = await this.snapshots.saveOrReuse(asker.uid, content);
-
-        // An analysis whose worker vanished is failed and refunded here, where the member would see it hang
-        await this.analysis.reapIfStale(asker.uid, id);
 
         const kept = await this.snapshots.get(asker.uid, id);
 

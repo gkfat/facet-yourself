@@ -14,8 +14,9 @@ const BATCH_LIMIT = 400;
 /** Sub-collections removed by each data scope. */
 const SCOPE_COLLECTIONS: Record<DeleteDataScope, readonly string[]> = {
     RESULTS: ['testAttempts', 'assessmentAttempts'],
-    // A report kept as a snapshot is a report: deleting the member's reports deletes it too
-    REPORTS: ['reportSnapshots'],
+    // A report kept as a snapshot is a report: deleting the member's reports deletes it too, and the AI reports (with
+    // the questions asked) are made of those reports
+    REPORTS: ['reportSnapshots', 'aiReports'],
     HUMAN_DESIGN: ['humanDesign'],
 };
 

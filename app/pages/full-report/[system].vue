@@ -118,10 +118,9 @@
                     :mbti-dimensions="mbtiDimensions"
                 />
 
-                <SingleReportAiPanel
+                <AiReportEntry
                     v-if="canAnalyse"
-                    :report="report"
-                    :refresh="refresh"
+                    :system="meta.system"
                 />
 
                 <div
@@ -211,7 +210,7 @@ const { post } = useApi();
 const { state } = useExploration();
 
 const {
-    report, status, need, refresh,
+    report, status, need,
 } = useSingleReport(meta ? meta.system : null);
 
 const NEED_MESSAGES: Readonly<Record<SingleReportNeed, { type: 'info' | 'warning'; text: string; to?: string; action?: string }>> = {

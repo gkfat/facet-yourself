@@ -8,13 +8,13 @@
         />
 
         <GuestNotice>
-            登入即贈 {{ WELCOME_POINTS }} 點，可以直接用在多維度分析，先試試再決定。
+            登入即贈 {{ WELCOME_POINTS }} 點，可以直接用在綜合分析，先試試再決定。
         </GuestNotice>
 
         <!-- What the points are mostly for, said first: the plans below only make sense once this is clear -->
         <section class="mb-6">
             <h2 class="section-title">
-                多維度分析是什麼？
+                綜合分析是什麼？
             </h2>
             <v-card
                 variant="outlined"
@@ -22,7 +22,7 @@
             >
                 <v-card-text>
                     <p class="mb-4">
-                        單一角度只照見你的一部分。多維度分析把你選的幾個維度放在一起，由 AI 比對它們互相呼應、彼此拉扯的地方，寫成一份只屬於你的完整報告。
+                        單一角度只照見你的一部分。綜合分析把你選的幾個維度放在一起，由 AI 比對它們互相呼應、彼此拉扯的地方，寫成一份只屬於你的完整報告。
                     </p>
                     <ol class="steps">
                         <li
@@ -48,7 +48,7 @@
                         append-icon="mdi-arrow-right"
                         class="mt-3 px-0"
                     >
-                        看看多維度分析
+                        看看綜合分析
                     </v-btn>
                 </v-card-text>
             </v-card>

@@ -1,6 +1,7 @@
 import {
     ASSESSMENTS, findAssessmentBySystem, type AssessmentDefinition,
 } from '../assessments';
+import { SINGLE_ANALYSIS_COST } from '../constants/ai';
 import type { MultiReportSystem } from '../report/systems';
 
 /** What each system's own report is worth, in points: one, and more for the two that take more to work out. */
@@ -59,4 +60,9 @@ export function yardstickReach(points: number, definitions: readonly AssessmentD
     const cost = multiReportCost(POINTS_YARDSTICK, definitions);
 
     return cost === null || cost <= 0 ? 0 : Math.floor(points / cost);
+}
+
+/** Points an AI report costs: one system is the flat price of a single analysis, several are priced as a combination; null when the choice is not offered. */
+export function aiReportCost(systems: readonly MultiReportSystem[], definitions: readonly AssessmentDefinition[] = ASSESSMENTS): number | null {
+    return systems.length === 1 ? SINGLE_ANALYSIS_COST : multiReportCost(systems, definitions);
 }
