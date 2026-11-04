@@ -5,7 +5,6 @@ import type { GuestProfileResponse } from '../../shared/schemas/api/guest.schema
 import type {
     BloodType, Gender,
 } from '../../shared/schemas/common';
-import { BIG_FIVE_ENTRY_ENABLED } from '../../shared/constants/bigFive';
 import type { AssessmentSummary } from '../../shared/schemas/api/assessment.schema';
 import { anyAssessmentEntry } from '../utils/assessmentCards';
 import {
@@ -30,7 +29,6 @@ type ExplorationState = {
     gender: Gender | null;
     mbti: string | null;
     hasHumanDesign: boolean;
-    hasBigFive: boolean;
     /** Which self-analyses have a result that has not expired, by assessment id */
     assessmentDone: Record<string, boolean>;
 };
@@ -43,7 +41,6 @@ function emptyState(): ExplorationState {
         gender: null,
         mbti: null,
         hasHumanDesign: false,
-        hasBigFive: false,
         assessmentDone: {},
     };
 }
@@ -54,19 +51,6 @@ function statusOf(error: unknown): number | undefined {
     const candidate = error as { statusCode?: number; status?: number };
 
     return candidate.statusCode ?? candidate.status;
-}
-
-/** A guest's Big Five result lives in this tab only */
-function guestHasBigFive(): boolean {
-    if (!BIG_FIVE_ENTRY_ENABLED || !import.meta.client) return false;
-
-    try {
-        return sessionStorage.getItem('bigFiveResult') !== null;
-    } catch (error) {
-        console.warn('[useExploration] sessionStorage unavailable:', error);
-
-        return false;
-    }
 }
 
 /** A guest's self-analysis results live in this tab only, one key each */
@@ -112,7 +96,6 @@ export const useExploration = () => {
         bloodType: state.value.bloodType,
         mbti: state.value.mbti,
         hasHumanDesign: state.value.hasHumanDesign,
-        hasBigFive: state.value.hasBigFive,
         assessmentsDone: Object.values(state.value.assessmentDone).filter(Boolean).length,
     }));
     const progress = computed(() => explorationProgress(facts.value));
@@ -120,22 +103,6 @@ export const useExploration = () => {
     const reset = () => {
         state.value = emptyState();
     };
-
-    /** Whether the member has a Big Five result that has not expired; only asked while the entrances to the test are shown */
-    async function memberHasBigFive(): Promise<boolean> {
-        if (!BIG_FIVE_ENTRY_ENABLED) return false;
-
-        try {
-            await get('/api/big-five/results/latest');
-
-            return true;
-        } catch (error) {
-            // 404 only means no result yet.
-            if (statusOf(error) !== 404) console.error('[useExploration] Big Five check failed:', error);
-
-            return false;
-        }
-    }
 
     /** Which self-analyses the member has a result for that has not expired; only asked while an entrance is shown */
     async function memberAssessmentDone(): Promise<Record<string, boolean>> {
@@ -171,7 +138,6 @@ export const useExploration = () => {
             gender: profile.gender,
             mbti: profile.mbti,
             hasHumanDesign,
-            hasBigFive: await memberHasBigFive(),
             assessmentDone: await memberAssessmentDone(),
         };
     }
@@ -181,7 +147,7 @@ export const useExploration = () => {
         restore();
 
         if (!sessionId.value) return {
-            ...emptyState(), hasBigFive: guestHasBigFive(), assessmentDone: guestAssessmentDone(),
+            ...emptyState(), assessmentDone: guestAssessmentDone(),
         };
 
         try {
@@ -194,7 +160,6 @@ export const useExploration = () => {
                 gender: profile.gender,
                 mbti: profile.mbti,
                 hasHumanDesign: profile.hasHumanDesign,
-                hasBigFive: guestHasBigFive(),
                 assessmentDone: guestAssessmentDone(),
             };
         } catch (error) {

@@ -11,8 +11,8 @@ export const ASSESSMENT_ENTRY_ENABLED: Readonly<Record<AssessmentId, boolean>> =
     'hexaco': true,
     'via-strengths': true,
     'riasec': true,
-    'emotional-intelligence': false,
-    'attachment-style': false,
+    'emotional-intelligence': true,
+    'attachment-style': true,
     'core-values': true,
     'psychological-needs': true,
 };

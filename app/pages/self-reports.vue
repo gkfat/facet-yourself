@@ -83,7 +83,6 @@ import {
     BAZI_ENTRY_ENABLED, ELEMENT_LABELS,
 } from '../../shared/constants/bazi';
 import { HUMAN_DESIGN_TYPE_LABELS } from '../../shared/constants/humanDesignLabels';
-import { BIG_FIVE_ENTRY_ENABLED } from '../../shared/constants/bigFive';
 import { assessmentCards } from '../utils/assessmentCards';
 import { KIN_ENTRY_ENABLED } from '../../shared/constants/mayaKin';
 import {
@@ -190,19 +189,6 @@ const items = computed<ReportCard[]>(() => {
             to: mbti ? '/full-report/mbti' : '/test',
             action: mbti ? '查看 MBTI 分析' : '開始測驗',
         },
-        ...(BIG_FIVE_ENTRY_ENABLED
-            ? [{
-                key: 'BIG_FIVE',
-                system: 'personality' as const,
-                title: '大五人格',
-                icon: 'mdi-chart-bar',
-                description: '回答 50 題，看你在開放性、盡責性、外向性、親和性與情緒敏感性上偏向哪一端，也能與 MBTI 對照。',
-                done: progress.value.bigFiveDone,
-                result: '已完成',
-                to: progress.value.bigFiveDone ? '/analysis/big-five' : '/big-five',
-                action: progress.value.bigFiveDone ? '查看大五人格' : '開始測驗',
-            }]
-            : []),
         ...assessmentCards().map((card) => {
             const done = state.value.assessmentDone[card.id] === true;
 

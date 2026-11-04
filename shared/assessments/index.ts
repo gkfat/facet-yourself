@@ -4,7 +4,9 @@ import {
     ASSESSMENT_SYSTEM_BY_ID,
     type AssessmentSystemId,
 } from './ids.ts';
+import { ATTACHMENT_ASSESSMENT } from './attachmentStyle.ts';
 import { CORE_VALUES_ASSESSMENT } from './coreValues.ts';
+import { EQ_ASSESSMENT } from './emotionalIntelligence.ts';
 import { ENNEAGRAM_ASSESSMENT } from './enneagram.ts';
 import { HEXACO_ASSESSMENT } from './hexaco.ts';
 import { VIA_ASSESSMENT } from './via.ts';
@@ -26,6 +28,8 @@ export const ASSESSMENTS: readonly AssessmentDefinition[] = [
     PSYCHOLOGICAL_NEEDS_ASSESSMENT,
     RIASEC_ASSESSMENT,
     VIA_ASSESSMENT,
+    EQ_ASSESSMENT,
+    ATTACHMENT_ASSESSMENT,
 ];
 
 export function findAssessment(id: string, definitions: readonly AssessmentDefinition[] = ASSESSMENTS): AssessmentDefinition | null {

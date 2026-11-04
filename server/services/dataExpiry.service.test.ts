@@ -46,9 +46,6 @@ describe('DataExpiryService', () => {
         await db.doc('users/u1/reportSnapshots/old').set({ expiresAt: PAST });
         await db.doc('users/u1/reportSnapshots/new').set({ expiresAt: FUTURE });
         await db.doc('users/u2/reportSnapshots/old').set({ expiresAt: PAST });
-        await db.doc('users/u1/bigFiveAttempts/old').set({ expiresAt: PAST });
-        await db.doc('users/u1/bigFiveAttempts/new').set({ expiresAt: FUTURE });
-        await db.doc('users/u2/bigFiveAttempts/old').set({ expiresAt: PAST });
         await db.doc('users/u1/assessmentAttempts/old').set({ expiresAt: PAST });
         await db.doc('users/u1/assessmentAttempts/new').set({ expiresAt: FUTURE });
         await db.doc('users/u2/assessmentAttempts/old').set({ expiresAt: PAST });
@@ -69,7 +66,6 @@ describe('DataExpiryService', () => {
             deletedKinUnlocks: 2,
             deletedRuneDraws: 2,
             deletedReportSnapshots: 2,
-            deletedBigFiveAttempts: 2,
             deletedAssessmentAttempts: 2,
             clearedMbti: 1,
             failed: [],
@@ -92,9 +88,6 @@ describe('DataExpiryService', () => {
         expect(paths).not.toContain('users/u1/reportSnapshots/old');
         expect(paths).not.toContain('users/u2/reportSnapshots/old');
         expect(paths).toContain('users/u1/reportSnapshots/new');
-        expect(paths).not.toContain('users/u1/bigFiveAttempts/old');
-        expect(paths).not.toContain('users/u2/bigFiveAttempts/old');
-        expect(paths).toContain('users/u1/bigFiveAttempts/new');
         expect(paths).not.toContain('users/u1/assessmentAttempts/old');
         expect(paths).not.toContain('users/u2/assessmentAttempts/old');
         expect(paths).toContain('users/u1/assessmentAttempts/new');
@@ -127,7 +120,6 @@ describe('DataExpiryService', () => {
             deletedKinUnlocks: 0,
             deletedRuneDraws: 0,
             deletedReportSnapshots: 0,
-            deletedBigFiveAttempts: 0,
             deletedAssessmentAttempts: 0,
             clearedMbti: 0,
         });

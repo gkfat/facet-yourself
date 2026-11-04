@@ -83,7 +83,7 @@ export const fixedContentBodySchema = z.object({
     overuse: z.array(overuseSchema).default([]),
     /** Layer 3: growth the reader can act on */
     growthPractice: growthPracticeSchema.nullable().default(null),
-    /** How the trait shows in daily behaviour, in the areas of everyday life, and what to build on and reflect on (the Big Five report) */
+    /** How the trait shows in daily behaviour, in the areas of everyday life, and what to build on and reflect on (the self-analysis reports) */
     dailyBehavior: z.string().default(''),
     lifeContexts: lifeContextsSchema.nullable().default(null),
     growthReflection: growthReflectionSchema.nullable().default(null),

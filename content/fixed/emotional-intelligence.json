@@ -1,0 +1,350 @@
+[
+  {
+    "contentType": "ASSESSMENT",
+    "key": "emotional-intelligence_awareness_low",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "情緒覺察偏低：感受常是事後才浮現",
+      "summary": "你這陣子可能不太容易在當下說出自己的感受，有時要過一陣子，才發現自己其實很累或很煩。這是很常見的狀態，而且可以練習。",
+      "strengths": [
+        "比較不被情緒干擾，能先把事情做完",
+        "對別人的情緒反應有一定的距離",
+        "在需要冷靜時不容易亂"
+      ],
+      "blindSpots": [
+        "可能忽略身體與心情給的早期訊號",
+        "累積到很強烈時才爆發"
+      ],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "情緒覺察像肌肉，每天花一分鐘問自己「我現在是什麼感覺」，就會慢慢變敏銳。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。情緒能力可以練習，不是固定的，也沒有單一的「智商」分數。",
+      "growthPractice": {
+        "habitToObserve": "每天固定一個時間（例如睡前），問自己：今天最強的一個感受是什麼？",
+        "behaviorToTry": "試著用一個詞形容感受，例如「煩」、「失落」、「期待」，寫下來。",
+        "reflectionQuestion": "如果我的身體會說話，它現在想告訴我什麼？",
+        "weeklyPractice": "本週有三天，用手機備忘錄記下一個當下的情緒與它的原因。"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "emotional-intelligence_awareness_mid",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "情緒覺察居中：多數時候知道，偶爾會漏掉",
+      "summary": "你多半能察覺自己的情緒，也有些時刻，感受要過一下才清楚。你已經有基本的覺察，可以再讓它更穩定。",
+      "strengths": [
+        "能辨認大多數的基本情緒",
+        "在安靜下來時通常能說出感受",
+        "對自己的情緒有一定的了解"
+      ],
+      "blindSpots": [
+        "忙碌時容易忽略感受",
+        "複雜的情緒（例如又氣又難過）可能不容易分辨"
+      ],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "情緒覺察可以越練越細：試著在忙碌中停三十秒，問問自己現在的狀態。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。情緒能力可以練習，不是固定的，也沒有單一的「智商」分數。",
+      "growthPractice": {
+        "habitToObserve": "在一天中固定兩個小節點（午休、下班）檢查心情。",
+        "behaviorToTry": "遇到複雜的感受時，列出它可能包含的兩三種情緒。",
+        "reflectionQuestion": "最近有哪一次，我後來才發現自己其實有情緒？",
+        "weeklyPractice": "本週挑一次容易忙亂的時刻，停下來做一次三十秒的內在檢查。"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "emotional-intelligence_awareness_high",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "情緒覺察偏高：能辨認並說出自己的感受",
+      "summary": "你通常能在當下知道自己的情緒，也能分辨它從哪裡來，並看出它如何影響自己的選擇。這是很好的基礎。",
+      "strengths": [
+        "能清楚說出自己的感受",
+        "容易看見情緒與決定之間的關係",
+        "比較能及早照顧自己的需要"
+      ],
+      "blindSpots": [
+        "可能花很多力氣分析情緒，反而難以放鬆",
+        "對別人較不細膩的感受，可能不太耐煩"
+      ],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "保持覺察的同時，也練習允許情緒只是存在，不一定要分析或處理。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。情緒能力可以練習，不是固定的，也沒有單一的「智商」分數。",
+      "growthPractice": {
+        "habitToObserve": "觀察：我什麼時候會一直分析自己的感受？",
+        "behaviorToTry": "試著在一個情緒來時，只是靜靜感受三分鐘，不分析。",
+        "reflectionQuestion": "我的覺察，除了自己，也能怎麼幫助身邊的人？",
+        "weeklyPractice": "本週練習一次「只感受、不分析」的三分鐘。"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "emotional-intelligence_regulation_low",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "情緒調節偏低：情緒來時容易被淹沒",
+      "summary": "你這陣子可能覺得情緒一來，很難讓自己穩下來，有時會說出或做出事後後悔的事。這不代表你不好，而是需要多一些安撫自己的方法。",
+      "strengths": [
+        "情感真實、有感染力",
+        "對事情投入，在乎結果",
+        "願意坦率表達自己的感受"
+      ],
+      "blindSpots": [
+        "情緒強烈時，容易做出讓自己後悔的反應",
+        "事情過後不容易放下"
+      ],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "情緒調節可以練習：先學會「暫停」，再學幾個能快速讓身體穩下來的方法。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。情緒能力可以練習，不是固定的，也沒有單一的「智商」分數。",
+      "growthPractice": {
+        "habitToObserve": "留意：情緒開始升高時，身體最先出現什麼訊號？",
+        "behaviorToTry": "準備一個暫停的小儀式，例如深呼吸五次、喝水、走到另一個空間。",
+        "reflectionQuestion": "情緒平靜之後，我最想對剛才的自己說什麼？",
+        "weeklyPractice": "本週挑一次情緒升高的時刻，練習暫停三十秒再回應。"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "emotional-intelligence_regulation_mid",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "情緒調節居中：多數時候能穩住，偶爾會失控",
+      "summary": "你多半能讓自己平靜下來，但在壓力很大或很累的時候，情緒仍可能占上風。你已經有一些方法，可以讓它更穩定。",
+      "strengths": [
+        "有基本的自我安撫方法",
+        "在多數情況下能保持穩定",
+        "遇到挫折也能慢慢恢復"
+      ],
+      "blindSpots": [
+        "在很累或壓力大時，調節力下降",
+        "偶爾會把情緒發在不相關的人身上"
+      ],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "整理你有效的方法，並在最需要的時候有意識地使用。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。情緒能力可以練習，不是固定的，也沒有單一的「智商」分數。",
+      "growthPractice": {
+        "habitToObserve": "觀察：什麼情況下，我最容易失去穩定？",
+        "behaviorToTry": "列出三種對自己最有效的安撫方法，放在手機裡。",
+        "reflectionQuestion": "我最近一次成功穩住自己，是用了什麼方法？",
+        "weeklyPractice": "本週在一次壓力時，刻意使用其中一種方法，並記下效果。"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "emotional-intelligence_regulation_high",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "情緒調節偏高：情緒來時能安撫自己",
+      "summary": "你通常能在情緒升高時讓自己穩下來，再決定怎麼回應；遇到挫折也能很快恢復。這是很有價值的能力。",
+      "strengths": [
+        "情緒穩定、能在壓力下保持鎮定",
+        "遇到挫折恢復得快",
+        "能先暫停再回應"
+      ],
+      "blindSpots": [
+        "可能太快把情緒壓下去，而沒有好好感受",
+        "別人可能覺得你難以親近或太冷靜"
+      ],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "調節不是壓抑：有些感受先停留一下，再決定怎麼處理，會更完整。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。情緒能力可以練習，不是固定的，也沒有單一的「智商」分數。",
+      "growthPractice": {
+        "habitToObserve": "觀察：我有沒有太快說「沒事」，就把感受放下？",
+        "behaviorToTry": "在安全的人面前，試著說出一次真實的感受，不急著解決。",
+        "reflectionQuestion": "哪些感受，我其實沒有好好被它們陪伴過？",
+        "weeklyPractice": "本週選一個信任的人，分享一個還沒說出口的感受。"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "emotional-intelligence_empathy_low",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "同理心偏低：較少從別人的感受出發",
+      "summary": "你這陣子可能比較著重事情本身，較少先想到別人的感受，有時也不確定該怎麼回應別人的情緒。這是可以練習的能力。",
+      "strengths": [
+        "重視客觀與事實",
+        "不容易被別人的情緒影響判斷",
+        "在需要冷靜的場合能保持距離"
+      ],
+      "blindSpots": [
+        "可能讓人覺得不被理解",
+        "容易錯過別人沒說出口的需要"
+      ],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "同理心不是同意，而是先理解對方的感受；從簡單的詢問與複述開始練習。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。情緒能力可以練習，不是固定的，也沒有單一的「智商」分數。",
+      "growthPractice": {
+        "habitToObserve": "觀察：別人說話時，我是先想怎麼解決，還是先聽他的感受？",
+        "behaviorToTry": "試著用一句話回應感受，例如「聽起來你很失望」，再問「你想要我聽，還是一起想辦法？」。",
+        "reflectionQuestion": "最近有哪一次，我可能忽略了別人真正的感受？",
+        "weeklyPractice": "本週在三次對話中，先複述對方的感受，再說自己的意見。"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "emotional-intelligence_empathy_mid",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "同理心居中：能體會別人，也有看不到的時候",
+      "summary": "你多半能察覺並體會別人的感受，只是在忙碌、疲累或對方很不同於你時，有時會漏掉。你已經有基礎，可以再細緻。",
+      "strengths": [
+        "能理解多數人的感受",
+        "願意聽別人說",
+        "對親近的人較能設身處地"
+      ],
+      "blindSpots": [
+        "對想法或背景很不同的人，較難體會",
+        "忙碌時容易只顧事情"
+      ],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "把同理心用到你較不熟悉的人身上，並留意自己什麼時候最容易漏掉。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。情緒能力可以練習，不是固定的，也沒有單一的「智商」分數。",
+      "growthPractice": {
+        "habitToObserve": "觀察：什麼情況下，我最難聽見別人的感受？",
+        "behaviorToTry": "遇到想法不同的人，先問一句「你是怎麼想的」，再回應。",
+        "reflectionQuestion": "有一個我不太理解的人，我可以怎麼多了解他一點？",
+        "weeklyPractice": "本週找一位想法很不同的人，聽他說十分鐘，不反駁。"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "emotional-intelligence_empathy_high",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "同理心偏高：能察覺並體會別人的感受",
+      "summary": "你很容易察覺別人的情緒，也能設身處地想他們的處境。身邊的人常覺得被你理解。",
+      "strengths": [
+        "善於傾聽與陪伴",
+        "能敏銳察覺別人的需要",
+        "在關係中讓人感到被接納"
+      ],
+      "blindSpots": [
+        "可能把別人的情緒也扛在自己身上而感到疲累",
+        "為了顧及別人，壓下自己的需要"
+      ],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "同理別人的同時，也替自己畫一條界線：我可以陪伴，但不必替他承擔。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。情緒能力可以練習，不是固定的，也沒有單一的「智商」分數。",
+      "growthPractice": {
+        "habitToObserve": "觀察：聽完別人的情緒後，我自己的心情有沒有被影響？",
+        "behaviorToTry": "陪伴後，花五分鐘做一件讓自己恢復的事。",
+        "reflectionQuestion": "我今天有沒有為了顧及別人，而壓下自己的需要？",
+        "weeklyPractice": "本週在一次陪伴別人之後，刻意留十分鐘給自己。"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "emotional-intelligence_interpersonal_low",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "人際情緒處理偏低：衝突時容易迴避或被情緒帶著走",
+      "summary": "你這陣子在面對人際衝突時，可能容易選擇沉默、冷戰，或被對方的情緒影響。這是常見的反應，也是可以練習的技巧。",
+      "strengths": [
+        "不容易主動引發衝突",
+        "在意關係，想避免傷害",
+        "對緊張的氣氛很敏感"
+      ],
+      "blindSpots": [
+        "重要的想法說不出口，讓問題累積",
+        "衝突後不容易修復關係"
+      ],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "從小事開始練習說出自己的感受與需要，用「我覺得…我希望…」的句型。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。情緒能力可以練習，不是固定的，也沒有單一的「智商」分數。",
+      "growthPractice": {
+        "habitToObserve": "觀察：我在什麼情況下，最容易選擇沉默或冷戰？",
+        "behaviorToTry": "練習用一句話表達：我覺得（感受），因為（原因），我希望（請求）。",
+        "reflectionQuestion": "有哪一件事，我一直沒說出口？我可以先寫下來嗎？",
+        "weeklyPractice": "本週挑一件小小的不舒服，用「我覺得…我希望…」說出來。"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "emotional-intelligence_interpersonal_mid",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "人際情緒處理居中：多數時候能表達，偶爾會迴避",
+      "summary": "你多半能在衝突中說出想法，也能照顧關係，只是在壓力大或對方情緒很強時，可能會退縮或被帶著走。",
+      "strengths": [
+        "能在多數情況下表達意見",
+        "願意在衝突後修復關係",
+        "有基本的溝通技巧"
+      ],
+      "blindSpots": [
+        "在高壓或對方很強勢時，容易退縮",
+        "有時為了避免衝突而讓步太多"
+      ],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "整理哪些情境最容易讓你退縮，事先想好要說的一句話。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。情緒能力可以練習，不是固定的，也沒有單一的「智商」分數。",
+      "growthPractice": {
+        "habitToObserve": "觀察：什麼樣的人或情境，最容易讓我說不出話？",
+        "behaviorToTry": "為最常遇到的困難情境，事先寫好一句開場白。",
+        "reflectionQuestion": "我最近有哪一次，說出了真心話？它帶來什麼？",
+        "weeklyPractice": "本週挑一次容易退縮的情境，使用事先準備好的一句話。"
+      }
+    }
+  },
+  {
+    "contentType": "ASSESSMENT",
+    "key": "emotional-intelligence_interpersonal_high",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "人際情緒處理偏高：能在衝突中表達，也照顧關係",
+      "summary": "你通常能在意見不合時，冷靜地說出自己的想法，也能讓氣氛緩和，並主動修復關係。這是很重要的能力。",
+      "strengths": [
+        "能清楚表達，又顧及對方",
+        "善於緩和緊張的氣氛",
+        "願意接受批評、主動修復"
+      ],
+      "blindSpots": [
+        "可能太習慣當調解者，忽略自己的感受",
+        "別人可能習慣把情緒問題交給你"
+      ],
+      "loveStyle": "",
+      "workStyle": "",
+      "communicationStyle": "",
+      "growthAdvice": "在照顧大家的同時，也確認自己的需要有沒有被聽見。",
+      "disclaimer": "本內容為自我探索參考，只描述你在這份自製問卷上的自我回答，不與他人比較；題目由本站自行設計，沒有經過信度與效度驗證，不是任何既有量表，也不是心理評估或診斷。情緒能力可以練習，不是固定的，也沒有單一的「智商」分數。",
+      "growthPractice": {
+        "habitToObserve": "觀察：我是不是常常扮演調解的角色，而沒有人來照顧我？",
+        "behaviorToTry": "在一次衝突後，問自己：我的需要有被說出來嗎？",
+        "reflectionQuestion": "我最近有沒有為了維持和諧，而讓自己吃虧？",
+        "weeklyPractice": "本週找一位可信的人，聊聊你自己的情緒。"
+      }
+    }
+  }
+]

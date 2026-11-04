@@ -15,9 +15,6 @@ import {
 import {
     assessmentContentKeys, isAssessmentContentKey,
 } from '../assessments/index.ts';
-import {
-    BIG_FIVE_LEVELS, BIG_FIVE_TRAITS,
-} from '../constants/bigFive.ts';
 import { horoscopeContentKeys } from '../constants/horoscope.ts';
 import { KIN_COUNT } from '../constants/mayaKin.ts';
 import { runeContentKeys } from '../constants/runes.ts';
@@ -27,8 +24,6 @@ import {
 import {
     MBTI_TYPES, NUMEROLOGY_NUMBERS, ZODIACS,
 } from '../schemas/common.ts';
-import { bigFiveCombinationKeys } from './bigFiveCombinations.ts';
-import { COMPARISON_PAIRS } from './bigFiveMbtiComparison.ts';
 
 export { NUMEROLOGY_NUMBERS };
 
@@ -43,7 +38,6 @@ export const FIXED_CONTENT_TYPES = [
     'KIN_TODAY',
     'RUNE',
     'HOROSCOPE',
-    'BIGFIVE',
     'ASSESSMENT',
 ] as const;
 
@@ -108,21 +102,6 @@ const RUNE_KEY_SET: ReadonlySet<string> = new Set(runeContentKeys());
 /** The 60 sign horoscope keys: five bodies in twelve houses, as `<BODY>_<1 to 12>`. */
 const HOROSCOPE_KEY_SET: ReadonlySet<string> = new Set(horoscopeContentKeys());
 
-/**
- * The 47 Big Five content keys: each trait at each of three levels, as `<trait>_<low|mid|high>` (15), the note on a pair of
- * the MBTI held against the Big Five, as `compare_<ei|sn|tf|jp>_<match|differ>` (8), and what a pair of traits says
- * together, as `combo_<trait>_<trait>_<high|low>_<high|low>` (24).
- */
-export function bigFiveContentKeys(): string[] {
-    return [
-        ...BIG_FIVE_TRAITS.flatMap((trait) => BIG_FIVE_LEVELS.map((level) => `${trait}_${level}`)),
-        ...COMPARISON_PAIRS.flatMap((pair) => [`compare_${pair}_match`, `compare_${pair}_differ`]),
-        ...bigFiveCombinationKeys(),
-    ];
-}
-
-const BIG_FIVE_KEY_SET: ReadonlySet<string> = new Set(bigFiveContentKeys());
-
 export function fixedContentId(type: FixedContentType, key: string): string {
     return `${type}_${key}`;
 }
@@ -140,7 +119,6 @@ export function isValidContentKey(type: FixedContentType, key: string): boolean 
     case 'KIN_TODAY': return KIN_KEY_SET.has(key);
     case 'RUNE': return RUNE_KEY_SET.has(key);
     case 'HOROSCOPE': return HOROSCOPE_KEY_SET.has(key);
-    case 'BIGFIVE': return BIG_FIVE_KEY_SET.has(key);
     case 'ASSESSMENT': return isAssessmentContentKey(key);
     }
 }
@@ -148,7 +126,7 @@ export function isValidContentKey(type: FixedContentType, key: string): boolean 
 /**
  * Every document id that must exist before launch:
  * 12 + 4 + 16 + 12 single results, the 123 BaZi contents, the 44 tarot contents, the 260 + 260 Kin contents, the 39 rune
- * contents, the 60 sign horoscope contents, the 47 Big Five contents and the contents of the self-assessments (as many as the registry lists).
+ * contents, the 60 sign horoscope contents and the contents of the self-assessments (as many as the registry lists).
  */
 export function expectedFixedContentIds(): string[] {
     const ids: string[] = [];
@@ -162,7 +140,6 @@ export function expectedFixedContentIds(): string[] {
     for (const key of kinContentKeys()) ids.push(fixedContentId('KIN_BIRTH', key), fixedContentId('KIN_TODAY', key));
     for (const key of runeContentKeys()) ids.push(fixedContentId('RUNE', key));
     for (const key of horoscopeContentKeys()) ids.push(fixedContentId('HOROSCOPE', key));
-    for (const key of bigFiveContentKeys()) ids.push(fixedContentId('BIGFIVE', key));
     for (const key of assessmentContentKeys()) ids.push(fixedContentId('ASSESSMENT', key));
 
     return ids;

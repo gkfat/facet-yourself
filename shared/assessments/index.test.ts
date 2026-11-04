@@ -17,6 +17,16 @@ import {
 import {
     fakeScaleAssessment, fakeSelectionAssessment,
 } from './testing';
+import { fixedContentBodySchema } from '../schemas/firestore/fixedContent.schema';
+import { isMultiReportSystem } from '../report/systems';
+import attachmentStyle from '../../content/fixed/attachment-style.json';
+import coreValues from '../../content/fixed/core-values.json';
+import emotionalIntelligence from '../../content/fixed/emotional-intelligence.json';
+import enneagram from '../../content/fixed/enneagram.json';
+import hexaco from '../../content/fixed/hexaco.json';
+import psychologicalNeeds from '../../content/fixed/psychological-needs.json';
+import riasec from '../../content/fixed/riasec.json';
+import viaStrengths from '../../content/fixed/via-strengths.json';
 
 describe('the registry', () => {
     it('is sound: each definition is complete, and ids, systems and content keys are each used once', () => {
@@ -140,5 +150,80 @@ describe('the definitions made by the factories', () => {
         ]);
 
         expect(definition.contentKeysOf(result)).toEqual(['hexaco_novelty_high', 'hexaco_order_mid']);
+    });
+});
+
+describe('no clinical wording', () => {
+    const CLINICAL = /疾病|症|治療|障礙|病態|憂鬱|患者/;
+
+    it('is in none of the items, options and titles of the assessments', () => {
+        const texts = ASSESSMENTS.flatMap((definition) => [
+            definition.title, ...(definition.kind === 'scale'
+                ? [
+                    ...definition.items.map((item) => item.text), ...(definition.dimensions ?? []).flatMap((info) => [
+                        info.name,
+                        info.low,
+                        info.high,
+                    ]),
+                ]
+                : definition.options.flatMap((option) => [option.name, option.description])),
+        ]);
+
+        expect(texts.filter((text) => CLINICAL.test(text))).toEqual([]);
+    });
+
+    it('is in none of the fixed contents of the assessments', () => {
+        const rows = [
+            ...hexaco,
+            ...enneagram,
+            ...coreValues,
+            ...psychologicalNeeds,
+            ...viaStrengths,
+            ...riasec,
+            ...emotionalIntelligence,
+            ...attachmentStyle,
+        ];
+
+        expect(rows.length).toBe(assessmentContentKeys().length);
+        expect(rows.filter((row) => CLINICAL.test(JSON.stringify(row.body))).map((row) => row.key)).toEqual([]);
+    });
+});
+
+describe('each assessment in a multi-dimension report', () => {
+    const rows = [
+        ...hexaco,
+        ...enneagram,
+        ...coreValues,
+        ...psychologicalNeeds,
+        ...viaStrengths,
+        ...riasec,
+        ...emotionalIntelligence,
+        ...attachmentStyle,
+    ];
+    const contents = Object.fromEntries(rows.map((row) => [
+        row.key, {
+            ...fixedContentBodySchema.parse(row.body), contentType: 'ASSESSMENT' as const, key: row.key, contentVersion: 'v1',
+        },
+    ]));
+
+    it.each(ASSESSMENTS.map((definition) => [definition.id, definition] as const))('%s can be chosen, and gives a report input of its own', (_id, definition) => {
+        const result = definition.kind === 'scale'
+            ? definition.evaluate(definition.items.map((item) => ({
+                questionId: item.id, value: 4,
+            })))
+            : definition.evaluate({
+                selected: definition.options.slice(0, definition.pick).map((option) => option.id),
+                ranked: definition.options.slice(0, definition.rank).map((option) => option.id),
+            });
+
+        expect(isMultiReportSystem(definition.systemId)).toBe(true);
+        expect(definition.contentKeysOf(result).every((key) => contents[key] !== undefined)).toBe(true);
+
+        const input = definition.reportInput(result, contents);
+
+        expect(input.system).toBe(definition.systemId);
+        expect(input.facts.length + input.interpretations.length).toBeGreaterThan(0);
+        expect(input.basis.length).toBeGreaterThan(0);
+        expect((input.notes ?? []).join('')).toContain('信度與效度');
     });
 });

@@ -7,7 +7,7 @@ import { ASSESSMENT_SYSTEM_IDS } from '../assessments/ids.ts';
 const isAssessmentSystemId = (system: string): boolean => (ASSESSMENT_SYSTEM_IDS as readonly string[]).includes(system);
 
 /** Raise whenever a mapping entry is added, removed or pointed at another end; it is stored with every report (basis). */
-export const MAPPING_VERSION = 'mapping-v5';
+export const MAPPING_VERSION = 'mapping-v6';
 
 /**
  * Systems of one tradition share a source group. Two systems of the same group saying the same thing are one source

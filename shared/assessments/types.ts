@@ -88,8 +88,8 @@ export type ScaleAssessment = Common & {
     dimensions?: readonly ScaleDimensionInfo[];
     /** The five answers, from 1 to 5, when "agree" is not what is being asked (liking, for one) */
     answerLabels?: readonly string[];
-    /** How the result page lays the result out: `ranked` is a list put in order, the first few told in full; `code` is the few that make up a code, with what the set says */
-    view?: 'ranked' | 'code';
+    /** How the result page lays the result out: `ranked` is a list put in order, the first few told in full; `code` is the few that make up a code, with what the set says; `profile` is each dimension in a card of its own, with what to practise; `quadrant` is a position on two dimensions, told by the quadrant it falls in */
+    view?: 'ranked' | 'code' | 'profile' | 'quadrant';
     evaluate: (answers: readonly ScaleAnswer[]) => unknown;
 };
 
@@ -123,7 +123,7 @@ export type ScaleAssessmentSpec<Result> = CommonSpec<Result> & {
     items: readonly ScaleItem[];
     dimensions?: readonly ScaleDimensionInfo[];
     answerLabels?: readonly string[];
-    view?: 'ranked' | 'code';
+    view?: 'ranked' | 'code' | 'profile' | 'quadrant';
     score: (answers: readonly ScaleAnswer[]) => Result;
 };
 

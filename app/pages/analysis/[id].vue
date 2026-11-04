@@ -189,6 +189,18 @@
                     :names="dimensionNames"
                     :result="result"
                 />
+                <AssessmentProfileResult
+                    v-else-if="view === 'profile' && definition.kind === 'scale'"
+                    :dimensions="definition.dimensions ?? []"
+                    :notes="notes"
+                    :result="result"
+                />
+                <AssessmentQuadrantResult
+                    v-else-if="view === 'quadrant' && definition.kind === 'scale'"
+                    :dimensions="definition.dimensions ?? []"
+                    :notes="notes"
+                    :result="result"
+                />
                 <AssessmentSelectionResult
                     v-else-if="definition.kind === 'selection'"
                     :names="optionNames"
