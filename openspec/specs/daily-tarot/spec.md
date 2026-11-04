@@ -40,7 +40,7 @@ TBD - 每日塔羅：已登入使用者每個台北日期翻一張大阿爾克�
 - **THEN** 系統忽略它們，仍以伺服器的台北日期與登入憑證的帳號為準
 
 ### Requirement: 翻牌 API 需登入且免費
-系統 SHALL 提供 `GET /api/tarot/daily`（查詢今天是否已翻、已翻則含牌與內容）與 `POST /api/tarot/daily`（翻牌），兩者 MUST 要求有效登入，未登入 MUST 回 401。翻牌 MUST NOT 扣點。回應 MUST 設為不可共用快取（private、no-store）。
+系統 SHALL 提供 `GET /api/tarot/daily`（查詢今天是否已翻、已翻則含牌與內容）與 `POST /api/tarot/daily`（翻牌），兩者 MUST 要求有效登入或有效的訪客 session（`X-Guest-Session-Id`），兩者皆無 MUST 回 401。翻牌 MUST NOT 扣點。回應 MUST 設為不可共用快取（private、no-store）。
 
 #### Scenario: 尚未翻牌時查詢
 - **WHEN** 已登入使用者當天尚未翻牌並呼叫 GET
@@ -50,8 +50,8 @@ TBD - 每日塔羅：已登入使用者每個台北日期翻一張大阿爾克�
 - **WHEN** 使用者當天已翻牌並呼叫 GET
 - **THEN** 回應 200，含 `drawn: true`、牌資訊與內容
 
-#### Scenario: 未登入
-- **WHEN** 未登入的請求呼叫任一端點
+#### Scenario: 沒有登入也沒有訪客 session
+- **WHEN** 請求既無有效登入憑證也無有效訪客 session 呼叫任一端點
 - **THEN** 回應 401
 
 #### Scenario: 內容尚未發佈
@@ -143,7 +143,7 @@ TBD - 每日塔羅：已登入使用者每個台北日期翻一張大阿爾克�
 - **THEN** 22 張牌皆有完整欄位，每個方向有 3 個反思問題，且全部通過長度與禁語檢查
 
 ### Requirement: 首頁區塊與選單入口
-首頁 SHALL 顯示獨立的「今日運勢」區塊（與四張維度卡分開），與今日 Kin 共用，每個開啟的部分各一行：已登入且今天尚未翻牌時，「今日塔羅」一行顯示尚未翻牌；已翻牌時顯示今天的牌名與方位；區塊的按鈕連到 `/fortune`；未登入時顯示說明與「立即登入」按鈕，MUST NOT 顯示任何牌的內容。已登入使用者的側邊選單 SHALL 包含「今日運勢」項目。
+首頁 SHALL 顯示獨立的「今日運勢」區塊（與維度分析入口分開），與今日 Kin 共用，每個開啟的部分各一行：已登入且今天尚未翻牌時，「今日塔羅」一行顯示尚未翻牌；已翻牌時顯示今天的牌名與方位；區塊的按鈕連到 `/fortune`；訪客 MUST 看到說明與「看今天的運勢」按鈕（連到 `/fortune`），MUST NOT 要求先登入，MUST NOT 顯示任何牌的內容。選單（md 以上的 header nav、md 以下的 drawer）SHALL 包含「今日運勢」項目。
 
 #### Scenario: 已登入、今天未翻
 - **WHEN** 已登入使用者開啟首頁且今天尚未翻牌
@@ -153,10 +153,33 @@ TBD - 每日塔羅：已登入使用者每個台北日期翻一張大阿爾克�
 - **WHEN** 已登入使用者開啟首頁且今天已翻牌
 - **THEN** 區塊的「今日塔羅」一行顯示今天的牌名與方位
 
-#### Scenario: 未登入
+#### Scenario: 訪客
 - **WHEN** 未登入的訪客開啟首頁
-- **THEN** 區塊顯示說明與「立即登入」，點擊前往登入頁
+- **THEN** 區塊顯示說明與「看今天的運勢」，點擊前往今日運勢頁，不載入任何牌的內容
 
-#### Scenario: 側邊選單
-- **WHEN** 已登入使用者開啟側邊選單
+#### Scenario: 導覽
+- **WHEN** 任何使用者查看導覽
 - **THEN** 可看到「今日運勢」，點擊前往 `/fortune`
+
+### Requirement: 訪客翻牌由 session 與日期決定且不儲存
+系統 SHALL 讓持有有效訪客 session 的訪客翻牌：牌與正逆位 MUST 以決定性的方式依「`guest:` 加訪客 session id + 台北日期 + 抽牌規則版本」選出，MUST NOT 寫入任何 Firestore 文件、MUST NOT 扣點。訪客的 `GET` MUST 一律回 `drawn: false`；`POST` MUST 回傳牌與內容，同一 session 同一台北日期重複呼叫 MUST 得到相同結果。訪客 session 不存在、已過期或已被 claim 時 MUST 回 401。
+
+#### Scenario: 訪客翻牌
+- **WHEN** 持有有效 session 的訪客呼叫 POST
+- **THEN** 回應 200，含牌、正逆位與內容，沒有寫入任何資料
+
+#### Scenario: 訪客重複翻牌
+- **WHEN** 同一個訪客 session 於同一台北日期再次呼叫 POST
+- **THEN** 得到同一張牌與同一個正逆位
+
+#### Scenario: 訪客查詢
+- **WHEN** 訪客呼叫 GET
+- **THEN** 回應 200 與 `drawn: false`，不洩漏牌
+
+#### Scenario: session 已過期
+- **WHEN** 訪客以過期或已 claim 的 session 呼叫任一端點
+- **THEN** 回應 401
+
+#### Scenario: 種子不與帳號碰撞
+- **WHEN** 計算訪客與會員的牌
+- **THEN** 訪客的種子帶 `guest:` 前綴，不會與任何帳號的種子相同

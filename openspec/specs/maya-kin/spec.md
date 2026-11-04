@@ -85,11 +85,19 @@ TBD - 瑪雅 Kin：以 Dreamspell 曆法由日期算出 Kin（圖騰與調性，
 - **THEN** 今日日期變為下一天，原先的解鎖不適用於新的一天
 
 ### Requirement: 今日 Kin API 需登入
-`GET` 與 `POST /api/kin/today` MUST 要求有效登入，未登入 MUST 回 401。回應 MUST 設為不可共用快取（private、no-store）。
+`GET` 與 `POST /api/kin/today` MUST 要求有效登入或有效的訪客 session（`X-Guest-Session-Id`），兩者皆無 MUST 回 401。會員的行為 MUST 不變（計算即解鎖並保存紀錄）。訪客的 `GET` MUST 一律回未解鎖（只含日期）；訪客的 `POST` MUST 回傳今日 Kin 與 `KIN_TODAY` 內容，MUST NOT 寫入任何資料、MUST NOT 扣點，訪客 session 不存在、已過期或已被 claim 時 MUST 回 401。回應 MUST 設為不可共用快取（private、no-store）。
 
-#### Scenario: 未登入
-- **WHEN** 未帶有效登入憑證呼叫任一今日 Kin 端點
+#### Scenario: 沒有登入也沒有訪客 session
+- **WHEN** 請求既無有效登入憑證也無有效訪客 session 呼叫任一今日 Kin 端點
 - **THEN** 回傳 401，不寫入任何資料
+
+#### Scenario: 訪客計算今日 Kin
+- **WHEN** 持有有效 session 的訪客呼叫 POST
+- **THEN** 回應 200，含今日 Kin 與內容，沒有寫入任何資料、沒有扣點
+
+#### Scenario: 訪客查詢
+- **WHEN** 訪客呼叫 GET
+- **THEN** 回應 200，只含日期與未解鎖狀態，不洩漏 Kin
 
 ### Requirement: 內容未發佈時不寫入解鎖紀錄
 系統 MUST 在確認當日 Kin 的 `KIN_TODAY` 內容已發佈後才建立解鎖紀錄；內容尚未發佈時 MUST 回 404 且 MUST NOT 寫入紀錄，使會員當天的機會不被占用。
@@ -151,11 +159,11 @@ TBD - 瑪雅 Kin：以 Dreamspell 曆法由日期算出 Kin（圖騰與調性，
 - **THEN** 多維度分析的維度選項不出現瑪雅 Kin，已含 Kin 的舊報告仍可查看
 
 ### Requirement: 頁面與入口
-系統 SHALL 提供「今日運勢」頁（`/fortune`，需登入，未登入導回首頁），頁面先以一列兩欄的入口卡片分別標示「塔羅」與「瑪雅 Kin」（只有入口，MUST NOT 以分頁切換）；點擊其中一張 MUST 在同一頁顯示該項的內容並提供返回入口，網址以 `#tarot`、`#kin` 標示所開啟的項目；並提供生日 Kin 頁（`/analysis/maya-kin`）。首頁與「自我分析報告」頁的命理與象徵系統 SHALL 各新增「瑪雅 Kin」卡片（需出生日期，完成後顯示 Kin 名稱），首頁今日入口與側邊選單 SHALL 與每日塔羅共用「今日運勢」。瑪雅 Kin 的入口（今日運勢的 Kin 卡片、首頁卡片、首頁今日 Kin 行）MUST 可由旗標關閉，關閉時 MUST NOT 顯示。生日 Kin 沒有出生日期時 MUST 引導使用者去填寫。
+系統 SHALL 提供「今日運勢」頁（`/fortune`，訪客與會員皆可進入），頁面先以一列兩欄的入口卡片分別標示「塔羅」與「瑪雅 Kin」（只有入口，MUST NOT 以分頁切換）；點擊其中一張 MUST 在同一頁顯示該項的內容並提供返回入口，網址以 `#tarot`、`#kin` 標示所開啟的項目；並提供生日 Kin 頁（`/analysis/maya-kin`）。首頁「從不同的角度認識自己」的「命理與象徵系統」與「自我探索」頁的命理與象徵系統 SHALL 各含「瑪雅 Kin」卡片（需出生日期，完成後顯示 Kin 名稱），首頁今日入口與導覽 SHALL 與每日塔羅共用「今日運勢」。瑪雅 Kin 的入口（今日運勢的 Kin 卡片、首頁卡片、首頁今日 Kin 行）MUST 可由旗標關閉，關閉時 MUST NOT 顯示。生日 Kin 沒有出生日期時 MUST 引導使用者去填寫。
 
-#### Scenario: 未登入進入今日運勢頁
-- **WHEN** 未登入的使用者開啟 `/fortune`
-- **THEN** 導回首頁
+#### Scenario: 訪客進入今日運勢頁
+- **WHEN** 未登入的訪客開啟 `/fortune`
+- **THEN** 頁面正常顯示並附訪客提示，不導回首頁
 
 #### Scenario: 舊網址轉址
 - **WHEN** 使用者開啟 `/kin`

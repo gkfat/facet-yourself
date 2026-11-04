@@ -1,7 +1,7 @@
 version: 1
 generatedBy: analysis-validator
-updatedAt: 2026-11-04T12:00:00+08:00
-relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions]
+updatedAt: 2026-11-04T17:00:00+08:00
+relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, header-nav-and-pricing, redesign-home-page]
 
 links:
   - requirement: FR-001
@@ -20,7 +20,7 @@ links:
     context: ["CTX-ACTOR-001", "CTX-ASM-005", "CTX-ASM-006", "CTX-CON-006"]
     useCases: ["UC-003", "UC-004", "UC-008"]
     domainModel: ["AGG-001", "AGG-002", "AGG-005", "AGG-012", "ENT-001", "ENT-002", "ENT-005", "ENT-014", "VO-001", "VO-002", "VO-005"]
-    api: ["API-002", "API-003", "API-004", "API-005", "API-007", "API-008", "API-013", "API-038"]
+    api: ["API-002", "API-003", "API-004", "API-005", "API-007", "API-008", "API-013", "API-038", "API-062"]
     data: ["DATA-001", "DATA-002", "DATA-006", "DATA-016"]
   - requirement: FR-003
     context: ["CTX-ACTOR-001"]
@@ -44,7 +44,7 @@ links:
     context: ["CTX-ACTOR-001", "CTX-CON-001"]
     useCases: ["UC-004", "UC-005"]
     domainModel: ["AGG-002", "AGG-003", "AGG-004", "AGG-005", "ENT-002", "ENT-003", "ENT-004", "ENT-005", "VO-002", "VO-003", "VO-006", "VO-007"]
-    api: ["API-004", "API-007", "API-008", "API-009", "API-010", "API-011"]
+    api: ["API-004", "API-007", "API-008", "API-009", "API-010", "API-011", "API-062"]
     data: ["DATA-001", "DATA-002", "DATA-003", "DATA-004", "DATA-005", "DATA-006", "DATA-019"]
   - requirement: FR-008
     context: ["CTX-ACTOR-003", "CTX-CON-005", "CTX-CON-004", "CTX-EXT-005"]
@@ -194,7 +194,7 @@ links:
     context: ["CTX-ACTOR-001", "CTX-CON-007", "CTX-CON-014", "CTX-EXT-005", "CTX-ASM-010"]
     useCases: ["UC-004", "UC-005"]
     domainModel: ["AGG-002", "AGG-003", "AGG-004", "AGG-005", "ENT-002", "ENT-003", "ENT-004", "ENT-005", "VO-002", "VO-003", "VO-006", "VO-007"]
-    api: ["API-004", "API-007", "API-008", "API-009", "API-010", "API-011"]
+    api: ["API-004", "API-007", "API-008", "API-009", "API-010", "API-011", "API-062"]
     data: ["DATA-001", "DATA-002", "DATA-003", "DATA-004", "DATA-005", "DATA-006", "DATA-019"]
   - requirement: FR-042
     context: ["CTX-ACTOR-001", "CTX-ACTOR-002", "CTX-CON-014"]
@@ -486,6 +486,14 @@ gaps:
     id: "/fixed-results/numerology/{number}"
     description: "render/api.yaml 有此路徑，但 api-model.yaml 沒有（render 應由 api-model 去除 x-trace 產生）"
     severity: medium
+  - type: render-drift
+    id: "GET /guest-sessions/{sessionId}/profile"
+    description: "render/api.yaml 有此操作，但 api-model.yaml 的該路徑沒有 get（render 應由 api-model 去除 x-trace 產生）"
+    severity: medium
+  - type: analysis-drift
+    id: "/tarot/daily、/rune/daily、/kin/today、/horoscope/daily"
+    description: "這四組 API 現在也接受訪客 session（X-Guest-Session-Id），訪客的結果不寫入資料、訪客查詢一律回未揭曉；api-model.yaml 仍寫成必須登入（預設 bearerAuth，只有 401），沒有描述訪客行為（change header-nav-and-pricing）"
+    severity: medium
   - type: dangling-reference
     id: "api-model:ProductEventRequest"
     description: "schema $ref 指向不存在的 ProductEventRequest（出現在已廢止的 /events）"
@@ -550,10 +558,6 @@ gaps:
     id: "NFR-027"
     description: "NFR（移除大五人格的完整性）沒有在 api-model 或 data-model 任何一處被提及（屬維運步驟，DATA-025 只以 RULE-072、RULE-073 標示）"
     severity: low
-  - type: planned-not-implemented
-    id: "API-058、API-059、API-060"
-    description: "GET /assessments、POST /assessments/{assessmentId}/results、GET /assessments/{assessmentId}/results/latest 已列入 render/api.yaml，但尚未實作（change expand-self-analysis-dimensions 還沒套用）；server/api.routes.test.ts 已將 /assessments 列為尚未建置"
-    severity: low
   - type: orphan-domain
     id: "ENT-021"
     description: "Entity AssessmentDefinition 沒有對應的資料表：它是程式內的登錄表，刻意不落地"
@@ -605,4 +609,8 @@ gaps:
   - type: deprecated-legacy-table
     id: "DATA-007、DATA-008"
     description: "summaries 與 detailedReports 已標為 deprecated（由 reportSnapshots／DATA-026 取代）；對應的 ENT-006、ENT-007、AGG-006、AGG-007、RULE-005、006、019、030、033、EVT-005、008 與 UC-007、009、012、013 也已標為 deprecated，其餘仍適用的規則與事件已改指 AGG-021、AGG-009、AGG-010、AGG-008"
+    severity: low
+  - type: analysis-not-updated
+    id: "header-nav-and-pricing、redesign-home-page"
+    description: "這兩個已歸檔的 change（導覽與 /pricing、訪客今日運勢、首頁改版與預覽）沒有對應的 FR／UC 更新；GET /api/home/preview 只以 API-062 追溯到 UC-004（星座單項結果）與既有的 NFR-001、NFR-007、NFR-010，訪客今日運勢也沒有對應的用例"
     severity: low

@@ -536,6 +536,43 @@ paths:
         useCases: [UC-014]
         domainModel: [ENT-010, AGG-008]
         requirements: [NFR-003]
+  "/home/preview":
+    get:
+      operationId: getHomePreview
+      summary: "首頁預覽：星座與生命靈數的標題與摘要"
+      description: "首頁專用，一次回傳星座與生命靈數固定內容的標題與一句摘要，供填完出生日期後的即時預覽。只接受星座名稱與生命靈數的數字，不接受出生日期；至少需要其中一個。公開、不呼叫 AI、不扣點、不寫入任何資料。內容尚未發佈的項目為 null，不使整個請求失敗。成功回應可被 CDN 共用快取，錯誤回應一律 no-store；需要讀取資料庫的請求以 IP 的雜湊限流。"
+      tags: [FixedResults]
+      security: []
+      parameters:
+        - name: sign
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [aries, taurus, gemini, cancer, leo, virgo, libra, scorpio, sagittarius, capricorn, aquarius, pisces]
+        - name: lifePath
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "11", "22", "33"]
+      responses:
+        "200":
+          description: "預覽摘要"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HomePreview"
+        "400":
+          "$ref": "#/components/responses/ValidationError"
+        "429":
+          "$ref": "#/components/responses/RateLimited"
+      x-trace:
+        id: API-062
+        useCases: [UC-004]
+        domainModel: [ENT-005, AGG-005]
+        businessRules: [RULE-017, RULE-018, RULE-023]
+        requirements: [NFR-001, NFR-007, NFR-010]
   "/point-packages":
     get:
       operationId: listPointPackages
@@ -2141,6 +2178,22 @@ components:
         currency:
           type: string
       required: [amount, currency]
+    HomePreviewItem:
+      type: object
+      nullable: true
+      description: "標題與一句摘要；內容尚未發佈或未被要求時為 null"
+      properties:
+        title:
+          type: string
+        summary:
+          type: string
+    HomePreview:
+      type: object
+      properties:
+        zodiac:
+          "$ref": "#/components/schemas/HomePreviewItem"
+        numerology:
+          "$ref": "#/components/schemas/HomePreviewItem"
     PointPackage:
       type: object
       properties:

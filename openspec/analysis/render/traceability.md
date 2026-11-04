@@ -2,6 +2,7 @@
 
 > 真相檔：`openspec/analysis/traceability.yaml`（本檔由 yaml 產生）。已廢止項目（ENT-015、DATA-017、REL-019、NFR-016、API-030 等）不納入追溯。
 > 更新：2026-10-27（納入「此刻／今日」類：FR-044 至 FR-055、UC-022 至 UC-030、API-040 至 API-052、DATA-020 至 DATA-023）
+> 更新：2026-11-04（納入首頁預覽 API-062，追溯到 UC-004；訪客今日運勢與兩個已歸檔 change 沒有對應的 FR／UC，列為 gap；移除已實作的 API-058 至 API-060 的 gap；前次見下）
 > 更新：2026-11-04（大五人格移除完成，移除相關 gap；前次：2026-11-03 納入「自我分析擴充」：FR-056 至 FR-073、UC-031 至 UC-046、API-058 至 API-060、DATA-024 與 DATA-025）
 > 更新：2026-11-04（大五人格移除完成，移除相關 gap；前次：2026-11-03 重跑 data-modeling 後重新計算所有追溯鏈：舊的報告 API 已不存在，相關 FR 改列為 gap）
 > 更新：2026-11-04（大五人格移除完成，移除相關 gap；前次：2026-11-03 補進既有的報告架構：FR-074 至 FR-084、UC-047 至 UC-053、ENT-024 至 ENT-027、DATA-026；舊的詳細分析與 summary 相關項目已標為 deprecated，不納入追溯）
@@ -12,11 +13,11 @@
 |---|---|---|---|---|---|
 | FR-001 | CTX-ACTOR-001, CTX-EXT-006, CTX-ASM-004 | UC-001, UC-002, UC-006 | AGG-001, AGG-002, AGG-004, AGG-008, AGG-013, ENT-001, ENT-002, ENT-004, ENT-008, ENT-009, ENT-010, ENT-016 | API-001, API-006 | DATA-001, DATA-002, DATA-005, DATA-009, DATA-010, DATA-011, DATA-013, DATA-016, DATA-018 |
 | FR-032 | CTX-ACTOR-001, CTX-EXT-006, CTX-EXT-005, CTX-ASM-004, CTX-ASM-008 | UC-001, UC-006 | AGG-001, AGG-002, AGG-004, ENT-001, ENT-002, ENT-004 | API-001, API-006 | DATA-001, DATA-002, DATA-005, DATA-009, DATA-010, DATA-011, DATA-016, DATA-018 |
-| FR-002 | CTX-ACTOR-001, CTX-ASM-005, CTX-ASM-006, CTX-CON-006 | UC-003, UC-004, UC-008 | AGG-001, AGG-002, AGG-005, AGG-012, ENT-001, ENT-002, ENT-005, ENT-014, VO-001, VO-002, VO-005 | API-002, API-003, API-004, API-005, API-007, API-008, API-013, API-038 | DATA-001, DATA-002, DATA-006, DATA-016 |
+| FR-002 | CTX-ACTOR-001, CTX-ASM-005, CTX-ASM-006, CTX-CON-006 | UC-003, UC-004, UC-008 | AGG-001, AGG-002, AGG-005, AGG-012, ENT-001, ENT-002, ENT-005, ENT-014, VO-001, VO-002, VO-005 | API-002, API-003, API-004, API-005, API-007, API-008, API-013, API-038, API-062 | DATA-001, DATA-002, DATA-006, DATA-016 |
 | FR-003 | CTX-ACTOR-001 | UC-005 | AGG-002, AGG-003, AGG-004, ENT-002, ENT-003, ENT-004, ENT-005, VO-003, VO-006, VO-007 | API-004, API-009, API-010, API-011 | DATA-001, DATA-002, DATA-003, DATA-004, DATA-005, DATA-006, DATA-019 |
 | FR-004 | CTX-ACTOR-001, CTX-CON-001, CTX-CON-007, CTX-ASM-008 | UC-005 | AGG-002, AGG-003, AGG-004, ENT-002, ENT-003, ENT-004, ENT-005, VO-003, VO-006, VO-007 | API-004, API-009, API-010, API-011 | DATA-001, DATA-002, DATA-003, DATA-004, DATA-005, DATA-006, DATA-019 |
 | FR-005 | CTX-ACTOR-001, CTX-ACTOR-002, CTX-CON-006, CTX-EXT-005, CTX-EXT-006 | UC-006, UC-015 | AGG-001, AGG-002, AGG-004, AGG-012, ENT-001, ENT-002, ENT-004, ENT-014 | API-002, API-006, API-012, API-025, API-038 | DATA-001, DATA-002, DATA-005, DATA-012, DATA-016 |
-| FR-007 | CTX-ACTOR-001, CTX-CON-001 | UC-004, UC-005 | AGG-002, AGG-003, AGG-004, AGG-005, ENT-002, ENT-003, ENT-004, ENT-005, VO-002, VO-003, VO-006, VO-007 | API-004, API-007, API-008, API-009, API-010, API-011 | DATA-001, DATA-002, DATA-003, DATA-004, DATA-005, DATA-006, DATA-019 |
+| FR-007 | CTX-ACTOR-001, CTX-CON-001 | UC-004, UC-005 | AGG-002, AGG-003, AGG-004, AGG-005, ENT-002, ENT-003, ENT-004, ENT-005, VO-002, VO-003, VO-006, VO-007 | API-004, API-007, API-008, API-009, API-010, API-011, API-062 | DATA-001, DATA-002, DATA-003, DATA-004, DATA-005, DATA-006, DATA-019 |
 | FR-008 | CTX-ACTOR-003, CTX-CON-005, CTX-CON-004, CTX-EXT-005 | UC-019 | AGG-005, ENT-005, VO-004 | API-031, API-032, API-033, API-034 | DATA-006 |
 | FR-009 | CTX-ACTOR-003, CTX-ASM-005, CTX-EXT-005, CTX-CON-005 | UC-019 | AGG-005, ENT-005, VO-004 | API-031, API-032, API-033, API-034 | DATA-006 |
 | FR-010 | CTX-ACTOR-001, CTX-EXT-003 | UC-018 | VO-011 | API-027 | DATA-002, DATA-006, DATA-019 |
@@ -41,7 +42,7 @@
 | FR-037 | CTX-ACTOR-001, CTX-CON-014, CTX-EXT-006, CTX-EXT-005 | UC-002 | AGG-001, AGG-008, AGG-013, ENT-001, ENT-008, ENT-009, ENT-010, ENT-016 | API-001 | DATA-001, DATA-009, DATA-010, DATA-011, DATA-013, DATA-018 |
 | FR-038 | CTX-ACTOR-001, CTX-ACTOR-002, CTX-CON-014, CTX-ASM-010 | UC-021, UC-027 | AGG-008, AGG-010, AGG-017, AGG-021, ENT-020, ENT-024, VO-012, VO-013, VO-014, VO-015, VO-016 | API-048, API-061 | DATA-011, DATA-014, DATA-023, DATA-026 |
 | FR-039 | CTX-ACTOR-002, CTX-CON-014 | UC-014 | AGG-008, ENT-008, ENT-009, ENT-010 | API-021, API-022 | DATA-009, DATA-010, DATA-011, DATA-013 |
-| FR-040 | CTX-ACTOR-001, CTX-CON-007, CTX-CON-014, CTX-EXT-005, CTX-ASM-010 | UC-004, UC-005 | AGG-002, AGG-003, AGG-004, AGG-005, ENT-002, ENT-003, ENT-004, ENT-005, VO-002, VO-003, VO-006, VO-007 | API-004, API-007, API-008, API-009, API-010, API-011 | DATA-001, DATA-002, DATA-003, DATA-004, DATA-005, DATA-006, DATA-019 |
+| FR-040 | CTX-ACTOR-001, CTX-CON-007, CTX-CON-014, CTX-EXT-005, CTX-ASM-010 | UC-004, UC-005 | AGG-002, AGG-003, AGG-004, AGG-005, ENT-002, ENT-003, ENT-004, ENT-005, VO-002, VO-003, VO-006, VO-007 | API-004, API-007, API-008, API-009, API-010, API-011, API-062 | DATA-001, DATA-002, DATA-003, DATA-004, DATA-005, DATA-006, DATA-019 |
 | FR-042 | CTX-ACTOR-001, CTX-ACTOR-002, CTX-CON-014 | UC-014, UC-021, UC-027 | AGG-008, AGG-010, AGG-017, AGG-021, ENT-008, ENT-009, ENT-010, ENT-020, ENT-024, VO-012, VO-013, VO-014, VO-015, VO-016 | API-021, API-022, API-048, API-061 | DATA-009, DATA-010, DATA-011, DATA-013, DATA-014, DATA-023, DATA-026 |
 | FR-033 | CTX-CON-012, CTX-CON-006, CTX-EXT-005, CTX-ACTOR-001, CTX-ACTOR-002, CTX-CON-017, CTX-CON-018 | UC-017, UC-028 | AGG-004, AGG-017, AGG-019, ENT-004, ENT-020, ENT-022 | API-037, API-049, API-050 | DATA-005, DATA-023, DATA-024, DATA-026 |
 | FR-035 | CTX-ACTOR-001, CTX-CON-012, CTX-EXT-007 |  |  |  |  |
@@ -95,13 +96,15 @@
 
 無
 
-### MEDIUM（4）
+### MEDIUM（5）
 
 - **render-drift** `/bazi/calculations`：render/api.yaml 有此路徑，但 api-model.yaml 沒有（render 應由 api-model 去除 x-trace 產生） → 建議：重跑 api-modeling：把路徑補進 api-model.yaml，再由它去除 x-trace 產生 render
 - **render-drift** `/fixed-results/mbti/{type}`：render/api.yaml 有此路徑，但 api-model.yaml 沒有（render 應由 api-model 去除 x-trace 產生） → 建議：重跑 api-modeling：把路徑補進 api-model.yaml，再由它去除 x-trace 產生 render
 - **render-drift** `/fixed-results/numerology/{number}`：render/api.yaml 有此路徑，但 api-model.yaml 沒有（render 應由 api-model 去除 x-trace 產生） → 建議：重跑 api-modeling：把路徑補進 api-model.yaml，再由它去除 x-trace 產生 render
+- **render-drift** `GET /guest-sessions/{sessionId}/profile`：render/api.yaml 有此操作，但 api-model.yaml 的該路徑沒有 get（render 應由 api-model 去除 x-trace 產生） → 建議：重跑 api-modeling：把操作補進 api-model.yaml，再由它去除 x-trace 產生 render
+- **analysis-drift** `/tarot/daily、/rune/daily、/kin/today、/horoscope/daily`：這四組 API 現在也接受訪客 session（X-Guest-Session-Id），訪客的結果不寫入資料、訪客查詢一律回未揭曉；api-model.yaml 仍寫成必須登入（預設 bearerAuth，只有 401），沒有描述訪客行為（change header-nav-and-pricing） → 建議：重跑 api-modeling：把這四組 API 的 security 改為「可帶 Bearer 或 X-Guest-Session-Id」，並補上訪客的回應說明
 
-### LOW（31）
+### LOW（30）
 
 - **dangling-reference** `api-model:ProductEventRequest`：schema $ref 指向不存在的 ProductEventRequest（出現在已廢止的 /events） → 建議：修正該引用或補上缺少的項目
 - **nfr-not-landed** `NFR-021`：NFR（新增抽取型的重用性）沒有在 api-model 或 data-model 任何一處被提及（僅出現在 use case 流程） → 建議：確認是否需要在 API 或資料模型落地；屬設計層約束者可忽略
@@ -119,7 +122,6 @@
 - **vo-unused** `VO-011`：Value Object ShareCard 未被任何聚合或資料表使用 → 建議：確認是否保留
 - **nfr-not-landed** `NFR-023`：NFR（新增一種自我分析的成本）沒有在 api-model 或 data-model 任何一處被提及（屬程式結構的設計層約束） → 建議：設計層約束，可忽略；由登錄表與其測試落實
 - **nfr-not-landed** `NFR-027`：NFR（移除大五人格的完整性）沒有在 api-model 或 data-model 任何一處被提及（屬維運步驟，DATA-025 只以 RULE-072、RULE-073 標示） → 建議：設計層約束，可忽略；由 UC-045 的步驟與覆蓋檢查落實
-- **planned-not-implemented** `API-058、API-059、API-060`：GET /assessments、POST /assessments/{assessmentId}/results、GET /assessments/{assessmentId}/results/latest 已列入 render/api.yaml，但尚未實作（change expand-self-analysis-dimensions 還沒套用）；server/api.routes.test.ts 已將 /assessments 列為尚未建置 → 建議：實作該 change 的框架階段後，從 api.routes.test.ts 的 NOT_BUILT_YET 移除 /assessments
 - **orphan-domain** `ENT-021`：Entity AssessmentDefinition 沒有對應的資料表：它是程式內的登錄表，刻意不落地 → 建議：確認為刻意；若之後要不經部署就改題目，才需要建表
 - **usecase-without-api** `UC-044、UC-045`：撰寫並匯入內容（UC-044）與移除大五人格（UC-045）由匯入／清除腳本與程式修改完成，沒有對應的 API → 建議：確認為刻意（維運步驟，不曝露為 API）
 - **pending-assumption** `CTX-ASM-020`：假設尚待確認：各分析題數暫定（九型 54、HEXACO 60、VIA 48、RIASEC 60、EQ 40、依附 24、需求 18、價值觀挑 8 排 5） → 建議：向 user 確認後更新 context.yaml 的 status
@@ -133,3 +135,4 @@
 - **planned-not-implemented** `API-061`：POST /report-snapshots/{snapshotId}/export（下載報告快照 PDF）為規劃中尚未實作；快照的 downloadCount、lastDownloadedAt 欄位也尚未存在；server/api.routes.test.ts 已將它列為尚未建置 → 建議：實作前確認扣點與重複下載規則（CTX-ASM-028）；實作後從 api.routes.test.ts 的 NOT_BUILT_YET 移除 /report-snapshots/{}/export
 - **pending-assumption** `CTX-ASM-028`：假設部分確認：改為下載 PDF 已確認，但每次下載扣 1 點與重複下載須確認的規則沿用原規則，未重新確認 → 建議：向 user 確認後更新 context.yaml 的 status
 - **deprecated-legacy-table** `DATA-007、DATA-008`：summaries 與 detailedReports 已標為 deprecated（由 reportSnapshots／DATA-026 取代）；對應的 ENT-006、ENT-007、AGG-006、AGG-007、RULE-005、006、019、030、033、EVT-005、008 與 UC-007、009、012、013 也已標為 deprecated，其餘仍適用的規則與事件已改指 AGG-021、AGG-009、AGG-010、AGG-008 → 建議：確認後移除或保留作歷史參考
+- **analysis-not-updated** `header-nav-and-pricing、redesign-home-page`：這兩個已歸檔的 change（導覽與 /pricing、訪客今日運勢、首頁改版與預覽）沒有對應的 FR／UC 更新；GET /api/home/preview 只以 API-062 追溯到 UC-004（星座單項結果）與既有的 NFR-001、NFR-007、NFR-010，訪客今日運勢也沒有對應的用例 → 建議：若要讓分析涵蓋這些行為，重跑 system-analysis 與 requirement-modeling；只是畫面調整者可忽略
