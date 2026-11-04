@@ -422,12 +422,12 @@ tables:
       - { name: "expiresAt", type: "timestamp", constraints: "required；= completedAt + 3 個月（RULE-064）" }
     indexes:
       - { fields: ["expiresAt ASC"], scope: "COLLECTION_GROUP", purpose: "排程清除到期資料（UC-017）；須在 scripts/provision-firebase.ts 建立索引例外" }
-      - { fields: ["assessmentId ASC", "completedAt DESC"], scope: "COLLECTION", purpose: "取得某分析最新一筆未到期結果（UC-033）與多維度分析的可選判斷（UC-046）" }
+      - { fields: ["completedAt DESC"], scope: "COLLECTION", purpose: "取得某分析最新一筆未到期結果（UC-033）與多維度分析的可選判斷（UC-046）；依 completedAt 排序，assessmentId 在記憶體內過濾，因此不需要複合索引" }
     notes: "八種自我分析共用同一個子集合，以 assessmentId 區分，避免每種分析各開一個集合與各一份到期、刪除處理（design 決定 2）。作答與結果在同一份文件，同一個交易寫入、同一期限到期（AGG-019）。訪客不寫入（RULE-065）。ENT-021 AssessmentDefinition 是程式內的登錄表，不落地。"
   - id: DATA-025
     name: bigFiveAttempts
     status: deprecated
-    reason: "HEXACO 取代大五人格，整個測驗將移除（UC-045）；須先清除所有使用者的此子集合，再移除處理程式"
+    reason: "HEXACO 取代大五人格，整個測驗已移除（UC-045）：此子集合的資料已清除，處理程式已移除"
     path: "users/{userId}/bigFiveAttempts/{attemptId}"
     primaryKey: "attemptId（自動產生）"
     aggregate: AGG-020
@@ -441,8 +441,8 @@ tables:
       - { name: "completedAt", type: "timestamp", constraints: "required" }
       - { name: "expiresAt", type: "timestamp", constraints: "required；= completedAt + 3 個月" }
     indexes:
-      - { fields: ["expiresAt ASC"], scope: "COLLECTION_GROUP", purpose: "排程清除到期資料；移除大五人格時一併移除" }
-    notes: "現行集合，將在 HEXACO 上線後移除（RULE-072、RULE-073）。"
+      - { fields: ["expiresAt ASC"], scope: "COLLECTION_GROUP", purpose: "已隨大五人格移除" }
+    notes: "已移除（RULE-072、RULE-073）：2026-11-04 清除所有使用者的資料，並移除到期清除、刪帳號與索引例外的處理。"
   - id: DATA-026
     name: reportSnapshots
     path: "users/{userId}/reportSnapshots/{snapshotId}"
@@ -622,7 +622,9 @@ relationships:
     from: DATA-001
     to: DATA-025
     type: one-to-many
-    description: "會員擁有多筆大五人格紀錄（將隨大五人格移除而刪除）"
+    description: "會員擁有多筆大五人格紀錄（已隨大五人格移除而刪除）"
+    status: deprecated
+    reason: "DATA-025 已移除"
   - id: REL-031
     from: DATA-001
     to: DATA-026

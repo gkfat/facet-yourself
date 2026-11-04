@@ -1,6 +1,6 @@
 version: 1
 generatedBy: analysis-validator
-updatedAt: 2026-11-03T03:10:00+08:00
+updatedAt: 2026-11-04T12:00:00+08:00
 relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions]
 
 links:
@@ -542,10 +542,6 @@ gaps:
     id: "VO-011"
     description: "Value Object ShareCard 未被任何聚合或資料表使用"
     severity: low
-  - type: render-drift
-    id: "/big-five/results、/big-five/results/latest"
-    description: "render/api.yaml 有這兩條已實作的大五人格路由（為通過 server/api.routes.test.ts 而直接補進去），但 api-model.yaml 沒有"
-    severity: medium
   - type: nfr-not-landed
     id: "NFR-023"
     description: "NFR（新增一種自我分析的成本）沒有在 api-model 或 data-model 任何一處被提及（屬程式結構的設計層約束）"
@@ -609,8 +605,4 @@ gaps:
   - type: deprecated-legacy-table
     id: "DATA-007、DATA-008"
     description: "summaries 與 detailedReports 已標為 deprecated（由 reportSnapshots／DATA-026 取代）；對應的 ENT-006、ENT-007、AGG-006、AGG-007、RULE-005、006、019、030、033、EVT-005、008 與 UC-007、009、012、013 也已標為 deprecated，其餘仍適用的規則與事件已改指 AGG-021、AGG-009、AGG-010、AGG-008"
-    severity: low
-  - type: intentional-reference-to-deprecated
-    id: "EVT-027、RULE-072、RULE-073"
-    description: "這三項描述「移除大五人格」，所以刻意指向已廢止的 AGG-020（大五人格紀錄）；大五人格移除完成後可一併標為 deprecated"
     severity: low

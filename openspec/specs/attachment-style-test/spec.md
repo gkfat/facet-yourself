@@ -1,0 +1,23 @@
+# attachment-style-test Specification
+
+## Purpose
+TBD - created by archiving change expand-self-analysis-dimensions. Update Purpose after archive.
+## Requirements
+### Requirement: 依附風格的向度與計分
+系統 SHALL 提供依附風格測驗，以「靠近的焦慮」與「親密的迴避」兩個連續向度各自的題目與 5 點量表計分，每個向度 0–100 並分成低、中、高。系統 MUST 依兩個向度的高低對應到四個象限的中性描述；任一向度為「中」時 MUST 說明結果落在兩個象限之間。系統 MUST NOT 把使用者貼上固定標籤，MUST NOT 使用診斷用語或提及臨床診斷。
+
+#### Scenario: 兩個向度
+- **WHEN** 使用者完成測驗
+- **THEN** 結果顯示兩個向度的分數與等級，以及對應象限的描述
+
+#### Scenario: 落在中間
+- **WHEN** 其中一個向度為中
+- **THEN** 結果說明落在兩個象限之間，兩邊的描述都可以參考
+
+### Requirement: 依附風格的結果內容與語氣
+結果內容 SHALL 描述親密關係中的安全感、靠近與疏遠的模式、壓力下的反應與可以練習的方向，並說明依附模式會隨關係與經驗改變。結果頁 MUST 固定說明「這不是診斷，也不是固定標籤」。
+
+#### Scenario: 結果頁的聲明
+- **WHEN** 顯示結果
+- **THEN** 頁面寫明「依附模式會隨關係與經驗改變，不是固定標籤，也不是診斷」
+

@@ -1,0 +1,23 @@
+# riasec-interest-test Specification
+
+## Purpose
+TBD - created by archiving change expand-self-analysis-dimensions. Update Purpose after archive.
+## Requirements
+### Requirement: 職業興趣的題目與計分
+系統 SHALL 提供職業興趣測驗，題目依六種興趣類型的定義自行設計（每型同數量），以喜歡程度作答，MUST NOT 使用任何既有興趣量表的題目。系統 MUST 計算實作型、研究型、藝術型、社會型、企業型、事務型六型的分數，取最高的三型組成三碼興趣代碼；分數並列時 MUST 以固定規則決定順序。
+
+#### Scenario: 三碼興趣代碼
+- **WHEN** 使用者完成測驗
+- **THEN** 結果顯示六型的分數條與前三名組成的三碼代碼
+
+#### Scenario: 並列
+- **WHEN** 第三名與第四名分數相同
+- **THEN** 以固定規則決定進入三碼的一型，重複計分得到相同結果
+
+### Requirement: 只描述興趣
+結果頁 MUST 說明這是興趣的描述，MUST NOT 判定能力、職業適性或建議必須從事的職業。結果內容 SHALL 包含六型各自的特徵、偏好的工作環境，以及三碼組合的整體描述，並說明興趣會隨經驗改變。
+
+#### Scenario: 結果頁的聲明
+- **WHEN** 顯示結果
+- **THEN** 頁面明確寫出「這是興趣，不是能力或適性的判定」，且不列出「你適合當某某職業」的斷言
+

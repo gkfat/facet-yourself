@@ -44,27 +44,27 @@
 
 ## 4. 第三階段：情緒智商、依附風格
 
-- [ ] 4.1 情緒智商：撰寫 40 題（四面向各 10）、計分（四面向，無總分）、結果元件與單元測試
-- [ ] 4.2 情緒智商內容：四面向 × 低／中／高的現況、優勢、留意、可以練習的方向；dry-run 驗證
-- [ ] 4.2b 情緒智商多維度整合：`reportInput`、`traitMappings`、`basePrice`，映射審稿、覆蓋檢查與實測
-- [ ] 4.3 依附風格：撰寫 24 題（兩向度各 12）、計分（兩向度、四象限、落在中間的處理）、結果元件與單元測試
-- [ ] 4.4 依附風格內容：四象限的中性描述與可以練習的方向，並固定說明「不是診斷，也不是固定標籤」；dry-run 驗證
-- [ ] 4.4b 依附風格多維度整合：`reportInput`、`traitMappings`、`basePrice`（兩向度與象限對應到特質端點），映射審稿、覆蓋檢查與實測
-- [ ] 4.5 兩個分析審稿後匯入、實測、開啟入口旗標
+- [x] 4.1 情緒智商：撰寫 40 題（四面向各 10）、計分（四面向，無總分）、結果元件與單元測試
+- [x] 4.2 情緒智商內容：四面向 × 低／中／高的現況、優勢、留意、可以練習的方向；dry-run 驗證
+- [x] 4.2b 情緒智商多維度整合：`reportInput`、`traitMappings`、`basePrice`，映射審稿、覆蓋檢查與實測
+- [x] 4.3 依附風格：撰寫 24 題（兩向度各 12）、計分（兩向度、四象限、落在中間的處理）、結果元件與單元測試
+- [x] 4.4 依附風格內容：四象限的中性描述與可以練習的方向，並固定說明「不是診斷，也不是固定標籤」；dry-run 驗證
+- [x] 4.4b 依附風格多維度整合：`reportInput`、`traitMappings`、`basePrice`（兩向度與象限對應到特質端點），映射審稿、覆蓋檢查與實測
+- [x] 4.5 兩個分析審稿後匯入、實測、開啟入口旗標
 
 ## 5. 移除大五人格（HEXACO 上線並確認可用之後）
 
-- [ ] 5.1 關閉大五人格的入口旗標 `BIG_FIVE_ENTRY_ENABLED`，確認首頁與 `/self-reports` 的卡片消失
-- [ ] 5.2 向使用者確認後，刪除所有使用者的 `bigFiveAttempts`（腳本，先 dry-run 列出筆數）
-- [ ] 5.3 向使用者確認後，刪除 Firestore 的 47 筆 `BIGFIVE` 固定內容（腳本，先 dry-run 列出文件）
-- [ ] 5.4 移除程式：`app/pages/big-five.vue`、`app/pages/analysis/big-five.vue`、`app/composables/useBigFive.ts`、`server/api/big-five/*`、`routeAccess` 規則、`bigFive` 的 service／repository／schema／常數／計分、對照與組合工具及其測試
-- [ ] 5.5 移除 `BIGFIVE` 的內容類型與金鑰（`fixedContentKeys`）、`content/fixed/big-five.json`；更新覆蓋預期總數與相關測試
-- [ ] 5.6 移除 `bigFiveAttempts` 在 `dataExpiry.service`（含回傳欄位與 `cron.schema`）、`deletion.service`、`provision-firebase` 的處理，並更新測試與 `api.yaml`
-- [ ] 5.7 移除 `useExploration` 與 `explorationProgress` 的大五完成狀態、首頁與 `/self-reports` 的大五卡片；更新主 spec（`big-five-test` 以 REMOVED 需求移除）
-- [ ] 5.8 `pnpm lint`、`pnpm test`、`nuxt build`、覆蓋檢查與 `check:bundle` 全部通過
+- [x] 5.1 關閉大五人格的入口旗標 `BIG_FIVE_ENTRY_ENABLED`，確認首頁與 `/self-reports` 的卡片消失
+- [x] 5.2 向使用者確認後，刪除所有使用者的 `bigFiveAttempts`（腳本，先 dry-run 列出筆數）
+- [x] 5.3 向使用者確認後，刪除 Firestore 的 47 筆 `BIGFIVE` 固定內容（腳本，先 dry-run 列出文件）
+- [x] 5.4 移除程式：`app/pages/big-five.vue`、`app/pages/analysis/big-five.vue`、`app/composables/useBigFive.ts`、`server/api/big-five/*`、`routeAccess` 規則、`bigFive` 的 service／repository／schema／常數／計分、對照與組合工具及其測試
+- [x] 5.5 移除 `BIGFIVE` 的內容類型與金鑰（`fixedContentKeys`）、`content/fixed/big-five.json`；更新覆蓋預期總數與相關測試
+- [x] 5.6 移除 `bigFiveAttempts` 在 `dataExpiry.service`（含回傳欄位與 `cron.schema`）、`deletion.service`、`provision-firebase` 的處理，並更新測試與 `api.yaml`
+- [x] 5.7 移除 `useExploration` 與 `explorationProgress` 的大五完成狀態、首頁與 `/self-reports` 的大五卡片；更新主 spec（`big-five-test` 以 REMOVED 需求移除）
+- [x] 5.8 `pnpm lint`、`pnpm test`、`nuxt build`、覆蓋檢查與 `check:bundle` 全部通過
 
 ## 6. 收尾
 
-- [ ] 6.1 逐一檢查所有題目都是自行設計、沒有翻譯或改寫任何既有量表，並確認每個測驗頁與結果頁都註明「自行設計、沒有經過信度與效度驗證」
-- [ ] 6.2 所有固定內容通過「無診斷用語」檢查（全文搜尋疾病、症、治療、障礙等字眼）
-- [ ] 6.3 確認每一種分析都能在多維度分析中被選擇並完成一次交叉比對；確認覆蓋檢查顯示所有 `ASSESSMENT` 內容完整、`pnpm exec vitest run` 全部通過、`nuxt build` 成功
+- [x] 6.1 逐一檢查所有題目都是自行設計、沒有翻譯或改寫任何既有量表，並確認每個測驗頁與結果頁都註明「自行設計、沒有經過信度與效度驗證」
+- [x] 6.2 所有固定內容通過「無診斷用語」檢查（全文搜尋疾病、症、治療、障礙等字眼）
+- [x] 6.3 確認每一種分析都能在多維度分析中被選擇並完成一次交叉比對；確認覆蓋檢查顯示所有 `ASSESSMENT` 內容完整、`pnpm exec vitest run` 全部通過、`nuxt build` 成功

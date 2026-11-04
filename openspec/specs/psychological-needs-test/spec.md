@@ -1,0 +1,19 @@
+# psychological-needs-test Specification
+
+## Purpose
+TBD - created by archiving change expand-self-analysis-dimensions. Update Purpose after archive.
+## Requirements
+### Requirement: 基本心理需求的題目與計分
+系統 SHALL 提供需求與動機測驗，依自我決定理論的三項基本心理需求（自主、勝任、關係）各有同數量的題目，使用 5 點同意程度量表。系統 MUST 計算三項需求各自的分數（0–100）與等級（低 < 40、中 40–60、高 > 60），MUST NOT 使用百分位。分數代表使用者目前這些需求被滿足的感受程度，結果 MUST 以此說明。
+
+#### Scenario: 三項需求
+- **WHEN** 使用者完成測驗
+- **THEN** 結果顯示自主、勝任、關係三項的分數與等級
+
+### Requirement: 動力上升與下降的情境
+每項需求的每個等級 SHALL 有固定內容：什麼情境容易讓動力上升、哪些環境可能讓動力下降、可以怎麼調整。結果頁 SHALL 把三項需求中偏低的項目列為「值得留意」，偏高的列為「目前比較被滿足」，MUST NOT 把低分描述為使用者的缺陷。
+
+#### Scenario: 結果頁的呈現
+- **WHEN** 顯示結果
+- **THEN** 三項需求各有動力上升與下降的情境說明，偏低的需求被列為值得留意的地方
+

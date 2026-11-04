@@ -2,9 +2,9 @@
 
 > 真相檔：`openspec/analysis/traceability.yaml`（本檔由 yaml 產生）。已廢止項目（ENT-015、DATA-017、REL-019、NFR-016、API-030 等）不納入追溯。
 > 更新：2026-10-27（納入「此刻／今日」類：FR-044 至 FR-055、UC-022 至 UC-030、API-040 至 API-052、DATA-020 至 DATA-023）
-> 更新：2026-11-03（納入「自我分析擴充」：FR-056 至 FR-073、UC-031 至 UC-046、API-058 至 API-060、DATA-024 與 DATA-025）
-> 更新：2026-11-03（重跑 data-modeling 後重新計算所有追溯鏈：舊的報告 API 已不存在，相關 FR 改列為 gap）
-> 更新：2026-11-03（補進既有的報告架構：FR-074 至 FR-084、UC-047 至 UC-053、ENT-024 至 ENT-027、DATA-026；舊的詳細分析與 summary 相關項目已標為 deprecated，不納入追溯）
+> 更新：2026-11-04（大五人格移除完成，移除相關 gap；前次：2026-11-03 納入「自我分析擴充」：FR-056 至 FR-073、UC-031 至 UC-046、API-058 至 API-060、DATA-024 與 DATA-025）
+> 更新：2026-11-04（大五人格移除完成，移除相關 gap；前次：2026-11-03 重跑 data-modeling 後重新計算所有追溯鏈：舊的報告 API 已不存在，相關 FR 改列為 gap）
+> 更新：2026-11-04（大五人格移除完成，移除相關 gap；前次：2026-11-03 補進既有的報告架構：FR-074 至 FR-084、UC-047 至 UC-053、ENT-024 至 ENT-027、DATA-026；舊的詳細分析與 summary 相關項目已標為 deprecated，不納入追溯）
 
 ## 追溯矩陣（以 FR 為主軸）
 
@@ -100,7 +100,6 @@
 - **render-drift** `/bazi/calculations`：render/api.yaml 有此路徑，但 api-model.yaml 沒有（render 應由 api-model 去除 x-trace 產生） → 建議：重跑 api-modeling：把路徑補進 api-model.yaml，再由它去除 x-trace 產生 render
 - **render-drift** `/fixed-results/mbti/{type}`：render/api.yaml 有此路徑，但 api-model.yaml 沒有（render 應由 api-model 去除 x-trace 產生） → 建議：重跑 api-modeling：把路徑補進 api-model.yaml，再由它去除 x-trace 產生 render
 - **render-drift** `/fixed-results/numerology/{number}`：render/api.yaml 有此路徑，但 api-model.yaml 沒有（render 應由 api-model 去除 x-trace 產生） → 建議：重跑 api-modeling：把路徑補進 api-model.yaml，再由它去除 x-trace 產生 render
-- **render-drift** `/big-five/results、/big-five/results/latest`：render/api.yaml 有這兩條已實作的大五人格路由（為通過 server/api.routes.test.ts 而直接補進去），但 api-model.yaml 沒有 → 建議：不補進 api-model：大五人格將隨 UC-045 整個移除，移除時一併從 render/api.yaml 拿掉
 
 ### LOW（31）
 
@@ -134,4 +133,3 @@
 - **planned-not-implemented** `API-061`：POST /report-snapshots/{snapshotId}/export（下載報告快照 PDF）為規劃中尚未實作；快照的 downloadCount、lastDownloadedAt 欄位也尚未存在；server/api.routes.test.ts 已將它列為尚未建置 → 建議：實作前確認扣點與重複下載規則（CTX-ASM-028）；實作後從 api.routes.test.ts 的 NOT_BUILT_YET 移除 /report-snapshots/{}/export
 - **pending-assumption** `CTX-ASM-028`：假設部分確認：改為下載 PDF 已確認，但每次下載扣 1 點與重複下載須確認的規則沿用原規則，未重新確認 → 建議：向 user 確認後更新 context.yaml 的 status
 - **deprecated-legacy-table** `DATA-007、DATA-008`：summaries 與 detailedReports 已標為 deprecated（由 reportSnapshots／DATA-026 取代）；對應的 ENT-006、ENT-007、AGG-006、AGG-007、RULE-005、006、019、030、033、EVT-005、008 與 UC-007、009、012、013 也已標為 deprecated，其餘仍適用的規則與事件已改指 AGG-021、AGG-009、AGG-010、AGG-008 → 建議：確認後移除或保留作歷史參考
-- **intentional-reference-to-deprecated** `EVT-027、RULE-072、RULE-073`：這三項描述「移除大五人格」，所以刻意指向已廢止的 AGG-020（大五人格紀錄）；大五人格移除完成後可一併標為 deprecated → 建議：大五人格移除完成後標為 deprecated

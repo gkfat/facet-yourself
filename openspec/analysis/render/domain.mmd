@@ -505,12 +505,6 @@ classDiagram
       +selected string_array
       +top string_array
     }
-    class BigFiveAttempt {
-      <<Entity>>
-      +attemptId string
-      +userId string
-      +scores object
-    }
     AssessmentDefinition o-- AssessmentItem
     AssessmentAttempt o-- AssessmentAnswers
     AssessmentAttempt o-- DimensionProfile
@@ -527,7 +521,6 @@ classDiagram
     AssessmentAttempt --> User : userId
     AssessmentAttempt ..> AssessmentDefinition : assessmentId + version
     FixedContent ..> AssessmentAttempt : 提供結果內容（ASSESSMENT）
-    BigFiveAttempt --> User : userId
     note for AssessmentDefinition "RULE-051 量表題的作答須每題恰好一次、值為範圍內的整數、不含未知題目；不合法回 400 並指出問題，不保存<br/>RULE-052 挑選題的作答須只含清單內的項目、數量符合規定、不重複，排序只含已挑選的項目；不合法回 400，不保存<br/>RULE-053 計分為固定規則的純函式、不呼叫 AI；同樣的作答永遠得到同樣的結果，分數並列時以固定規則決定順序<br/>RULE-067 所有分析的題目為自行設計，不翻譯、不改寫任何既有量表；每個測驗頁與結果頁註明「沒有經過信度與效度驗證、不是任何既有量表」並附免責聲明；版本識別帶 ref 標記<br/>RULE-069 ASSESSMENT 固定內容的金鑰須屬於某個已登錄分析；內容審稿後才發佈；覆蓋檢查顯示所有金鑰都已發佈後才開啟該分析的入口<br/>RULE-070 入口旗標關閉時不顯示卡片但頁面仍可由網址進入；已有未到期結果時卡片亮起，且該分析同時成為多維度分析的可選系統<br/>RULE-071 新增一種分析只需新增定義並登錄；識別碼不在登錄表中時回 404，不寫入任何文件<br/>RULE-074 每一種已登錄的自我分析都能在多維度分析中被選擇；分析定義必須提供報告轉接、特質映射與基礎點數，缺少任一項不能登錄<br/>RULE-076 自我分析在組合中的點數沿用既有算法（基礎點數加總 × 1.2 無條件捨去、上限 30、至少兩個系統）；選擇不足兩個或超過可選上限時拒絕<br/>RULE-077 自我分析的特質映射須通過既有的覆蓋檢查、以「傾向」描述並經審稿後才可納入多維度分析"
     note for AssessmentAttempt "RULE-063 自我分析在伺服器端驗證與計分，不信任前端的分數；結果需要的固定內容未發佈時回 404，不保存任何結果<br/>RULE-064 已登入會員的自我分析紀錄保存 3 個月，以完成時間起算，到期自動清除；刪除帳號與刪除測驗結果時一併刪除<br/>RULE-065 訪客完成自我分析時不寫入任何文件，結果只留在瀏覽器當次 session；登入後儲存時以保留的作答重新送出並重新計分<br/>RULE-066 取得結果時回傳最新一筆未到期的紀錄，僅限本人；沒有則回 404<br/>RULE-067 所有分析的題目為自行設計，不翻譯、不改寫任何既有量表；每個測驗頁與結果頁註明「沒有經過信度與效度驗證、不是任何既有量表」並附免責聲明；版本識別帶 ref 標記<br/>RULE-075 自我分析只有在使用者有未到期結果時才可在多維度分析中選擇，並以最新一筆未到期結果為輸入；沒有結果者顯示不可選並引導測驗；訪客不可取得多維度分析"
     note for DimensionScore "RULE-054 維度分數為 0–100，等級切點為低（< 40）、中（40–60）、高（> 60）；不使用百分位、常模或與他人比較"
@@ -538,7 +531,6 @@ classDiagram
     note for AttachmentResult "RULE-059 依附風格以靠近的焦慮與親密的迴避兩個連續向度描述，對應中性的象限描述；任一向度為中時說明落在兩象限之間；不貼固定標籤、不使用診斷用語，並說明依附模式會隨關係與經驗改變"
     note for CoreValuesResult "RULE-060 核心價值觀不評價價值的好壞或高下，結果以「什麼對我最重要」為主軸"
     note for FixedContent "RULE-068 自我分析的固定內容用「傾向」的語氣，不使用診斷用語、不提疾病、情緒障礙或治療、不與他人比較、不貼固定類型標籤<br/>RULE-069 ASSESSMENT 固定內容的金鑰須屬於某個已登錄分析；內容審稿後才發佈；覆蓋檢查顯示所有金鑰都已發佈後才開啟該分析的入口"
-    note for BigFiveAttempt "RULE-072 移除大五人格須先確認 HEXACO 可用，再依序：關閉入口、清除資料（所有使用者的 bigFiveAttempts 與 BIGFIVE 固定內容）、移除程式；刪除正式資料前須再向使用者確認；已存結果不匯出<br/>RULE-073 移除後不得留下孤兒資料、失效路由或殘缺的覆蓋預期；固定內容預期總筆數須同步更新，測試與建置須通過"
 
     %% report architecture (added to the analysis 2026-11-03)
     class ReportSnapshot {

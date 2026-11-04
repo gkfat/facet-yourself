@@ -26,7 +26,6 @@ erDiagram
     fixedContents ||--o{ kinUnlocks : "以 Kin 編號查詢內容，不存外鍵"
     users ||--o{ assessmentAttempts : "會員擁有多筆自我分析紀錄（子集合，隨帳號刪除、到期清除）"
     fixedContents ||--o{ assessmentAttempts : "邏輯關聯：以分析識別碼與結果組成 ASSESSMENT 內容金鑰查詢，不存外鍵"
-    users ||--o{ bigFiveAttempts : "會員擁有多筆大五人格紀錄（將隨大五人格移除而刪除）"
     users ||--o{ reportSnapshots : "會員擁有多份報告快照（子集合，隨帳號刪除、到期清除）"
     users {
         string userId PK
@@ -220,14 +219,6 @@ erDiagram
         string version
         map answers
         map result
-        timestamp completedAt
-        timestamp expiresAt
-    }
-    bigFiveAttempts {
-        string attemptId PK
-        string version
-        array_map_ answers
-        map scores
         timestamp completedAt
         timestamp expiresAt
     }

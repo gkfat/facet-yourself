@@ -283,8 +283,8 @@ entities:
       - { name: expiresAt, type: "timestamp", description: "完成後 3 個月" }
   - id: ENT-023
     name: BigFiveAttempt
-    nameZh: "大五人格作答紀錄（將移除）"
-    description: "現有大五人格測驗的會員紀錄；HEXACO 取代後整個移除"
+    nameZh: "大五人格作答紀錄（已移除）"
+    description: "原大五人格測驗的會員紀錄；HEXACO 取代後整個移除，資料與程式已於 2026-11-04 移除"
     useCases: ["UC-045"]
     attributes:
       - { name: attemptId, type: "string", description: "" }
@@ -293,7 +293,7 @@ entities:
       - { name: completedAt, type: "timestamp", description: "" }
       - { name: expiresAt, type: "timestamp", description: "完成後 3 個月" }
     status: deprecated
-    reason: "HEXACO 取代大五人格，大五人格將整個移除（CTX-CON-025、FR-071）"
+    reason: "HEXACO 取代大五人格，大五人格已整個移除（CTX-CON-025、FR-071）"
   - id: ENT-024
     name: ReportSnapshot
     nameZh: "報告快照"
@@ -772,7 +772,7 @@ aggregates:
     useCases: ["UC-045"]
     rationale: "大五人格紀錄隨整個測驗移除；須先於處理程式被清除，否則會成為沒有人清的孤兒資料"
     status: deprecated
-    reason: "隨大五人格移除（UC-045）"
+    reason: "隨大五人格移除（UC-045）；已移除完成"
   - id: AGG-021
     name: ReportSnapshotRecord
     root: ENT-024
@@ -941,6 +941,8 @@ domainEvents:
     triggeredBy: AGG-020
     description: "大五人格的資料與程式被移除"
     useCases: ["UC-045"]
+    status: deprecated
+    reason: "移除已完成（2026-11-04），事件不會再發生"
   - id: EVT-028
     name: ReportSnapshotSaved
     triggeredBy: AGG-021
@@ -1266,10 +1268,14 @@ businessRules:
     description: "移除大五人格須先確認 HEXACO 可用，再依序：關閉入口、清除資料（所有使用者的 bigFiveAttempts 與 BIGFIVE 固定內容）、移除程式；刪除正式資料前須再向使用者確認；已存結果不匯出"
     appliesTo: ["AGG-020"]
     useCases: ["UC-045"]
+    status: deprecated
+    reason: "移除已完成（2026-11-04）"
   - id: RULE-073
     description: "移除後不得留下孤兒資料、失效路由或殘缺的覆蓋預期；固定內容預期總筆數須同步更新，測試與建置須通過"
     appliesTo: ["AGG-020"]
     useCases: ["UC-045"]
+    status: deprecated
+    reason: "移除已完成（2026-11-04）"
   - id: RULE-074
     description: "每一種已登錄的自我分析都能在多維度分析中被選擇；分析定義必須提供報告轉接、特質映射與基礎點數，缺少任一項不能登錄"
     appliesTo: ["AGG-018"]

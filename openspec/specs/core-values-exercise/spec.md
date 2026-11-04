@@ -1,0 +1,23 @@
+# core-values-exercise Specification
+
+## Purpose
+TBD - created by archiving change expand-self-analysis-dimensions. Update Purpose after archive.
+## Requirements
+### Requirement: 價值觀清單的挑選與排序
+系統 SHALL 提供價值清單（約 40 項，如自由、安全、成就、關係、創造、秩序、影響力），使用者先從清單挑選固定數量的項目，再把其中最重要的幾項排出順序。系統 MUST 驗證挑選的項目都在清單內、數量符合規定、沒有重複，排序只含已挑選的項目。
+
+#### Scenario: 挑選與排序
+- **WHEN** 使用者挑選規定數量的價值並排出前幾名
+- **THEN** 系統接受並產出結果
+
+#### Scenario: 不合法的挑選
+- **WHEN** 項目不在清單內、數量不符或重複
+- **THEN** 系統回傳 400，不保存任何結果
+
+### Requirement: 價值觀的結果內容
+結果 SHALL 列出最重要的幾項價值，每項有固定的說明：它可能代表什麼、在選擇中如何出現、與其他價值拉扯時可以怎麼想。結果頁 MUST 以「什麼對我最重要？我為什麼做出某些選擇？」為主軸，MUST NOT 評價價值的好壞或高下。
+
+#### Scenario: 結果頁的呈現
+- **WHEN** 顯示結果
+- **THEN** 排名最前的價值各有說明與反思問題，且沒有任何價值被描述為較好或較差
+
