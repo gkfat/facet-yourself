@@ -47,8 +47,9 @@
                 v-if="isAuthenticated || (initialized && !mdAndUp)"
                 icon="mdi-menu"
                 variant="text"
-                aria-label="開啟選單"
-                @click="drawer = true"
+                :aria-label="drawer ? '收合選單' : '開啟選單'"
+                :aria-expanded="drawer"
+                @click="drawer = !drawer"
             />
             <template v-else-if="initialized">
                 <span class="login-promo mr-3">現在登入即贈送 3 點！</span>
@@ -99,6 +100,31 @@
             location="right"
             temporary
         >
+            <!-- Who is signed in: the Google avatar and the e-mail the account was opened with -->
+            <template
+                v-if="isAuthenticated"
+                #prepend
+            >
+                <div class="drawer-account">
+                    <v-avatar
+                        size="40"
+                        color="primary"
+                        variant="tonal"
+                    >
+                        <img
+                            v-if="avatarUrl"
+                            :src="avatarUrl"
+                            alt=""
+                            referrerpolicy="no-referrer"
+                            class="drawer-account__photo"
+                            @error="avatarFailed = true"
+                        >
+                        <span v-else>{{ accountInitial }}</span>
+                    </v-avatar>
+                    <span class="drawer-account__email">{{ user?.email }}</span>
+                </div>
+                <v-divider />
+            </template>
             <v-list
                 v-if="!mdAndUp"
                 nav
@@ -198,8 +224,13 @@ const accountItems: MenuItem[] = [
 const drawer = ref(false);
 const { mdAndUp } = useDisplay();
 const {
-    isAuthenticated, initialized, initAuthListener, signOut, welcomePoints, dismissWelcome,
+    user, isAuthenticated, initialized, initAuthListener, signOut, welcomePoints, dismissWelcome,
 } = useAuth();
+
+/** The Google photo, until it fails to load; then the first letter of the e-mail stands in for it */
+const avatarFailed = ref(false);
+const avatarUrl = computed(() => (avatarFailed.value ? '' : user.value?.photoURL ?? ''));
+const accountInitial = computed(() => (user.value?.email ?? '?').charAt(0).toUpperCase());
 const { viewer } = useViewer();
 const navItems = computed(() => allNavItems.filter((item) => !item.memberOnly || isAuthenticated.value));
 const {
@@ -234,6 +265,27 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.drawer-account {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+}
+
+.drawer-account__photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.drawer-account__email {
+    min-width: 0;
+    overflow: hidden;
+    font-size: 0.875rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .brand {
     display: inline-flex;
     align-items: baseline;
