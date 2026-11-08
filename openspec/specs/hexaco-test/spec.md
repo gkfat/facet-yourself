@@ -26,4 +26,4 @@ HEXACO 發佈並開啟入口後，系統 SHALL 以它作為特質類測驗，現
 
 #### Scenario: HEXACO 上線後
 - **WHEN** HEXACO 已發佈並可使用
-- **THEN** 首頁的「人格與心理特質」與 `/self-reports` 含 HEXACO 的卡片，且大五人格的入口已關閉
+- **THEN** 首頁的「人格與心理系統」與 `/self-reports` 含 HEXACO 的卡片，且大五人格的入口已關閉
