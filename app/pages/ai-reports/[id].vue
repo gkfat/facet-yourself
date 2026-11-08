@@ -82,7 +82,7 @@
             extended
             color="primary"
             location="bottom end"
-            to="/ai-reports"
+            to="/report?tab=history"
             prepend-icon="mdi-arrow-left"
             text="分析紀錄"
         />

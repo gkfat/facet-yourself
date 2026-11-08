@@ -6,6 +6,59 @@
             role="img"
             :aria-label="label"
         >
+            <defs>
+                <radialGradient id="web-nebula">
+                    <stop
+                        offset="0%"
+                        class="web__glow-core"
+                    />
+                    <stop
+                        offset="100%"
+                        class="web__glow-edge"
+                    />
+                </radialGradient>
+            </defs>
+
+            <!-- A faint nebula behind the web: it drifts whether or not anything is chosen -->
+            <circle
+                :cx="CENTER"
+                :cy="CENTER"
+                :r="RADIUS"
+                fill="url(#web-nebula)"
+            />
+            <g class="web__orbit web__orbit--slow">
+                <circle
+                    :cx="CENTER"
+                    :cy="CENTER"
+                    :r="RADIUS * 0.78"
+                    class="web__orbit-ring"
+                />
+                <circle
+                    v-for="dust in INNER_DUST"
+                    :key="dust.angle"
+                    :cx="CENTER + RADIUS * 0.78 * Math.cos(dust.angle)"
+                    :cy="CENTER + RADIUS * 0.78 * Math.sin(dust.angle)"
+                    :r="dust.size"
+                    class="web__dust"
+                />
+            </g>
+            <g class="web__orbit web__orbit--reverse">
+                <circle
+                    :cx="CENTER"
+                    :cy="CENTER"
+                    :r="RADIUS * 1.12"
+                    class="web__orbit-ring web__orbit-ring--dashed"
+                />
+                <circle
+                    v-for="dust in OUTER_DUST"
+                    :key="dust.angle"
+                    :cx="CENTER + RADIUS * 1.12 * Math.cos(dust.angle)"
+                    :cy="CENTER + RADIUS * 1.12 * Math.sin(dust.angle)"
+                    :r="dust.size"
+                    class="web__dust"
+                />
+            </g>
+
             <circle
                 :cx="CENTER"
                 :cy="CENTER"
@@ -38,7 +91,6 @@
                 <text
                     :x="node.lx"
                     :y="node.ly"
-                    :text-anchor="node.anchor"
                     :opacity="node.scale"
                     dominant-baseline="middle"
                     class="web__label"
@@ -77,6 +129,31 @@ const props = defineProps<{
 }>();
 
 const SIZE = 420;
+/** One turn of the whole web takes this long, so slow it is felt rather than watched */
+const DRIFT_MS_PER_TURN = 180_000;
+/** Specks on the two orbits; fixed so the picture is the same on every visit */
+const INNER_DUST = [
+    {
+        angle: 0.6, size: 1.6,
+    },
+    {
+        angle: 2.5, size: 1.1,
+    },
+    {
+        angle: 4.1, size: 1.4,
+    },
+] as const;
+const OUTER_DUST = [
+    {
+        angle: 1.3, size: 1.2,
+    },
+    {
+        angle: 3.4, size: 1.7,
+    },
+    {
+        angle: 5.2, size: 1.1,
+    },
+] as const;
 const CENTER = SIZE / 2;
 const RADIUS = 130;
 const LABEL_RADIUS = 152;
@@ -86,6 +163,9 @@ const SETTLED = 0.01;
 
 const points = ref<Point[]>([]);
 let frame: number | null = null;
+let driftFrame: number | null = null;
+/** How far the whole web has turned, added to every point's angle */
+const drift = ref(0);
 
 /** Where the chosen dimensions sit so that the web is balanced: evenly around the circle, a lone one in the middle */
 function slotOf(index: number, count: number) {
@@ -156,13 +236,31 @@ function sync() {
 
 watch(() => [...props.selected], sync, { immediate: true });
 
-onBeforeUnmount(() => {
-    if (frame !== null) cancelAnimationFrame(frame);
+function turn(previous: number | null) {
+    driftFrame = requestAnimationFrame((now) => {
+        if (previous !== null) drift.value += ((now - previous) / DRIFT_MS_PER_TURN) * 2 * Math.PI;
+
+        turn(now);
+    });
+}
+
+onMounted(() => {
+    if (!reducedMotion()) turn(null);
 });
 
+onBeforeUnmount(() => {
+    if (frame !== null) cancelAnimationFrame(frame);
+
+    if (driftFrame !== null) cancelAnimationFrame(driftFrame);
+});
+
+/** Rough width of a label, to slide it smoothly from "starts at the point" to "ends at the point" as it goes round */
+const widthOf = (text: string) => [...text].reduce((sum, char) => sum + ((char.codePointAt(0) ?? 0) > 255 ? 12 : 7), 0);
+
 const nodes = computed(() => points.value.map((point) => {
-    const cos = Math.cos(point.angle);
-    const sin = Math.sin(point.angle);
+    const angle = point.angle + drift.value;
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
     // The name sits outside the circle, on the line from the middle through the point
     const reach = Math.max(point.radius, RADIUS) + (LABEL_RADIUS - RADIUS);
 
@@ -170,9 +268,8 @@ const nodes = computed(() => points.value.map((point) => {
         ...point,
         x: CENTER + point.radius * cos,
         y: CENTER + point.radius * sin,
-        lx: CENTER + (point.radius === 0 ? 0 : reach * cos),
+        lx: point.radius === 0 ? CENTER - widthOf(point.label) / 2 : CENTER + reach * cos - (widthOf(point.label) * (1 - cos)) / 2,
         ly: CENTER + (point.radius === 0 ? 20 : reach * sin),
-        anchor: point.radius === 0 || Math.abs(cos) < 0.1 ? 'middle' as const : cos > 0 ? 'start' as const : 'end' as const,
     };
 }));
 
@@ -202,6 +299,57 @@ const label = computed(() => (nodes.value.length === 0
     fill: none;
     stroke: rgba(var(--v-theme-on-surface), 0.08);
     stroke-width: 1;
+}
+
+.web__glow-core {
+    stop-color: rgb(var(--v-theme-primary));
+    stop-opacity: 0.1;
+}
+
+.web__glow-edge {
+    stop-color: rgb(var(--v-theme-primary));
+    stop-opacity: 0;
+}
+
+.web__orbit {
+    transform-box: view-box;
+    transform-origin: center;
+    animation: web-turn 120s linear infinite;
+}
+
+.web__orbit--slow {
+    animation-duration: 140s;
+}
+
+.web__orbit--reverse {
+    animation-direction: reverse;
+    animation-duration: 200s;
+}
+
+.web__orbit-ring {
+    fill: none;
+    stroke: rgba(var(--v-theme-primary), 0.14);
+    stroke-width: 1;
+}
+
+.web__orbit-ring--dashed {
+    stroke-dasharray: 2 7;
+}
+
+.web__dust {
+    fill: rgba(var(--v-theme-primary), 0.5);
+}
+
+@keyframes web-turn {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .web__orbit {
+        animation: none;
+    }
 }
 
 .web__line {

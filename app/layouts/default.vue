@@ -39,7 +39,7 @@
 
             <v-btn
                 v-if="isAuthenticated"
-                to="/points"
+                to="/pricing?tab=points"
                 variant="tonal"
                 size="small"
                 prepend-icon="mdi-circle-multiple-outline"
@@ -182,12 +182,10 @@ type MenuItem = {
     to: string;
     label: string;
     icon: string;
-    /** Left out of the list a visitor sees */
-    memberOnly?: boolean;
 };
 
 /** The main routes, in the header from md up and in the drawer below it */
-const allNavItems: MenuItem[] = [
+const navItems: MenuItem[] = [
     ...(TAROT_ENTRY_ENABLED || KIN_ENTRY_ENABLED || RUNE_ENTRY_ENABLED
         ? [
             {
@@ -196,29 +194,20 @@ const allNavItems: MenuItem[] = [
         ]
         : []),
     {
-        to: '/profile', label: '個人資料', icon: 'mdi-account-outline', memberOnly: true,
-    },
-    {
         to: '/self-reports', label: '自我探索', icon: 'mdi-file-document-outline',
     },
     {
         to: '/report', label: '綜合分析', icon: 'mdi-layers-outline',
     },
     {
-        to: '/ai-reports', label: '分析紀錄', icon: 'mdi-creation-outline', memberOnly: true,
-    },
-    {
         to: '/pricing', label: '點數方案', icon: 'mdi-tag-outline',
     },
 ];
 
-/** The account itself: points, payments and settings, kept at the bottom */
+/** The account itself, kept at the bottom */
 const accountItems: MenuItem[] = [
     {
-        to: '/points', label: '點數紀錄', icon: 'mdi-circle-multiple-outline',
-    },
-    {
-        to: '/payments', label: '付款紀錄', icon: 'mdi-receipt-text-outline',
+        to: '/profile', label: '個人資料', icon: 'mdi-account-outline',
     },
     {
         to: '/me', label: '帳號管理', icon: 'mdi-cog-outline',
@@ -236,7 +225,6 @@ const avatarFailed = ref(false);
 const avatarUrl = computed(() => (avatarFailed.value ? '' : user.value?.photoURL ?? ''));
 const accountInitial = computed(() => (user.value?.email ?? '?').charAt(0).toUpperCase());
 const { viewer } = useViewer();
-const navItems = computed(() => allNavItems.filter((item) => !item.memberOnly || isAuthenticated.value));
 const {
     balance, refresh: refreshPoints, clear: clearPoints,
 } = usePoints();

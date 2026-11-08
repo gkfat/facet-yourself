@@ -20,8 +20,8 @@ export const aiReportAcceptedSchema = z.object({
     pointsDeducted: z.number().int().nonnegative(),
 });
 
-/** One AI report in full, to be read. */
-export const aiReportItemSchema = aiReportDocSchema.omit({ expiresAt: true }).extend({ id: z.string() });
+/** One AI report in full, to be read; expiresAt tells the member until when it is kept. */
+export const aiReportItemSchema = aiReportDocSchema.extend({ id: z.string() });
 
 /** One row of the member's list of AI reports: what the card needs, without the report itself. */
 export const aiReportSummarySchema = aiReportItemSchema.omit({

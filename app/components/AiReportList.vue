@@ -27,21 +27,6 @@
         </div>
 
         <template v-else>
-            <div class="d-flex justify-end mb-4">
-                <v-btn
-                    to="/report"
-                    color="primary"
-                    variant="flat"
-                    size="large"
-                    rounded="pill"
-                    class="create"
-                    prepend-icon="mdi-plus"
-                    append-icon="mdi-creation-outline"
-                >
-                    新增綜合分析
-                </v-btn>
-            </div>
-
             <v-card
                 v-for="item in reports"
                 :key="item.id"
@@ -50,7 +35,10 @@
             >
                 <v-card-text>
                     <div class="d-flex flex-wrap align-center ga-2 mb-2">
-                        <span class="text-caption text-medium-emphasis">{{ new Date(item.createdAt).toLocaleString('zh-TW') }}</span>
+                        <div class="d-flex flex-column">
+                            <span class="text-caption text-medium-emphasis">{{ new Date(item.createdAt).toLocaleString('zh-TW') }}</span>
+                            <span class="text-caption text-medium-emphasis">{{ expiryLabel(item.expiresAt) }}</span>
+                        </div>
                         <v-spacer />
                         <template v-if="item.status === 'GENERATING'">
                             <FacetLoader
@@ -83,6 +71,16 @@
                         >
                             查看報告
                         </v-btn>
+                        <v-btn
+                            v-if="item.status !== 'GENERATING'"
+                            size="small"
+                            color="error"
+                            variant="text"
+                            prepend-icon="mdi-delete-outline"
+                            @click="deleting = item"
+                        >
+                            刪除
+                        </v-btn>
                     </div>
 
                     <div class="d-flex flex-wrap ga-2 mb-2">
@@ -104,6 +102,48 @@
                 </v-card-text>
             </v-card>
         </template>
+
+        <v-dialog
+            :model-value="Boolean(deleting)"
+            max-width="420"
+            :persistent="removing"
+            @update:model-value="deleting = null"
+        >
+            <v-card>
+                <v-card-title class="pt-5 px-6">
+                    刪除這份分析？
+                </v-card-title>
+                <v-card-text class="px-6">
+                    刪除後無法復原，已用掉的點數也不會退回。
+                    <v-alert
+                        v-if="removeError"
+                        type="error"
+                        variant="tonal"
+                        class="mt-3"
+                    >
+                        {{ removeError }}
+                    </v-alert>
+                </v-card-text>
+                <v-card-actions class="px-6 pb-5">
+                    <v-spacer />
+                    <v-btn
+                        variant="text"
+                        :disabled="removing"
+                        @click="deleting = null"
+                    >
+                        取消
+                    </v-btn>
+                    <v-btn
+                        color="error"
+                        variant="flat"
+                        :loading="removing"
+                        @click="remove"
+                    >
+                        刪除
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </section>
 </template>
 
@@ -117,12 +157,24 @@ import {
 
 const POLL_MS = 3000;
 
-const { get } = useApi();
+const {
+    get, del,
+} = useApi();
 const { refresh: refreshPoints } = usePoints();
 
 const reports = ref<AiReportSummary[]>([]);
 const loading = ref(true);
 const failed = ref(false);
+
+const deleting = ref<AiReportSummary | null>(null);
+const removing = ref(false);
+const removeError = ref<string | null>(null);
+
+watch(deleting, () => {
+    removeError.value = null;
+});
+
+const expiryLabel = (expiresAt: number) => `${new Date(expiresAt).toLocaleDateString('zh-TW')} 到期`;
 
 const dimensions = [...DIMENSION_META, ...assessmentDimensions()];
 const metaOf = (system: string) => dimensions.find((meta) => meta.value === system);
@@ -142,6 +194,26 @@ async function load(silent = false) {
         if (!silent) failed.value = true;
     } finally {
         loading.value = false;
+    }
+}
+
+async function remove() {
+    const target = deleting.value;
+
+    if (!target) return;
+
+    removing.value = true;
+    removeError.value = null;
+
+    try {
+        await del<unknown>(`/api/ai-reports/${target.id}`);
+        reports.value = reports.value.filter((item) => item.id !== target.id);
+        deleting.value = null;
+    } catch (error) {
+        console.error('[ai-reports] failed to delete:', error);
+        removeError.value = '暫時無法刪除，請稍後再試。';
+    } finally {
+        removing.value = false;
     }
 }
 
@@ -179,19 +251,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.create {
-    padding-inline: 24px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    box-shadow: 0 4px 14px rgba(var(--v-theme-primary), 0.35);
-    transition: transform 0.15s, box-shadow 0.15s;
-}
-
-.create:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(var(--v-theme-primary), 0.45);
-}
-
 .chip__text {
     color: rgb(var(--v-theme-on-surface));
 }

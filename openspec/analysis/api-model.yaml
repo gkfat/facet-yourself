@@ -1202,6 +1202,44 @@ paths:
         domainModel: [ENT-028, AGG-025, VO-028, VO-029, VO-039]
         businessRules: [RULE-098, RULE-100, RULE-101]
         requirements: [NFR-003]
+    delete:
+      operationId: deleteAiReport
+      summary: "刪除 AI 報告"
+      description: "本人刪除自己的一份 AI 報告，無法復原，已扣的點數不退。他人的 id 與不存在的 id 回 404；生成中的報告回 409（等它完成或失敗後才能刪）。"
+      tags: [ReportSnapshots]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "已刪除"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                required: [id]
+        "401":
+          "$ref": "#/components/responses/Unauthorized"
+        "404":
+          "$ref": "#/components/responses/NotFound"
+        "409":
+          description: "報告還在生成中，暫時不能刪除（code: REPORT_GENERATING）"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponse"
+      x-trace:
+        id: API-066
+        useCases: [UC-055]
+        domainModel: [ENT-028, AGG-025]
+        businessRules: [RULE-098, RULE-101]
+        requirements: [FR-087]
   "/report-snapshots":
     get:
       operationId: listReportSnapshots
@@ -2809,7 +2847,10 @@ components:
         createdAt:
           type: integer
           description: "epoch 毫秒；報告保存到建立後 6 個月"
-      required: [id, sources, question, status, failureReason, cost, createdAt]
+        expiresAt:
+          type: integer
+          description: "epoch 毫秒；到期時間（建立後 6 個月），到期後讀取回 404，也可由本人提前刪除"
+      required: [id, sources, question, status, failureReason, cost, createdAt, expiresAt]
     AiReportItem:
       allOf:
         - "$ref": "#/components/schemas/AiReportSummary"

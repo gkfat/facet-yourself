@@ -38,7 +38,7 @@ import {
     addMonths, taipeiDateKey,
 } from '../../shared/utils/time';
 import {
-    InsufficientPointsError, NotFoundError, UnprocessableError, ValidationError, errorMessage,
+    ConflictError, InsufficientPointsError, NotFoundError, UnprocessableError, ValidationError, errorMessage,
 } from '../../shared/types/errors';
 
 const HOUR_MS = 60 * 60 * 1000;
@@ -348,7 +348,7 @@ export class AiReportService extends BaseService {
             .filter(({ doc }) => doc.expiresAt > now)
             .map(({
                 id, doc: {
-                    expiresAt: _expiresAt, blocks: _blocks, modelName: _modelName, promptVersion: _promptVersion, ...rest
+                    blocks: _blocks, modelName: _modelName, promptVersion: _promptVersion, ...rest
                 },
             }) => ({
                 id, ...rest,
@@ -372,15 +372,32 @@ export class AiReportService extends BaseService {
             doc = await read();
         }
 
-        const {
-            expiresAt, ...rest
-        } = doc;
-
-        if (expiresAt <= this.clock()) throw new NotFoundError('AI report');
+        if (doc.expiresAt <= this.clock()) throw new NotFoundError('AI report');
 
         return {
-            id, ...rest,
+            id, ...doc,
         };
+    }
+
+    /** The member deletes one of their reports. One still being made is refused: the worker would give the points back or finish it. */
+    async delete(uid: string, id: string): Promise<void> {
+        const ref = this.repository.aiReportRef(uid, id);
+
+        await this.repository.runTransaction(async (tx) => {
+            const snap = await tx.get(ref);
+
+            if (!snap.exists) throw new NotFoundError('AI report');
+
+            if (aiReportDocSchema.parse(snap.data()).status === 'GENERATING') {
+                throw new ConflictError('The report is still being made', undefined, 'REPORT_GENERATING');
+            }
+
+            tx.delete(ref);
+        });
+
+        this.logInfo('ai report deleted', {
+            action: 'delete', userId: uid, data: { id },
+        });
     }
 
     private isStale(doc: AiReportDoc): boolean {

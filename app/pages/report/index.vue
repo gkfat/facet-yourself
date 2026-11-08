@@ -7,102 +7,118 @@
         />
 
         <GuestNotice v-if="!isAuthenticated">
-            綜合分析要登入後，用點數取得，登入後可以在「分析紀錄」回頭看過去的報告。
+            綜合分析要登入後，用點數取得，登入後可以在「分析紀錄」分頁回頭看過去的報告。
         </GuestNotice>
 
         <template v-else>
-            <v-alert
-                v-if="problem"
-                :type="problem.type"
-                variant="tonal"
+            <v-tabs
+                v-model="tab"
                 class="mb-4"
             >
-                {{ problem.message }}
-                <template
-                    v-if="problem.to"
-                    #append
+                <v-tab value="new">
+                    新分析
+                </v-tab>
+                <v-tab value="history">
+                    分析紀錄
+                </v-tab>
+            </v-tabs>
+
+            <AiReportList v-if="tab === 'history'" />
+
+            <template v-else>
+                <v-alert
+                    v-if="problem"
+                    :type="problem.type"
+                    variant="tonal"
+                    class="mb-4"
                 >
-                    <v-btn
-                        :to="problem.to"
-                        size="small"
-                        variant="text"
+                    {{ problem.message }}
+                    <template
+                        v-if="problem.to"
+                        #append
                     >
-                        {{ problem.action }}
-                    </v-btn>
-                </template>
-            </v-alert>
-
-            <v-card
-                variant="outlined"
-                class="mb-8 picker"
-            >
-                <v-card-text class="pa-5">
-                    <div class="text-subtitle-1 font-weight-medium mb-3">
-                        選擇要分析的維度
-                    </div>
-
-                    <DimensionWeb
-                        :options="options"
-                        :selected="selected"
-                        class="mb-4"
-                    />
-
-                    <v-chip-group
-                        v-model="selected"
-                        multiple
-                        column
-                        class="chips mb-4"
-                    >
-                        <v-chip
-                            v-for="option in options"
-                            :key="option.value"
-                            :value="option.value"
-                            :disabled="!option.ready"
-                            :title="option.ready ? undefined : `需要：${option.need}`"
-                            :prepend-icon="option.icon"
-                            filter
-                            variant="outlined"
-                            color="primary"
-                            size="large"
-                        >
-                            {{ option.label }}
-                        </v-chip>
-                    </v-chip-group>
-
-                    <v-textarea
-                        v-model="question"
-                        label="想問 AI 的事（選填）"
-                        placeholder="例如：我最近在猶豫要不要換工作，這些特質怎麼看？"
-                        :counter="AI_QUESTION_MAX_LENGTH"
-                        :maxlength="AI_QUESTION_MAX_LENGTH"
-                        rows="2"
-                        auto-grow
-                        variant="outlined"
-                        hide-details="auto"
-                        class="mb-4"
-                    />
-
-                    <div class="d-flex flex-wrap align-center ga-3">
-                        <div>
-                            <div class="text-body-1 font-weight-medium">
-                                {{ cost === null ? '請選擇至少一個系統' : `已選 ${selected.length} 個系統，共 ${cost} 點` }}
-                            </div>
-                        </div>
-                        <v-spacer />
                         <v-btn
-                            color="primary"
-                            size="x-large"
-                            variant="flat"
-                            class="start"
-                            :disabled="cost === null"
-                            prepend-icon="mdi-creation-outline"
-                            @click="confirming = true"
+                            :to="problem.to"
+                            size="small"
+                            variant="text"
                         >
-                            {{ startLabel }}
+                            {{ problem.action }}
                         </v-btn>
-                    </div>
-                </v-card-text>
-            </v-card>
+                    </template>
+                </v-alert>
+
+                <v-card
+                    variant="outlined"
+                    class="mb-8 picker"
+                >
+                    <v-card-text class="pa-5">
+                        <div class="text-subtitle-1 font-weight-medium mb-3">
+                            選擇要分析的維度
+                        </div>
+
+                        <DimensionWeb
+                            :options="options"
+                            :selected="selected"
+                            class="mb-4"
+                        />
+
+                        <v-chip-group
+                            v-model="selected"
+                            multiple
+                            column
+                            class="chips mb-4"
+                        >
+                            <v-chip
+                                v-for="option in options"
+                                :key="option.value"
+                                :value="option.value"
+                                :disabled="!option.ready"
+                                :title="option.ready ? undefined : `需要：${option.need}`"
+                                :prepend-icon="option.icon"
+                                filter
+                                variant="outlined"
+                                color="primary"
+                                size="large"
+                            >
+                                {{ option.label }}
+                            </v-chip>
+                        </v-chip-group>
+
+                        <v-textarea
+                            v-model="question"
+                            label="想問 AI 的事（選填）"
+                            placeholder="例如：我最近在猶豫要不要換工作，這些特質怎麼看？"
+                            :counter="AI_QUESTION_MAX_LENGTH"
+                            :maxlength="AI_QUESTION_MAX_LENGTH"
+                            rows="2"
+                            auto-grow
+                            variant="outlined"
+                            hide-details="auto"
+                            class="mb-4"
+                        />
+
+                        <div class="d-flex flex-wrap align-center ga-3">
+                            <div>
+                                <div class="text-body-1 font-weight-medium">
+                                    {{ cost === null ? '請選擇至少一個系統' : `已選 ${selected.length} 個系統，共 ${cost} 點` }}
+                                </div>
+                            </div>
+                            <v-spacer />
+                            <v-btn
+                                color="primary"
+                                size="x-large"
+                                variant="flat"
+                                class="start"
+                                :disabled="cost === null"
+                                prepend-icon="mdi-creation-outline"
+                                @click="confirming = true"
+                            >
+                                {{ startLabel }}
+                            </v-btn>
+                        </div>
+                    </v-card-text>
+                </v-card>
+            </template>
         </template>
 
         <v-dialog
@@ -190,6 +206,17 @@ import {
 
 useHead({ title: '綜合分析' });
 
+const route = useRoute();
+const router = useRouter();
+
+/** The tab lives in the query, so the old /ai-reports address and a finished request can land on the history */
+const tab = computed<'new' | 'history'>({
+    get: () => (route.query.tab === 'history' ? 'history' : 'new'),
+    set: (value) => {
+        void router.replace({ query: value === 'history' ? { tab: 'history' } : {} });
+    },
+});
+
 type Problem = {
     type: 'error' | 'warning' | 'info';
     message: string;
@@ -235,7 +262,6 @@ const startLabel = computed(() => {
 });
 
 // A link may bring the systems and the question (a report's own page, or "ask again"): choose them once what the member has is known
-const route = useRoute();
 const requested = typeof route.query.systems === 'string' ? route.query.systems.split(',') : [];
 let preselected = requested.length === 0;
 
@@ -260,7 +286,7 @@ function problemFrom(error: unknown): Problem {
 
     if (failure.statusCode === 402) {
         return {
-            type: 'warning', message: '點數不足，沒有扣點。', to: '/points', action: '查看點數',
+            type: 'warning', message: '點數不足，沒有扣點。', to: '/pricing?tab=points', action: '查看點數',
         };
     }
 
@@ -320,7 +346,7 @@ async function start() {
         void refreshPoints();
 
         // The list of AI reports shows it being made and the result when it is done
-        await navigateTo('/ai-reports');
+        await navigateTo({ path: '/report', query: { tab: 'history' } });
     } catch (error) {
         console.error('[report] failed to start:', error);
         confirming.value = false;

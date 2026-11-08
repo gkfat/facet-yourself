@@ -17,7 +17,7 @@ import {
 } from '../../shared/schemas/firestore/aiAnalysis.schema';
 import { aiReportDocSchema } from '../../shared/schemas/firestore/aiReport.schema';
 import {
-    InsufficientPointsError, NotFoundError, ValidationError,
+    ConflictError, InsufficientPointsError, NotFoundError, ValidationError,
 } from '../../shared/types/errors';
 import { DAY_MS } from '../../shared/utils/time';
 
@@ -544,7 +544,7 @@ describe('AiReportService', () => {
             expect(items[1]?.question).toBe('第一個問題');
 
             for (const item of items) {
-                expect(item).not.toHaveProperty('expiresAt');
+                expect(item.expiresAt).toBeGreaterThan(item.createdAt);
                 expect(item).not.toHaveProperty('blocks');
             }
 
@@ -557,13 +557,30 @@ describe('AiReportService', () => {
             const report = await service.get('u1', 'key-aaaaaaaa');
 
             expect(report.blocks.length).toBeGreaterThan(1);
-            expect(report).not.toHaveProperty('expiresAt');
+            expect(report.expiresAt).toBeGreaterThan(report.createdAt);
 
             await expect(service.get('u2', 'key-aaaaaaaa')).rejects.toBeInstanceOf(NotFoundError);
             await expect(service.get('u1', 'nothing-here')).rejects.toBeInstanceOf(NotFoundError);
 
             clock.now += 400 * DAY_MS;
             await expect(service.get('u1', 'key-aaaaaaaa')).rejects.toBeInstanceOf(NotFoundError);
+        });
+
+        it('deletes the member\'s own report, never another member\'s, and not found for a missing one', async () => {
+            await service.delete('u1', 'key-aaaaaaaa');
+
+            expect((await service.list('u1')).map((item) => item.id)).toEqual(['key-bbbbbbbb']);
+            expect((await db.doc('users/u2/aiReports/other').get()).exists).toBe(true);
+
+            await expect(service.delete('u1', 'key-aaaaaaaa')).rejects.toBeInstanceOf(NotFoundError);
+            await expect(service.delete('u1', 'other')).rejects.toBeInstanceOf(NotFoundError);
+        });
+
+        it('refuses to delete a report that is still being made', async () => {
+            await db.doc('users/u1/aiReports/key-aaaaaaaa').update({ status: 'GENERATING' });
+
+            await expect(service.delete('u1', 'key-aaaaaaaa')).rejects.toBeInstanceOf(ConflictError);
+            expect((await db.doc('users/u1/aiReports/key-aaaaaaaa').get()).exists).toBe(true);
         });
     });
 });

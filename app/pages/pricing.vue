@@ -11,102 +11,123 @@
             登入即贈 {{ WELCOME_POINTS }} 點，可以直接用在綜合分析，先試試再決定。
         </GuestNotice>
 
-        <!-- What the points are mostly for, said first: the plans below only make sense once this is clear -->
-        <section class="mb-6">
-            <h2 class="section-title">
-                綜合分析是什麼？
-            </h2>
-            <v-card
-                variant="outlined"
-                class="mt-2"
-            >
-                <v-card-text>
-                    <p class="mb-4">
-                        單一角度只照見你的一部分。綜合分析把你選的幾個維度放在一起，由 AI 比對它們互相呼應、彼此拉扯的地方，寫成一份只屬於你的完整報告。
-                    </p>
-                    <ol class="steps">
-                        <li
-                            v-for="(step, index) in STEPS"
-                            :key="step.title"
-                            class="steps__item"
-                        >
-                            <span class="steps__no">{{ index + 1 }}</span>
-                            <div>
-                                <div class="text-subtitle-2">
-                                    {{ step.title }}
-                                </div>
-                                <div class="text-body-2 text-medium-emphasis">
-                                    {{ step.text }}
-                                </div>
-                            </div>
-                        </li>
-                    </ol>
-                    <v-btn
-                        to="/report"
-                        variant="text"
-                        color="primary"
-                        append-icon="mdi-arrow-right"
-                        class="mt-3 px-0"
-                    >
-                        看看綜合分析
-                    </v-btn>
-                </v-card-text>
-            </v-card>
-        </section>
+        <v-tabs
+            v-if="isAuthenticated"
+            v-model="tab"
+            class="mb-6"
+        >
+            <v-tab value="plans">
+                點數方案
+            </v-tab>
+            <v-tab value="points">
+                點數紀錄
+            </v-tab>
+            <v-tab value="payments">
+                付款紀錄
+            </v-tab>
+        </v-tabs>
 
-        <!-- The three plans: each one is written for a different state of mind, not just a bigger number -->
-        <section class="mb-6">
-            <h2 class="section-title">
-                選一個適合你的步調
-            </h2>
-            <p class="text-body-2 text-medium-emphasis mb-4">
-                點數買了不會過期，也不是訂閱。想用的時候再用，不用急著用完。
-            </p>
+        <PricingPointLedger v-if="isAuthenticated && tab === 'points'" />
+        <PricingPaymentHistory v-else-if="isAuthenticated && tab === 'payments'" />
 
-            <LoadingState v-if="loading" />
-            <v-alert
-                v-else-if="loadError"
-                type="error"
-                variant="tonal"
-            >
-                {{ loadError }}
-            </v-alert>
-            <v-alert
-                v-else-if="!plans.length"
-                type="info"
-                variant="tonal"
-            >
-                方案準備中，目前還不能購買。免費的內容都可以照常使用。
-            </v-alert>
-            <v-row v-else>
-                <v-col
-                    v-for="plan in plans"
-                    :key="plan.packageId"
-                    cols="12"
-                    md="4"
-                    :order="plan.featured ? 'first' : undefined"
-                    :order-md="plan.index"
+        <template v-else>
+            <!-- What the points are mostly for, said first: the plans below only make sense once this is clear -->
+            <section class="mb-6">
+                <h2 class="section-title">
+                    綜合分析是什麼？
+                </h2>
+                <v-card
+                    variant="outlined"
+                    class="mt-2"
                 >
-                    <PricingPlanCard
-                        :name="plan.name"
-                        :tagline="plan.tagline"
-                        :points="plan.points"
-                        :price="plan.price"
-                        :per-point="plan.perPoint"
-                        :facts="plan.facts"
-                        :audience="plan.audience"
-                        :badge="plan.badge"
-                        :featured="plan.featured"
-                        :to="plan.to"
-                        :action="plan.action"
-                    />
-                </v-col>
-            </v-row>
+                    <v-card-text>
+                        <p class="mb-4">
+                            單一角度只照見你的一部分。綜合分析把你選的幾個維度放在一起，由 AI 比對它們互相呼應、彼此拉扯的地方，寫成一份只屬於你的完整報告。
+                        </p>
+                        <ol class="steps">
+                            <li
+                                v-for="(step, index) in STEPS"
+                                :key="step.title"
+                                class="steps__item"
+                            >
+                                <span class="steps__no">{{ index + 1 }}</span>
+                                <div>
+                                    <div class="text-subtitle-2">
+                                        {{ step.title }}
+                                    </div>
+                                    <div class="text-body-2 text-medium-emphasis">
+                                        {{ step.text }}
+                                    </div>
+                                </div>
+                            </li>
+                        </ol>
+                        <v-btn
+                            to="/report"
+                            variant="text"
+                            color="primary"
+                            append-icon="mdi-arrow-right"
+                            class="mt-3 px-0"
+                        >
+                            看看綜合分析
+                        </v-btn>
+                    </v-card-text>
+                </v-card>
+            </section>
 
-            <p class="text-caption text-medium-emphasis mt-3 mb-0">
-                點數為數位內容，購買後立即提供，恕不退款。
-            </p>
-        </section>
+            <!-- The three plans: each one is written for a different state of mind, not just a bigger number -->
+            <section class="mb-6">
+                <h2 class="section-title">
+                    選一個適合你的步調
+                </h2>
+                <p class="text-body-2 text-medium-emphasis mb-4">
+                    點數買了不會過期，也不是訂閱。想用的時候再用，不用急著用完。
+                </p>
+
+                <LoadingState v-if="loading" />
+                <v-alert
+                    v-else-if="loadError"
+                    type="error"
+                    variant="tonal"
+                >
+                    {{ loadError }}
+                </v-alert>
+                <v-alert
+                    v-else-if="!plans.length"
+                    type="info"
+                    variant="tonal"
+                >
+                    方案準備中，目前還不能購買。免費的內容都可以照常使用。
+                </v-alert>
+                <v-row v-else>
+                    <v-col
+                        v-for="plan in plans"
+                        :key="plan.packageId"
+                        cols="12"
+                        md="4"
+                        :order="plan.featured ? 'first' : undefined"
+                        :order-md="plan.index"
+                    >
+                        <PricingPlanCard
+                            :name="plan.name"
+                            :tagline="plan.tagline"
+                            :points="plan.points"
+                            :price="plan.price"
+                            :per-point="plan.perPoint"
+                            :facts="plan.facts"
+                            :audience="plan.audience"
+                            :badge="plan.badge"
+                            :featured="plan.featured"
+                            :to="plan.to"
+                            :action="plan.action"
+                        />
+                    </v-col>
+                </v-row>
+
+                <p class="text-caption text-medium-emphasis mt-3 mb-0">
+                    點數為數位內容，購買後立即提供，恕不退款。
+                </p>
+            </section>
+        </template>
     </div>
 </template>
 
@@ -120,6 +141,19 @@ import {
 useHead({ title: '點數方案' });
 
 const { isAuthenticated } = useAuth();
+
+type Tab = 'plans' | 'points' | 'payments';
+
+const route = useRoute();
+const router = useRouter();
+
+/** The tab lives in the query, so the old /points and /payments addresses and the header balance can link straight to one */
+const tab = computed<Tab>({
+    get: () => (route.query.tab === 'points' || route.query.tab === 'payments' ? route.query.tab : 'plans'),
+    set: (value) => {
+        void router.replace({ query: value === 'plans' ? {} : { tab: value } });
+    },
+});
 
 const packages = ref<PointPackageItem[]>([]);
 const loading = ref(true);
