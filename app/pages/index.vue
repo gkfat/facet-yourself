@@ -151,8 +151,8 @@ import {
     BAZI_ENTRY_ENABLED, ELEMENT_LABELS,
 } from '../../shared/constants/bazi';
 import { assessmentCards } from '../utils/assessmentCards';
-import type {
-    Analysis, SystemKey,
+import {
+    SYSTEMS, type Analysis,
 } from '../utils/homeAnalyses';
 import { KIN_ENTRY_ENABLED } from '../../shared/constants/mayaKin';
 import { WELCOME_POINTS } from '../../shared/constants/points';
@@ -212,27 +212,6 @@ const analysableBloodType = computed(() => (bloodTypeInput.value && bloodTypeInp
 
 /** Unlocked once the birth date, time and city are all there: what a birth chart needs. */
 const advancedUnlocked = computed(() => Boolean(zodiacSign.value && birthTimeInput.value && birthPlaceInput.value));
-
-/** The two kinds of analysis the app offers, with what each one is for; the analyses themselves are listed below. */
-const SYSTEMS: readonly {
-    key: SystemKey;
-    title: string;
-    icon: string;
-    purpose: string;
-}[] = [
-    {
-        key: 'symbolic',
-        title: '命理與象徵系統',
-        icon: 'mdi-star-four-points-outline',
-        purpose: '娛樂、文化探索、象徵性解讀',
-    },
-    {
-        key: 'personality',
-        title: '人格與心理特質',
-        icon: 'mdi-head-cog-outline',
-        purpose: '了解特質傾向與個人差異',
-    },
-];
 
 /** What the welcome points are worth, in reports of the size the pricing page measures by */
 const welcomeReach = yardstickReach(WELCOME_POINTS);
@@ -297,32 +276,6 @@ const analyses = computed<Analysis[]>(() => {
             ready: bloodType !== null,
             to: bloodType ? '/full-report/blood' : undefined,
         },
-        {
-            key: 'numerology',
-            system: 'symbolic',
-            title: '生命靈數',
-            icon: 'mdi-numeric',
-            tone: '#7a5aa6',
-            description: '把出生日期化成數字，看你的天賦傾向與今年的節奏。',
-            need: '需要：出生日期',
-            action: birthDateInput.value && sign ? `看生命靈數（數字 ${lifePathNumber(birthDateInput.value)}）` : '看生命靈數',
-            lockedHint: '先填寫出生日期',
-            ready: sign !== null,
-            to: '/full-report/numerology',
-        },
-        {
-            key: 'humanDesign',
-            system: 'symbolic',
-            title: '人類圖分析',
-            icon: 'mdi-vector-triangle',
-            tone: '#2e7d5b',
-            description: '依出生當下的星體位置，看你的能量怎麼運作、怎樣做決定最順。',
-            need: '需要：出生日期、時間與城市',
-            action: state.value.hasHumanDesign ? `看人類圖分析（${humanDesignType.value ?? '已計算'}）` : '看人類圖分析',
-            lockedHint: '先填寫出生時間與城市',
-            ready: advancedUnlocked.value,
-            to: '/full-report/human-design',
-        },
         ...(BAZI_ENTRY_ENABLED
             ? [{
                 key: 'bazi',
@@ -354,6 +307,19 @@ const analyses = computed<Analysis[]>(() => {
             }]
             : []),
         {
+            key: 'numerology',
+            system: 'symbolic',
+            title: '生命靈數',
+            icon: 'mdi-numeric',
+            tone: '#7a5aa6',
+            description: '把出生日期化成數字，看你的天賦傾向與今年的節奏。',
+            need: '需要：出生日期',
+            action: birthDateInput.value && sign ? `看生命靈數（數字 ${lifePathNumber(birthDateInput.value)}）` : '看生命靈數',
+            lockedHint: '先填寫出生日期',
+            ready: sign !== null,
+            to: '/full-report/numerology',
+        },
+        {
             key: 'mbti',
             system: 'personality',
             title: 'MBTI 人格分析',
@@ -372,7 +338,7 @@ const analyses = computed<Analysis[]>(() => {
 
             return {
                 key: card.id,
-                system: 'personality' as const,
+                system: card.system,
                 title: card.title,
                 icon: card.icon,
                 tone: card.tone,
@@ -385,6 +351,19 @@ const analyses = computed<Analysis[]>(() => {
                 to: done ? card.resultTo : card.takeTo,
             };
         }),
+        {
+            key: 'humanDesign',
+            system: 'personality',
+            title: '人類圖分析',
+            icon: 'mdi-vector-triangle',
+            tone: '#2e7d5b',
+            description: '依出生當下的星體位置，看你的能量怎麼運作、怎樣做決定最順。',
+            need: '需要：出生日期、時間與城市',
+            action: state.value.hasHumanDesign ? `看人類圖分析（${humanDesignType.value ?? '已計算'}）` : '看人類圖分析',
+            lockedHint: '先填寫出生時間與城市',
+            ready: advancedUnlocked.value,
+            to: '/full-report/human-design',
+        },
     ];
 });
 
