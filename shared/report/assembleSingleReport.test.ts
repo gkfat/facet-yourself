@@ -54,8 +54,9 @@ describe('assembleSingleReport', () => {
         });
         const textsOf = (key: string) => report.blocks.find((b) => b.key === key)?.segments.map((s) => s.text) ?? [];
 
-        expect(keys.slice(0, 3)).toEqual([
+        expect(keys.slice(0, 4)).toEqual([
             'position',
+            'keypoints',
             'overview',
             'facts',
         ]);
@@ -124,13 +125,15 @@ describe('assembleSingleReport', () => {
         expect(blockKeys(zodiac())).not.toContain('overview');
     });
 
-    it('puts the blocks in the one order: position, facts, conclusions, effects, advice, limits', () => {
+    it('puts the blocks in the one order: position, key points, facts, conclusions, interactions, effects, advice, limits', () => {
         const keys = blockKeys(zodiac());
 
         expect(keys[0]).toBe('position');
-        expect(keys[1]).toBe('facts');
-        expect(keys[2]).toBe('summary');
-        expect(keys.slice(3, -2).every((key) => key.startsWith('impact:'))).toBe(true);
+        expect(keys[1]).toBe('keypoints');
+        expect(keys[2]).toBe('facts');
+        expect(keys[3]).toBe('summary');
+        expect(keys.slice(4, -2).filter((key) => key !== 'synthesis').every((key) => key.startsWith('impact:'))).toBe(true);
+        expect(keys.indexOf('synthesis')).toBeLessThan(keys.findIndex((key) => key.startsWith('impact:')));
         expect(keys.slice(-2)).toEqual(['advice', 'limits']);
     });
 
@@ -201,7 +204,13 @@ describe('assembleSingleReport', () => {
                 expect(item.sources.some((source) => source.term === 'zodiac:scorpio' && source.system === 'ZODIAC')).toBe(true);
             }
 
-            expect(summary[0]?.text).toContain('依據：太陽星座天蠍座');
+            expect(summary[0]?.text).toContain('從「太陽星座：天蠍座」來看，你傾向');
+        });
+
+        it('shows no basis in brackets: the fact leads the sentence that follows from it', () => {
+            const texts = (assembleSingleReport(zodiac()).blocks.find((b) => b.key === 'summary')?.segments ?? []).map((s) => s.text);
+
+            expect(texts.some((text) => text.includes('依據：'))).toBe(false);
         });
 
         it('makes no conclusion from a trait whose fact is not shown', () => {
@@ -283,6 +292,72 @@ describe('assembleSingleReport', () => {
         });
     });
 
+    describe('the interactions of the traits', () => {
+        const entry = (axisEnd: string): MappingEntry => ({
+            system: 'ZODIAC', term: 'zodiac:scorpio', axisEnd, method: 'keyword', kind: 'trait',
+        });
+        const textsOf = (report: ReturnType<typeof assembleSingleReport>, key: string) => report.blocks.find((b) => b.key === key)?.segments.map((s) => s.text) ?? [];
+
+        it('says what two traits of the report do together, with the question that checks it', () => {
+            const report = assembleSingleReport(zodiac(), { mappings: [entry('A1.A'), entry('B1.A')] });
+            const [item] = report.blocks.find((b) => b.key === 'synthesis')?.segments ?? [];
+
+            expect(item?.text).toContain('分析邏輯加上長遠規劃');
+            expect(item?.text).toContain('\n可以問自己：');
+            expect(item?.sources).toContainEqual({ rule: 'synthesis-logic-longterm' });
+            expect(item?.sources).toContainEqual({ axisEnd: 'A1.A' });
+        });
+
+        it('has no such block when the traits do not meet in a rule, or when there is one trait only', () => {
+            expect(blockKeys(zodiac(), { mappings: [entry('A1.A')] })).not.toContain('synthesis');
+            expect(blockKeys(zodiac(), { mappings: [entry('A1.A'), entry('C1.A')] })).not.toContain('synthesis');
+        });
+
+        it('goes into at most the three that join the most-supported traits', () => {
+            const ends = [
+                'A1.A',
+                'A3.A',
+                'A5.B',
+                'B1.A',
+                'B5.A',
+            ];
+            const report = assembleSingleReport(zodiac(), { mappings: ends.map(entry) });
+
+            expect(textsOf(report, 'synthesis')).toHaveLength(3);
+        });
+    });
+
+    describe('the key points', () => {
+        const entry = (axisEnd: string): MappingEntry => ({
+            system: 'ZODIAC', term: 'zodiac:scorpio', axisEnd, method: 'keyword', kind: 'trait',
+        });
+        const keypoints = (mappings: MappingEntry[]) => assembleSingleReport(zodiac(), { mappings }).blocks.find((b) => b.key === 'keypoints')?.segments.map((s) => s.text) ?? [];
+
+        it('are the core traits, what to watch for and where to start, in that order', () => {
+            const [
+                core,
+                caution,
+                start,
+            ] = keypoints([entry('A4.B')]);
+
+            expect(core).toBe(`核心傾向：「${findTraitEnd('A4.B')?.name}」。`);
+            expect(caution).toContain('最需要留意：');
+            expect(start).toBe('先從這件事開始：給自己一點時間，把懷疑說出口。');
+        });
+
+        it('take the question of the first interaction as what to watch for, when there is one', () => {
+            const [core, caution] = keypoints([entry('A1.A'), entry('B1.A')]);
+
+            expect(core).toContain('與');
+            expect(caution).toContain('最需要留意：分析邏輯加上長遠規劃');
+            expect(caution).toContain('可以問自己：');
+        });
+
+        it('are not there for a state system, or when no trait is found', () => {
+            expect(blockKeys(zodiac(), { mappings: [] })).not.toContain('keypoints');
+        });
+    });
+
     describe('the two ends of one axis', () => {
         const entry = (axisEnd: string): MappingEntry => ({
             system: 'ZODIAC', term: 'zodiac:scorpio', axisEnd, method: 'keyword', kind: 'trait',
@@ -331,10 +406,10 @@ describe('assembleSingleReport', () => {
             }
         });
 
-        it('says the time cells are guesses from the traits, not what the system says', () => {
+        it('says nothing of the time cells, which the report does not show', () => {
             const limits = assembleSingleReport(zodiac()).blocks.find((b) => b.key === 'limits')?.segments.map((s) => s.text).join('\n');
 
-            expect(limits).toContain('依特質作的推測，不是該系統的說法');
+            expect(limits).not.toContain('過去、現在、未來');
         });
 
         it('keeps the disclaimer and the notes, and the versions it was made from', () => {

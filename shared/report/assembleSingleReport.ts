@@ -16,12 +16,13 @@ import {
 } from './facets';
 import { factTerms } from './factTerms';
 import { SYSTEM_NATURE } from './natureLabels';
+import { selectSynthesis } from './synthesis';
 import type {
     Peers, SystemReportInput,
 } from './types';
 
 /** Raise whenever the way a report is put together changes (the order of blocks, the wording of fixed lines). */
-export const SINGLE_REPORT_TEMPLATE_VERSION = 'single-report-v2';
+export const SINGLE_REPORT_TEMPLATE_VERSION = 'single-report-v3';
 
 /** How many reflection questions the advice block takes from the guesses about the past. */
 export const MAX_REFLECTION_QUESTIONS = 3;
@@ -106,7 +107,7 @@ export function assembleSingleReport(input: SystemReportInput, options: Assemble
 
     const groundedTerms = new Set(input.facts.flatMap((fact) => factTerms(fact).map((entry) => entry.term)));
     const facets = state ? [] : selectFacets(input.traits, groundedTerms, mappings);
-    const factOfTerm = new Map(input.facts.flatMap((fact) => factTerms(fact).map((entry) => [entry.term, `${fact.label}${entry.value}`] as const)));
+    const factOfTerm = new Map(input.facts.flatMap((fact) => factTerms(fact).map((entry) => [entry.term, `${fact.label}：${entry.value}`] as const)));
 
     const position = block('position', '位置結論', [segment(input.position, 'FACT', [systemSource])]);
 
@@ -176,9 +177,10 @@ export function assembleSingleReport(input: SystemReportInput, options: Assemble
                     system: input.system, term,
                 })), { axisEnd: facet.end.id },
             ];
-            const basisText = facet.supports.map((term) => factOfTerm.get(term)).filter(Boolean).join('、');
+            // The fact the trait comes from leads the sentence, so the trait reads as what follows from it
+            const from = facet.supports.flatMap((term) => factOfTerm.get(term) ?? []).map((fact) => `「${fact}」`).join('、');
 
-            return [segment(`傾向「${facet.end.name}」：${facet.end.description}。（依據：${basisText}）`, 'AI_INFERENCE', sources), segment(`用得太過時：${facet.end.overuse}。`, 'AI_INFERENCE', sources)];
+            return [segment(`${from ? `從${from}來看，` : ''}你傾向「${facet.end.name}」：${facet.end.description}。`, 'AI_INFERENCE', sources), segment(`用得太過時：${facet.end.overuse}。`, 'AI_INFERENCE', sources)];
         }),
         ...findTensions(facets).map(([first, second]) => segment(
             `「${first.end.name}」與「${second.end.name}」在這個系統裡同時出現：這是系統本身的兩種特徵，不是矛盾，也不用選一個；可以觀察在什麼情境下哪一邊比較明顯。`,
@@ -187,6 +189,41 @@ export function assembleSingleReport(input: SystemReportInput, options: Assemble
         )),
     ]);
 
+    // What the traits say together: each interaction with the question that checks it against the member's own life
+    const synthesis = selectSynthesis(facets, undefined, mappings);
+    const interactions = block('synthesis', '特質之間的互動', synthesis.map(({
+        rule, ends, 
+    }) => segment(
+        `${rule.template}\n可以問自己：${rule.hypothesis}`,
+        'AI_INFERENCE',
+        [
+            systemSource,
+            ...ends.map((axisEnd) => ({ axisEnd })),
+            { rule: rule.id },
+        ],
+    )));
+
+    // The report in three lines, ahead of everything else: the core traits, what to watch for, where to start
+    const [coreFirst, coreSecond] = facets;
+    const caution = synthesis[0];
+    const keypoints = block('keypoints', '重點摘要', coreFirst
+        ? [
+            segment(
+                `核心傾向：${[coreFirst, coreSecond].flatMap((facet) => (facet ? [`「${facet.end.name}」`] : [])).join('與')}。`,
+                'AI_INFERENCE',
+                [systemSource, ...[coreFirst, coreSecond].flatMap((facet) => (facet ? [{ axisEnd: facet.end.id }] : []))],
+            ),
+            caution
+                ? segment(`最需要留意：${caution.rule.template.split('：')[0]}。可以問自己：${caution.rule.hypothesis}`, 'AI_INFERENCE', [
+                    systemSource,
+                    ...caution.ends.map((axisEnd) => ({ axisEnd })),
+                    { rule: caution.rule.id },
+                ])
+                : segment(`最需要留意：「${coreFirst.end.name}」用得太過時，常見的樣子是${coreFirst.end.overuse}。`, 'AI_INFERENCE', [systemSource, { axisEnd: coreFirst.end.id }]),
+            ...(input.advice[0] ? [segment(`先從這件事開始：${input.advice[0]}`, 'SYSTEM_INTERPRETATION', [systemSource])] : []),
+        ]
+        : []);
+
     const impacts = facets.map((facet) => impactBlock(facet, [input.system], fragments));
 
     // Advice for the member, as the reading pages call it; for a report about today's draw, what to try today
@@ -194,9 +231,6 @@ export function assembleSingleReport(input: SystemReportInput, options: Assemble
 
     const limits = block('limits', '依據與限制', [
         segment(`系統性質：${nature.label}。`, 'FACT', [systemSource]),
-        ...(state || facets.length === 0
-            ? []
-            : [segment('影響面向推測裡「過去、現在、未來」的格子，是依特質作的推測，不是該系統的說法；過去只是可能的猜測，請對照自己的經驗。', 'AI_INFERENCE', [systemSource])]),
         ...(input.notes ?? []).map((note) => segment(note, 'FACT', [systemSource])),
         segment(`規則版本：本體 ${ONTOLOGY_VERSION}、映射 ${MAPPING_VERSION}、片段 ${FRAGMENT_VERSION}、報告模板 ${SINGLE_REPORT_TEMPLATE_VERSION}。`, 'FACT', [systemSource]),
         segment(input.disclaimer, 'FACT', [systemSource]),
@@ -208,6 +242,7 @@ export function assembleSingleReport(input: SystemReportInput, options: Assemble
         position: input.position,
         blocks: [
             ...position,
+            ...keypoints,
             ...overview,
             ...lead,
             ...factsAndReadings,
@@ -215,6 +250,7 @@ export function assembleSingleReport(input: SystemReportInput, options: Assemble
             ...timeFacts,
             ...groupedTimeFacts,
             ...summary,
+            ...interactions,
             ...inferenceBlocks,
             ...impacts.flatMap((impact) => impact.block),
             ...advice,

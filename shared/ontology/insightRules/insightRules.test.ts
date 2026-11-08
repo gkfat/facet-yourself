@@ -8,7 +8,7 @@ import { INSIGHT_RULE_EXAMPLES } from './examples';
 import { STABLE_MAPPINGS } from '../mappings';
 import { INSIGHT_TYPES } from './schema';
 import {
-    INSIGHT_RULES, INSIGHT_RULES_VERSION,
+    INSIGHT_RULES, INSIGHT_RULES_VERSION, SINGLE_SYNTHESIS_RULES,
 } from './index';
 import {
     insightRuleSchema, type InsightRuleInput,
@@ -148,6 +148,11 @@ describe('the rules that are written', () => {
     it('are sound, and the version is a non-empty string', () => {
         expect(findInsightRuleIssues(INSIGHT_RULES, context)).toEqual([]);
         expect(INSIGHT_RULES_VERSION).not.toBe('');
+    });
+
+    it('are sound for the single-dimension report too, and none of them asks for a second source', () => {
+        expect(findInsightRuleIssues(SINGLE_SYNTHESIS_RULES, context)).toEqual([]);
+        expect(SINGLE_SYNTHESIS_RULES.every((item) => item.type === 'interaction' && !item.requiresIndependentSources)).toBe(true);
     });
 });
 

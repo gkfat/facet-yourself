@@ -1,5 +1,39 @@
 <template>
     <div>
+        <!-- The report in three lines, ahead of everything: the core traits, what to watch for, where to start -->
+        <v-card
+            v-if="keypoints.length"
+            variant="outlined"
+            class="mb-4"
+        >
+            <v-card-title>{{ blockTitle('keypoints') }}</v-card-title>
+            <v-card-text>
+                <v-row dense>
+                    <v-col
+                        v-for="point in keypoints"
+                        :key="point.label"
+                        cols="12"
+                        md="4"
+                    >
+                        <v-card
+                            variant="outlined"
+                            height="100%"
+                            :class="['keypoint', `keypoint--${point.tone}`]"
+                        >
+                            <v-card-text>
+                                <div class="text-caption text-medium-emphasis mb-1">
+                                    {{ point.label }}
+                                </div>
+                                <p class="text-body-1 mb-0 lines">
+                                    {{ point.text }}
+                                </p>
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </v-card-text>
+        </v-card>
+
         <v-card
             v-if="overview.length"
             variant="outlined"
@@ -50,6 +84,22 @@
                         </v-card>
                     </v-col>
                 </v-row>
+            </v-card-text>
+        </v-card>
+
+        <!-- What the traits say together, right after the traits themselves -->
+        <v-card
+            v-if="interactions.length"
+            variant="outlined"
+            class="mb-4"
+        >
+            <v-card-title>{{ blockTitle('synthesis') }}</v-card-title>
+            <v-card-text>
+                <SingleReportSummary
+                    :facet-cards="[]"
+                    :other-summary="[]"
+                    :groups="[{ key: 'synthesis', title: '', items: interactions }]"
+                />
             </v-card-text>
         </v-card>
 
@@ -384,6 +434,7 @@ import type { NatalChartResponse } from '../../shared/schemas/api/natalChart.sch
 import { NATAL_LABELS } from '../../shared/constants/natalLabels';
 import { impactCards } from '../utils/impactCards';
 import { splitLead } from '../utils/overviewLead';
+import { parseSummary } from '../utils/summaryFacets';
 import type { SingleReportResponse } from '../../shared/schemas/api/singleReport.schema';
 
 const props = defineProps<{
@@ -516,34 +567,7 @@ const timeBlocks = computed(() => props.report.blocks.filter((block) => block.ke
 const timeAsOf = computed(() => props.report.blocks.filter((block) => block.key === 'time' || block.key.startsWith('time:')).flatMap((block) => block.segments).find((segment) => segment.asOf)?.asOf ?? '');
 const summary = computed(() => segmentsOf('summary').map((segment) => segment.text));
 
-/** A trait the facts point at is written as "傾向「專注深耕」：選定方向長期深入。（依據：…）", then "用得太過時：視野變窄。" */
-const FACET_PATTERN = /^傾向「(.+?)」：(.*?)。?（依據：(.+)）$/s;
-const OVERUSE_PATTERN = /^用得太過時：(.*?)。?$/s;
-
-const parsedSummary = computed(() => {
-    const facets: Array<{ name: string; description: string; basis: string; overuse: string }> = [];
-    const others: string[] = [];
-
-    for (const text of summary.value) {
-        const facet = FACET_PATTERN.exec(text);
-        const overuse = OVERUSE_PATTERN.exec(text);
-        const last = facets.at(-1);
-
-        if (facet) {
-            facets.push({
-                name: facet[1] ?? '', description: facet[2] ?? '', basis: facet[3] ?? '', overuse: '',
-            });
-        } else if (overuse && last && last.overuse === '') {
-            last.overuse = overuse[1] ?? '';
-        } else {
-            others.push(text);
-        }
-    }
-
-    return {
-        facets, others,
-    };
-});
+const parsedSummary = computed(() => parseSummary(summary.value));
 
 const facetCards = computed(() => parsedSummary.value.facets);
 const otherSummary = computed(() => parsedSummary.value.others);
@@ -559,6 +583,19 @@ const highlightBlocks = computed(() => props.report.blocks.filter((block) => isH
 const inferenceGroups = computed(() => allGroups.value.filter((group) => !isHighlight(group.key)));
 const advice = computed(() => segmentsOf('advice'));
 
+/** What the traits say together: each a title and what it can mean, with the question that checks it */
+const interactions = computed(() => segmentsOf('synthesis').map((segment) => segment.text));
+
+/** The three key points, each "label：words", the color of each by what it is */
+const KEYPOINT_TONES = ['core', 'caution', 'start'] as const;
+const keypoints = computed(() => segmentsOf('keypoints').map((segment, index) => {
+    const { label, value } = splitLabel(segment.text);
+
+    return {
+        label, text: value, tone: KEYPOINT_TONES[index] ?? 'core',
+    };
+}));
+
 
 /** The map of effects by who or what it is about: one card for each, with every trait put together */
 const impactGroups = computed(() => impactCards(props.report.blocks));
@@ -568,6 +605,25 @@ const impactGroups = computed(() => impactCards(props.report.blocks));
 <style scoped>
 .lines {
     white-space: pre-line;
+}
+
+.keypoint {
+    border-top-width: 4px;
+    border-top-color: rgb(var(--keypoint-accent));
+    background: rgba(var(--keypoint-accent), 0.07);
+}
+
+/* One color for each key point: green for what is core, amber for what to watch, blue for where to start */
+.keypoint--core {
+    --keypoint-accent: 46, 125, 91;
+}
+
+.keypoint--caution {
+    --keypoint-accent: 183, 121, 31;
+}
+
+.keypoint--start {
+    --keypoint-accent: 47, 93, 138;
 }
 
 .lead {
