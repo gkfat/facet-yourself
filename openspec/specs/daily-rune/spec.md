@@ -6,7 +6,7 @@ TBD - 每日盧恩：已登入使用者每個台北日期抽一枚 Elder Futhark
 ## Requirements
 
 ### Requirement: 每個帳號每天只能抽一次符
-系統 SHALL 讓已登入的使用者在每個台北日期抽一次盧恩符文。第一次抽取時，系統 MUST 在 `users/{uid}/runeDraws/{YYYY-MM-DD}` 建立當天的紀錄（符文序號、正逆位、抽取時間、到期時間、抽取規則版本）；同一天之後的任何抽取或查詢 MUST 得到這份既有紀錄，MUST NOT 重新抽取。
+系統 SHALL 讓已登入的使用者在每個台北日期抽一次盧恩符文。第一次抽取時，系統 MUST 在 `users/{uid}/runeDraws/{YYYY-MM-DD}` 建立當天的紀錄（符文序號、正逆位、抽取時間、抽取規則版本）；同一天之後的任何抽取或查詢 MUST 得到這份既有紀錄，MUST NOT 重新抽取。
 
 #### Scenario: 第一次抽符
 - **WHEN** 已登入的使用者當天第一次抽符
@@ -93,11 +93,15 @@ TBD - 每日盧恩：已登入使用者每個台北日期抽一枚 Elder Futhark
 - **THEN** 覆蓋報告列出缺少或未發佈的符文，並標示整體未完成
 
 ### Requirement: 抽符紀錄的保留與刪除
-每筆抽符紀錄 SHALL 帶有 `expiresAt`（抽取時間起 3 個月），系統 MUST 在到期後自動清除；刪除帳號時 MUST 一併刪除該使用者全部的抽符紀錄。
+每筆抽符紀錄 SHALL 永久保留至帳號刪除，MUST NOT 帶有 `expiresAt`，到期清除作業 MUST NOT 刪除抽符紀錄；刪除帳號時 MUST 一併刪除該使用者全部的抽符紀錄。
 
-#### Scenario: 到期清除
-- **WHEN** 抽符紀錄已超過 3 個月
-- **THEN** 到期清除作業將它刪除
+#### Scenario: 不被排程清除
+- **WHEN** 到期清除作業執行，且存在超過 3 個月的抽符紀錄
+- **THEN** 這些抽符紀錄不被刪除
+
+#### Scenario: 新紀錄不帶到期時間
+- **WHEN** 會員完成當日抽符
+- **THEN** 新建立的抽符紀錄沒有 `expiresAt`
 
 #### Scenario: 刪除帳號
 - **WHEN** 使用者刪除帳號
