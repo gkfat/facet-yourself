@@ -50,16 +50,40 @@
                     <p v-if="!transactions.length">
                         尚無異動紀錄。
                     </p>
-                    <v-list v-else>
-                        <v-list-item
-                            v-for="item in transactions"
-                            :key="item.transactionId"
-                            :title="`${typeLabel[item.type]} ${item.amount} 點 · ${reasonLabel[item.reason]}`"
-                            :subtitle="formatDate(item.createdAt)"
-                        />
-                    </v-list>
+                    <v-table
+                        v-else
+                        density="compact"
+                    >
+                        <thead>
+                            <tr>
+                                <th>日期</th>
+                                <th>類型</th>
+                                <th>事由</th>
+                                <th class="text-right">
+                                    點數
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                v-for="item in transactions"
+                                :key="item.transactionId"
+                            >
+                                <td>{{ formatDate(item.createdAt) }}</td>
+                                <td>{{ typeLabel[item.type] }}</td>
+                                <td>{{ reasonLabel[item.reason] }}</td>
+                                <td
+                                    class="text-right font-weight-medium"
+                                    :class="item.type === 'DEDUCT' ? 'text-error' : 'text-success'"
+                                >
+                                    {{ item.type === 'DEDUCT' ? '−' : '+' }}{{ item.amount }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </v-table>
                     <v-btn
                         v-if="nextCursor"
+                        class="mt-4"
                         :loading="loadingMore"
                         @click="loadMore"
                     >

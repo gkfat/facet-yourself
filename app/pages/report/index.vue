@@ -95,9 +95,8 @@
                             variant="flat"
                             class="start"
                             :disabled="cost === null"
-                            :loading="starting"
                             prepend-icon="mdi-creation-outline"
-                            @click="start"
+                            @click="confirming = true"
                         >
                             {{ startLabel }}
                         </v-btn>
@@ -106,6 +105,77 @@
             </v-card>
         </template>
 
+        <v-dialog
+            v-model="confirming"
+            max-width="480"
+            :persistent="starting"
+        >
+            <v-card>
+                <v-card-title class="pt-5 px-6">
+                    確認送出分析
+                </v-card-title>
+                <v-card-text class="px-6">
+                    <div class="text-body-2 text-medium-emphasis mb-2">
+                        分析的維度
+                    </div>
+                    <div class="d-flex flex-wrap ga-2 mb-4">
+                        <v-chip
+                            v-for="option in chosen"
+                            :key="option.value"
+                            :prepend-icon="option.icon"
+                            variant="tonal"
+                            color="primary"
+                        >
+                            {{ option.label }}
+                        </v-chip>
+                    </div>
+
+                    <div class="text-body-2 text-medium-emphasis mb-1">
+                        你的提問
+                    </div>
+                    <p class="mb-4 question">
+                        {{ question.trim() || '未提問，依報告分析' }}
+                    </p>
+
+                    <v-divider class="mb-4" />
+
+                    <div class="d-flex align-center">
+                        <span>將扣除</span>
+                        <v-spacer />
+                        <span class="text-h6">{{ cost }} 點</span>
+                    </div>
+                    <div
+                        v-if="balance !== null && cost !== null"
+                        class="d-flex align-center text-body-2 text-medium-emphasis"
+                    >
+                        <span>目前 {{ balance }} 點</span>
+                        <v-spacer />
+                        <span>送出後剩 {{ balance - cost }} 點</span>
+                    </div>
+                    <p class="text-caption text-medium-emphasis mt-3 mb-0">
+                        送出後在背景產生，沒有成功會自動退點。
+                    </p>
+                </v-card-text>
+                <v-card-actions class="px-6 pb-5">
+                    <v-spacer />
+                    <v-btn
+                        variant="text"
+                        :disabled="starting"
+                        @click="confirming = false"
+                    >
+                        取消
+                    </v-btn>
+                    <v-btn
+                        color="primary"
+                        variant="flat"
+                        :loading="starting"
+                        @click="start"
+                    >
+                        確認送出
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -134,10 +204,13 @@ const { post } = useApi();
 const {
     state, progress,
 } = useExploration();
-const { refresh: refreshPoints } = usePoints();
+const {
+    balance, refresh: refreshPoints,
+} = usePoints();
 
 const selected = ref<MultiReportSystem[]>([]);
 const starting = ref(false);
+const confirming = ref(false);
 const question = ref('');
 const problem = ref<Problem | null>(null);
 
@@ -154,6 +227,7 @@ const options = computed(() => dimensions.map((meta) => ({
 })));
 
 const cost = computed(() => aiReportCost(selected.value));
+const chosen = computed(() => options.value.filter((option) => selected.value.includes(option.value)));
 const startLabel = computed(() => {
     if (cost.value === null) return '開始分析';
 
@@ -240,12 +314,16 @@ async function start() {
 
         selected.value = [];
         question.value = '';
-        await refreshPoints();
+        confirming.value = false;
+
+        // The balance is refreshed in the background (it handles its own errors) so the page does not wait for it
+        void refreshPoints();
 
         // The list of AI reports shows it being made and the result when it is done
         await navigateTo('/ai-reports');
     } catch (error) {
         console.error('[report] failed to start:', error);
+        confirming.value = false;
         problem.value = problemFrom(error);
     } finally {
         starting.value = false;
@@ -258,6 +336,11 @@ onMounted(initAuthListener);
 <style scoped>
 .chips :deep(.v-slide-group__content) {
     justify-content: center;
+}
+
+.question {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }
 
 .picker {
