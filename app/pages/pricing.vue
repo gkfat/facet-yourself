@@ -63,10 +63,7 @@
                 點數買了不會過期，也不是訂閱。想用的時候再用，不用急著用完。
             </p>
 
-            <v-progress-linear
-                v-if="loading"
-                indeterminate
-            />
+            <LoadingState v-if="loading" />
             <v-alert
                 v-else-if="loadError"
                 type="error"

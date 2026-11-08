@@ -13,7 +13,7 @@
             class="mb-4"
         >
             <v-card-text>
-                <v-skeleton-loader type="paragraph, paragraph, paragraph" />
+                <LoadingState />
             </v-card-text>
         </v-card>
 
@@ -41,12 +41,15 @@
                 variant="outlined"
                 class="mb-4"
             >
-                <v-card-text>
-                    <v-progress-linear
-                        indeterminate
-                        class="mb-2"
+                <v-card-text class="d-flex align-center ga-4">
+                    <FacetLoader
+                        :size="64"
+                        label="報告生成中"
                     />
-                    <p class="text-body-2 mb-0">
+                    <p
+                        class="text-body-2 mb-0"
+                        role="status"
+                    >
                         導師正在閱讀你的報告，通常不到一分鐘；下面是你帶來的事實，可以先看。
                     </p>
                 </v-card-text>

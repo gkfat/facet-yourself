@@ -11,7 +11,7 @@
         </h1>
         <p
             v-if="headline"
-            class="banner__headline"
+            class="banner__headline font-display"
         >
             {{ headline }}
         </p>
@@ -25,6 +25,10 @@
 </template>
 
 <script lang="ts" setup>
+import {
+    PALETTE, TONES,
+} from '../../shared/constants/palette';
+
 const props = withDefaults(defineProps<{
     title: string;
     /** The big second line, e.g. the type or the sign */
@@ -41,11 +45,11 @@ const props = withDefaults(defineProps<{
     tone: 'green',
 });
 
-// RGB of the accent that colors one corner of the backdrop
+// The short rule under the title: which kind of page this is
 const ACCENTS = {
-    green: '46, 125, 91',
-    amber: '183, 121, 31',
-    red: '201, 79, 79',
+    green: TONES.teal,
+    amber: PALETTE.accent,
+    red: TONES.rose,
 } as const;
 
 const accent = computed(() => ACCENTS[props.tone]);
@@ -71,11 +75,17 @@ const accent = computed(() => ACCENTS[props.tone]);
     z-index: -1;
     width: 100vw;
     transform: translateX(-50%);
-    background:
-        radial-gradient(circle at 12% 0%, rgba(var(--banner-accent), 0.16) 0, rgba(var(--banner-accent), 0) 40%),
-        radial-gradient(circle at 92% 100%, rgba(47, 93, 138, 0.16) 0, rgba(47, 93, 138, 0) 40%),
-        linear-gradient(180deg, #eef2f7 0%, #f4f6f9 100%);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    background-color: rgb(var(--v-theme-paper));
+    border-bottom: 1px solid rgba(var(--v-theme-night), 0.1);
+}
+
+/* Film grain over the paper */
+.banner__bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: var(--grain-light);
+    opacity: 0.07;
 }
 
 .banner__bg--extended {
@@ -88,6 +98,16 @@ const accent = computed(() => ACCENTS[props.tone]);
     font-weight: 500;
     letter-spacing: 0.3em;
     color: rgb(var(--v-theme-primary));
+}
+
+/* A short rule in the page's own color closes the title */
+.banner__title::after {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 2px;
+    margin: 10px auto 0;
+    background: var(--banner-accent);
 }
 
 .banner__tagline {
@@ -103,5 +123,6 @@ const accent = computed(() => ACCENTS[props.tone]);
     font-size: clamp(2.25rem, 8vw, 3.5rem);
     font-weight: 700;
     line-height: 1.2;
+    color: rgb(var(--v-theme-night));
 }
 </style>

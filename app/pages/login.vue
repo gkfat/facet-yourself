@@ -120,7 +120,7 @@ onMounted(() => {
     width: 100%;
     max-width: 440px;
     border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
-    box-shadow: 0 8px 30px rgba(47, 93, 138, 0.1);
+    box-shadow: 0 8px 30px rgba(23, 31, 61, 0.12);
 }
 
 .login__eyebrow {

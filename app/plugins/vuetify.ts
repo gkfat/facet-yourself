@@ -4,6 +4,7 @@ import * as directives from 'vuetify/directives';
 import {
     aliases, mdi,
 } from 'vuetify/iconsets/mdi';
+import { PALETTE } from '../../shared/constants/palette';
 
 export default defineNuxtPlugin({
     name: 'vuetify',
@@ -13,20 +14,7 @@ export default defineNuxtPlugin({
             directives,
             theme: {
                 defaultTheme: 'light',
-                themes: {
-                    light: {
-                        colors: {
-                            primary: '#2f5d8a',
-                            secondary: '#5b6b7c',
-                            background: '#f6f7f9',
-                            surface: '#ffffff',
-                            info: '#4a6f93',
-                            success: '#2e7d5b',
-                            warning: '#b7791f',
-                            error: '#c94f4f',
-                        },
-                    },
-                },
+                themes: { light: { colors: { ...PALETTE } } },
             },
             icons: {
                 defaultSet: 'mdi',
@@ -39,6 +27,13 @@ export default defineNuxtPlugin({
                     error: 'mdi-alert-circle-outline',
                 },
                 sets: { mdi },
+            },
+            // One shape for every card and field: soft corners, outlined inputs
+            defaults: {
+                VCard: { rounded: 'lg' },
+                VTextField: { variant: 'outlined' },
+                VSelect: { variant: 'outlined' },
+                VAutocomplete: { variant: 'outlined' },
             },
             display: {
                 mobileBreakpoint: 'sm',

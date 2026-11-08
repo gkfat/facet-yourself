@@ -13,7 +13,7 @@
                     variant="outlined"
                     height="100%"
                     class="preview__card"
-                    :style="{ '--tone': '#b7791f' }"
+                    :style="{ '--tone': TONES.violet }"
                 >
                     <v-card-text class="d-flex flex-column ga-1 h-100">
                         <span class="preview__label">太陽星座</span>
@@ -45,7 +45,7 @@
                     variant="outlined"
                     height="100%"
                     class="preview__card"
-                    :style="{ '--tone': '#7a5aa6' }"
+                    :style="{ '--tone': TONES.steel }"
                 >
                     <v-card-text class="d-flex flex-column ga-1 h-100">
                         <span class="preview__label">生命靈數</span>
@@ -74,6 +74,7 @@
 </template>
 
 <script lang="ts" setup>
+import { TONES } from '../../../shared/constants/palette';
 import { ZODIAC_LABELS } from '../../../shared/constants/zodiacLabels';
 
 const props = defineProps<{

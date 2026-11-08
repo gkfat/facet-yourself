@@ -5,10 +5,10 @@
                 class="hero__bg"
                 aria-hidden="true"
             />
-            <p class="hero__eyebrow">
+            <p class="hero__tags">
                 自我探索 · 自我覺察 · 更了解自己
             </p>
-            <h1 class="hero__title">
+            <h1 class="hero__title font-display">
                 各種面向綜觀自我，更進一步了解自己
             </h1>
             <p class="hero__lead">
@@ -16,11 +16,8 @@
             </p>
         </section>
 
-        <!-- One thing to a row: what changes every day, the deeper reading, then the person's own details and the single reports -->
+        <!-- One thing to a row: the birth date first (the way in), what it shows at once, what changes every day, the deeper reading, then every single report -->
         <div class="stack">
-            <FortuneHomeEntry />
-            <HomeMultiFeature :unlocked="progress.multiDimensionUnlocked" />
-
             <!-- One place to start: the birth date, what more it can unlock, and what signing in adds -->
             <v-card
                 id="fill"
@@ -133,6 +130,9 @@
             <!-- A first result, as soon as there is a date -->
             <HomePreview :birth-date="birthDateInput" />
 
+            <FortuneHomeEntry />
+            <HomeMultiFeature :unlocked="progress.multiDimensionUnlocked" />
+
             <v-card variant="outlined">
                 <v-card-title>從不同的角度，認識自己</v-card-title>
                 <v-card-subtitle class="text-wrap">
@@ -155,6 +155,7 @@ import {
     SYSTEMS, type Analysis,
 } from '../utils/homeAnalyses';
 import { KIN_ENTRY_ENABLED } from '../../shared/constants/mayaKin';
+import { TONES } from '../../shared/constants/palette';
 import { WELCOME_POINTS } from '../../shared/constants/points';
 import {
     BLOOD_TYPE_LABELS, GENDER_LABELS, ZODIAC_LABELS,
@@ -255,7 +256,7 @@ const analyses = computed<Analysis[]>(() => {
             system: 'symbolic',
             title: '星座分析',
             icon: 'mdi-star-four-points-outline',
-            tone: '#b7791f',
+            tone: TONES.violet,
             description: '從出生時太陽所在的位置，看你天生的性格傾向與行事風格。',
             need: '需要：出生日期',
             action: sign ? `看星座分析（${ZODIAC_LABELS[sign]}）` : '看星座分析',
@@ -268,7 +269,7 @@ const analyses = computed<Analysis[]>(() => {
             system: 'symbolic',
             title: '血型分析',
             icon: 'mdi-water-outline',
-            tone: '#c94f4f',
+            tone: TONES.rose,
             description: '用常見的血型性格說法，看你與人相處和面對事情的習慣。',
             need: '需要：血型',
             action: bloodType ? `看血型分析（${BLOOD_TYPE_LABELS[bloodType]}）` : '看血型分析',
@@ -282,7 +283,7 @@ const analyses = computed<Analysis[]>(() => {
                 system: 'symbolic' as const,
                 title: '八字命盤',
                 icon: 'mdi-yin-yang',
-                tone: '#8c5e34',
+                tone: TONES.copper,
                 description: '由出生的年、月、日、時排出四柱，看五行的分布、日主的強弱與每十年的節奏。',
                 need: '需要：出生日期與時間',
                 action: baziReady ? `看八字命盤（${baziDayMaster}）` : '看八字命盤',
@@ -297,7 +298,7 @@ const analyses = computed<Analysis[]>(() => {
                 system: 'symbolic' as const,
                 title: '瑪雅 Kin',
                 icon: 'mdi-calendar-star',
-                tone: '#c94f4f',
+                tone: TONES.plum,
                 description: '依出生日期以 Dreamspell 曆法算出你的圖騰與調性，看你的本質與象徵。',
                 need: '需要：出生日期',
                 action: birthDateInput.value && sign ? `看瑪雅 Kin（${kinName(kinOf(birthDateInput.value))}）` : '看瑪雅 Kin',
@@ -311,7 +312,7 @@ const analyses = computed<Analysis[]>(() => {
             system: 'symbolic',
             title: '生命靈數',
             icon: 'mdi-numeric',
-            tone: '#7a5aa6',
+            tone: TONES.steel,
             description: '把出生日期化成數字，看你的天賦傾向與今年的節奏。',
             need: '需要：出生日期',
             action: birthDateInput.value && sign ? `看生命靈數（數字 ${lifePathNumber(birthDateInput.value)}）` : '看生命靈數',
@@ -324,7 +325,7 @@ const analyses = computed<Analysis[]>(() => {
             system: 'personality',
             title: 'MBTI 人格分析',
             icon: 'mdi-head-cog-outline',
-            tone: '#2f5d8a',
+            tone: TONES.indigo,
             description: '從回答問題的方式，看你如何獲取能量、接收資訊與做決定。',
             need: mbti ? '需要：16 型人格測驗（已完成）' : '需要：回答 48 題，約 10 分鐘',
             action: mbti ? `看 MBTI 分析（${mbti}）` : '開始測驗',
@@ -356,7 +357,7 @@ const analyses = computed<Analysis[]>(() => {
             system: 'personality',
             title: '人類圖分析',
             icon: 'mdi-vector-triangle',
-            tone: '#2e7d5b',
+            tone: TONES.teal,
             description: '依出生當下的星體位置，看你的能量怎麼運作、怎樣做決定最順。',
             need: '需要：出生日期、時間與城市',
             action: state.value.hasHumanDesign ? `看人類圖分析（${humanDesignType.value ?? '已計算'}）` : '看人類圖分析',
@@ -390,8 +391,8 @@ const groups = computed(() => SYSTEMS
 }
 
 /*
- * Full-width backdrop: from under the app bar down past the hero text, ending partway into the
- * dimension cards so they sit on its lower edge.
+ * Full-width night sky: from under the app bar down past the hero text, ending partway into the
+ * birth-date card so the card sits on its lower edge.
  */
 .hero__bg {
     position: absolute;
@@ -402,56 +403,33 @@ const groups = computed(() => SYSTEMS
     width: 100vw;
     transform: translateX(-50%);
     overflow: hidden;
-    background:
-        radial-gradient(circle at 88% 0%, rgba(47, 93, 138, 0.16) 0, rgba(47, 93, 138, 0) 40%),
-        radial-gradient(circle at 6% 100%, rgba(183, 121, 31, 0.16) 0, rgba(183, 121, 31, 0) 36%),
-        linear-gradient(180deg, #eef2f7 0%, #f4f6f9 100%);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    background-color: rgb(var(--v-theme-night));
+    background-image: var(--stars);
 }
 
-/* Soft rings in the corner as a quiet decoration. */
+/* Film grain over the sky */
 .hero__bg::after {
     content: '';
     position: absolute;
-    top: -90px;
-    right: 6%;
-    width: 260px;
-    height: 260px;
-    border-radius: 50%;
-    border: 1px solid rgba(47, 93, 138, 0.18);
-    box-shadow:
-        0 0 0 26px rgba(47, 93, 138, 0.05),
-        0 0 0 52px rgba(47, 93, 138, 0.04),
-        0 0 0 78px rgba(47, 93, 138, 0.03);
+    inset: 0;
+    background-image: var(--grain-dark);
+    opacity: 0.06;
 }
 
-.hero__eyebrow {
+.hero__tags {
     margin: 0 0 8px;
     font-size: 0.8125rem;
     font-weight: 500;
     letter-spacing: 0.12em;
-    color: rgb(var(--v-theme-primary));
-}
-
-.extra {
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    background: rgb(var(--v-theme-surface));
-}
-
-.extra__optional {
-    margin-left: 10px;
-    font-size: 0.8125rem;
-    font-weight: 400;
-    color: rgba(var(--v-theme-on-surface), 0.55);
+    color: rgba(174, 187, 233, 0.8);
 }
 
 .hero__title {
     margin: 0 0 14px;
     font-size: clamp(1.75rem, 4.2vw, 2.5rem);
-    font-weight: 800;
-    line-height: 1.25;
-    letter-spacing: 0.01em;
+    line-height: 1.35;
+    letter-spacing: 0.02em;
+    color: #f4f6fc;
     text-wrap: balance;
 }
 
@@ -460,16 +438,14 @@ const groups = computed(() => SYSTEMS
     margin: 0;
     font-size: 1.0625rem;
     line-height: 1.8;
-    color: rgba(0, 0, 0, 0.7);
+    color: rgba(244, 246, 252, 0.78);
 }
 
 /* The one card on the backdrop: the date, what more it can unlock, and signing in */
 .start {
     scroll-margin-top: 80px;
-    border-color: rgba(47, 93, 138, 0.2);
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 8px 26px rgba(47, 93, 138, 0.12);
-    backdrop-filter: blur(6px);
+    border-color: rgba(var(--v-theme-night), 0.14);
+    box-shadow: 0 10px 28px rgba(var(--v-theme-night), 0.18);
 }
 
 .start__title {
@@ -492,7 +468,7 @@ const groups = computed(() => SYSTEMS
     gap: 10px 12px;
     margin-top: 16px;
     padding-top: 16px;
-    border-top: 1px dashed rgba(47, 93, 138, 0.28);
+    border-top: 1px dashed rgba(var(--v-theme-night), 0.24);
 }
 
 .start__login-text {
@@ -511,11 +487,10 @@ const groups = computed(() => SYSTEMS
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #f6d98a, #d9a441);
-    box-shadow: inset 0 0 0 2px rgba(138, 90, 18, 0.35);
+    background: rgb(var(--v-theme-accent));
     font-size: 0.8125rem;
     font-weight: 700;
-    color: #6b4509;
+    color: #fff;
 }
 
 /* One thing to a row, each as wide as the page */

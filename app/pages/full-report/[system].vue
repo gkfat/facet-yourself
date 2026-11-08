@@ -43,7 +43,7 @@
                 class="mb-4"
             >
                 <v-card-text>
-                    <v-skeleton-loader type="paragraph, paragraph, paragraph" />
+                    <LoadingState />
                 </v-card-text>
             </v-card>
 
@@ -118,6 +118,13 @@
                     :mbti-dimensions="mbtiDimensions"
                 />
 
+                <div
+                    v-if="shareContent"
+                    class="d-flex justify-center my-4"
+                >
+                    <ShareImageButton :content="shareContent" />
+                </div>
+
                 <AiReportEntry
                     v-if="canAnalyse"
                     :system="meta.system"
@@ -160,6 +167,8 @@ import type { HumanDesignResponse } from '../../../shared/schemas/api/humanDesig
 import { SINGLE_REPORT_SYSTEMS, type SingleReportSystem } from '../../../shared/report/systems';
 import { kinOf } from '../../../shared/utils/mayaKin';
 import { splitLead } from '../../utils/overviewLead';
+import { DIMENSION_META } from '../../utils/reportDimensions';
+import type { ShareImageContent } from '../../utils/shareImage';
 import { useMbtiDimensions } from '../../composables/useMbtiDimensions';
 import { useSingleReport, type SingleReportNeed } from '../../composables/useSingleReport';
 
@@ -259,6 +268,21 @@ const tagline = computed(() => {
     const body = text.slice(text.indexOf('：') + 1);
 
     return text ? splitLead(body).tagline : '';
+});
+
+/** What the share picture says: the dimension, the result and its verdict; today's state is not something to keep, so it has none */
+const shareContent = computed<ShareImageContent | null>(() => {
+    const current = report.value;
+    const dimension = DIMENSION_META.find((item) => item.value === current?.systems[0]);
+
+    if (!current || !dimension || !canAnalyse.value) return null;
+
+    return {
+        dimension: dimension.label,
+        headline: current.position,
+        tagline: tagline.value,
+        tone: dimension.tone,
+    };
 });
 
 const needMessage = computed(() => (need.value ? NEED_MESSAGES[need.value] : null));

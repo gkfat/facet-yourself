@@ -8,7 +8,7 @@
                 <span class="multi__eyebrow">綜合分析</span>
                 <h2
                     id="multi-title"
-                    class="multi__title"
+                    class="multi__title font-display"
                 >
                     把幾個角度疊在一起看
                 </h2>
@@ -125,7 +125,8 @@ const cheapest = multiReportCost(['ZODIAC', 'BLOOD']) ?? 0;
 
 <style scoped>
 .multi {
-    --gold: #f1c76d;
+    --glow: #aebbe9;
+    --ember: #e0a283;
 
     /* The content asks how wide the page's column is; only the backdrop runs edge to edge */
     container-type: inline-size;
@@ -144,9 +145,23 @@ const cheapest = multiReportCost(['ZODIAC', 'BLOOD']) ?? 0;
     z-index: -1;
     width: 100vw;
     transform: translateX(-50%);
-    background:
-        radial-gradient(circle at 92% 0%, rgba(241, 199, 109, 0.18) 0, transparent 36%),
-        linear-gradient(120deg, #1b3350 0%, #2a4f78 55%, #2f5d8a 100%);
+    background-color: rgb(var(--v-theme-night));
+    background-image: var(--stars);
+}
+
+/* Film grain over the band */
+.multi::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    z-index: -1;
+    width: 100vw;
+    transform: translateX(-50%);
+    background-image: var(--grain-dark);
+    opacity: 0.06;
+    pointer-events: none;
 }
 
 .multi__body {
@@ -165,14 +180,13 @@ const cheapest = multiReportCost(['ZODIAC', 'BLOOD']) ?? 0;
 .multi__eyebrow {
     font-size: 0.75rem;
     letter-spacing: 0.16em;
-    color: var(--gold);
+    color: var(--glow);
 }
 
 .multi__title {
     margin: 6px 0 10px;
     font-size: 1.625rem;
-    font-weight: 800;
-    line-height: 1.3;
+    line-height: 1.4;
     letter-spacing: 0.02em;
     text-wrap: balance;
 }
@@ -198,8 +212,8 @@ const cheapest = multiReportCost(['ZODIAC', 'BLOOD']) ?? 0;
 }
 
 .multi__cta.v-btn--variant-flat {
-    color: #1b3350;
-    background: var(--gold);
+    color: rgb(var(--v-theme-night));
+    background: #e8ecfa;
 }
 
 /* Not there yet: the button waits, plainly, in the card's own white */
@@ -219,7 +233,7 @@ const cheapest = multiReportCost(['ZODIAC', 'BLOOD']) ?? 0;
 }
 
 .multi__login {
-    color: var(--gold);
+    color: var(--glow);
     text-underline-offset: 3px;
 }
 
@@ -257,13 +271,13 @@ const cheapest = multiReportCost(['ZODIAC', 'BLOOD']) ?? 0;
 }
 
 .ring__core {
-    fill: var(--gold);
+    fill: var(--ember);
 }
 
 .ring__you {
     font-size: 14px;
     font-weight: 700;
-    fill: var(--gold);
+    fill: var(--ember);
 }
 
 @keyframes ring-in {

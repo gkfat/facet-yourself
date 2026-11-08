@@ -16,10 +16,7 @@
 
             <v-card variant="outlined">
                 <v-card-text>
-                    <v-progress-circular
-                        v-if="loading"
-                        indeterminate
-                    />
+                    <LoadingState v-if="loading" />
                     <p v-else-if="!payments.length">
                         尚無付款紀錄。
                     </p>

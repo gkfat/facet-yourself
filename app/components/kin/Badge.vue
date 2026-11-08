@@ -94,7 +94,7 @@ const accent = computed(() => ACCENTS[SOLAR_SEALS[props.kin.solarSeal - 1]?.colo
 }
 
 .badge__part {
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    border-top: 1px solid rgba(var(--v-theme-night), 0.08);
     padding-top: 10px;
 }
 </style>

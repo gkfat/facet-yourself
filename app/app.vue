@@ -8,7 +8,7 @@
 
 <script lang="ts" setup>
 useHead({
-    titleTemplate: '%s | 人格探索',
+    titleTemplate: '%s | Facet yourself',
     meta: [
         {
             property: 'og:type',
@@ -38,7 +38,7 @@ useHead({
 
 /* Outlined cards use a soft grey edge everywhere, not the text color. */
 .v-card--variant-outlined {
-    border-color: rgba(0, 0, 0, 0.12);
+    border-color: rgba(var(--v-theme-night), 0.12);
     /* Opaque, so a backdrop behind the card (a banner) does not show through its header */
     background-color: rgb(var(--v-theme-surface));
 }

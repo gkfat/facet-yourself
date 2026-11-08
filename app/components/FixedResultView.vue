@@ -485,6 +485,6 @@ const hasGrowth = computed(() => Boolean(props.result.growthAdvice.trim() || pro
     margin: 0;
     font-size: 1rem;
     line-height: 1.8;
-    color: rgba(0, 0, 0, 0.75);
+    color: rgba(var(--v-theme-night), 0.75);
 }
 </style>

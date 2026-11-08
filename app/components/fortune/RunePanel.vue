@@ -1,8 +1,7 @@
 <template>
     <div>
-        <v-progress-linear
+        <LoadingState
             v-if="status === 'loading'"
-            indeterminate
             class="mb-4"
         />
 
@@ -65,7 +64,7 @@
                 class="mb-4"
             >
                 <v-card-text>
-                    <v-skeleton-loader type="paragraph, paragraph" />
+                    <LoadingState />
                 </v-card-text>
             </v-card>
         </template>

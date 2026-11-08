@@ -14,10 +14,7 @@
             {{ loadError }}
         </v-alert>
 
-        <v-progress-circular
-            v-else-if="loading"
-            indeterminate
-        />
+        <LoadingState v-else-if="loading" />
 
         <template v-else-if="result">
             <FixedResultView :result="result.content">

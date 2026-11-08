@@ -163,18 +163,17 @@ watch(() => initialized.value && isAuthenticated.value, (member) => {
 </script>
 
 <style scoped>
-/* Paper in the app's amber: quieter than the multi-dimension card beside it, but the one that changes every day. */
+/* A plain card in the app's blue: quieter than the multi-dimension band after it, but the one that changes every day. */
 .today {
-    --gold: #b7791f;
-    --gold-deep: #8a5a12;
+    --tint: rgb(var(--v-theme-primary));
 
     /* The card asks how wide it is, not the screen: two tiles across beside the other card, four on its own */
     container-type: inline-size;
     height: 100%;
     padding: 24px;
-    border: 1px solid rgba(183, 121, 31, 0.3);
+    border: 1px solid rgba(var(--v-theme-night), 0.14);
     border-radius: 14px;
-    background: linear-gradient(165deg, #fffaf0 0%, #fff3da 100%);
+    background: rgb(var(--v-theme-surface));
 }
 
 .today__head {
@@ -188,7 +187,7 @@ watch(() => initialized.value && isAuthenticated.value, (member) => {
 .today__eyebrow {
     font-size: 0.75rem;
     letter-spacing: 0.16em;
-    color: var(--gold-deep);
+    color: var(--tint);
 }
 
 .today__title {
@@ -207,10 +206,10 @@ watch(() => initialized.value && isAuthenticated.value, (member) => {
 
 .today__progress {
     padding: 3px 12px;
-    border: 1px solid rgba(183, 121, 31, 0.45);
+    border: 1px solid rgba(var(--v-theme-primary), 0.4);
     border-radius: 999px;
     font-size: 0.8125rem;
-    color: var(--gold-deep);
+    color: var(--tint);
 }
 
 .today__progress strong {
@@ -237,16 +236,16 @@ watch(() => initialized.value && isAuthenticated.value, (member) => {
     flex-direction: column;
     gap: 4px;
     padding: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(var(--v-theme-night), 0.08);
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgb(var(--v-theme-background));
     animation: tile-in 0.4s ease backwards;
     animation-delay: calc(var(--i) * 70ms);
 }
 
 .tile--done {
-    border-color: rgba(183, 121, 31, 0.6);
-    background: #fff;
+    border-color: rgba(var(--v-theme-primary), 0.55);
+    background: rgb(var(--v-theme-surface));
 }
 
 .tile__icon {
@@ -257,13 +256,13 @@ watch(() => initialized.value && isAuthenticated.value, (member) => {
     height: 34px;
     margin-bottom: 2px;
     border-radius: 50%;
-    color: var(--gold-deep);
-    background: rgba(183, 121, 31, 0.12);
+    color: var(--tint);
+    background: rgba(var(--v-theme-primary), 0.1);
 }
 
 .tile--done .tile__icon {
     color: #fff;
-    background: var(--gold);
+    background: var(--tint);
 }
 
 .tile__label {
@@ -298,12 +297,12 @@ watch(() => initialized.value && isAuthenticated.value, (member) => {
 /* Gold on paper while there is something to turn over; an outline once everything is */
 .today__cta.v-btn--variant-flat {
     color: #fff;
-    background: var(--gold-deep);
+    background: var(--tint);
 }
 
 .today__cta.v-btn--variant-outlined {
-    color: var(--gold-deep);
-    border-color: rgba(138, 90, 18, 0.5);
+    color: var(--tint);
+    border-color: rgba(var(--v-theme-primary), 0.5);
 }
 
 .today__note {

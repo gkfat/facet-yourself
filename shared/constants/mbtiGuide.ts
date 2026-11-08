@@ -1,4 +1,5 @@
 import type { MbtiType } from '../schemas/common';
+import { TONES } from './palette';
 
 /** The four letter pairs a type is made of */
 export const MBTI_AXES = [
@@ -61,7 +62,7 @@ export const MBTI_GROUPS: readonly MbtiGroup[] = [
         letters: 'NT',
         title: '分析家',
         description: '重視邏輯、策略與可能性，愛拆解問題，追求更好的做法。',
-        tone: '#2f5d8a',
+        tone: TONES.indigo,
         types: [
             {
                 type: 'INTJ', name: '建築師', 
@@ -82,7 +83,7 @@ export const MBTI_GROUPS: readonly MbtiGroup[] = [
         letters: 'NF',
         title: '外交家',
         description: '重視意義、價值與人，關心他人的成長與感受。',
-        tone: '#2e7d5b',
+        tone: TONES.green,
         types: [
             {
                 type: 'INFJ', name: '提倡者', 
@@ -103,7 +104,7 @@ export const MBTI_GROUPS: readonly MbtiGroup[] = [
         letters: 'SJ',
         title: '守護者',
         description: '重視責任、秩序與可靠，穩定地把事做好，照顧身邊的人。',
-        tone: '#b7791f',
+        tone: TONES.copper,
         types: [
             {
                 type: 'ISTJ', name: '物流師', 
@@ -124,7 +125,7 @@ export const MBTI_GROUPS: readonly MbtiGroup[] = [
         letters: 'SP',
         title: '探險家',
         description: '重視當下與實際體驗，靠動手與感受行動，彈性高、反應快。',
-        tone: '#c94f4f',
+        tone: TONES.rose,
         types: [
             {
                 type: 'ISTP', name: '鑑賞家', 

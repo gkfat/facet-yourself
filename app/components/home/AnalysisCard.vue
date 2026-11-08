@@ -47,7 +47,7 @@ defineProps<{ analysis: Analysis }>();
 <style scoped>
 /* An analysis card: lit in its own color when its data is there, quiet when it is not. */
 .analysis {
-    border-color: rgba(0, 0, 0, 0.12);
+    border-color: rgba(var(--v-theme-night), 0.12);
     border-left: 4px solid var(--tone);
 }
 
@@ -78,6 +78,6 @@ defineProps<{ analysis: Analysis }>();
     gap: 4px;
     margin: 0;
     font-size: 0.875rem;
-    color: rgba(0, 0, 0, 0.6);
+    color: rgba(var(--v-theme-night), 0.6);
 }
 </style>

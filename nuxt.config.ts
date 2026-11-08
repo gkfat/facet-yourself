@@ -1,3 +1,6 @@
+// Link previews need an absolute image URL; set when the site's address is known (see .env.example)
+const siteUrl = process.env.NUXT_PUBLIC_SITE_URL?.replace(/\/$/, '');
+
 export default defineNuxtConfig({
     compatibilityDate: '2025-07-15',
     devtools: { enabled: false },
@@ -8,7 +11,36 @@ export default defineNuxtConfig({
             charset: 'utf-8',
             viewport: 'width=device-width, initial-scale=1',
             htmlAttrs: { lang: 'zh-TW' },
+            meta: [
+                {
+                    name: 'theme-color', content: '#171f3d',
+                },
+                {
+                    name: 'description', content: 'Facet yourself 多維度自我分析：從星座、MBTI、人類圖、八字等不同角度認識自己，再由 AI 疊合成一份屬於你的報告。',
+                },
+                {
+                    property: 'og:site_name', content: 'Facet yourself',
+                },
+                {
+                    property: 'og:title', content: 'Facet yourself｜多維度自我分析',
+                },
+                {
+                    property: 'og:description', content: '從不同的角度認識自己，再把它們疊在一起看。',
+                },
+                ...(siteUrl
+                    ? [
+                        {
+                            property: 'og:image', content: `${siteUrl}/og.png`,
+                        }, {
+                            name: 'twitter:card', content: 'summary_large_image',
+                        },
+                    ]
+                    : []),
+            ],
             link: [
+                {
+                    rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg',
+                },
                 {
                     rel: 'preconnect', href: 'https://fonts.googleapis.com',
                 },
@@ -17,7 +49,7 @@ export default defineNuxtConfig({
                 },
                 {
                     rel: 'stylesheet',
-                    href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap',
+                    href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@500;700&display=swap',
                 },
             ],
         },
@@ -26,7 +58,11 @@ export default defineNuxtConfig({
     // SPA mode for Vercel deployment
     ssr: false,
 
-    css: ['vuetify/lib/styles/main.sass', '@mdi/font/css/materialdesignicons.min.css'],
+    css: [
+        'vuetify/lib/styles/main.sass',
+        '@mdi/font/css/materialdesignicons.min.css',
+        '~/assets/css/main.css',
+    ],
 
     build: { transpile: ['vuetify'] },
 

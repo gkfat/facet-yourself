@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 專案概述
 
-self-scope：AI 個人特質分析 App（星座／血型／MBTI／生命靈數／Human Design 固定內容 + 16 型人格測驗 + OpenAI 詳細報告 + 點數與付款）。
+self-scope（產品名 Facet yourself／多維度自我分析）：AI 個人特質分析 App（星座／血型／MBTI／生命靈數／Human Design 固定內容 + 16 型人格測驗 + OpenAI 詳細報告 + 點數與付款）。
 Nuxt 4 SPA（`ssr: false`）+ Nitro server（Vercel preset）+ Firestore（僅經 firebase-admin 存取）+ Vuetify。使用 pnpm，Node 24（scripts 直接以 Node 內建 TypeScript 執行）。
 
 ## 常用指令

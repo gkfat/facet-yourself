@@ -3,13 +3,15 @@
         <v-app-bar
             flat
             border="b"
+            class="app-bar"
         >
             <v-app-bar-title>
                 <NuxtLink
                     to="/"
                     class="brand"
                 >
-                    多維度自我分析
+                    <span class="brand__mark font-display">Facet yourself</span>
+                    <span class="brand__name">多維度自我分析</span>
                 </NuxtLink>
             </v-app-bar-title>
 
@@ -233,10 +235,34 @@ onMounted(() => {
 
 <style scoped>
 .brand {
-    color: inherit;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+    color: rgb(var(--v-theme-night));
     text-decoration: none;
-    font-weight: 700;
-    letter-spacing: 0.02em;
+}
+
+.brand__mark {
+    font-size: 1.375rem;
+    letter-spacing: 0.04em;
+}
+
+.brand__name {
+    font-size: 0.8125rem;
+    letter-spacing: 0.1em;
+    color: rgba(var(--v-theme-on-surface), 0.6);
+}
+
+/* The wordmark alone below the xl breakpoint: the header has the buttons to fit */
+@media (max-width: 1279px) {
+    .brand__name {
+        display: none;
+    }
+}
+
+/* A hairline in the night ink instead of Vuetify's grey */
+.app-bar {
+    border-bottom-color: rgba(var(--v-theme-night), 0.12) !important;
 }
 
 /* A full-width backdrop on a page must not add a horizontal scrollbar. */
@@ -266,24 +292,6 @@ onMounted(() => {
 @media (max-width: 420px) {
     .login-promo {
         display: none;
-    }
-}
-
-/* Phones: the title keeps its whole name (a smaller size instead of "多維度自…") and the buttons take what is left. */
-@media (max-width: 480px) {
-    .brand {
-        font-size: 1.0625rem;
-        letter-spacing: 0;
-        white-space: nowrap;
-    }
-
-    :deep(.v-toolbar-title) {
-        flex: 0 0 auto;
-    }
-
-    :deep(.v-toolbar-title__placeholder) {
-        overflow: visible;
-        text-overflow: clip;
     }
 }
 

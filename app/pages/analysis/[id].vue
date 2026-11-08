@@ -26,10 +26,7 @@
                 這份報告的題目沒有經過信度與效度驗證，只能幫你自我探索，不是心理評估或診斷。
             </v-alert>
 
-            <v-progress-circular
-                v-if="loading"
-                indeterminate
-            />
+            <LoadingState v-if="loading" />
 
             <v-alert
                 v-else-if="loadError"

@@ -55,7 +55,7 @@ defineProps<{
 .group + .group {
     margin-top: 28px;
     padding-top: 24px;
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    border-top: 1px solid rgba(var(--v-theme-night), 0.08);
 }
 
 .group__title {

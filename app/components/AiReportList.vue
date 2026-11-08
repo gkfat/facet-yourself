@@ -1,9 +1,6 @@
 <template>
     <section>
-        <v-skeleton-loader
-            v-if="loading"
-            type="paragraph"
-        />
+        <LoadingState v-if="loading" />
 
         <v-alert
             v-else-if="failed"
@@ -56,13 +53,14 @@
                         <span class="text-caption text-medium-emphasis">{{ new Date(item.createdAt).toLocaleString('zh-TW') }}</span>
                         <v-spacer />
                         <template v-if="item.status === 'GENERATING'">
-                            <v-progress-circular
-                                indeterminate
-                                size="18"
-                                width="2"
-                                class="mr-1"
+                            <FacetLoader
+                                :size="28"
+                                label="報告生成中"
                             />
-                            <span class="text-body-2">生成中，通常不到一分鐘…</span>
+                            <span
+                                class="text-body-2"
+                                role="status"
+                            >生成中，通常不到一分鐘…</span>
                         </template>
                         <template v-else-if="item.status === 'FAILED'">
                             <span class="text-body-2 text-warning mr-2">這次沒有成功，已退 {{ item.cost }} 點</span>

@@ -1,8 +1,7 @@
 <template>
     <div>
-        <v-progress-linear
+        <LoadingState
             v-if="status === 'loading'"
-            indeterminate
             class="mb-4"
         />
 
