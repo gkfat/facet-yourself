@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 專案概述
 
-self-scope（產品名 Facet yourself／多維度自我分析）：AI 個人特質分析 App（星座／血型／MBTI／生命靈數／Human Design 固定內容 + 16 型人格測驗 + OpenAI 詳細報告 + 點數與付款）。
+facet-yourself（產品名 Facet yourself／多維度自我分析）：AI 個人特質分析 App（星座／血型／MBTI／生命靈數／Human Design 固定內容 + 16 型人格測驗 + OpenAI 詳細報告 + 點數與付款）。
 Nuxt 4 SPA（`ssr: false`）+ Nitro server（Vercel preset）+ Firestore（僅經 firebase-admin 存取）+ Vuetify。使用 pnpm，Node 24（scripts 直接以 Node 內建 TypeScript 執行）。
 
 ## 常用指令
@@ -18,6 +18,7 @@ pnpm vitest run server/services/point.service.test.ts   # 單一測試檔
 pnpm vitest run -t "測試名稱"                           # 依名稱
 pnpm check:bundle             # 確認 client bundle 沒有洩漏 server secret
 pnpm content:import <file> [--dry-run]   # 匯入固定內容；另有 content:check / content:import-test / content:import-packages
+pnpm ontology:check           # 檢查特質本體、映射與片段的一致性
 pnpm firebase:provision       # 建立 Firestore 索引等
 pnpm e2e:smoke
 ```
@@ -42,6 +43,17 @@ pnpm e2e:smoke
 ### Shared（`shared/`）
 - `schemas/api/*`（request/response 的 zod schema）與 `schemas/firestore/*`（文件 schema）是前後端契約，API 輸入輸出都要過 schema。
 - `utils/fixedContentKeys.ts` 定義固定內容的金鑰規則（單項與 2～4 維度組合）；`constants/`、`utils/` 含 Human Design 資料、命理計算、點數與多維度定價等純函式。
+
+### 報告管線（`shared/report/`、`shared/ontology/`）
+單維度／綜合報告是**純函式**組裝，同一份輸入永遠得到同一份報告；`server/services/singleReport.service.ts` 負責取資料，其餘都在 `shared/`。
+
+- `shared/report/adapters/*`：每個系統（星座、血型、MBTI、生命靈數、Maya Kin、八字、人類圖，及塔羅／盧恩／星座運勢等「狀態系統」）把自己的事實與固定內容轉成同一種 `SystemReportInput`。新增系統只寫 adapter，區塊順序與推論規則共用。
+- `assembleSingleReport.ts` 把 input 組成固定順序的 blocks（`position → keypoints → overview → facts → summary → synthesis → impact:* → advice → limits`）；`assembleMultiReport.ts` 跨系統合併。狀態系統只有事實與建議，不做特質推論。
+- 推論只從「畫面上顯示的事實」出發：`facets.ts` 依 `ontology/mappings` 把事實的 term 對到 28 個特質軸（`ontology/axes.ts`）的端點；`report/synthesis.ts` 用 `ontology/insightRules` 的規則找出特質兩兩互動。報告裡的句子都帶 `sources`（term／axisEnd／rule／fragment），不可產生沒有來源的句子。
+- 新增特質互動規則時，`insightRules/validate.ts` 會檢查措辭（需含「可能／傾向」等保守詞、禁用診斷與財務用語）；`report/synthesis.test.ts` 會窮舉可列舉的系統，要求有兩軸以上特質的報告都有互動卡，規則改動後務必跑。
+- 前端用文字格式解析報告：`app/utils/summaryFacets.ts` 解析 `summary` 區塊（「從「…」來看，你傾向「…」：…」與「用得太過時：…」），改動 `assembleSingleReport` 的句型時要同步改它與其測試。AI 詳細報告也讀 `summary`、`facts`、`time`、`limits` 區塊文字（`aiReport.service.ts`）。
+- 報告內容或規則改變時要升版本常數：`SINGLE_REPORT_TEMPLATE_VERSION`、`ONTOLOGY_VERSION`、`FRAGMENT_VERSION`、`MAPPING_VERSION`、`INSIGHT_RULES_VERSION`（已存快照會記錄它們，`reportSnapshot.service` 依內容重用或重存）。
+- 自我分析測驗（Big Five、九型、HEXACO 等）由 `shared/assessments/` 的統一框架定義，新增一種只需加定義檔，並自動納入綜合報告可選系統。
 
 ### Frontend（`app/`）
 SPA；`composables/`（`useApi`、`useAuth`、`useGuestSession`、`usePoints` 等）封裝呼叫 API 與 Firebase client auth（`plugins/firebase.client.ts`），`middleware/member.ts` 保護會員頁。訪客以 guest session（`X-Guest-Session-Id`）使用，登入後可 claim。

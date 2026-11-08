@@ -8,7 +8,7 @@ import {
 import type { DimensionScore } from '../../shared/utils/personalityScoring';
 
 /** Where the test page keeps the result just worked out, for this browser tab only. */
-export const MBTI_RESULT_STORAGE_KEY = 'self-scope:mbti-result';
+export const MBTI_RESULT_STORAGE_KEY = 'facet-yourself:mbti-result';
 
 /**
  * The strength of each of the four pairs for the member's latest result, when that result is of this type.
