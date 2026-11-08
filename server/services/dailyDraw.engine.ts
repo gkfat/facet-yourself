@@ -7,9 +7,7 @@ import type { FixedContentType } from '../../shared/utils/fixedContentKeys';
 import type {
     DrawOrientation, DrawnSymbol,
 } from '../../shared/utils/dailyDraw';
-import {
-    addMonths, taipeiDateKey,
-} from '../../shared/utils/time';
+import { taipeiDateKey } from '../../shared/utils/time';
 
 /** The seed of a visitor's draw: the prefix keeps it apart from every account's uid. */
 export function guestDrawSubject(sessionId: string): string {
@@ -21,7 +19,6 @@ export type DailyDrawRecord = {
     symbolIndex: number;
     orientation: DrawOrientation;
     drawnAt: number;
-    expiresAt: number;
     drawVersion: string;
 };
 
@@ -29,7 +26,6 @@ export type DailyDrawRecord = {
 export type DailyDrawConfig = {
     contentType: FixedContentType;
     drawVersion: string;
-    retentionMonths: number;
     pick: (uid: string, dateKey: string) => DrawnSymbol;
     /** Key of the written content of a symbol in the fixed contents */
     contentKey: (symbolIndex: number, orientation: DrawOrientation) => string;
@@ -94,7 +90,6 @@ export class DailyDrawEngine {
         const candidate: DailyDrawRecord = {
             ...picked,
             drawnAt: now,
-            expiresAt: addMonths(now, this.config.retentionMonths),
             drawVersion: this.config.drawVersion,
         };
 
@@ -140,7 +135,6 @@ export class DailyDrawEngine {
             record: {
                 ...picked,
                 drawnAt: now,
-                expiresAt: now,
                 drawVersion: this.config.drawVersion,
             },
             content,

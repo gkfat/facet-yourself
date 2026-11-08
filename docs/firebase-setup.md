@@ -16,7 +16,9 @@
 2. 在 Authentication 的「授權網域」加入 Vercel 網域。
 3. 部署規則與索引：`firebase deploy --only firestore:rules,firestore:indexes`
    - `firestore.rules` 全擋 client，所有存取都經過 Nuxt server（firebase-admin）。
-   - `firestore.indexes.json` 含到期清除用的 collection group 單欄位索引（`expiresAt`）。
+   - `firestore.indexes.json` 含到期清除用的 collection group 單欄位索引（`expiresAt`），以及後台統計每日塔羅／盧恩用的 `tarotDraws.drawnAt`、`runeDraws.drawnAt` 單欄位索引。
+   - 後台 Dashboard 的聚合查詢還需要複合索引（`pointTransactions`：`type`＋`createdAt`＋`amount`、`type`＋`reason`＋`createdAt`＋`amount`；`aiUsageRecords`：`createdAt`＋三個加總欄位；`reportSnapshots`：`kind`＋`systems`），都在 `firestore.indexes.json`，用上面的 deploy 指令建立（`sum()` 的欄位必須包含在索引內）。單欄位的 `drawnAt` 索引（`tarotDraws`、`runeDraws`）與 `aiReports.createdAt`（多維度報告統計）同在該檔，一併由 deploy 建立（`pnpm firebase:provision` 也能建立）。
+   - 這些索引要在 Console 的「索引」頁顯示「已啟用」後，Dashboard 對應的圖表才查得到資料。
 
 ## 2. TTL 政策（Firestore 自動清除）
 欄位 `expiresAt` 必須是 Firestore Timestamp。下列集合群組要啟用 TTL：
@@ -32,6 +34,9 @@ TTL 清除會延遲（通常 24 小時內），程式判斷一律以時間比較
 注意：`testAttempts`、`humanDesign`、`reportSnapshots`、`aiReports` 的 `expiresAt` 是數字（epoch 毫秒），
 **不要**對它們啟用 TTL；它們由每日排程 `/api/cron/data-expiry` 清除。
 
+`tarotDraws`、`runeDraws`（每日塔羅與盧恩抽取紀錄）不會過期：新紀錄沒有 `expiresAt`，排程也不再清除，只在刪除帳號時移除。
+舊文件若還帶 `expiresAt`，會被忽略，不需遷移。
+
 ## 3. Vercel
 - 使用 Pro 方案（Hobby 限非商業用途，請依官方條款確認）。
 - 環境變數（見 `.env.example`）：`FIREBASE_PROJECT_ID`、`FIREBASE_SERVICE_ACCOUNT_KEY`、`NUXT_PUBLIC_FIREBASE_*`、
@@ -39,7 +44,25 @@ TTL 清除會延遲（通常 24 小時內），程式判斷一律以時間比較
 - `vercel.json` 已設定每日 03:00（UTC）執行 `/api/cron/data-expiry`；Vercel 會以 `CRON_SECRET` 帶 Bearer token。
 - 不要把 `.env`、服務帳號金鑰提交到版本庫。
 
-## 4. 匯入內容
+## 4. 後台管理員（`/admin`）
+後台只有一位超級管理員，授權由 Firebase Authentication 帳號上的 custom claim `admin: true` 決定。後端同時要求 email 已驗證且以 Google 登入。
+
+1. 確認 Authentication → Sign-in method 已啟用 Google，且「授權網域」含正式網域（與主站相同，通常已設好）。
+2. 用要當管理員的 Google 帳號，先到主站登入一次。
+3. Authentication → Users：確認該帳號已出現，並記下 email 與 UID。
+4. 授權（Console 沒有設定 custom claim 的介面，需用指令）：
+   ```bash
+   pnpm admin:grant <email>             # 授權
+   pnpm admin:grant <email> --revoke    # 撤銷（同時撤銷 refresh token）
+   ```
+   - 本機會讀 `service_account.json`；要對 production 專案授權，改設 `FIREBASE_SERVICE_ACCOUNT_KEY`（或用 `FIREBASE_SERVICE_ACCOUNT_FILE` 指定該專案的金鑰）。
+   - 找不到帳號時指令會報錯，請回到步驟 2。
+5. 該帳號登出再登入，新的 token 才會帶 claim。
+6. 驗證：管理員開 `/admin` 看得到後台；其他帳號或未登入開 `/admin` 會被導走，呼叫 `/api/admin/*` 會得到 401／403。
+
+注意：撤銷後，已簽發的 token 最長約 1 小時仍有效；請務必替該 Google 帳號開啟兩步驟驗證。
+
+## 5. 匯入內容
 
 ### 內容檔在哪裡
 `content/` **不進版控**（已列入 `.gitignore`），檔案只存在本機，請自行備份。目錄結構：

@@ -7,6 +7,7 @@ import { getScriptFirestore } from './lib/admin.ts';
  * One-time (idempotent) Firebase setup that normally needs the Firebase CLI:
  *  - release firestore.rules
  *  - single-field index exemptions for the expiry job (collection-group queries on `expiresAt`)
+ *  - single-field index exemptions for the admin dashboard (collection-group queries on `drawnAt` and `createdAt`)
  *  - TTL policies for guestSessions, welcomeGrants and rateLimits
  * Usage: node scripts/provision-firebase.ts [--dry-run]
  */
@@ -20,12 +21,22 @@ const TTL_GROUPS = [
 const EXPIRY_QUERY_GROUPS = [
     'testAttempts',
     'humanDesign',
-    'tarotDraws',
     'kinUnlocks',
-    'runeDraws',
     'reportSnapshots',
     'assessmentAttempts',
     'aiReports',
+];
+/** Fields the admin dashboard queries across all members: the daily draws by `drawnAt`, the AI reports by `createdAt`. */
+const DASHBOARD_FIELD_INDEXES = [
+    {
+        group: 'tarotDraws', field: 'drawnAt',
+    },
+    {
+        group: 'runeDraws', field: 'drawnAt',
+    },
+    {
+        group: 'aiReports', field: 'createdAt',
+    },
 ];
 
 getScriptFirestore();
@@ -40,9 +51,9 @@ if (!accessToken) throw new Error('Could not obtain an access token from the ser
 
 const base = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)`;
 
-async function patchField(group: string, mask: string, body: Record<string, unknown>) {
-    const name = `projects/${projectId}/databases/(default)/collectionGroups/${group}/fields/expiresAt`;
-    const response = await fetch(`${base}/collectionGroups/${group}/fields/expiresAt?updateMask=${mask}`, {
+async function patchField(group: string, field: string, mask: string, body: Record<string, unknown>) {
+    const name = `projects/${projectId}/databases/(default)/collectionGroups/${group}/fields/${field}`;
+    const response = await fetch(`${base}/collectionGroups/${group}/fields/${field}?updateMask=${mask}`, {
         method: 'PATCH',
         headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -56,7 +67,7 @@ async function patchField(group: string, mask: string, body: Record<string, unkn
     if (!response.ok) {
         const detail = await response.text();
 
-        throw new Error(`${group}.${mask}: HTTP ${response.status} ${detail.slice(0, 300)}`);
+        throw new Error(`${group}.${field}.${mask}: HTTP ${response.status} ${detail.slice(0, 300)}`);
     }
 }
 
@@ -82,7 +93,7 @@ await attempt('release firestore.rules', async () => {
 });
 
 for (const group of EXPIRY_QUERY_GROUPS) {
-    await attempt(`index exemption ${group}.expiresAt (collection group)`, () => patchField(group, 'indexConfig', {
+    await attempt(`index exemption ${group}.expiresAt (collection group)`, () => patchField(group, 'expiresAt', 'indexConfig', {
         indexConfig: {
             indexes: [
                 {
@@ -103,8 +114,27 @@ for (const group of EXPIRY_QUERY_GROUPS) {
     }));
 }
 
+for (const {
+    group, field,
+} of DASHBOARD_FIELD_INDEXES) {
+    await attempt(`index exemption ${group}.${field} (collection group)`, () => patchField(group, field, 'indexConfig', {
+        indexConfig: {
+            indexes: [
+                // Both directions: the AI reports are read newest first
+                ...(['COLLECTION_GROUP', 'COLLECTION'] as const).flatMap((queryScope) => (['ASCENDING', 'DESCENDING'] as const).map((order) => ({
+                    queryScope, fields: [
+                        {
+                            fieldPath: field, order,
+                        },
+                    ],
+                }))),
+            ],
+        },
+    }));
+}
+
 for (const group of TTL_GROUPS) {
-    await attempt(`TTL ${group}.expiresAt`, () => patchField(group, 'ttlConfig', { ttlConfig: {} }));
+    await attempt(`TTL ${group}.expiresAt`, () => patchField(group, 'expiresAt', 'ttlConfig', { ttlConfig: {} }));
 }
 
 if (failures.length > 0) {

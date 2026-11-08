@@ -1000,6 +1000,412 @@ paths:
         domainModel: [ENT-017, AGG-014]
         requirements: [NFR-003, NFR-015]
         deferred: true
+  "/admin/users":
+    get:
+      operationId: adminListUsers
+      summary: "後台：會員列表"
+      description: "僅限超級管理員（admin claim、email 已驗證、Google 登入）。以 cursor 分頁，新註冊在前；帶 email 時只查該完整 email，不分頁。"
+      tags: [Admin]
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 20
+        - name: cursor
+          in: query
+          schema:
+            type: string
+        - name: email
+          in: query
+          schema:
+            type: string
+            format: email
+      responses:
+        "200":
+          description: "會員列表與下一頁 cursor"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        uid: { type: string }
+                        email: { type: string }
+                        createdAt: { type: integer }
+                        lastSignInAt: { type: integer, nullable: true }
+                        disabled: { type: boolean }
+                        pointBalance: { type: integer, nullable: true }
+                        multiReportCount: { type: integer, nullable: true }
+                  nextCursor: { type: string, nullable: true }
+        "400":
+          description: "參數無效"
+        "401":
+          "$ref": "#/components/responses/Unauthorized"
+        "403":
+          "$ref": "#/components/responses/Forbidden"
+      x-trace:
+        id: API-067
+        useCases: []
+        domainModel: []
+        requirements: []
+        source: "change add-admin-backend；待確認：尚未建立對應的 requirement 與 use case"
+  "/admin/users/{id}":
+    patch:
+      operationId: adminSetUserDisabled
+      summary: "後台：停用或啟用會員"
+      description: "僅限超級管理員。停用會撤銷 refresh token；不可停用自己。"
+      tags: [Admin]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [disabled]
+              properties:
+                disabled: { type: boolean }
+      responses:
+        "200":
+          description: "已更新"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uid: { type: string }
+                  disabled: { type: boolean }
+        "400":
+          description: "請求無效，或嘗試停用自己"
+        "401":
+          "$ref": "#/components/responses/Unauthorized"
+        "403":
+          "$ref": "#/components/responses/Forbidden"
+        "404":
+          "$ref": "#/components/responses/NotFound"
+      x-trace:
+        id: API-069
+        useCases: []
+        domainModel: []
+        requirements: []
+        source: "change add-admin-backend；待確認：尚未建立對應的 requirement 與 use case"
+    delete:
+      operationId: adminDeleteUser
+      summary: "後台：刪除已停用的會員"
+      description: "僅限超級管理員。沿用帳號刪除流程；未停用的會員與管理員自己不可刪除。"
+      tags: [Admin]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "已刪除"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uid: { type: string }
+                  deleted: { type: boolean }
+        "400":
+          description: "會員尚未停用，或嘗試刪除自己"
+        "401":
+          "$ref": "#/components/responses/Unauthorized"
+        "403":
+          "$ref": "#/components/responses/Forbidden"
+        "404":
+          "$ref": "#/components/responses/NotFound"
+      x-trace:
+        id: API-070
+        useCases: []
+        domainModel: []
+        requirements: []
+        source: "change add-admin-backend；待確認：尚未建立對應的 requirement 與 use case"
+  "/admin/dashboard/members":
+    get:
+      operationId: adminDashboardMembers
+      summary: "後台：會員數"
+      description: "僅限超級管理員。總會員數與本月（台北時區）新會員數。"
+      tags: [Admin]
+      responses:
+        "200":
+          description: "統計結果"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total: { type: integer }
+                  thisMonth: { type: integer }
+                  monthStart: { type: integer }
+        "401":
+          "$ref": "#/components/responses/Unauthorized"
+        "403":
+          "$ref": "#/components/responses/Forbidden"
+      x-trace:
+        id: API-071
+        useCases: []
+        domainModel: []
+        requirements: []
+        source: "change add-admin-backend；待確認：尚未建立對應的 requirement 與 use case"
+  "/admin/dashboard/analyses":
+    get:
+      operationId: adminDashboardAnalyses
+      summary: "後台：單維度分析排行"
+      description: "僅限超級管理員。各系統已產生的單維度分析快照數（受 6 個月保存期限影響），由多到少。"
+      tags: [Admin]
+      responses:
+        "200":
+          description: "統計結果"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        system: { type: string }
+                        label: { type: string }
+                        count: { type: integer }
+        "401":
+          "$ref": "#/components/responses/Unauthorized"
+        "403":
+          "$ref": "#/components/responses/Forbidden"
+      x-trace:
+        id: API-072
+        useCases: []
+        domainModel: []
+        requirements: []
+        source: "change add-admin-backend；待確認：尚未建立對應的 requirement 與 use case"
+  "/admin/dashboard/daily-draws":
+    get:
+      operationId: adminDashboardDailyDraws
+      summary: "後台：每日塔羅與盧恩使用數"
+      description: "僅限超級管理員。依台北日期統計會員的抽取數（不含訪客）。"
+      tags: [Admin]
+      parameters:
+        - name: days
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 60
+            default: 30
+      responses:
+        "200":
+          description: "統計結果"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  days:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date: { type: string, format: date }
+                        tarot: { type: integer }
+                        rune: { type: integer }
+                  earliestDrawAt: { type: integer, nullable: true }
+        "400":
+          description: "參數無效"
+        "401":
+          "$ref": "#/components/responses/Unauthorized"
+        "403":
+          "$ref": "#/components/responses/Forbidden"
+      x-trace:
+        id: API-073
+        useCases: []
+        domainModel: []
+        requirements: []
+        source: "change add-admin-backend；待確認：尚未建立對應的 requirement 與 use case"
+  "/admin/dashboard/points":
+    get:
+      operationId: adminDashboardPoints
+      summary: "後台：每日點數消耗"
+      description: "僅限超級管理員。依台北日期統計扣點與退款，並依用途拆分扣點。"
+      tags: [Admin]
+      parameters:
+        - name: days
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 60
+            default: 30
+      responses:
+        "200":
+          description: "統計結果"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  days:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date: { type: string, format: date }
+                        deducted: { type: integer }
+                        refunded: { type: integer }
+                  deductedByReason:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        reason: { type: string }
+                        deducted: { type: integer }
+        "400":
+          description: "參數無效"
+        "401":
+          "$ref": "#/components/responses/Unauthorized"
+        "403":
+          "$ref": "#/components/responses/Forbidden"
+      x-trace:
+        id: API-074
+        useCases: []
+        domainModel: []
+        requirements: []
+        source: "change add-admin-backend；待確認：尚未建立對應的 requirement 與 use case"
+  "/admin/dashboard/ai-cost":
+    get:
+      operationId: adminDashboardAiCost
+      summary: "後台：每日 OpenAI 預估成本"
+      description: "僅限超級管理員。依台北日期統計預估成本（USD）與 token，並含本月累計；已刪帳號的用量仍計入。"
+      tags: [Admin]
+      parameters:
+        - name: days
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 60
+            default: 30
+      responses:
+        "200":
+          description: "統計結果"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  days:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date: { type: string, format: date }
+                        cost: { type: number }
+                        inputTokens: { type: integer }
+                        outputTokens: { type: integer }
+                  month:
+                    type: object
+                    properties:
+                      cost: { type: number }
+                      inputTokens: { type: integer }
+                      outputTokens: { type: integer }
+                  usdToTwdRate: { type: number }
+        "400":
+          description: "參數無效"
+        "401":
+          "$ref": "#/components/responses/Unauthorized"
+        "403":
+          "$ref": "#/components/responses/Forbidden"
+      x-trace:
+        id: API-075
+        useCases: []
+        domainModel: []
+        requirements: []
+        source: "change add-admin-backend；待確認：尚未建立對應的 requirement 與 use case"
+  "/admin/dashboard/ai-reports":
+    get:
+      operationId: adminDashboardAiReports
+      summary: "後台：多維度 AI 報告使用狀況"
+      description: "僅限超級管理員。依台北日期統計成功與失敗次數、各報告使用的維度數與最大值，並列出使用者的提問（不含使用者身分）；只讀取最近的一批報告。"
+      tags: [Admin]
+      parameters:
+        - name: days
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 60
+            default: 30
+      responses:
+        "200":
+          description: "統計結果"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  days:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date: { type: string, format: date }
+                        completed: { type: integer }
+                        failed: { type: integer }
+                  totals:
+                    type: object
+                    properties:
+                      completed: { type: integer }
+                      failed: { type: integer }
+                      generating: { type: integer }
+                  dimensionCounts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        dimensions: { type: integer }
+                        count: { type: integer }
+                  maxDimensions: { type: integer }
+                  questions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        createdAt: { type: integer }
+                        status: { type: string }
+                        systems:
+                          type: array
+                          items: { type: string }
+                        question: { type: string }
+                  scanned: { type: integer }
+                  truncated: { type: boolean }
+        "400":
+          description: "參數無效"
+        "401":
+          "$ref": "#/components/responses/Unauthorized"
+        "403":
+          "$ref": "#/components/responses/Forbidden"
+      x-trace:
+        id: API-076
+        useCases: []
+        domainModel: []
+        requirements: []
+        source: "change add-admin-backend；待確認：尚未建立對應的 requirement 與 use case"
   "/cron/data-expiry":
     get:
       operationId: runDataExpiry

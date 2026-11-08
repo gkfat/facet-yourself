@@ -8,6 +8,12 @@ export const DEFAULT_OPENAI_MODEL = 'gpt-5-mini';
 export const DEFAULT_AI_PRICE_INPUT_PER_MTOK = 0.25;
 export const DEFAULT_AI_PRICE_OUTPUT_PER_MTOK = 2;
 
+/**
+ * Fixed rate (NT$ per US$) the back office uses to show the estimated cost in New Taiwan dollars. It is not a live
+ * rate: change it here when the exchange rate has moved enough to matter.
+ */
+export const USD_TO_TWD_RATE = 32;
+
 /** How hard the model thinks before it writes; the reasoning counts against the output cap, and `minimal` is the cheapest. */
 export const REASONING_EFFORTS = [
     'minimal',

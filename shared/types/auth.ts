@@ -11,4 +11,8 @@ export type AuthTokenPayload = {
      * so the welcome-grant ledger keys on it.
      */
     googleSub?: string;
+    /** Custom claim `admin`: true only for the super administrator (set by `pnpm admin:grant`). */
+    admin?: boolean;
+    /** Token claim firebase.sign_in_provider, e.g. `google.com`. */
+    signInProvider?: string;
 };

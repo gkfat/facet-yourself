@@ -29,3 +29,20 @@ const taipeiDateFormat = new Intl.DateTimeFormat('en-CA', {
 export function taipeiDateKey(now: Date): string {
     return taipeiDateFormat.format(now);
 }
+
+/** The instant a Taipei date (`YYYY-MM-DD`) begins. Taipei has no daylight saving, so it is always UTC+8. */
+export function taipeiDayStart(dateKey: string): number {
+    return Date.parse(`${dateKey}T00:00:00+08:00`);
+}
+
+/** The Taipei dates ending with the one `now` falls on, oldest first (`count` of them). */
+export function lastTaipeiDates(now: number, count: number): string[] {
+    const today = taipeiDayStart(taipeiDateKey(new Date(now)));
+
+    return Array.from({ length: count }, (_unused, index) => taipeiDateKey(new Date(today - (count - 1 - index) * DAY_MS)));
+}
+
+/** The first instant of the Taipei month `now` falls in. */
+export function taipeiMonthStart(now: number): number {
+    return taipeiDayStart(`${taipeiDateKey(new Date(now)).slice(0, 7)}-01`);
+}

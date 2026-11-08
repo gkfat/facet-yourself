@@ -6,7 +6,6 @@ import { TarotService } from './tarot.service';
 import { dailyTarotResponseSchema } from '../../shared/schemas/api/tarot.schema';
 import { TAROT_CARDS } from '../../shared/constants/tarot';
 import { drawDailyCard } from '../../shared/utils/tarot';
-import { addMonths } from '../../shared/utils/time';
 import { NotFoundError } from '../../shared/types/errors';
 
 const holder = vi.hoisted(() => ({ db: undefined as unknown }));
@@ -79,7 +78,6 @@ describe('TarotService', () => {
             cardIndex: picked.cardIndex,
             orientation: picked.orientation,
             drawnAt: NOW,
-            expiresAt: addMonths(NOW, 3),
             drawVersion: 'tarot-v1',
         });
     });
@@ -94,6 +92,19 @@ describe('TarotService', () => {
         expect(await service.draw('u1')).toEqual(first);
         expect(draws()).toHaveLength(1);
         expect((await db.doc(`users/u1/tarotDraws/${TODAY}`).get()).data()?.drawnAt).toBe(NOW);
+    });
+
+    it('still reads a record written back when draws expired, and leaves its expiresAt alone', async () => {
+        const picked = await seedFor('u1', TODAY);
+
+        await db.doc(`users/u1/tarotDraws/${TODAY}`).set({
+            cardIndex: picked.cardIndex, orientation: picked.orientation, drawnAt: NOW, expiresAt: NOW + 1000, drawVersion: 'tarot-v1',
+        });
+
+        expect(await service.getToday('u1')).toMatchObject({
+            drawn: true, card: { index: picked.cardIndex },
+        });
+        expect((await db.doc(`users/u1/tarotDraws/${TODAY}`).get()).data()?.expiresAt).toBe(NOW + 1000);
     });
 
     it('stores one record when two requests draw at once', async () => {

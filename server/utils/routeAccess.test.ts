@@ -34,6 +34,13 @@ describe('classifyRoute', () => {
         expect(classifyRoute('POST', '/api/assessments/enneagram/results')).toBe('optional');
     });
 
+    it('leaves the back office to the default, which asks for a signed-in user', () => {
+        expect(classifyRoute('GET', '/api/admin/users')).toBe('required');
+        expect(classifyRoute('PATCH', '/api/admin/users/abc')).toBe('required');
+        expect(classifyRoute('DELETE', '/api/admin/users/abc')).toBe('required');
+        expect(classifyRoute('GET', '/api/admin/dashboard/summary')).toBe('required');
+    });
+
     it('keeps writing a horoscope out of reach', () => {
         expect(classifyRoute('POST', '/api/horoscope/daily')).toBe('required');
     });

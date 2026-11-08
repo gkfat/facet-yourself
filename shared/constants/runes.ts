@@ -182,9 +182,6 @@ export const RUNE_ORIENTATION_LABELS: Record<RuneOrientation, string> = {
     reversed: '逆位',
 };
 
-/** How long a draw is kept before the expiry job removes it (RULE-014). */
-export const RUNE_RETENTION_MONTHS = 3;
-
 /** Key of a rune's written content: `<index>_<upright|reversed>`. */
 export function runeContentKey(runeIndex: number, orientation: RuneOrientation): string {
     return `${runeIndex}_${orientation}`;

@@ -64,9 +64,7 @@ describe('DataExpiryService', () => {
         expect(result).toEqual({
             deletedAttempts: 2,
             deletedHumanDesigns: 1,
-            deletedTarotDraws: 2,
             deletedKinUnlocks: 2,
-            deletedRuneDraws: 2,
             deletedReportSnapshots: 2,
             deletedAssessmentAttempts: 2,
             deletedAiReports: 1,
@@ -79,15 +77,9 @@ describe('DataExpiryService', () => {
         expect(paths).not.toContain('users/u2/testAttempts/old');
         expect(paths).toContain('users/u1/testAttempts/new');
         expect(paths).toContain('users/u2/humanDesign/main');
-        expect(paths).not.toContain('users/u1/tarotDraws/2026-03-01');
-        expect(paths).not.toContain('users/u2/tarotDraws/2026-03-01');
-        expect(paths).toContain('users/u1/tarotDraws/2026-06-30');
         expect(paths).not.toContain('users/u1/kinUnlocks/2026-03-01');
         expect(paths).not.toContain('users/u2/kinUnlocks/2026-03-01');
         expect(paths).toContain('users/u1/kinUnlocks/2026-06-30');
-        expect(paths).not.toContain('users/u1/runeDraws/2026-03-01');
-        expect(paths).not.toContain('users/u2/runeDraws/2026-03-01');
-        expect(paths).toContain('users/u1/runeDraws/2026-06-30');
         expect(paths).not.toContain('users/u1/reportSnapshots/old');
         expect(paths).not.toContain('users/u2/reportSnapshots/old');
         expect(paths).toContain('users/u1/reportSnapshots/new');
@@ -96,6 +88,21 @@ describe('DataExpiryService', () => {
         expect(paths).not.toContain('users/u1/assessmentAttempts/old');
         expect(paths).not.toContain('users/u2/assessmentAttempts/old');
         expect(paths).toContain('users/u1/assessmentAttempts/new');
+    });
+
+    it('never deletes the daily tarot and rune draws, even those still carrying an old expiresAt', async () => {
+        const result = await service.run();
+
+        expect(result).not.toHaveProperty('deletedTarotDraws');
+        expect(result).not.toHaveProperty('deletedRuneDraws');
+        expect(db.paths()).toEqual(expect.arrayContaining([
+            'users/u1/tarotDraws/2026-03-01',
+            'users/u1/tarotDraws/2026-06-30',
+            'users/u2/tarotDraws/2026-03-01',
+            'users/u1/runeDraws/2026-03-01',
+            'users/u1/runeDraws/2026-06-30',
+            'users/u2/runeDraws/2026-03-01',
+        ]));
     });
 
     it('clears an expired mbti but leaves a current one alone', async () => {
@@ -121,9 +128,7 @@ describe('DataExpiryService', () => {
         expect(second).toMatchObject({
             deletedAttempts: 0,
             deletedHumanDesigns: 0,
-            deletedTarotDraws: 0,
             deletedKinUnlocks: 0,
-            deletedRuneDraws: 0,
             deletedReportSnapshots: 0,
             deletedAssessmentAttempts: 0,
             deletedAiReports: 0,

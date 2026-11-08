@@ -2,7 +2,8 @@
  * Minimal in-memory Firestore fake for unit tests.
  *
  * Supports the subset the services use: documents, sub-collections, simple
- * queries, collection-group queries, recursiveDelete and transactions with
+ * queries (ordering by field or `__name__`, startAfter, count and sum aggregations),
+ * collection-group queries, recursiveDelete and transactions with
  * optimistic concurrency (a transaction retries when a document it read was
  * changed by another writer before commit), which is what the idempotency and
  * concurrency tests rely on.
@@ -141,6 +142,7 @@ export class FakeQuery {
         protected readonly filters: Filter[] = [],
         protected readonly orders: Order[] = [],
         protected readonly limitCount?: number,
+        protected readonly cursor?: unknown[],
     ) {}
 
     where(field: string, op: Filter['op'], value: unknown): FakeQuery {
@@ -148,7 +150,7 @@ export class FakeQuery {
             ...this.filters, {
                 field, op, value,
             },
-        ], this.orders, this.limitCount);
+        ], this.orders, this.limitCount, this.cursor);
     }
 
     orderBy(field: string, direction: 'asc' | 'desc' = 'asc'): FakeQuery {
@@ -156,11 +158,56 @@ export class FakeQuery {
             ...this.orders, {
                 field, direction,
             },
-        ], this.limitCount);
+        ], this.limitCount, this.cursor);
     }
 
     limit(count: number): FakeQuery {
-        return new FakeQuery(this.db, this.scope, this.filters, this.orders, count);
+        return new FakeQuery(this.db, this.scope, this.filters, this.orders, count, this.cursor);
+    }
+
+    /** Field projection only saves reads in the real SDK; the fake returns whole documents. */
+    select(..._fields: string[]): FakeQuery {
+        return this;
+    }
+
+    /** Start after the document whose order-by values are these (one value per orderBy, in order). */
+    startAfter(...values: unknown[]): FakeQuery {
+        return new FakeQuery(this.db, this.scope, this.filters, this.orders, this.limitCount, values);
+    }
+
+    /** Aggregation query: only `count()` and `AggregateField.sum(field)` are supported. */
+    aggregate(spec: Record<string, { aggregateType: string; _field?: string | { formattedName: string } }>) {
+        return {
+            get: async () => {
+                const docs = this.resolve();
+                const data: Record<string, number> = {};
+
+                for (const [alias, field] of Object.entries(spec)) {
+                    if (field.aggregateType === 'count') {
+                        data[alias] = docs.length;
+                        continue;
+                    }
+
+                    if (field.aggregateType !== 'sum' || !field._field) {
+                        throw new Error(`Unsupported aggregation in the fake: ${field.aggregateType}`);
+                    }
+
+                    const name = typeof field._field === 'string' ? field._field : field._field.formattedName;
+
+                    data[alias] = docs.reduce((total, doc) => {
+                        const value = getField(doc.data() ?? {}, name);
+
+                        return typeof value === 'number' ? total + value : total;
+                    }, 0);
+                }
+
+                return { data: () => data };
+            },
+        };
+    }
+
+    count() {
+        return { get: async () => ({ data: () => ({ count: this.resolve().length }) }) };
     }
 
     /** Resolve matching documents (used by get() and transactions). */
@@ -169,15 +216,45 @@ export class FakeQuery {
         let rows = entries
             .filter(([, stored]) => this.filters.every((f) => matches(stored.data, f)));
 
+        const valueOf = (path: string, data: Data, field: string) => (
+            field === '__name__' ? path.split('/').pop() as string : getField(data, field)
+        );
+        const compare = (a: ReturnType<typeof comparable>, b: ReturnType<typeof comparable>, direction: Order['direction']) => {
+            if (a === b) return 0;
+            if (a === null) return direction === 'asc' ? -1 : 1;
+            if (b === null) return direction === 'asc' ? 1 : -1;
+            const result = a < b ? -1 : 1;
+
+            return direction === 'asc' ? result : -result;
+        };
+
         for (const order of [...this.orders].reverse()) {
-            rows = rows.sort(([, x], [, y]) => {
-                const a = comparable(getField(x.data, order.field));
-                const b = comparable(getField(y.data, order.field));
-                if (a === b) return 0;
-                if (a === null) return -1;
-                if (b === null) return 1;
-                const result = a < b ? -1 : 1;
-                return order.direction === 'asc' ? result : -result;
+            rows = rows.sort(([px, x], [py, y]) => compare(
+                comparable(valueOf(px, x.data, order.field)),
+                comparable(valueOf(py, y.data, order.field)),
+                order.direction,
+            ));
+        }
+
+        const cursor = this.cursor;
+
+        if (cursor) {
+            if (cursor.length !== this.orders.length) {
+                throw new Error('startAfter needs one value per orderBy');
+            }
+
+            rows = rows.filter(([path, stored]) => {
+                for (const [index, order] of this.orders.entries()) {
+                    const result = compare(
+                        comparable(valueOf(path, stored.data, order.field)),
+                        comparable(cursor[index]),
+                        order.direction,
+                    );
+
+                    if (result !== 0) return result > 0;
+                }
+
+                return false;
             });
         }
 

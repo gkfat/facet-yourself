@@ -2,7 +2,7 @@ import {
     describe, expect, it,
 } from 'vitest';
 import {
-    addDays, addMonths, DAY_MS, taipeiDateKey,
+    addDays, addMonths, DAY_MS, lastTaipeiDates, taipeiDateKey, taipeiDayStart, taipeiMonthStart,
 } from './time';
 
 describe('time utils', () => {
@@ -32,5 +32,26 @@ describe('taipeiDateKey', () => {
         ['2026-10-27T00:00:00Z', '2026-10-27'],
     ])('%s is %s in Taipei', (instant, expected) => {
         expect(taipeiDateKey(new Date(instant))).toBe(expected);
+    });
+
+    it('starts a Taipei day eight hours before UTC midnight', () => {
+        expect(taipeiDayStart('2026-11-08')).toBe(Date.UTC(2026, 10, 7, 16));
+    });
+
+    it('lists the last Taipei dates oldest first, switching at midnight in Taipei', () => {
+        // 2026-11-08 16:30 UTC is already 2026-11-09 00:30 in Taipei
+        const now = Date.UTC(2026, 10, 8, 16, 30);
+
+        expect(lastTaipeiDates(now, 3)).toEqual([
+            '2026-11-07',
+            '2026-11-08',
+            '2026-11-09',
+        ]);
+    });
+
+    it('starts the Taipei month at the first of the month there', () => {
+        // 2026-10-31 17:00 UTC is 2026-11-01 01:00 in Taipei: already November
+        expect(taipeiMonthStart(Date.UTC(2026, 9, 31, 17))).toBe(Date.UTC(2026, 9, 31, 16));
+        expect(taipeiMonthStart(Date.UTC(2026, 10, 15))).toBe(Date.UTC(2026, 9, 31, 16));
     });
 });

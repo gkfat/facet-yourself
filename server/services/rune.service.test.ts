@@ -8,7 +8,6 @@ import {
     RUNES, isReversibleRune,
 } from '../../shared/constants/runes';
 import { drawDailyRune } from '../../shared/utils/rune';
-import { addMonths } from '../../shared/utils/time';
 import { NotFoundError } from '../../shared/types/errors';
 
 const holder = vi.hoisted(() => ({ db: undefined as unknown }));
@@ -91,7 +90,6 @@ describe('RuneService', () => {
             symbolIndex: picked.runeIndex,
             orientation: picked.orientation,
             drawnAt: NOW,
-            expiresAt: addMonths(NOW, 3),
             drawVersion: 'rune-v1',
         });
     });
@@ -113,6 +111,19 @@ describe('RuneService', () => {
         expect(await service.draw('u1')).toEqual(first);
         expect(draws()).toHaveLength(1);
         expect((await db.doc(`users/u1/runeDraws/${TODAY}`).get()).data()?.drawnAt).toBe(NOW);
+    });
+
+    it('still reads a record written back when draws expired, and leaves its expiresAt alone', async () => {
+        const picked = await seedFor('u1', TODAY);
+
+        await db.doc(`users/u1/runeDraws/${TODAY}`).set({
+            symbolIndex: picked.runeIndex, orientation: picked.orientation, drawnAt: NOW, expiresAt: NOW + 1000, drawVersion: 'rune-v1',
+        });
+
+        expect(await service.getToday('u1')).toMatchObject({
+            drawn: true, rune: { index: picked.runeIndex },
+        });
+        expect((await db.doc(`users/u1/runeDraws/${TODAY}`).get()).data()?.expiresAt).toBe(NOW + 1000);
     });
 
     it('stores one record when two requests draw at once', async () => {

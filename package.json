@@ -17,12 +17,14 @@
     "ontology:check": "node --import ./scripts/lib/registerResolver.mjs scripts/check-trait-ontology.ts",
     "check:bundle": "node scripts/check-client-bundle.ts",
     "firebase:provision": "node scripts/provision-firebase.ts",
+    "admin:grant": "node scripts/admin-grant.ts",
     "e2e:smoke": "node scripts/e2e-smoke.ts"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
     "@vercel/functions": "^3.10.3",
     "astronomy-engine": "^2.1.19",
+    "chart.js": "^4.6.1",
     "firebase": "^12.8.0",
     "firebase-admin": "^13.6.0",
     "lunar-typescript": "1.8.6",

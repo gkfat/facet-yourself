@@ -11,7 +11,8 @@ export const runeDrawDocSchema = z.object({
     symbolIndex: z.number().int().min(0).max(RUNE_COUNT - 1),
     orientation: runeOrientationSchema,
     drawnAt: epochMsSchema,
-    expiresAt: epochMsSchema,
+    /** Only documents written before draws were kept for good carry one; it is ignored and never written. */
+    expiresAt: epochMsSchema.optional(),
     /** Version of the draw rule that picked the rune */
     drawVersion: z.string().min(1),
 }).refine((doc) => doc.orientation === 'upright' || isReversibleRune(doc.symbolIndex), {

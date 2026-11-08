@@ -24,6 +24,10 @@ export async function verifyIdToken(idToken: string): Promise<AuthTokenPayload> 
             email: decoded.email,
             email_verified: decoded.email_verified,
             googleSub,
+            admin: decoded.admin === true,
+            signInProvider: typeof decoded.firebase?.sign_in_provider === 'string'
+                ? decoded.firebase.sign_in_provider
+                : undefined,
         };
     } catch (error) {
         throw new AuthError(`Invalid authentication token: ${errorMessage(error)}`);
