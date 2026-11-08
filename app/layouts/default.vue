@@ -10,7 +10,11 @@
                     to="/"
                     class="brand"
                 >
-                    <span class="brand__mark font-display">Facet yourself</span>
+                    <img
+                        src="/logo-mark.png"
+                        alt="Facet yourself"
+                        class="brand__logo"
+                    >
                     <span class="brand__name">多維度自我分析</span>
                 </NuxtLink>
             </v-app-bar-title>
@@ -288,28 +292,23 @@ onMounted(() => {
 
 .brand {
     display: inline-flex;
-    align-items: baseline;
-    gap: 10px;
+    flex-direction: column;
+    gap: 2px;
+    line-height: 1.2;
     color: rgb(var(--v-theme-night));
     text-decoration: none;
 }
 
-.brand__mark {
-    font-size: 1.375rem;
-    letter-spacing: 0.04em;
+.brand__logo {
+    display: block;
+    height: 28px;
+    width: auto;
 }
 
 .brand__name {
     font-size: 0.8125rem;
     letter-spacing: 0.1em;
     color: rgba(var(--v-theme-on-surface), 0.6);
-}
-
-/* The wordmark alone below the xl breakpoint: the header has the buttons to fit */
-@media (max-width: 1279px) {
-    .brand__name {
-        display: none;
-    }
 }
 
 /* A hairline in the night ink instead of Vuetify's grey */
