@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { BaseService } from './base.service';
 import { ReportSnapshotRepository } from '../repositories/reportSnapshot.repository';
 import {
@@ -14,6 +15,9 @@ import { addMonths } from '../../shared/utils/time';
 import {
     NotFoundError, ValidationError,
 } from '../../shared/types/errors';
+
+/** What is kept of `reportFingerprint`: a digest, since the text itself is as long as the report. */
+const digestOf = (content: ReportSnapshotContent) => createHash('sha256').update(reportFingerprint(content)).digest('hex');
 
 type ReportSnapshotServiceOptions = {
     repository?: ReportSnapshotRepository;
@@ -46,7 +50,7 @@ export class ReportSnapshotService extends BaseService {
 
         const now = this.clock();
         const doc: ReportSnapshotDoc = {
-            ...parsed.data, ai: null, aiJob: null, generatedAt: now, expiresAt: addMonths(now, SNAPSHOT_RETENTION_MONTHS),
+            ...parsed.data, ai: null, aiJob: null, generatedAt: now, expiresAt: addMonths(now, SNAPSHOT_RETENTION_MONTHS), fingerprint: digestOf(parsed.data),
         };
         const repo = this.repository;
         const existing = await repo.snapshotsRef(uid).orderBy('generatedAt', 'asc').get();
@@ -85,14 +89,14 @@ export class ReportSnapshotService extends BaseService {
             throw new ValidationError('Invalid report snapshot', { issues: parsed.error.issues });
         }
 
-        const fingerprint = reportFingerprint(parsed.data);
         const now = this.clock();
-        const recent = await this.repository.snapshotsRef(uid).orderBy('generatedAt', 'desc').limit(MAX_SNAPSHOTS_PER_USER).get();
+        // Only the reports with the same digest are read, not the member's last twenty; one kept before the digest existed is not found, and is kept once more
+        const same = await this.repository.snapshotsRef(uid).where('fingerprint', '==', digestOf(parsed.data)).get();
 
-        for (const snap of recent.docs) {
+        for (const snap of same.docs) {
             const doc = reportSnapshotDocSchema.parse(snap.data());
 
-            if (doc.expiresAt > now && reportFingerprint(doc) === fingerprint) {
+            if (doc.expiresAt > now) {
                 return {
                     id: snap.id, expiresAt: doc.expiresAt, reused: true,
                 };

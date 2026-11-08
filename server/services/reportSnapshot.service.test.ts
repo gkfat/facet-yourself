@@ -216,6 +216,30 @@ describe('ReportSnapshotService', () => {
             expect(db.paths().filter((p) => p.includes('reportSnapshots'))).toHaveLength(1);
         });
 
+        it('keeps a digest of the report with it, and finds the report again by it', async () => {
+            const { id } = await service.save('u1', content());
+            const stored = reportSnapshotDocSchema.parse((await db.doc(`users/u1/reportSnapshots/${id}`).get()).data());
+
+            expect(stored.fingerprint).toMatch(/^[0-9a-f]{64}$/);
+            expect(await service.saveOrReuse('u1', content())).toMatchObject({
+                id, reused: true,
+            });
+        });
+
+        it('keeps a report that was kept before the digest existed once more, and then reuses that one', async () => {
+            const { id } = await service.save('u1', content());
+
+            await db.doc(`users/u1/reportSnapshots/${id}`).update({ fingerprint: null });
+
+            const again = await service.saveOrReuse('u1', content());
+
+            expect(again.reused).toBe(false);
+            expect(again.id).not.toBe(id);
+            expect(await service.saveOrReuse('u1', content())).toMatchObject({
+                id: again.id, reused: true,
+            });
+        });
+
         it('is not attached to someone else\'s report, to a missing one or to an expired one', async () => {
             const { id } = await service.save('u1', content());
 

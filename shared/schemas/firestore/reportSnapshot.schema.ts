@@ -131,6 +131,8 @@ export const reportSnapshotDocSchema = z.object({
     generatedAt: epochMsSchema,
     /** generatedAt + 6 months; removed by the daily expiry job (no TTL) */
     expiresAt: epochMsSchema,
+    /** A digest of what the report says (see `reportFingerprint`), to find the same report again without reading the others; null for a report kept before it existed */
+    fingerprint: z.string().nullable().default(null),
 }).superRefine(checkSystemCount);
 
 export type SnapshotSegmentKind = typeof SNAPSHOT_SEGMENT_KINDS[number];

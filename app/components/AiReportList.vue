@@ -74,6 +74,7 @@
                             </v-btn>
                         </template>
                         <v-btn
+                            v-if="item.status !== 'GENERATING'"
                             :to="`/ai-reports/${item.id}`"
                             size="small"
                             color="primary"
@@ -108,7 +109,7 @@
 
 <script lang="ts" setup>
 import {
-    aiReportSummarySchema, type AiReportSummary,
+    aiReportItemSchema, aiReportSummarySchema, type AiReportSummary,
 } from '../../shared/schemas/api/aiReport.schema';
 import {
     DIMENSION_META, assessmentDimensions,
@@ -144,13 +145,30 @@ async function load(silent = false) {
     }
 }
 
+/** Looks at the reports being made one by one (a document each), and reads the whole list again only once one of them is no longer being made */
+async function checkRunning() {
+    const ids = reports.value.filter((item) => item.status === 'GENERATING').map((item) => item.id);
+
+    try {
+        const items = await Promise.all(ids.map(async (id) => aiReportItemSchema.parse(await get<unknown>(`/api/ai-reports/${id}`))));
+
+        if (items.every((item) => item.status === 'GENERATING')) return;
+    } catch (error) {
+        // One that is gone or cannot be read: the list says what is left
+        console.error('[ai-reports] failed to check the reports being made:', error);
+    }
+
+    await load(true);
+    await refreshPoints();
+}
+
 // While a report is being made, look again until none is (a failure gives the points back)
 let timer: ReturnType<typeof setInterval> | null = null;
 
 watch(() => running(), (isRunning) => {
     if (timer) clearInterval(timer);
 
-    timer = isRunning ? setInterval(() => void load(true).then(refreshPoints), POLL_MS) : null;
+    timer = isRunning ? setInterval(() => void checkRunning(), POLL_MS) : null;
 });
 
 onMounted(load);
