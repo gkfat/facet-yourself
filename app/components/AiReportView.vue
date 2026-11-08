@@ -38,48 +38,42 @@
             </v-card-text>
         </v-card>
 
-        <!-- The facts, laid out as the reports gave them -->
-        <v-card
-            v-if="factBlocks.length"
-            variant="outlined"
-            class="mb-4"
-        >
-            <v-card-title>事實攤開</v-card-title>
-            <v-card-subtitle class="text-wrap">
-                你帶來的每一份報告，列出標題與摘要，還沒有任何推論。
-            </v-card-subtitle>
-            <v-card-text>
-                <v-row dense>
-                    <v-col
-                        v-for="block in factBlocks"
-                        :key="block.key"
-                        cols="12"
-                        md="6"
-                    >
-                        <v-card
-                            variant="outlined"
-                            height="100%"
-                        >
-                            <v-card-text>
-                                <div class="d-flex align-center ga-2 mb-2">
-                                    <v-icon
-                                        :icon="metaOf(systemOf(block))?.icon ?? 'mdi-circle-small'"
-                                        :style="{ color: metaOf(systemOf(block))?.tone }"
-                                        size="20"
-                                    />
-                                    <span class="text-subtitle-1 font-weight-bold">{{ block.title }}</span>
-                                </div>
-                                <p class="text-body-2 mb-0">
-                                    {{ block.segments[0]?.text }}
-                                </p>
-                            </v-card-text>
-                        </v-card>
-                    </v-col>
-                </v-row>
-            </v-card-text>
-        </v-card>
+        <!-- While the mentor is still writing, the facts are what there is to read; once it is done they close the report -->
+        <AiReportFacts
+            v-if="report.status !== 'COMPLETED'"
+            :blocks="factBlocks"
+        />
 
         <template v-if="report.status === 'COMPLETED'">
+            <!-- The report in a sentence or two, ahead of everything -->
+            <v-card
+                v-if="part('summary')"
+                variant="outlined"
+                class="mb-4"
+            >
+                <v-card-title>{{ part('summary')?.title }}</v-card-title>
+                <v-card-text>
+                    <blockquote class="lead mb-0">
+                        <AiReportPart :block="part('summary')" />
+                    </blockquote>
+                </v-card-text>
+            </v-card>
+
+            <!-- The answer to what was asked, next: it is what the member came for -->
+            <v-card
+                v-if="part('question')"
+                variant="outlined"
+                class="mb-4"
+            >
+                <v-card-title>{{ part('question')?.title }}</v-card-title>
+                <v-card-text>
+                    <AiReportPart
+                        :block="part('question')"
+                        :system-count="report.sources.length"
+                    />
+                </v-card-text>
+            </v-card>
+
             <!-- What stands out -->
             <v-card
                 v-if="part('highlights')"
@@ -89,12 +83,30 @@
                 <v-card-title>{{ part('highlights')?.title }}</v-card-title>
                 <v-card-text>
                     <blockquote class="lead mb-0">
-                        <AiReportPart :block="part('highlights')" />
+                        <AiReportPart
+                            :block="part('highlights')"
+                            :system-count="report.sources.length"
+                        />
                     </blockquote>
                 </v-card-text>
             </v-card>
 
-            <!-- The good and the bad -->
+            <!-- Each strength with what it costs -->
+            <v-card
+                v-if="part('tradeoffs')"
+                variant="outlined"
+                class="mb-4"
+            >
+                <v-card-title>{{ part('tradeoffs')?.title }}</v-card-title>
+                <v-card-text>
+                    <AiReportPart
+                        :block="part('tradeoffs')"
+                        :system-count="report.sources.length"
+                    />
+                </v-card-text>
+            </v-card>
+
+            <!-- The good and the bad, as the reports made before the strengths came with their costs have them -->
             <v-card
                 v-if="part('positives') || part('negatives')"
                 variant="outlined"
@@ -123,7 +135,10 @@
                                         />
                                         <span class="text-subtitle-1 font-weight-bold">{{ part(side.key)?.title }}</span>
                                     </div>
-                                    <AiReportPart :block="part(side.key)" />
+                                    <AiReportPart
+                                        :block="part(side.key)"
+                                        :system-count="report.sources.length"
+                                    />
                                 </v-card-text>
                             </v-card>
                         </v-col>
@@ -155,21 +170,12 @@
                             <div class="text-subtitle-1 font-weight-bold mb-1">
                                 {{ part(time.key)?.title }}
                             </div>
-                            <AiReportPart :block="part(time.key)" />
+                            <AiReportPart
+                                :block="part(time.key)"
+                                :system-count="report.sources.length"
+                            />
                         </v-timeline-item>
                     </v-timeline>
-                </v-card-text>
-            </v-card>
-
-            <!-- The answer to the question -->
-            <v-card
-                v-if="part('question')"
-                variant="outlined"
-                class="mb-4"
-            >
-                <v-card-title>{{ part('question')?.title }}</v-card-title>
-                <v-card-text>
-                    <AiReportPart :block="part('question')" />
                 </v-card-text>
             </v-card>
 
@@ -181,9 +187,15 @@
             >
                 <v-card-title>{{ part('conclusion')?.title }}</v-card-title>
                 <v-card-text>
-                    <AiReportPart :block="part('conclusion')" />
+                    <AiReportPart
+                        :block="part('conclusion')"
+                        :system-count="report.sources.length"
+                    />
                 </v-card-text>
             </v-card>
+
+            <!-- What it all rests on, last -->
+            <AiReportFacts :blocks="factBlocks" />
 
             <p class="text-caption text-medium-emphasis">
                 AI 綜合推論，由一位融合心理學、命相學與神秘學視角的導師寫成，談的是可能與傾向，不是預言，也不代表心理評估或專業建議。
@@ -225,9 +237,6 @@ const times = [
 ] as const;
 
 const factBlocks = computed(() => props.report.blocks.filter((block) => block.key.startsWith('facts:')));
-
-/** The system a block of facts came from, from its key */
-const systemOf = (block: { key: string }) => block.key.slice('facts:'.length);
 
 /** One part of the mentor's answer, by its section key */
 const part = (key: string) => props.report.blocks.find((block) => block.key === `ai:${key}`);

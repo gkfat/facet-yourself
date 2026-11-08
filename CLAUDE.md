@@ -51,7 +51,7 @@ pnpm e2e:smoke
 - `assembleSingleReport.ts` 把 input 組成固定順序的 blocks（`position → keypoints → overview → facts → summary → synthesis → impact:* → advice → limits`）；`assembleMultiReport.ts` 跨系統合併。狀態系統只有事實與建議，不做特質推論。
 - 推論只從「畫面上顯示的事實」出發：`facets.ts` 依 `ontology/mappings` 把事實的 term 對到 28 個特質軸（`ontology/axes.ts`）的端點；`report/synthesis.ts` 用 `ontology/insightRules` 的規則找出特質兩兩互動。報告裡的句子都帶 `sources`（term／axisEnd／rule／fragment），不可產生沒有來源的句子。
 - 新增特質互動規則時，`insightRules/validate.ts` 會檢查措辭（需含「可能／傾向」等保守詞、禁用診斷與財務用語）；`report/synthesis.test.ts` 會窮舉可列舉的系統，要求有兩軸以上特質的報告都有互動卡，規則改動後務必跑。
-- 前端用文字格式解析報告：`app/utils/summaryFacets.ts` 解析 `summary` 區塊（「從「…」來看，你傾向「…」：…」與「用得太過時：…」），改動 `assembleSingleReport` 的句型時要同步改它與其測試。AI 詳細報告也讀 `summary`、`facts`、`time`、`limits` 區塊文字（`aiReport.service.ts`）。
+- 前端用文字格式解析報告：`app/utils/summaryFacets.ts` 解析 `summary` 區塊（「從「…」來看，你傾向「…」：…」與「用得太過時：…」），改動 `assembleSingleReport` 的句型時要同步改它與其測試。AI 詳細報告（`aiReport.service.ts`）讀 `facts`、`time`、`summary`、`overview`（含各解讀）、`synthesis`、`advice`、`limits` 區塊文字，所以這些區塊的句型也是 AI 的輸入；prompt 在 `server/ai/reportPrompt.ts`，措辭改動要升 `REPORT_PROMPT_VERSION`，章節與點數定義在 `shared/schemas/firestore/aiAnalysis.schema.ts`，與 `server/ai/quality.ts` 的檢查共用。
 - 報告內容或規則改變時要升版本常數：`SINGLE_REPORT_TEMPLATE_VERSION`、`ONTOLOGY_VERSION`、`FRAGMENT_VERSION`、`MAPPING_VERSION`、`INSIGHT_RULES_VERSION`（已存快照會記錄它們，`reportSnapshot.service` 依內容重用或重存）。
 - 自我分析測驗（Big Five、九型、HEXACO 等）由 `shared/assessments/` 的統一框架定義，新增一種只需加定義檔，並自動納入綜合報告可選系統。
 

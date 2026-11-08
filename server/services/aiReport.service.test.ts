@@ -46,7 +46,9 @@ const goodOutput = (input: AiAnalysisInput) => ({
     sections: aiReportSectionKeys(input.question !== undefined).map((key) => ({
         key,
         content: TEXT,
-        points: Array.from({ length: AI_REPORT_SECTIONS.find((section) => section.key === key)?.points.min ?? 0 }, (_, index) => `重點${index + 1}：這一點說明了一件具體的事情`),
+        points: Array.from({ length: AI_REPORT_SECTIONS.find((section) => section.key === key)?.points.min ?? 0 }, (_, index) => ({
+            text: `重點${index + 1}：這一點說明了一件具體的事情`, systems: [] as string[],
+        })),
         candidateIds: key === 'highlights' ? input.candidates.slice(0, 1).map((candidate) => candidate.id) : [],
     })),
 });
@@ -197,8 +199,10 @@ describe('AiReportService', () => {
             expect(facts.flatMap((block) => block.segments).every((segment) => segment.kind !== 'AI_INFERENCE')).toBe(true);
             expect(parts.map((block) => block.key)).toEqual(aiReportSectionKeys(false).map((key) => `ai:${key}`));
             // The first sentence of a part is its lead, the ones after it its points
-            expect(parts.find((block) => block.key === 'ai:positives')?.segments).toHaveLength(1 + 3);
-            expect(parts.find((block) => block.key === 'ai:past')?.segments).toHaveLength(1);
+            expect(parts.find((block) => block.key === 'ai:tradeoffs')?.segments).toHaveLength(1 + 3);
+            // The past has one point: the question that checks it
+            expect(parts.find((block) => block.key === 'ai:past')?.segments).toHaveLength(1 + 1);
+            expect(parts.find((block) => block.key === 'ai:summary')?.segments).toHaveLength(1);
             expect(done.blocks.indexOf(facts[0] as (typeof done.blocks)[number])).toBe(0);
             expect(parts.flatMap((block) => block.segments).every((segment) => segment.kind === 'AI_INFERENCE')).toBe(true);
         });
@@ -230,7 +234,48 @@ describe('AiReportService', () => {
             expect(input?.sources).toHaveLength(1);
             expect(input?.sources[0]?.system).toBe('BLOOD');
             expect(input?.sources[0]?.notes.some((note) => note.startsWith('規則版本'))).toBe(false);
+            // What the model writes from: the reviewed readings and practices of the report, not only its facts
+            expect(input?.sources[0]?.readings.length).toBeGreaterThan(0);
+            expect(input?.sources[0]?.readings.every((reading) => !reading.startsWith('【'))).toBe(true);
+            expect(input?.sources[0]?.practices).toContain('給自己一點時間。');
             expect(await stored('key-aaaaaaaa').then((doc) => doc.blocks.map((block) => block.key))).not.toContain('ai:question');
+        });
+
+        it('cites the systems a point says it rests on, and the whole report for a point that says none', async () => {
+            ai.behavior = async (input) => ({
+                output: {
+                    sections: goodOutput(input).sections.map((section) => (section.key === 'tradeoffs'
+                        ? {
+                            ...section,
+                            points: [
+                                {
+                                    text: '重點一：這一點說明了一件具體的事情', systems: ['ZODIAC'], 
+                                },
+                                {
+                                    text: '重點二：這一點說明了一件具體的事情', systems: ['TAROT'], 
+                                },
+                                {
+                                    text: '重點三：這一點說明了一件具體的事情', systems: [], 
+                                },
+                            ],
+                        }
+                        : section)),
+                },
+                usage,
+                modelName: 'gpt-5-mini',
+            });
+            await service.create('u1', ['ZODIAC', 'BLOOD'], 'key-aaaaaaaa');
+            await settle();
+
+            const [, ...points] = (await stored('key-aaaaaaaa')).blocks.find((block) => block.key === 'ai:tradeoffs')?.segments ?? [];
+            const whole = [{ system: 'ZODIAC' }, { system: 'BLOOD' }];
+
+            // A system that was not brought is not cited: that point, like the one that says none, rests on the reports as a whole
+            expect(points.map((point) => point.sources)).toEqual([
+                [{ system: 'ZODIAC' }],
+                whole,
+                whole,
+            ]);
         });
 
         it('records the usage with an estimated cost', async () => {

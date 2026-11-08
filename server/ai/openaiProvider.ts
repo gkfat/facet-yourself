@@ -6,6 +6,7 @@ import {
 import {
     REPORT_PROMPT_VERSION, buildReportSystemPrompt, buildReportUserPrompt,
 } from './reportPrompt';
+import type { ReasoningEffort } from '../../shared/constants/ai';
 import {
     aiAnalysisOutputSchema, type AiAnalysisInput,
 } from '../../shared/schemas/firestore/aiAnalysis.schema';
@@ -14,6 +15,7 @@ type OpenAiProviderOptions = {
     client: Pick<OpenAI, 'chat'>;
     model: string;
     maxOutputTokens: number;
+    reasoningEffort: ReasoningEffort;
 };
 
 /**
@@ -26,18 +28,20 @@ export class OpenAiReportProvider implements AiReportProvider {
     private readonly client: Pick<OpenAI, 'chat'>;
     private readonly model: string;
     private readonly maxOutputTokens: number;
+    private readonly reasoningEffort: ReasoningEffort;
 
     constructor(options: OpenAiProviderOptions) {
         this.client = options.client;
         this.model = options.model;
         this.maxOutputTokens = options.maxOutputTokens;
+        this.reasoningEffort = options.reasoningEffort;
     }
 
     async generate(input: AiAnalysisInput, options: GenerateOptions): Promise<AiReportGeneration> {
         const completion = await this.client.chat.completions.parse({
             model: this.model,
             max_completion_tokens: this.maxOutputTokens,
-            reasoning_effort: 'minimal',
+            reasoning_effort: this.reasoningEffort,
             messages: [
                 {
                     role: 'system', content: buildReportSystemPrompt(input.question !== undefined, input.candidates.length > 0),

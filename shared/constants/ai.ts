@@ -8,8 +8,25 @@ export const DEFAULT_OPENAI_MODEL = 'gpt-5-mini';
 export const DEFAULT_AI_PRICE_INPUT_PER_MTOK = 0.25;
 export const DEFAULT_AI_PRICE_OUTPUT_PER_MTOK = 2;
 
-/** Upper bound for one report's output (decision: standard length). */
-export const REPORT_MAX_OUTPUT_TOKENS = 8000;
+/** How hard the model thinks before it writes; the reasoning counts against the output cap, and `minimal` is the cheapest. */
+export const REASONING_EFFORTS = [
+    'minimal',
+    'low',
+    'medium',
+    'high',
+] as const;
+
+export type ReasoningEffort = typeof REASONING_EFFORTS[number];
+
+/** Reading across several reports takes more than the wording of one: `OPENAI_REASONING_EFFORT` turns it down again. */
+export const DEFAULT_REASONING_EFFORT: ReasoningEffort = 'low';
+
+/** Upper bound for one report's output, reasoning included (decision: standard length). */
+export const REPORT_MAX_OUTPUT_TOKENS = 12_000;
+
+/** What the model is given of each report's reviewed readings: this many, each cut at this many characters (a birth chart has dozens). */
+export const AI_READINGS_PER_SOURCE = 8;
+export const AI_READING_MAX_CHARS = 300;
 
 /** One generation attempt is abandoned after this long and counts as a failure (NFR-009). */
 export const REPORT_TIMEOUT_MS = 120_000;

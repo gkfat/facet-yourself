@@ -9,14 +9,14 @@ import {
     AiOutputError, type AiReportProvider,
 } from '../ai/provider';
 import {
-    assessAiReport, parseAiAnalysisOutput,
+    assessAiReport, parseAiAnalysisOutput, specificTerms,
 } from '../ai/quality';
 import { REPORT_PROMPT_VERSION } from '../ai/reportPrompt';
 import { getServerConfig } from '../../config/config';
 import { runInBackground } from '../utils/background';
 import {
-    DEFAULT_AI_PRICE_INPUT_PER_MTOK, DEFAULT_AI_PRICE_OUTPUT_PER_MTOK, REPORT_LIMIT_PER_DAY, REPORT_LIMIT_PER_HOUR, REPORT_STALE_AFTER_MS,
-    REPORT_TIMEOUT_MS,
+    AI_READING_MAX_CHARS, AI_READINGS_PER_SOURCE, DEFAULT_AI_PRICE_INPUT_PER_MTOK, DEFAULT_AI_PRICE_OUTPUT_PER_MTOK, REPORT_LIMIT_PER_DAY,
+    REPORT_LIMIT_PER_HOUR, REPORT_STALE_AFTER_MS, REPORT_TIMEOUT_MS,
 } from '../../shared/constants/ai';
 import { assembleMultiReport } from '../../shared/report/assembleMultiReport';
 import { assembleSingleReport } from '../../shared/report/assembleSingleReport';
@@ -85,6 +85,24 @@ const textsOf = (blocks: readonly SnapshotBlock[], key: string, kind?: string): 
 
 const withoutVersion = (texts: string[]) => texts.filter((text) => !text.startsWith('規則版本'));
 
+/**
+ * What the tradition of a system says of the member's result, for the model: the overview first, then the readings of the
+ * facts and of the groups, without the name of the tradition in front, each cut short and no more than a few (a birth chart has dozens).
+ */
+function readingsOf(blocks: readonly SnapshotBlock[]): string[] {
+    const texts = [
+        ...textsOf(blocks, 'overview'),
+        ...textsOf(blocks, 'facts', 'SYSTEM_INTERPRETATION'),
+        ...textsOf(blocks, 'readings'),
+    ];
+
+    return texts.slice(0, AI_READINGS_PER_SOURCE).map((text) => {
+        const plain = text.replace(/^【.+?】/, '');
+
+        return [...plain].length > AI_READING_MAX_CHARS ? `${[...plain].slice(0, AI_READING_MAX_CHARS).join('')}…` : plain;
+    });
+}
+
 const aiSegment = (text: string, sources: SnapshotBlock['segments'][number]['sources']): SnapshotBlock['segments'][number] => ({
     text, kind: 'AI_INFERENCE', sources, timeSensitive: false, asOf: null,
 });
@@ -118,20 +136,26 @@ function factBlocks(contents: ReadonlyArray<ReturnType<typeof assembleSingleRepo
 
 /**
  * The sections of the AI's answer as blocks, every sentence marked as the AI's inference and citing the insights (or else
- * the systems) it rests on. The first sentence of a block is the lead of the part, the ones after it are its points.
+ * the systems) it rests on. The first sentence of a block is the lead of the part, the ones after it are its points; a point
+ * that says which of the systems it rests on cites those (that were brought) and the insights of its part.
  */
 function aiBlocks(output: AiAnalysisOutput, systems: ReadonlyArray<AiReportSource['system']>): SnapshotBlock[] {
     const titles = new Map<string, string>(AI_REPORT_SECTIONS.map((section) => [section.key, section.title]));
 
     return output.sections.map((section) => {
-        const sources = section.candidateIds.length > 0
-            ? section.candidateIds.map((rule) => ({ rule }))
-            : systems.map((system) => ({ system }));
+        const cited = section.candidateIds.map((rule) => ({ rule }));
+        const sources = cited.length > 0 ? cited : systems.map((system) => ({ system }));
 
         return {
             key: `ai:${section.key}`,
             title: titles.get(section.key) ?? section.key,
-            segments: [section.content, ...section.points].map((text) => aiSegment(text, sources)),
+            segments: [
+                aiSegment(section.content, sources), ...section.points.map((point) => {
+                    const basis = systems.filter((system) => point.systems.includes(system)).map((system) => ({ system }));
+
+                    return aiSegment(point.text, basis.length > 0 ? [...basis, ...cited] : sources);
+                }),
+            ],
         };
     });
 }
@@ -238,6 +262,9 @@ export class AiReportService extends BaseService {
                 position: content.position,
                 facts: [...textsOf(content.blocks, 'facts', 'FACT'), ...textsOf(content.blocks, 'time', 'FACT')],
                 facets: textsOf(content.blocks, 'summary'),
+                readings: readingsOf(content.blocks),
+                interactions: textsOf(content.blocks, 'synthesis'),
+                practices: textsOf(content.blocks, 'advice'),
                 notes: withoutVersion(textsOf(content.blocks, 'limits')),
             })),
             candidates,
@@ -416,9 +443,14 @@ export class AiReportService extends BaseService {
         const output = parseAiAnalysisOutput(generation.output);
         const quality = output
             ? assessAiReport(output, {
-                hasQuestion: input.question !== undefined, candidateIds: input.candidates.map((candidate) => candidate.id),
+                hasQuestion: input.question !== undefined,
+                candidateIds: input.candidates.map((candidate) => candidate.id),
+                systems: input.sources.map((source) => source.system),
+                terms: specificTerms(input),
             })
             : null;
+
+        if (quality && quality.warnings.length > 0) this.logQualityWarnings(uid, id, quality.warnings.map((finding) => finding.code));
 
         if (!output || !quality || quality.fatal.length > 0) {
             this.logRejected(uid, id, quality?.fatal.map((finding) => finding.code) ?? ['SCHEMA']);
@@ -432,6 +464,15 @@ export class AiReportService extends BaseService {
             modelName: generation.modelName,
             promptVersion: REPORT_PROMPT_VERSION,
         };
+    }
+
+    /** Not a failure: what the checks only count, so that the quality of the reports can be watched. */
+    private logQualityWarnings(uid: string, id: string, codes: string[]): void {
+        this.logWarn('ai report passed with quality warnings', {
+            action: 'generate', userId: uid, data: {
+                id, codes,
+            },
+        });
     }
 
     private logRejected(uid: string, id: string, codes: string[]): void {

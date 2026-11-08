@@ -2,6 +2,9 @@ import {
     DEFAULT_AI_PRICE_INPUT_PER_MTOK,
     DEFAULT_AI_PRICE_OUTPUT_PER_MTOK,
     DEFAULT_OPENAI_MODEL,
+    DEFAULT_REASONING_EFFORT,
+    REASONING_EFFORTS,
+    type ReasoningEffort,
 } from '../shared/constants/ai';
 
 /**
@@ -35,6 +38,9 @@ type ServerConfig = {
 
     /** OpenAI model id used for detailed reports. */
     openaiModel: string;
+
+    /** How hard the model reasons before it writes a report. */
+    openaiReasoningEffort: ReasoningEffort;
 
     /** USD per million tokens, used only to estimate cost in usage records. */
     aiPriceInputPerMtok: number;
@@ -87,10 +93,24 @@ export function getServerConfig(): ServerConfig {
         paymentDevWebhookSecret: runtimeConfig.paymentDevWebhookSecret || undefined,
         openaiApiKey: runtimeConfig.openaiApiKey || undefined,
         openaiModel: runtimeConfig.openaiModel || DEFAULT_OPENAI_MODEL,
+        openaiReasoningEffort: reasoningEffortOf(runtimeConfig.openaiReasoningEffort),
         aiPriceInputPerMtok: Number(runtimeConfig.aiPriceInputPerMtok) || DEFAULT_AI_PRICE_INPUT_PER_MTOK,
         aiPriceOutputPerMtok: Number(runtimeConfig.aiPriceOutputPerMtok) || DEFAULT_AI_PRICE_OUTPUT_PER_MTOK,
         nodeEnv: process.env.NODE_ENV || 'development',
     };
+}
+
+/** The configured reasoning effort, the default when none is set; a value that is not one of them is an explicit error. */
+function reasoningEffortOf(value: unknown): ReasoningEffort {
+    if (!value) return DEFAULT_REASONING_EFFORT;
+
+    const effort = REASONING_EFFORTS.find((item) => item === value);
+
+    if (!effort) {
+        throw new Error(`Invalid OPENAI_REASONING_EFFORT: expected one of ${REASONING_EFFORTS.join(', ')}`);
+    }
+
+    return effort;
 }
 
 /**

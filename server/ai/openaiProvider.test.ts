@@ -10,9 +10,16 @@ const input: AiAnalysisInput = {
     today: '2026-11-05',
     sources: [
         {
-            system: 'ZODIAC', position: '太陽獅子座', facts: ['太陽星座：獅子座'], facets: ['傾向「外放表達」'], notes: ['系統性質：傳統占星'],
+            system: 'ZODIAC',
+            position: '太陽獅子座',
+            facts: ['太陽星座：獅子座'],
+            facets: ['傾向「外放表達」'],
+            readings: [],
+            interactions: [],
+            practices: [],
+            notes: ['系統性質：傳統占星'],
         }, {
-            system: 'BLOOD', position: 'O 型', facts: ['血型：O 型'], facets: [], notes: [],
+            system: 'BLOOD', position: 'O 型', facts: ['血型：O 型'], facets: [], readings: [], interactions: [], practices: [], notes: [],
         },
     ],
     candidates: [
@@ -47,7 +54,7 @@ function providerWith(response: unknown) {
     return {
         parse,
         provider: new OpenAiReportProvider({
-            client, model: 'gpt-5-mini', maxOutputTokens: 4000,
+            client, model: 'gpt-5-mini', maxOutputTokens: 4000, reasoningEffort: 'low',
         }),
     };
 }
@@ -67,7 +74,7 @@ describe('OpenAiReportProvider', () => {
         });
     });
 
-    it('asks for the configured model, the output cap, minimal reasoning and the report schema', async () => {
+    it('asks for the configured model, the output cap, the configured reasoning and the report schema', async () => {
         const {
             provider, parse,
         } = providerWith(completion());
@@ -80,7 +87,7 @@ describe('OpenAiReportProvider', () => {
         expect(params).toMatchObject({
             model: 'gpt-5-mini',
             max_completion_tokens: 4000,
-            reasoning_effort: 'minimal',
+            reasoning_effort: 'low',
         });
         expect((params.response_format as { type: string }).type).toBe('json_schema');
         expect(requestOptions.signal).toBe(controller.signal);

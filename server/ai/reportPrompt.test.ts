@@ -12,7 +12,14 @@ const input: AiAnalysisInput = {
     today: '2026-11-05',
     sources: [
         {
-            system: 'ZODIAC', position: '太陽天蠍座', facts: ['太陽星座：天蠍座'], facets: ['傾向「深入」'], notes: [],
+            system: 'ZODIAC',
+            position: '太陽天蠍座',
+            facts: ['太陽星座：天蠍座'],
+            facets: ['傾向「深入」'],
+            readings: [],
+            interactions: [],
+            practices: [],
+            notes: [],
         },
     ],
     candidates: [],
@@ -49,14 +56,38 @@ describe('report prompt', () => {
         expect(prompt).toContain('短標題：說明');
     });
 
-    it('asks for the strengths and the weaknesses the reports share, and for the answer and the conclusion to be spelled out in points', () => {
+    it('asks for each strength with what it costs, and for the answer and the conclusion to be spelled out in points', () => {
         const prompt = buildReportSystemPrompt(true);
 
-        expect(prompt).toContain('共同指向');
-        expect(prompt).toContain('共同的優勢');
-        expect(prompt).toContain('共同的劣勢');
+        expect(prompt).toContain('key="tradeoffs"');
+        expect(prompt).toContain('優勢和它的代價成對');
+        expect(prompt).not.toContain('共同的劣勢');
         expect(prompt).toMatch(/question[\s\S]*展開 3 到 5 點/);
         expect(prompt).toMatch(/conclusion[\s\S]*列出 3 到 5 個具體/);
+    });
+
+    it('describes everything the model is given, and asks each point to say which system it rests on', () => {
+        const prompt = buildReportSystemPrompt(false);
+
+        for (const word of [
+            'readings',
+            'interactions',
+            'practices',
+        ]) expect(prompt).toContain(word);
+
+        expect(prompt).toContain('systems 是這一點依據的系統');
+    });
+
+    it('asks the past for one question that checks the guess against the member\'s own life, and the summary to be written last', () => {
+        const prompt = buildReportSystemPrompt(false);
+
+        expect(prompt).toMatch(/key="past"[\s\S]*points 恰好 1 點[\s\S]*可以問自己/);
+        expect(prompt).toMatch(/key="summary"[\s\S]*最後寫/);
+        expect(prompt.indexOf('key="summary"')).toBeGreaterThan(prompt.indexOf('key="conclusion"'));
+    });
+
+    it('asks every point to name a trait, a fact or a situation of this member', () => {
+        expect(buildReportSystemPrompt(false)).toContain('放在任何人身上都成立');
     });
 
     it('tells the model the facts are already laid out as a title and a summary, so it does not repeat them', () => {

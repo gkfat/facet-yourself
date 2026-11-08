@@ -10,7 +10,7 @@ import { ExternalServiceError } from '../../shared/types/errors';
  */
 export function getAiProvider(): OpenAiReportProvider {
     const {
-        openaiApiKey, openaiModel,
+        openaiApiKey, openaiModel, openaiReasoningEffort,
     } = getServerConfig();
 
     if (!openaiApiKey) {
@@ -24,5 +24,6 @@ export function getAiProvider(): OpenAiReportProvider {
         }),
         model: openaiModel,
         maxOutputTokens: REPORT_MAX_OUTPUT_TOKENS,
+        reasoningEffort: openaiReasoningEffort,
     });
 }

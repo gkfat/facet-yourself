@@ -94,6 +94,7 @@ export default defineNuxtConfig({
         // OpenAI for detailed reports; the model and prices are overridable without a code change
         openaiApiKey: process.env.OPENAI_API_KEY,
         openaiModel: process.env.OPENAI_MODEL,
+        openaiReasoningEffort: process.env.OPENAI_REASONING_EFFORT,
         aiPriceInputPerMtok: process.env.AI_PRICE_INPUT_PER_MTOK,
         aiPriceOutputPerMtok: process.env.AI_PRICE_OUTPUT_PER_MTOK,
 
