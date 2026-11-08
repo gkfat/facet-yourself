@@ -76,6 +76,16 @@
             </v-container>
         </v-main>
 
+        <v-footer class="site-footer">
+            <span>© 2026 gk</span>
+            <a
+                href="https://portfolio-cbf.pages.dev"
+                target="_blank"
+                rel="noopener noreferrer"
+            >作品集</a>
+            <span v-if="buildCommit">build {{ buildCommit }}</span>
+        </v-footer>
+
         <v-dialog
             :model-value="welcomePoints > 0"
             max-width="400"
@@ -214,6 +224,8 @@ const accountItems: MenuItem[] = [
     },
 ];
 
+const { buildCommit } = useRuntimeConfig().public;
+
 const drawer = ref(false);
 const { mdAndUp } = useDisplay();
 const {
@@ -336,5 +348,20 @@ onMounted(() => {
 
 .page {
     max-width: 960px;
+}
+
+.site-footer {
+    justify-content: center;
+    flex: 0 0 auto;
+    gap: 16px;
+    padding: 24px 16px;
+    font-size: 0.75rem;
+    color: rgba(var(--v-theme-on-surface), 0.6);
+    background: transparent;
+}
+
+.site-footer a {
+    color: inherit;
+    text-decoration: underline;
 }
 </style>

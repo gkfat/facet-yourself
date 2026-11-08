@@ -1,5 +1,22 @@
+import { execSync } from 'node:child_process';
+
 // Link previews need an absolute image URL; set when the site's address is known (see .env.example)
 const siteUrl = process.env.NUXT_PUBLIC_SITE_URL?.replace(/\/$/, '');
+
+/** The commit this build was made from: Vercel's, else the local checkout's; empty when neither is known */
+function buildCommit(): string {
+    const fromVercel = process.env.VERCEL_GIT_COMMIT_SHA;
+
+    if (fromVercel) return fromVercel.slice(0, 7);
+
+    try {
+        return execSync('git rev-parse --short=7 HEAD', { encoding: 'utf8' }).trim();
+    } catch (error) {
+        console.warn('[nuxt.config] could not read the git commit for the footer:', error);
+
+        return '';
+    }
+}
 
 export default defineNuxtConfig({
     compatibilityDate: '2025-07-15',
@@ -109,6 +126,7 @@ export default defineNuxtConfig({
             firebaseStorageBucket: process.env.NUXT_PUBLIC_FIREBASE_STORAGE_BUCKET || '',
             firebaseMessagingSenderId: process.env.NUXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || '',
             firebaseAppId: process.env.NUXT_PUBLIC_FIREBASE_APP_ID || '',
+            buildCommit: buildCommit(),
         },
     },
 });
