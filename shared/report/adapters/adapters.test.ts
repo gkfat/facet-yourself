@@ -424,9 +424,30 @@ describe('baziReportInput', () => {
         expect(input.facts.find((fact) => fact.label === '日主')?.term).toMatch(/^bazi:daymaster:/);
         expect(input.timeFacts.length).toBeGreaterThan(0);
         expect(input.timeFacts.every((fact) => fact.asOf === '2026-10-27')).toBe(true);
-        // The luck step and its reading are one group; the years are in the timeline of the page, not repeated here
-        expect(input.timeFacts.every((fact) => fact.group === '大運')).toBe(true);
+        // The luck steps and their reading are one group, the flow years another
+        expect(input.timeFacts.every((fact) => fact.group === '大運' || fact.group === '流年')).toBe(true);
         expect(accepted(input)).toBe(true);
+    });
+
+    it('lists this year and the next four as flow years, and the next luck step after the current one', async () => {
+        const input = await run({
+            birthTime: '06:00', gender: 'MALE',
+        });
+        const flowYears = input.timeFacts.filter((fact) => fact.group === '流年').map((fact) => fact.text);
+
+        expect(flowYears).toHaveLength(5);
+        expect(flowYears[0]).toMatch(/^2026 年流年：丙午（十神.+）$/);
+        expect(flowYears[4]).toMatch(/^2030 年流年：/);
+        expect(input.timeFacts.filter((fact) => fact.text.startsWith('目前大運：'))).toHaveLength(1);
+        expect(input.timeFacts.filter((fact) => fact.text.startsWith('下一步大運：'))).toHaveLength(1);
+    });
+
+    it('has no flow years or luck steps without a gender', async () => {
+        const input = await run({
+            birthTime: '06:00', gender: null,
+        });
+
+        expect(input.timeFacts).toEqual([]);
     });
 
     it('opens with the day master as its overview and sorts the rest into groups, one small card for each reading', async () => {
@@ -486,6 +507,15 @@ describe('humanDesignReportInput', () => {
         expect(channels[0]?.terms).toHaveLength(chart.channels.length);
         expect(input.facts.some((fact) => fact.label === '開放的能量中心')).toBe(false);
         expect(input.traits.length).toBeGreaterThan(2);
+    });
+
+    it('lists the gates and lines the planets activated at birth and before it', () => {
+        const born = input.facts.find((fact) => fact.label === '出生時啟動的閘門');
+        const before = input.facts.find((fact) => fact.label === '出生前啟動的閘門');
+
+        expect(born?.value.split('、')).toHaveLength(chart.personality.length);
+        expect(before?.value.split('、')).toHaveLength(chart.design.length);
+        expect(born?.value).toMatch(/^太陽 \d+\.[1-6]、/);
     });
 
     it('shows the centers and channels as one card each in the report, and cites them for the conclusions', () => {

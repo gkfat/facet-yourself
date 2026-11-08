@@ -9,6 +9,9 @@ import { buildBasis } from '../../utils/analysisBasis';
 import {
     dominantElement, dominantGroup, missingElements,
 } from '../../utils/bazi/analysis';
+import {
+    FLOW_YEAR_COUNT, currentBaziYear,
+} from '../../utils/bazi/luck';
 import { readingsOfBody } from './common';
 import type {
     ReportFact, ReportInterpretation, ReportTimeFact, SystemReportInput,
@@ -61,6 +64,14 @@ export function baziReportInput(params: {
     const missing = missingElements(chart.elementCounts);
     const { useful } = chart.strength;
     const luckStep = chart.luck?.steps.find((step) => step.order === chart.luck?.currentOrder) ?? null;
+    const nextStep = luckStep ? chart.luck?.steps.find((step) => step.order === luckStep.order + 1) ?? null : null;
+    // This year (the year changes at 立春) and the next four, taken from the ten flow years of each step
+    const firstYear = currentBaziYear(new Date(`${params.today}T12:00:00+08:00`));
+    const flowYears = Object.values(chart.luck?.stepYears ?? {})
+        .flat()
+        .filter((flow) => flow.year >= firstYear)
+        .sort((a, b) => a.year - b.year)
+        .slice(0, FLOW_YEAR_COUNT);
 
     const facts: ReportFact[] = [
         {
@@ -155,7 +166,18 @@ export function baziReportInput(params: {
                 asOf: params.today,
                 group: '大運',
             },
-        ] : []), ...(interpretation.currentLuck ? [
+        ] : []),
+        ...(nextStep ? [
+            {
+                text: `下一步大運：${pillarLabel(nextStep.pillar)} 運（十神${nextStep.tenGod}，${nextStep.startAge} 至 ${nextStep.endAge} 歲，${nextStep.startYear} 至 ${nextStep.endYear} 年）`,
+                asOf: params.today,
+                group: '大運',
+            },
+        ] : []),
+        ...flowYears.map((flow) => ({
+            text: `${flow.year} 年流年：${pillarLabel(flow.pillar)}（十神${flow.tenGod}）`, asOf: params.today, group: '流年',
+        })),
+        ...(interpretation.currentLuck ? [
             {
                 text: `【依八字命理】${interpretation.currentLuck.title.replaceAll('：', '・')}：${interpretation.currentLuck.summary}`, asOf: params.today, reading: true, group: '大運',
             },

@@ -5,7 +5,7 @@ import { CHANNEL_NAMES } from '../../constants/humanDesignChannels';
 import { CHANNEL_MEANINGS } from '../../constants/humanDesignChannelMeanings';
 import { CENTER_MEANINGS } from '../../constants/humanDesignCenterMeanings';
 import {
-    HUMAN_DESIGN_AUTHORITY_LABELS, HUMAN_DESIGN_CENTER_LABELS, HUMAN_DESIGN_CROSS_ANGLE_LABELS, HUMAN_DESIGN_DEFINITION_LABELS,
+    HUMAN_DESIGN_BODY_LABELS, HUMAN_DESIGN_AUTHORITY_LABELS, HUMAN_DESIGN_CENTER_LABELS, HUMAN_DESIGN_CROSS_ANGLE_LABELS, HUMAN_DESIGN_DEFINITION_LABELS,
     HUMAN_DESIGN_STRATEGY_LABELS, HUMAN_DESIGN_TYPE_LABELS,
 } from '../../constants/humanDesignLabels';
 import {
@@ -34,6 +34,10 @@ const groupOf = (group: string, title: string, entry: HumanDesignInterpretation,
         title: '可能的盲點', text: entry.blindSpots, group, ...(term ? { term } : {}),
     },
 ];
+
+const activationsOf = (activations: HumanDesignResult['personality']) => activations
+    .map((activation) => `${HUMAN_DESIGN_BODY_LABELS[activation.body]} ${activation.gate}.${activation.line}`)
+    .join('、');
 
 /**
  * The Human Design report, from a chart that is worked out from the birth date, time and place. The type, the inner
@@ -78,6 +82,13 @@ export function humanDesignReportInput(params: {
         },
         {
             label: '人生十字', value: `${HUMAN_DESIGN_CROSS_ANGLE_LABELS[chart.incarnationCross.angle]}（${personalitySun}/${personalityEarth} | ${designSun}/${designEarth}）`,
+        },
+        // Where the planets stood at birth (conscious) and 88° of solar arc before it (unconscious), as gate.line
+        {
+            label: '出生時啟動的閘門', value: activationsOf(chart.personality),
+        },
+        {
+            label: '出生前啟動的閘門', value: activationsOf(chart.design),
         },
         // The defined centers are one card and the channels one card; each still carries its own terms
         ...(chart.definedCenters.length > 0 ? [
