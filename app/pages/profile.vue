@@ -30,6 +30,7 @@
                             v-model="form.bloodType"
                             :items="bloodTypeItems"
                             label="血型"
+                            hint="用來顯示血型分析"
                             persistent-hint
                         />
                     </v-col>

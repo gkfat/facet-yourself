@@ -22,7 +22,7 @@ import type {
 } from './types';
 
 /** Raise whenever the way a report is put together changes (the order of blocks, the wording of fixed lines). */
-export const SINGLE_REPORT_TEMPLATE_VERSION = 'single-report-v4';
+export const SINGLE_REPORT_TEMPLATE_VERSION = 'single-report-v6';
 
 /** How many reflection questions the advice block takes from the guesses about the past. */
 export const MAX_REFLECTION_QUESTIONS = 3;

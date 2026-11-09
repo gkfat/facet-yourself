@@ -112,7 +112,7 @@ describe('baziTermsOf', () => {
                 'metal',
                 'water',
             ] as const) {
-                expect(terms.includes(`bazi:element:missing:${element}`)).toBe(analysis.elementCounts[element] === 0);
+                expect(terms.includes(`bazi:element:missing:${element}`)).toBe(analysis.elementPower[element] === 0);
             }
 
             expect(terms.filter((term) => term.startsWith('bazi:element:strong:')).length).toBeLessThanOrEqual(1);

@@ -32,10 +32,16 @@ describe('isValidContentKey', () => {
             'luck_偏印',
             'strength_taiwang',
             'pattern_建祿',
-            'useful_strong_印',
-            'useful_weak_官殺',
+            'useful_strong',
+            'useful_weak',
             'bone_21',
             'bone_71',
+            'reveal_main',
+            'rival_power',
+            'idle_resource',
+            'climate_excess_warming',
+            'life_career_power',
+            'life_wealth_balanced',
         ]) {
             expect(isValidContentKey('BAZI', key), key).toBe(true);
         }
@@ -52,12 +58,20 @@ describe('isValidContentKey', () => {
             'strength_strongest',
             'pattern_比肩',
             'useful_strong_other',
-            'useful_balanced_印',
+            'useful_balanced',
+            'useful_strong_印',
+            'useful_weak_官殺',
             'bone_20',
             'bone_72',
             'bone_021',
             'bone_4.1',
             'aries',
+            'life_health_power',
+            'life_career_other',
+            'life_career_',
+            'reveal_all',
+            'rival_balanced',
+            'climate_humid',
         ]) {
             expect(isValidContentKey('BAZI', key), key).toBe(false);
         }
@@ -206,12 +220,12 @@ describe('baziContentKeys', () => {
     const keys = baziContentKeys();
     const countOf = (prefix: string) => keys.filter((key) => key.startsWith(prefix)).length;
 
-    it('lists 123 distinct keys', () => {
-        expect(keys).toHaveLength(123);
-        expect(new Set(keys).size).toBe(123);
+    it('lists 170 distinct keys', () => {
+        expect(keys).toHaveLength(170);
+        expect(new Set(keys).size).toBe(170);
     });
 
-    it('splits them into the ten content groups', () => {
+    it('splits them into the content groups', () => {
         expect(countOf('daymaster_')).toBe(10);
         expect(countOf('element_strong_')).toBe(5);
         expect(countOf('element_missing_')).toBe(5);
@@ -220,8 +234,13 @@ describe('baziContentKeys', () => {
         expect(countOf('luck_')).toBe(10);
         expect(countOf('strength_')).toBe(5);
         expect(countOf('pattern_')).toBe(10);
-        expect(countOf('useful_')).toBe(10);
+        expect(countOf('useful_')).toBe(2);
         expect(countOf('bone_')).toBe(51);
+        expect(countOf('reveal_')).toBe(3);
+        expect(countOf('rival_')).toBe(5);
+        expect(countOf('idle_')).toBe(5);
+        expect(countOf('climate_')).toBe(6);
+        expect(countOf('life_')).toBe(36);
     });
 
     it('is valid for every key it lists', () => {
@@ -232,14 +251,14 @@ describe('baziContentKeys', () => {
 describe('expectedFixedContentIds', () => {
     const ids = expectedFixedContentIds();
 
-    it('lists 44 single results, 123 BaZi contents and 44 tarot contents, 520 Kin contents and 39 rune contents and 60 sign horoscope contents and the self-assessment contents, all unique', () => {
-        expect(ids).toHaveLength(973);
-        expect(new Set(ids).size).toBe(973);
+    it('lists 44 single results, 170 BaZi contents and 44 tarot contents, 520 Kin contents and 39 rune contents and 60 sign horoscope contents and the self-assessment contents, all unique', () => {
+        expect(ids).toHaveLength(1020);
+        expect(new Set(ids).size).toBe(1020);
         expect(ids.filter((id) => id.startsWith('ZODIAC_'))).toHaveLength(12);
         expect(ids.filter((id) => id.startsWith('BLOOD_'))).toHaveLength(4);
         expect(ids.filter((id) => id.startsWith('MBTI_'))).toHaveLength(16);
         expect(ids.filter((id) => id.startsWith('NUMEROLOGY_'))).toHaveLength(12);
-        expect(ids.filter((id) => id.startsWith('BAZI_'))).toHaveLength(123);
+        expect(ids.filter((id) => id.startsWith('BAZI_'))).toHaveLength(170);
         expect(ids.filter((id) => id.startsWith('TAROT_'))).toHaveLength(44);
         expect(ids.filter((id) => id.startsWith('KIN_BIRTH_'))).toHaveLength(260);
         expect(ids.filter((id) => id.startsWith('KIN_TODAY_'))).toHaveLength(260);

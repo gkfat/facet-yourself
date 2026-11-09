@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="birth-time">
         <v-row dense>
             <v-col cols="4">
                 <v-select
@@ -29,6 +29,16 @@
                 />
             </v-col>
         </v-row>
+        <!-- On phones the per-select clear icons are hidden (no room for the text), so one button clears all three -->
+        <v-btn
+            v-if="hasValue"
+            class="birth-time__clear mt-1"
+            variant="text"
+            size="small"
+            @click="clear"
+        >
+            清除時間
+        </v-btn>
         <div
             v-if="hint"
             class="text-caption text-medium-emphasis mt-1 px-2"
@@ -98,7 +108,31 @@ watch(model, (value) => {
     if (value !== composed()) readModel(value);
 });
 
+const hasValue = computed(() => period.value !== null || hour.value !== null || minute.value !== null);
+
+function clear() {
+    period.value = null;
+    hour.value = null;
+    minute.value = null;
+}
+
 watch([period, hour, minute], () => {
     model.value = composed();
 });
 </script>
+
+<style scoped>
+.birth-time__clear {
+    display: none;
+}
+
+@media (max-width: 599px) {
+    .birth-time__clear {
+        display: inline-flex;
+    }
+
+    .birth-time :deep(.v-field__clearable) {
+        display: none;
+    }
+}
+</style>

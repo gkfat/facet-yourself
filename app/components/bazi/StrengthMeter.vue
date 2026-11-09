@@ -1,5 +1,23 @@
 <template>
     <div class="strength">
+        <BaziTakeaway class="mb-4">
+            <span>日主{{ STRENGTH_LEVEL_LABELS[strength.level] }}</span>
+            <v-chip
+                size="small"
+                variant="tonal"
+            >
+                {{ strength.pattern.key }}格
+            </v-chip>
+            <v-chip
+                v-if="strength.useful"
+                size="small"
+                variant="tonal"
+                prepend-icon="mdi-compass-outline"
+            >
+                最順手：{{ TEN_GOD_GROUP_LABELS[strength.useful.useful] }}
+            </v-chip>
+        </BaziTakeaway>
+
         <div class="d-flex align-baseline flex-wrap ga-2 mb-3">
             <span class="strength__level">{{ STRENGTH_LEVEL_LABELS[strength.level] }}</span>
             <span class="text-body-2 text-medium-emphasis">幫扶分 {{ strength.score }} / 100</span>
@@ -45,43 +63,39 @@
             </span>
         </div>
 
-        <div class="strength__row">
-            <div class="strength__row-label">
-                較順手的方向
-            </div>
+        <div class="useful">
             <template v-if="strength.useful">
-                <v-chip
-                    size="small"
-                    color="success"
-                    variant="tonal"
+                <div
+                    v-for="tile in usefulTiles"
+                    :key="tile.kind"
+                    class="useful__tile"
+                    :class="`useful__tile--${tile.kind}`"
                 >
-                    用神：{{ TEN_GOD_GROUP_LABELS[strength.useful.useful] }}
-                </v-chip>
-                <v-chip
-                    size="small"
-                    color="success"
-                    variant="outlined"
-                >
-                    喜神：{{ TEN_GOD_GROUP_LABELS[strength.useful.favorable] }}
-                </v-chip>
-                <v-chip
-                    size="small"
-                    color="warning"
-                    variant="tonal"
-                >
-                    忌神：{{ strength.useful.avoid.map((group) => TEN_GOD_GROUP_LABELS[group]).join('、') }}
-                </v-chip>
+                    <div class="useful__tag">
+                        {{ tile.plain }}<span class="useful__term">・{{ tile.term }}</span>
+                    </div>
+                    <div class="useful__name">
+                        {{ tile.names }}
+                    </div>
+                    <p
+                        v-for="hint in tile.hints"
+                        :key="hint"
+                        class="useful__hint"
+                    >
+                        {{ hint }}
+                    </p>
+                </div>
             </template>
-            <span
+            <p
                 v-else
-                class="text-body-2"
-            >各方向相對平衡，不列喜神、用神與忌神。</span>
+                class="text-body-2 mb-0"
+            >各方向相對平衡，不列喜神、用神與忌神。</p>
         </div>
         <p
             v-if="strength.useful"
             class="text-caption text-medium-emphasis ml-1 mb-2"
         >
-            用神、喜神是比較順手的方向，忌神是比較吃力的方向；用十神的類別表示，不代表吉凶。
+            用神、喜神是比較順手的方向，忌神是比較吃力的方向，仇神是容易加重忌神的方向，閒神是影響較小的方向；用十神的類別表示，不代表吉凶。
         </p>
 
         <div class="strength__row strength__row--phases">
@@ -117,7 +131,12 @@
                     </p>
                     <p>
                         75 分以上為太旺，55 到 74 為身強，45 到 54 為中和，30 到 44 為身弱，低於 30 為太弱。
-                        命格看月令主氣對日主的十神，喜神、用神、忌神由強弱和命格查固定的表。
+                        命格看月令主氣對日主的十神。
+                    </p>
+                    <p>
+                        喜用神看五行力量：天干每個算 5，地支每個算 8 並依藏干（本氣、中氣、餘氣）分配，月令加倍，共 60，平均每個五行 12。
+                        身強時取消耗的一邊（食傷、財、官殺），身弱時取幫扶的一邊（比劫、印），其中力量低於平均的是用神與喜神；
+                        另一邊力量高於平均的是忌神；生忌神的是仇神，其餘是閒神。
                     </p>
                     <p class="mb-0">
                         強弱、命格與喜用神沒有統一標準，不同流派、不同網站可能得到不同結果；這裡採用的是公開、固定的一套規則。
@@ -136,17 +155,52 @@ import {
     STRENGTH_BOUNDS,
     STRENGTH_LEVEL_LABELS,
     STRENGTH_WEIGHTS,
+    TEN_GOD_GROUP_HINTS,
     TEN_GOD_GROUP_LABELS,
     type StrengthLevel,
+    type TenGodGroup,
 } from '../../../shared/constants/bazi';
 import {
     BAZI_PHASE_NOTES, BAZI_STRENGTH_NOTES,
 } from '../../../shared/constants/baziLabels';
 import type { BaziResponse } from '../../../shared/schemas/api/bazi.schema';
 
-defineProps<{
+const props = defineProps<{
     strength: BaziResponse['strength'];
 }>();
+
+/** The three directions as tiles: plain words first, the traditional term after, and what each group is about */
+const usefulTiles = computed(() => {
+    const { useful } = props.strength;
+
+    if (!useful) return [];
+
+    const describe = (groups: readonly TenGodGroup[]) => groups.map((group) => `${TEN_GOD_GROUP_LABELS[group]}：${TEN_GOD_GROUP_HINTS[group]}`);
+
+    return [
+        {
+            kind: 'main', plain: '最順手', term: '用神', names: TEN_GOD_GROUP_LABELS[useful.useful], hints: describe([useful.useful]),
+        },
+        ...(useful.favorable.length > 0 ? [
+            {
+                kind: 'second', plain: '次順手', term: '喜神', names: useful.favorable.map((group) => TEN_GOD_GROUP_LABELS[group]).join('、'), hints: describe(useful.favorable),
+            },
+        ] : []),
+        {
+            kind: 'avoid', plain: '較吃力', term: '忌神', names: useful.avoid.map((group) => TEN_GOD_GROUP_LABELS[group]).join('、'), hints: describe(useful.avoid),
+        },
+        ...(useful.rival.length > 0 ? [
+            {
+                kind: 'rival', plain: '容易加重吃力', term: '仇神', names: useful.rival.map((group) => TEN_GOD_GROUP_LABELS[group]).join('、'), hints: describe(useful.rival),
+            },
+        ] : []),
+        ...(useful.idle.length > 0 ? [
+            {
+                kind: 'idle', plain: '影響較小', term: '閒神', names: useful.idle.map((group) => TEN_GOD_GROUP_LABELS[group]).join('、'), hints: describe(useful.idle),
+            },
+        ] : []),
+    ];
+});
 
 /** The five bands of the 0–100 track, lightest first; the widths come from the level bounds. */
 const segments = computed(() => {
@@ -173,6 +227,75 @@ const segments = computed(() => {
 </script>
 
 <style scoped>
+/* Three tiles: where the force is easier to use, the next best, and where it is harder */
+.useful {
+    display: grid;
+    gap: 10px;
+    margin: 14px 0 6px;
+}
+
+@media (min-width: 720px) {
+    .useful {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.useful__tile {
+    padding: 12px 14px;
+    border: 2px solid rgb(var(--v-theme-primary));
+    border-radius: 12px;
+}
+
+.useful__tile--main {
+    color: rgb(var(--v-theme-on-primary));
+    background: rgb(var(--v-theme-primary));
+}
+
+.useful__tile--second {
+    background: rgba(var(--v-theme-primary), 0.1);
+}
+
+/* The harder direction is dashed and quiet, not a warning colour: it is a tendency, not a verdict */
+.useful__tile--avoid {
+    border-style: dashed;
+    border-color: rgba(var(--v-theme-on-surface), 0.4);
+}
+
+.useful__tile--rival,
+.useful__tile--idle {
+    border-width: 1px;
+    border-style: dashed;
+    border-color: rgba(var(--v-theme-on-surface), 0.25);
+}
+
+.useful__tile--idle {
+    opacity: 0.85;
+}
+
+.useful__tag {
+    font-size: 0.8125rem;
+    font-weight: 700;
+}
+
+.useful__term {
+    font-weight: 400;
+    opacity: 0.8;
+}
+
+.useful__name {
+    margin: 2px 0 6px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.useful__hint {
+    margin: 0 0 2px;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    opacity: 0.85;
+}
+
 .strength__level {
     font-size: 1.5rem;
     font-weight: 700;

@@ -27,7 +27,7 @@ export const BAZI_TERMS: readonly string[] = [
  * clearly the largest (at least 3, and not tied), and a missing element is one that does not appear at all.
  */
 export function baziTermsOf(
-    analysis: Pick<ChartAnalysis, 'dayMaster' | 'elementCounts' | 'groupCounts'>,
+    analysis: Pick<ChartAnalysis, 'dayMaster' | 'elementCounts' | 'elementPower' | 'groupCounts'>,
     strength: { level: StrengthResult['level']; pattern: { key: string } },
 ): string[] {
     const strongElement = dominantElement(analysis.elementCounts);
@@ -36,7 +36,7 @@ export function baziTermsOf(
     return [
         `bazi:daymaster:${analysis.dayMaster.stem}`,
         ...strongElement ? [`bazi:element:strong:${strongElement}`] : [],
-        ...missingElements(analysis.elementCounts).map((element) => `bazi:element:missing:${element}`),
+        ...missingElements(analysis.elementPower).map((element) => `bazi:element:missing:${element}`),
         ...group ? [`bazi:group:${group}`] : [],
         `bazi:strength:${strength.level}`,
         `bazi:pattern:${strength.pattern.key}`,

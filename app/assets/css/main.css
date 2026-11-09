@@ -41,3 +41,37 @@
     font-weight: 500;
     letter-spacing: 0.04em;
 }
+
+/* Phones: three selects share one row, so give the text the room the icons and padding were taking */
+@media (max-width: 599px) {
+    .v-application .v-select .v-field,
+    .v-application .v-autocomplete .v-field {
+        --v-field-padding-start: 12px;
+        --v-field-padding-end: 4px;
+    }
+
+    .v-application .v-select .v-field .v-field__input {
+        padding-inline: 12px 0;
+        font-size: 0.9375rem;
+    }
+
+    .v-application .v-select .v-field__append-inner,
+    .v-application .v-select .v-field__clearable {
+        padding-inline-start: 0;
+    }
+
+    .v-application .v-select .v-field .v-icon {
+        --v-icon-size-multiplier: 0.8;
+    }
+
+    .v-application .v-select .v-field-label {
+        font-size: 0.8125rem;
+    }
+
+    /* The title and its "optional" tag must wrap, not squeeze each other */
+    .v-application .v-expansion-panel-title {
+        gap: 8px;
+        font-size: 0.9375rem;
+        line-height: 1.4;
+    }
+}

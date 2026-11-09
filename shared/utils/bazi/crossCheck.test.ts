@@ -1,4 +1,5 @@
 import { Solar } from 'lunar-typescript';
+import { BRANCHES } from '../../constants/bazi';
 import {
     describe, expect, it,
 } from 'vitest';
@@ -6,7 +7,9 @@ import { analyzeChart } from './analysis';
 import { computeFacts } from './facts';
 import { ganzhiLabel } from './ganzhi';
 import { calculatePillars } from './pillars';
-import { solarTermsOfYear } from './solarTerms';
+import {
+    solarTermsOfYear, termAround,
+} from './solarTerms';
 
 /**
  * Cross-check against lunar-typescript, an independent implementation with its own solar-term tables.
@@ -124,7 +127,7 @@ describe('four pillars and chart facts against lunar-typescript', () => {
         return wall;
     });
 
-    it('agrees on the pillars, 命宮, 胎元, 地勢, 旬空 and ten gods of sampled charts', () => {
+    it('agrees on the pillars, 胎元, 地勢, 旬空 and ten gods of sampled charts, and on 命宮 as far as the rules coincide', () => {
         let compared = 0;
 
         for (const wall of samples) {
@@ -170,7 +173,14 @@ describe('four pillars and chart facts against lunar-typescript', () => {
             expect(ganzhiLabel(pillars.month), label).toBe(theirs.getMonth());
             expect(ganzhiLabel(pillars.day), label).toBe(theirs.getDay());
             expect(ganzhiLabel(pillars.hour!), label).toBe(theirs.getTime());
-            expect(ganzhiLabel(facts.mingGong!), label).toBe(theirs.getMingGong());
+            // The library counts the 命宮 from the month of the 節; the printed charts count it from the 月將, which
+            // changes at the 中氣. The two agree in the first half of a month; in the second half the 月將 is one
+            // branch behind (and the stem follows the branch, so only the branch is compared there).
+            const firstHalf = termAround(instant).current.monthBranch !== null;
+            const theirMingGong = theirs.getMingGong();
+
+            if (firstHalf) expect(ganzhiLabel(facts.mingGong!), label).toBe(theirMingGong);
+            else expect(facts.mingGong!.branch, label).toBe(BRANCHES[(BRANCHES.indexOf(theirMingGong.charAt(1) as never) + 11) % 12]);
             expect(ganzhiLabel(facts.taiYuan), label).toBe(theirs.getTaiYuan());
             expect(facts.stages.map((item) => simplifiedStage(item.stage)), label).toEqual([
                 theirs.getYearDiShi(),

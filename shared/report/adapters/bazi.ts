@@ -1,7 +1,9 @@
 import {
     ELEMENT_LABELS, STRENGTH_LEVEL_LABELS, TEN_GOD_GROUP_LABELS, type Element,
 } from '../../constants/bazi';
-import { BAZI_DISCLAIMER } from '../../constants/baziLabels';
+import {
+    BAZI_CLIMATE_NOTE, BAZI_DISCLAIMER,
+} from '../../constants/baziLabels';
 import { baziTermsOf } from '../../ontology/mappings/bazi';
 import type { BaziResponse } from '../../schemas/api/bazi.schema';
 import type { FixedResultResponse } from '../../schemas/api/fixedResult.schema';
@@ -31,6 +33,8 @@ function termOfKey(key: string): string | undefined {
     const day = /^daymaster_(.+)$/.exec(key);
     const level = /^strength_(.+)$/.exec(key);
     const pattern = /^pattern_(.+)$/.exec(key);
+    // A reading of an area of life is chosen by the ten-god group the chart has most of, so that group is its term
+    const life = /^life_[a-z]+_(peer|output|wealth|power|resource)$/.exec(key);
 
     if (strong) return `bazi:element:strong:${strong[1]}`;
     if (missing) return `bazi:element:missing:${missing[1]}`;
@@ -38,6 +42,7 @@ function termOfKey(key: string): string | undefined {
     if (day) return `bazi:daymaster:${day[1]}`;
     if (level) return `bazi:strength:${level[1]}`;
     if (pattern) return `bazi:pattern:${pattern[1]}`;
+    if (life) return `bazi:group:${life[1]}`;
 
     return undefined;
 }
@@ -61,7 +66,7 @@ export function baziReportInput(params: {
     const dayLabel = `${day.stem}${ELEMENT_LABELS[day.element]}`;
     const strongElement = dominantElement(chart.elementCounts);
     const group = dominantGroup(chart.groupCounts);
-    const missing = missingElements(chart.elementCounts);
+    const missing = missingElements(chart.elementPower);
     const { useful } = chart.strength;
     const luckStep = chart.luck?.steps.find((step) => step.order === chart.luck?.currentOrder) ?? null;
     const nextStep = luckStep ? chart.luck?.steps.find((step) => step.order === luckStep.order + 1) ?? null : null;
@@ -82,6 +87,9 @@ export function baziReportInput(params: {
                 `日柱 ${pillarLabel(chart.pillars.day)}`,
                 chart.pillars.hour ? `時柱 ${pillarLabel(chart.pillars.hour)}` : '時柱 未知',
             ].join('　'),
+        },
+        {
+            label: '生肖', value: `屬${chart.facts.zodiac}（年柱地支「${chart.pillars.year.branch}」）`,
         },
         {
             label: '日主', value: `${dayLabel}（${POLARITY_LABELS[day.polarity]}${ELEMENT_LABELS[day.element]}）`, term: `bazi:daymaster:${day.stem}`,
@@ -118,7 +126,7 @@ export function baziReportInput(params: {
         ...(useful ? [
             {
                 label: '喜用神',
-                value: `較順手的方向：${TEN_GOD_GROUP_LABELS[useful.useful]}，其次${TEN_GOD_GROUP_LABELS[useful.favorable]}；較吃力的方向：${useful.avoid.map((item) => TEN_GOD_GROUP_LABELS[item]).join('、')}`,
+                value: `較順手的方向：${TEN_GOD_GROUP_LABELS[useful.useful]}${useful.favorable.length > 0 ? `，其次${useful.favorable.map((item) => TEN_GOD_GROUP_LABELS[item]).join('、')}` : ''}；較吃力的方向：${useful.avoid.map((item) => TEN_GOD_GROUP_LABELS[item]).join('、')}`,
             },
         ] : []),
         {
@@ -185,6 +193,7 @@ export function baziReportInput(params: {
     ];
 
     const notes = [
+        BAZI_CLIMATE_NOTE,
         ...(chart.hasTime ? [] : ['沒有出生時間，只有年、月、日三柱，也算不出稱骨與大運。']),
         ...(chart.luckStatus === 'NEEDS_GENDER' ? ['填寫性別（只用來決定大運的排法），就能看到大運與流年。'] : []),
         ...(chart.timeZoneAssumed ? [`沒有出生城市，以 ${chart.timeZone} 計算。`] : []),
@@ -193,7 +202,7 @@ export function baziReportInput(params: {
 
     return {
         system: 'BAZI',
-        position: `日主${dayLabel}・${STRENGTH_LEVEL_LABELS[chart.strength.level]}・${chart.strength.pattern.key}格`,
+        position: `${dayLabel}日主・${STRENGTH_LEVEL_LABELS[chart.strength.level]}・${chart.strength.pattern.key}格`,
         facts,
         interpretations: [
             ...overview,
@@ -202,9 +211,15 @@ export function baziReportInput(params: {
             ...card('五行與十神歸納', interpretation.dominantGroup),
             ...card('強弱與格局歸納', interpretation.strength),
             ...card('強弱與格局歸納', interpretation.pattern),
+            ...card('強弱與格局歸納', interpretation.reveal),
             ...card('強弱與格局歸納', interpretation.usefulGods),
+            ...interpretation.rivalGods.flatMap((fixed) => card('強弱與格局歸納', fixed)),
+            ...interpretation.idleGods.flatMap((fixed) => card('強弱與格局歸納', fixed)),
             ...card('月令與稱骨歸納', interpretation.month),
             ...card('月令與稱骨歸納', interpretation.bone),
+            ...card('季節氣候歸納', interpretation.climate),
+            ...interpretation.climateExcess.flatMap((fixed) => card('季節氣候歸納', fixed)),
+            ...interpretation.lifeAspects.flatMap((item) => card('人生面向歸納', item.content)),
         ],
         traits: baziTermsOf(chart, chart.strength),
         timeFacts,

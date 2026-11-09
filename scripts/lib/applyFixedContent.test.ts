@@ -3,7 +3,9 @@ import {
 } from 'vitest';
 import type { Firestore } from 'firebase-admin/firestore';
 import { FakeFirestore } from '../../server/test-utils/fakeFirestore';
-import { applyFixedContent } from './applyFixedContent';
+import {
+    applyFixedContent, sameContent,
+} from './applyFixedContent';
 import type { ImportRow } from '../../shared/utils/fixedContentImport';
 
 const body = {
@@ -56,6 +58,23 @@ describe('applyFixedContent', () => {
         expect((await db.doc('fixedContents/ZODIAC_aries').get()).data()?.contentVersion).toBe('1');
     });
 
+    it('does not count a body whose fields come back in another order as a change', async () => {
+        await applyFixedContent(asFirestore(), [row()], 1000);
+
+        // Firestore returns a map with its fields sorted; write the stored body that way
+        const sorted = Object.fromEntries(Object.entries(body).sort(([a], [b]) => a.localeCompare(b)));
+        const ref = db.doc('fixedContents/ZODIAC_aries');
+
+        await ref.set({
+            ...(await ref.get()).data(), body: sorted,
+        });
+
+        const again = await applyFixedContent(asFirestore(), [row()], 2000);
+
+        expect(again.unchanged).toEqual(['ZODIAC_aries']);
+        expect((await ref.get()).data()?.contentVersion).toBe('1');
+    });
+
     it('bumps the version when the body changes', async () => {
         await applyFixedContent(asFirestore(), [row()], 1000);
         const outcome = await applyFixedContent(asFirestore(), [
@@ -90,5 +109,48 @@ describe('applyFixedContent', () => {
         await applyFixedContent(asFirestore(), [row({ status: 'DRAFT' })], 2000);
 
         expect((await db.doc('fixedContents/ZODIAC_aries').get()).data()?.publishedAt).toBeNull();
+    });
+});
+
+describe('sameContent', () => {
+    it('ignores the order of the fields of an object, at any depth', () => {
+        expect(sameContent({
+            a: 1, b: {
+                c: 2, d: [
+                    {
+                        e: 1, f: 2, 
+                    },
+                ], 
+            },
+        }, {
+            b: {
+                d: [
+                    {
+                        f: 2, e: 1, 
+                    },
+                ], c: 2, 
+            }, a: 1,
+        })).toBe(true);
+    });
+
+    it('keeps the order of a list', () => {
+        expect(sameContent(['a', 'b'], ['b', 'a'])).toBe(false);
+    });
+
+    it('sees a different value, a missing field and an extra field', () => {
+        expect(sameContent({ a: 1 }, { a: 2 })).toBe(false);
+        expect(sameContent({
+            a: 1, b: 2, 
+        }, { a: 1 })).toBe(false);
+        expect(sameContent({ a: 1 }, {
+            a: 1, b: 2, 
+        })).toBe(false);
+        expect(sameContent({ a: undefined }, { b: undefined })).toBe(false);
+    });
+
+    it('tells an empty list, an empty object and null apart', () => {
+        expect(sameContent([], {})).toBe(false);
+        expect(sameContent(null, {})).toBe(false);
+        expect(sameContent('', null)).toBe(false);
     });
 });

@@ -8,8 +8,24 @@ export type ApplyOutcome = {
     unchanged: string[];
 };
 
-function sameContent(a: unknown, b: unknown): boolean {
-    return JSON.stringify(a) === JSON.stringify(b);
+/**
+ * Whether two stored values are the same content. The order of the fields of an object does not matter (Firestore hands
+ * a map back with its fields sorted, the import file has them in the order of the schema), the order of a list does.
+ */
+export function sameContent(a: unknown, b: unknown): boolean {
+    if (Array.isArray(a) || Array.isArray(b)) {
+        return Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((item, index) => sameContent(item, b[index]));
+    }
+
+    if (a !== null && b !== null && typeof a === 'object' && typeof b === 'object') {
+        const left = a as Record<string, unknown>;
+        const right = b as Record<string, unknown>;
+        const keys = Object.keys(left);
+
+        return keys.length === Object.keys(right).length && keys.every((key) => Object.hasOwn(right, key) && sameContent(left[key], right[key]));
+    }
+
+    return a === b;
 }
 
 /**

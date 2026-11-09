@@ -354,7 +354,8 @@ onMounted(() => {
     justify-content: center;
     flex: 0 0 auto;
     gap: 16px;
-    padding: 24px 16px;
+    /* The bottom is left clear for the floating back button */
+    padding: 24px 16px 96px;
     font-size: 0.75rem;
     color: rgba(var(--v-theme-on-surface), 0.6);
     background: transparent;

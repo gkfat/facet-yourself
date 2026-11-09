@@ -89,10 +89,11 @@ export const HIDDEN_STEMS: Record<Branch, readonly Stem[]> = {
         '乙',
         '癸',
     ],
+    // 丙 main, 戊 middle, 庚 residual, as 三命通會 and the printed charts list it
     巳: [
         '丙',
-        '庚',
         '戊',
+        '庚',
     ],
     午: ['丁', '己'],
     未: [
@@ -445,6 +446,120 @@ export const BRANCH_CLASHES: ReadonlyArray<readonly [Branch, Branch]> = [
     ['巳', '亥'],
 ];
 
+/** 三合: three branches that gather one element; the middle branch (旺支) is the one a half-combination must hold. */
+export const BRANCH_TRIADS: ReadonlyArray<{
+    branches: readonly [Branch, Branch, Branch];
+    element: Element;
+    center: Branch;
+}> = [
+    {
+        branches: [
+            '申',
+            '子',
+            '辰',
+        ], element: 'water', center: '子',
+    },
+    {
+        branches: [
+            '亥',
+            '卯',
+            '未',
+        ], element: 'wood', center: '卯',
+    },
+    {
+        branches: [
+            '寅',
+            '午',
+            '戌',
+        ], element: 'fire', center: '午',
+    },
+    {
+        branches: [
+            '巳',
+            '酉',
+            '丑',
+        ], element: 'metal', center: '酉',
+    },
+];
+
+/** 三會: three branches of one season, which gather its element. */
+export const BRANCH_MEETINGS: ReadonlyArray<{
+    branches: readonly [Branch, Branch, Branch];
+    element: Element;
+}> = [
+    {
+        branches: [
+            '寅',
+            '卯',
+            '辰',
+        ], element: 'wood',
+    },
+    {
+        branches: [
+            '巳',
+            '午',
+            '未',
+        ], element: 'fire',
+    },
+    {
+        branches: [
+            '申',
+            '酉',
+            '戌',
+        ], element: 'metal',
+    },
+    {
+        branches: [
+            '亥',
+            '子',
+            '丑',
+        ], element: 'water',
+    },
+];
+
+/** 刑: two different branches of one group punish each other (寅巳申, 丑戌未, 子卯). */
+export const BRANCH_PUNISHMENTS: ReadonlyArray<readonly Branch[]> = [
+    [
+        '寅',
+        '巳',
+        '申',
+    ],
+    [
+        '丑',
+        '戌',
+        '未',
+    ],
+    ['子', '卯'],
+];
+
+/** 自刑: the same branch twice in a chart punishes itself. */
+export const BRANCH_SELF_PUNISHMENTS: readonly Branch[] = [
+    '辰',
+    '午',
+    '酉',
+    '亥',
+];
+
+/** 地支六破 */
+export const BRANCH_BREAKS: ReadonlyArray<readonly [Branch, Branch]> = [
+    ['子', '酉'],
+    ['丑', '辰'],
+    ['寅', '亥'],
+    ['卯', '午'],
+    ['巳', '申'],
+    ['未', '戌'],
+];
+
+/** 地支六害 */
+export const BRANCH_HARMS: ReadonlyArray<readonly [Branch, Branch]> = [
+    ['子', '未'],
+    ['丑', '午'],
+    ['寅', '巳'],
+    ['卯', '辰'],
+    ['申', '亥'],
+    ['酉', '戌'],
+];
+
 export type Season = '春' | '夏' | '秋' | '冬';
 
 /** Season of each month branch (寅卯辰 spring, 巳午未 summer, 申酉戌 autumn, 亥子丑 winter). */
@@ -462,6 +577,76 @@ export const SEASON_OF_BRANCH: Record<Branch, Season> = {
     子: '冬',
     丑: '冬',
 };
+
+export type Temperature = 'cold' | 'cool' | 'mild' | 'hot';
+export type Humidity = 'moist' | 'neutral' | 'dry';
+/** Which way a month leans: 偏寒, 偏熱, 偏燥, or none (spring). */
+export type MonthBias = 'cold' | 'hot' | 'dry' | 'none';
+
+/**
+ * 月令的氣候: temperature and humidity are recorded apart from the lean. 丑 and 辰 are damp earth, but the lean is not
+ * 偏濕: 丑 is already in the cold, damp months and 辰 stays damp without leaning.
+ */
+export const MONTH_CLIMATE: Record<Branch, {
+    temperature: Temperature;
+    humidity: Humidity;
+    bias: MonthBias;
+}> = {
+    亥: {
+        temperature: 'cold', humidity: 'moist', bias: 'cold',
+    },
+    子: {
+        temperature: 'cold', humidity: 'moist', bias: 'cold',
+    },
+    丑: {
+        temperature: 'cold', humidity: 'moist', bias: 'cold',
+    },
+    寅: {
+        temperature: 'cool', humidity: 'neutral', bias: 'none',
+    },
+    卯: {
+        temperature: 'mild', humidity: 'neutral', bias: 'none',
+    },
+    辰: {
+        temperature: 'mild', humidity: 'moist', bias: 'none',
+    },
+    巳: {
+        temperature: 'hot', humidity: 'dry', bias: 'hot',
+    },
+    午: {
+        temperature: 'hot', humidity: 'dry', bias: 'hot',
+    },
+    未: {
+        temperature: 'hot', humidity: 'dry', bias: 'hot',
+    },
+    申: {
+        temperature: 'cool', humidity: 'dry', bias: 'dry',
+    },
+    酉: {
+        temperature: 'cool', humidity: 'dry', bias: 'dry',
+    },
+    戌: {
+        temperature: 'cool', humidity: 'dry', bias: 'dry',
+    },
+};
+
+export const POWER_LEVELS = [
+    'none',
+    'weak',
+    'moderate',
+    'strong',
+    'excessive',
+] as const;
+
+export type PowerLevel = typeof POWER_LEVELS[number];
+
+/** Lower bounds of the power levels of fire and water (a product's own scale, not a traditional threshold). */
+export const POWER_BOUNDS: ReadonlyArray<readonly [number, PowerLevel]> = [
+    [55, 'excessive'],
+    [35, 'strong'],
+    [15, 'moderate'],
+    [0.000001, 'weak'],
+];
 
 /** Weight of each position in the support score (幫扶分); the weights add up to 100, the month branch counting most. */
 export const STRENGTH_WEIGHTS = {
@@ -545,51 +730,39 @@ export const PATTERN_OF_TEN_GOD: Record<TenGod, PatternKey> = {
     劫財: '月刃',
 };
 
-export type UsefulGods = {
-    /** 用神 */
-    useful: TenGodGroup;
-    /** 喜神 */
-    favorable: TenGodGroup;
-    /** 忌神 */
-    avoid: readonly TenGodGroup[];
-};
+/**
+ * The weights of the five-element power of a chart: every heavenly stem counts 5; every branch counts 8, split between
+ * its hidden stems (main : middle : residual = 5 : 2 : 1, two stems 5 : 3, one stem all 8); the month branch counts
+ * double. With the hour they add up to 60, so an even spread is 12 for each element.
+ */
+export const ELEMENT_POWER_WEIGHTS = {
+    stem: 5,
+    branchSplit: {
+        1: [8],
+        2: [5, 3],
+        3: [
+            5,
+            2,
+            1,
+        ],
+    } as Record<1 | 2 | 3, readonly number[]>,
+    monthBranchMultiplier: 2,
+} as const;
 
-/** 喜用神 by strong / weak side and the ten-god group of the pattern; expressed as ten-god groups. */
-export const USEFUL_GODS: Record<'strong' | 'weak', Record<TenGodGroup, UsefulGods>> = {
-    strong: {
-        resource: {
-            useful: 'wealth', favorable: 'output', avoid: ['peer'],
-        },
-        power: {
-            useful: 'power', favorable: 'wealth', avoid: ['resource', 'peer'],
-        },
-        wealth: {
-            useful: 'wealth', favorable: 'output', avoid: ['peer', 'resource'],
-        },
-        output: {
-            useful: 'wealth', favorable: 'output', avoid: ['resource'],
-        },
-        peer: {
-            useful: 'power', favorable: 'wealth', avoid: ['resource'],
-        },
-    },
-    weak: {
-        resource: {
-            useful: 'resource', favorable: 'peer', avoid: ['wealth'],
-        },
-        power: {
-            useful: 'resource', favorable: 'peer', avoid: ['wealth'],
-        },
-        wealth: {
-            useful: 'peer', favorable: 'resource', avoid: ['output', 'wealth'],
-        },
-        output: {
-            useful: 'resource', favorable: 'peer', avoid: ['output', 'wealth'],
-        },
-        peer: {
-            useful: 'resource', favorable: 'peer', avoid: ['wealth', 'power'],
-        },
-    },
+/** 月將 by the 中氣 last passed (the Sun's sign): the branch a 命宮 is counted from. */
+export const YUE_JIANG: Record<string, Branch> = {
+    雨水: '亥',
+    春分: '戌',
+    穀雨: '酉',
+    小滿: '申',
+    夏至: '未',
+    大暑: '午',
+    處暑: '巳',
+    秋分: '辰',
+    霜降: '卯',
+    小雪: '寅',
+    冬至: '丑',
+    大寒: '子',
 };
 
 /**
@@ -728,7 +901,7 @@ export const BONE_MIN_QIAN = 21;
 export const BONE_MAX_QIAN = 71;
 
 /**
- * Fixed colours of the five elements (木綠、火紅、土黃、金灰白、水藍). Always shown together with the element's
+ * Fixed colours of the five elements (木綠、火紅、土棕黃、金金色、水藍). Always shown together with the element's
  * name, never as the only way to tell elements apart. `text` is the readable colour to put on `fill`.
  */
 export const ELEMENT_COLORS: Record<Element, {
@@ -737,19 +910,19 @@ export const ELEMENT_COLORS: Record<Element, {
     border: string;
 }> = {
     wood: {
-        fill: '#3f8f5f', text: '#ffffff', border: '#2f7149',
+        fill: '#518c5a', text: '#ffffff', border: '#3b6d43',
     },
     fire: {
-        fill: '#d4544a', text: '#ffffff', border: '#b13d34',
+        fill: '#d94c3f', text: '#ffffff', border: '#b03328',
     },
     earth: {
-        fill: '#d9a441', text: '#2a1f00', border: '#b58525',
+        fill: '#bb9a72', text: '#2b2013', border: '#97784f',
     },
     metal: {
-        fill: '#d9dde2', text: '#2b3238', border: '#9aa3ab',
+        fill: '#d4af37', text: '#2b2305', border: '#a98a1f',
     },
     water: {
-        fill: '#3d7fd0', text: '#ffffff', border: '#2b63a8',
+        fill: '#3a78b8', text: '#ffffff', border: '#285b92',
     },
 };
 
@@ -760,6 +933,20 @@ export const TEN_GOD_GROUP_COLORS: Record<TenGodGroup, string> = {
     wealth: '#0f9d8a',
     power: '#a1457f',
     resource: '#7c5cd6',
+};
+
+/** What each of the ten gods stands for, in a neutral tone (a tendency, not good or bad), for the chart's explanation. */
+export const TEN_GOD_MEANINGS: Record<TenGod, string> = {
+    比肩: '與你同類的夥伴，代表自我主張、獨立與對等的合作',
+    劫財: '與你同類但更積極，代表競爭、分享資源與行動力',
+    食神: '溫和的表達，代表才華、享受生活與從容的創意',
+    傷官: '鋒利的表達，代表突破框架、挑戰規則與個人風格',
+    正財: '穩定的資源，代表務實、細水長流的收入與經營',
+    偏財: '流動的資源，代表機會、人脈與靈活的運用',
+    正官: '正式的規範，代表責任、秩序與自律',
+    七殺: '強烈的挑戰，代表壓力、魄力與推動力',
+    正印: '穩定的支持，代表學習、庇護與內在涵養',
+    偏印: '非典型的學習，代表直覺、獨特想法與專注鑽研',
 };
 
 /** A neutral one-line reading of each group, for the chart legend. */

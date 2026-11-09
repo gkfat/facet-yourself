@@ -8,7 +8,6 @@ import {
     STRENGTH_LEVELS,
     TEN_GODS,
     TEN_GOD_GROUPS,
-    TEN_GOD_GROUP_LABELS,
     BONE_MAX_QIAN,
     BONE_MIN_QIAN,
 } from '../constants/bazi.ts';
@@ -51,7 +50,36 @@ export const ANALYZABLE_BLOOD_TYPES = [
     'AB',
 ] as const;
 
-/** The 123 BaZi content keys: day master, element, ten-god group, month, luck theme, strength, pattern, useful gods, bone weight. */
+/** Which side a month stem's reveal (透干) is on, and the lean of the season, for the BaZi content keys. */
+export const BAZI_REVEAL_KEYS = [
+    'main',
+    'other',
+    'none',
+] as const;
+
+export const BAZI_CLIMATE_KEYS = [
+    'cold',
+    'hot',
+    'dry',
+    'balanced',
+    'excess_warming',
+    'excess_moistening',
+] as const;
+
+/** The six areas of life of the BaZi readings, in the order the report lists them. */
+export const BAZI_LIFE_ASPECTS = [
+    'personality',
+    'career',
+    'wealth',
+    'love',
+    'relation',
+    'study',
+] as const;
+
+/** The ten-god group a chart has most of, or `balanced` when no group stands out. */
+export const BAZI_LIFE_GROUPS = [...TEN_GOD_GROUPS, 'balanced'] as const;
+
+/** The 170 BaZi content keys: day master, element, ten-god group, month, luck theme, strength, pattern, useful gods, bone weight, then the reveal, rival and idle gods, season and life aspects. */
 export function baziContentKeys(): string[] {
     const keys: string[] = [];
 
@@ -65,11 +93,19 @@ export function baziContentKeys(): string[] {
     for (const level of STRENGTH_LEVELS) keys.push(`strength_${level}`);
     for (const pattern of PATTERN_KEYS) keys.push(`pattern_${pattern}`);
 
-    for (const side of ['strong', 'weak']) {
-        for (const group of TEN_GOD_GROUPS) keys.push(`useful_${side}_${TEN_GOD_GROUP_LABELS[group]}`);
-    }
+    // One reading for each side: which groups are 用神 and 忌神 comes from the power of the elements, shown beside it
+    for (const side of ['strong', 'weak']) keys.push(`useful_${side}`);
 
     for (let qian = BONE_MIN_QIAN; qian <= BONE_MAX_QIAN; qian++) keys.push(`bone_${qian}`);
+
+    for (const reveal of BAZI_REVEAL_KEYS) keys.push(`reveal_${reveal}`);
+    for (const group of TEN_GOD_GROUPS) keys.push(`rival_${group}`);
+    for (const group of TEN_GOD_GROUPS) keys.push(`idle_${group}`);
+    for (const climate of BAZI_CLIMATE_KEYS) keys.push(`climate_${climate}`);
+
+    for (const aspect of BAZI_LIFE_ASPECTS) {
+        for (const group of BAZI_LIFE_GROUPS) keys.push(`life_${aspect}_${group}`);
+    }
 
     return keys;
 }
@@ -125,7 +161,7 @@ export function isValidContentKey(type: FixedContentType, key: string): boolean 
 
 /**
  * Every document id that must exist before launch:
- * 12 + 4 + 16 + 12 single results, the 123 BaZi contents, the 44 tarot contents, the 260 + 260 Kin contents, the 39 rune
+ * 12 + 4 + 16 + 12 single results, the 170 BaZi contents, the 44 tarot contents, the 260 + 260 Kin contents, the 39 rune
  * contents, the 60 sign horoscope contents and the contents of the self-assessments (as many as the registry lists).
  */
 export function expectedFixedContentIds(): string[] {

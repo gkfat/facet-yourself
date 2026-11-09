@@ -98,11 +98,6 @@
                     </v-card-text>
                 </v-card>
 
-                <BaziChartPanel
-                    v-if="baziChart"
-                    :result="baziChart"
-                />
-
                 <!-- The Kin of the birth date, as the Kin of today is shown on the daily page -->
                 <KinBadge
                     v-if="birthKin"
@@ -116,7 +111,15 @@
                     :natal-locked="natalLocked"
                     :bazi-chart="baziChart"
                     :mbti-dimensions="mbtiDimensions"
-                />
+                >
+                    <!-- Under the summary and the overview, as the evidence they rest on -->
+                    <template
+                        v-if="baziChart"
+                        #chart
+                    >
+                        <BaziChartPanel :result="baziChart" />
+                    </template>
+                </SingleReportView>
 
                 <div
                     v-if="shareContent"

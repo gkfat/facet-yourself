@@ -79,7 +79,7 @@
                                     >
                                         <ProfileBirthTimeSelect
                                             v-model="birthTimeInput"
-                                            label="上午／下午"
+                                            label="時段"
                                         />
                                     </v-col>
                                     <v-col
@@ -148,7 +148,7 @@
 
 <script lang="ts" setup>
 import {
-    BAZI_ENTRY_ENABLED, ELEMENT_LABELS,
+    BAZI_ENTRY_ENABLED,
 } from '../../shared/constants/bazi';
 import { assessmentCards } from '../utils/assessmentCards';
 import {
@@ -166,8 +166,6 @@ import {
 import type { Zodiac } from '../../shared/schemas/common';
 import { HUMAN_DESIGN_TYPE_LABELS } from '../../shared/constants/humanDesignLabels';
 import type { HumanDesignResponse } from '../../shared/schemas/api/humanDesign.schema';
-import { dayPillarOf } from '../../shared/utils/bazi/dayPillar';
-import { stemElement } from '../../shared/utils/bazi/ganzhi';
 import { kinName, kinOf } from '../../shared/utils/mayaKin';
 import { lifePathNumber } from '../../shared/utils/numerology';
 import {
@@ -235,17 +233,12 @@ watch(() => [state.value.hasHumanDesign, isAuthenticated.value], async ([has, si
     }
 }, { immediate: true });
 
-function dayMasterLabel(isoDate: string): string {
-    const { stem } = dayPillarOf(isoDate);
-
-    return `${stem}${ELEMENT_LABELS[stemElement(stem)]}日主`;
-}
+const baziBadge = useBaziBadge(birthDateInput);
 
 // Every analysis the app offers; the ones whose data is missing stay disabled.
 const analyses = computed<Analysis[]>(() => {
     const baziReady = Boolean(zodiacSign.value && birthTimeInput.value);
-    // The day stem only needs the date, so the label can be worked out here without calling the server
-    const baziDayMaster = baziReady && birthDateInput.value ? dayMasterLabel(birthDateInput.value) : '';
+    const baziDayMaster = baziReady ? baziBadge.value : '';
     const sign = zodiacSign.value;
     const bloodType = analysableBloodType.value;
     const mbti = state.value.mbti;
@@ -378,6 +371,13 @@ const groups = computed(() => SYSTEMS
 </script>
 
 <style scoped>
+.extra__optional {
+    flex: 0 0 auto;
+    margin-inline-start: auto;
+    padding-inline-start: 8px;
+    white-space: nowrap;
+}
+
 /* Everything inside the page stays in the container; only the background runs edge to edge. */
 .home {
     position: relative;

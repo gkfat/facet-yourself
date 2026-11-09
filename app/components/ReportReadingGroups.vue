@@ -5,9 +5,16 @@
         :key="group.title"
         class="mt-6"
     >
-        <div class="text-subtitle-1 font-weight-medium mb-2">
+        <div class="text-subtitle-1 font-weight-medium mb-1">
             {{ group.title }}
         </div>
+        <!-- What the group reads, when the report says so -->
+        <p
+            v-if="notes?.[group.title]"
+            class="text-caption text-medium-emphasis mb-2"
+        >
+            {{ notes[group.title] }}
+        </p>
         <!-- The keywords of a draw are chips, not cards -->
         <template v-if="group.title === KEYWORD_GROUP">
             <v-chip
@@ -79,6 +86,8 @@ defineProps<{
         title: string;
         readings: Array<{ title: string; text: string }>;
     }>;
+    /** A line under the heading of a group, by its title: what the group is about */
+    notes?: Record<string, string>;
 }>();
 
 const LISTED = /^(可能的優勢|可能的盲點)：(.*)$/;

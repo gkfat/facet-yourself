@@ -77,14 +77,14 @@ describe('BaziService.calculate', () => {
         });
         expect(result.strength).toMatchObject({
             level: 'strong', side: 'STRONG', useful: {
-                useful: 'wealth', favorable: 'output', avoid: ['peer'],
+                useful: 'output', favorable: ['power'], avoid: ['peer', 'resource'],
             },
         });
         expect(result.strength.pattern.key).toBe('偏印');
         expect(result.bone).toMatchObject({
             totalQian: 41, label: '4 兩 1 錢',
         });
-        expect(ganzhiLabel(result.facts.mingGong!)).toBe('戊辰');
+        expect(ganzhiLabel(result.facts.mingGong!)).toBe('丁卯');
         expect(ganzhiLabel(result.facts.taiYuan)).toBe('乙丑');
         expect(result.borderline).toEqual([]);
     });
@@ -121,16 +121,71 @@ describe('BaziService.calculate', () => {
 
         expect(interpretation.dayMaster.key).toBe('daymaster_庚');
         expect(interpretation.strongElement?.key).toBe('element_strong_earth');
-        expect(interpretation.missingElements.map((item) => item.key)).toEqual(['element_missing_water']);
+        // 申 hides a 壬, so 水 is in the chart (only in a hidden stem): it is not missing
+        expect(interpretation.missingElements).toEqual([]);
         expect(interpretation.dominantGroup?.key).toBe('group_dominant_resource');
         expect(interpretation.month.key).toBe('month_戌');
         expect(interpretation.strength.key).toBe('strength_strong');
         expect(interpretation.pattern.key).toBe('pattern_偏印');
-        expect(interpretation.usefulGods?.key).toBe('useful_strong_印');
+        expect(interpretation.usefulGods?.key).toBe('useful_strong');
         expect(interpretation.bone?.key).toBe('bone_41');
         // The fourth step 庚午 has a 庚 stem, a 比肩 against the 庚 day master
         expect(interpretation.currentLuck?.key).toBe('luck_比肩');
         expect(interpretation.dayMaster.disclaimer).toBeTruthy();
+    });
+
+    it('picks the readings of the reveal, the rival and idle gods, the season and the life aspects', async () => {
+        const { interpretation } = await service.calculate(reference);
+
+        // 戌 hides 戊 辛 丁 and none of them shows in the year, month or hour stem
+        expect(interpretation.reveal?.key).toBe('reveal_none');
+        // A 庚 day master of 身強 takes 食傷 and 官殺 (水 and 火) and avoids 比劫 and 印 (金 and 土): nothing feeds those,
+        // and 財 (木) is left
+        expect(interpretation.rivalGods).toEqual([]);
+        expect(interpretation.idleGods.map((item) => item.key)).toEqual(['idle_wealth']);
+        // A 戌 month leans dry and the chart has no water
+        expect(interpretation.climate?.key).toBe('climate_dry');
+        expect(interpretation.climateExcess).toEqual([]);
+        expect(interpretation.lifeAspects.map((item) => item.aspect)).toEqual([
+            'personality',
+            'career',
+            'wealth',
+            'love',
+            'relation',
+            'study',
+        ]);
+        expect(interpretation.lifeAspects.map((item) => item.content.key)).toEqual([
+            'life_personality_resource',
+            'life_career_resource',
+            'life_wealth_resource',
+            'life_love_resource',
+            'life_relation_resource',
+            'life_study_resource',
+        ]);
+    });
+
+    it('leaves out a reading that is not published yet instead of making the chart a 404', async () => {
+        await db.doc('fixedContents/BAZI_life_career_resource').set(contentDoc('life_career_resource', 'DRAFT'));
+        await db.doc('fixedContents/BAZI_climate_dry').delete();
+
+        const { interpretation } = await service.calculate(reference);
+
+        expect(interpretation.climate).toBeNull();
+        expect(interpretation.lifeAspects.map((item) => item.aspect)).not.toContain('career');
+        expect(interpretation.lifeAspects).toHaveLength(5);
+        expect(interpretation.dayMaster.key).toBe('daymaster_庚');
+    });
+
+    it('calls an element missing only when no stem and no hidden stem holds it', async () => {
+        // 庚子 甲申 壬申 辛丑: no 丙 or 丁 in a stem or in any hidden stem, so 火 is missing; 水 is everywhere
+        const {
+            interpretation, elementPower, 
+        } = await service.calculate({
+            birthDate: '1960-08-12', birthTime: '02:00', birthPlace: 'tw-taipei',
+        });
+
+        expect(elementPower.fire).toBe(0);
+        expect(interpretation.missingElements.map((item) => item.key)).toEqual(['element_missing_fire']);
     });
 
     it('returns a response that matches the published schema', async () => {

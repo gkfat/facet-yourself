@@ -14,9 +14,15 @@
                     v-for="column in columns"
                     :key="column.position"
                     class="pillars__title"
+                    :class="{ 'pillars__title--day': column.position === 'day' }"
                     role="columnheader"
                 >
                     {{ column.label }}
+                    <small
+                        v-if="column.position === 'day'"
+                        class="pillars__me"
+                    >你</small>
+                    <small class="pillars__aspect">{{ column.aspect }}</small>
                     <v-icon
                         v-if="column.borderline"
                         icon="mdi-alert-circle-outline"
@@ -45,7 +51,10 @@
                     <span
                         v-if="cell"
                         class="pillars__cell"
-                        :class="{ 'pillars__cell--master': row.key === 'stem' && index === DAY_INDEX }"
+                        :class="{
+                            'pillars__cell--master': row.key === 'stem' && index === DAY_INDEX,
+                            'pillars__cell--daycol': index === DAY_INDEX,
+                        }"
                         role="cell"
                     >
                         <span
@@ -98,6 +107,10 @@
             </span>
         </div>
 
+        <p class="pillars__note">
+            {{ BAZI_POSITION_ASPECTS_NOTE }}
+        </p>
+
         <ul
             v-if="notices.length"
             class="pillars__notices"
@@ -124,7 +137,9 @@ import {
     ELEMENT_LABELS,
     type Element,
 } from '../../../shared/constants/bazi';
-import { BAZI_POSITION_LABELS } from '../../../shared/constants/baziLabels';
+import {
+    BAZI_POSITION_ASPECTS, BAZI_POSITION_ASPECTS_NOTE, BAZI_POSITION_LABELS,
+} from '../../../shared/constants/baziLabels';
 import type { BaziResponse } from '../../../shared/schemas/api/bazi.schema';
 import { useDisplay } from 'vuetify';
 
@@ -179,6 +194,7 @@ const columns = computed(() => POSITIONS.map((position) => {
     return {
         position,
         label: BAZI_POSITION_LABELS[position],
+        aspect: BAZI_POSITION_ASPECTS[position],
         borderline: notes.length ? '距離節氣或時辰界線很近，不同算法可能得到不同結果' : '',
     };
 }));
@@ -329,11 +345,44 @@ const notices = computed(() => {
     font-size: 0.9rem;
 }
 
+/* What the pillar is read for, small, under its name */
+.pillars__aspect {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 400;
+    line-height: 1.3;
+    color: rgba(var(--v-theme-on-surface), 0.65);
+}
+
+.pillars__note {
+    margin: 8px 0 0;
+    font-size: 0.75rem;
+    color: rgba(var(--v-theme-on-surface), 0.65);
+}
+
 .pillars__label {
     display: flex;
     align-items: center;
-    font-size: 0.75rem;
-    color: rgba(var(--v-theme-on-surface), 0.6);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(var(--v-theme-on-surface), 0.7);
+}
+
+/* The day pillar is "you": its whole column is tinted, and the stem inside is framed */
+.pillars__title--day {
+    border-radius: 10px 10px 0 0;
+    color: rgb(var(--v-theme-primary));
+    background: rgba(var(--v-theme-primary), 0.12);
+}
+
+.pillars__me {
+    margin-left: 2px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.pillars__cell--daycol {
+    background: rgba(var(--v-theme-primary), 0.06);
 }
 
 .pillars__row {
@@ -359,7 +408,7 @@ const notices = computed(() => {
 /* The day stem is the day master: it gets a frame so it can be found at a glance */
 .pillars__cell--master {
     border-color: rgb(var(--v-theme-primary));
-    background: rgba(var(--v-theme-primary), 0.08);
+    background: rgba(var(--v-theme-primary), 0.14);
 }
 
 .pillars__line--muted {

@@ -3,12 +3,14 @@ import {
     BRANCHES,
     ELEMENTS,
     LIFE_STAGES,
+    POWER_LEVELS,
     STEMS,
     STRENGTH_LEVELS,
     TEN_GODS,
     TEN_GOD_GROUPS,
 } from '../../constants/bazi';
 import { findCity } from '../../constants/cities';
+import { BAZI_LIFE_ASPECTS } from '../../utils/fixedContentKeys';
 import {
     genderSchema, isRealDate, isoDateSchema, timeOfDaySchema,
 } from '../common';
@@ -93,9 +95,17 @@ const relationSchema = z.object({
         'STEM_COMBINE',
         'BRANCH_COMBINE',
         'BRANCH_CLASH',
+        'BRANCH_TRIAD',
+        'BRANCH_HALF_TRIAD',
+        'BRANCH_MEETING',
+        'BRANCH_PUNISH',
+        'BRANCH_SELF_PUNISH',
+        'BRANCH_BREAK',
+        'BRANCH_HARM',
     ]),
     pair: z.string(),
-    positions: z.tuple([positionSchema, positionSchema]),
+    positions: z.array(positionSchema).min(2).max(3),
+    element: elementSchema.optional(),
 });
 
 const factsSchema = z.object({
@@ -131,8 +141,12 @@ const factsSchema = z.object({
 
 const usefulGodsSchema = z.object({
     useful: tenGodGroupSchema,
-    favorable: tenGodGroupSchema,
+    favorable: z.array(tenGodGroupSchema),
     avoid: z.array(tenGodGroupSchema),
+    /** 仇神: feeds an avoided group */
+    rival: z.array(tenGodGroupSchema),
+    /** 閒神: the groups left over */
+    idle: z.array(tenGodGroupSchema),
 });
 
 const strengthSchema = z.object({
@@ -154,9 +168,78 @@ const strengthSchema = z.object({
         key: z.string(),
         tenGod: tenGodSchema,
         group: tenGodGroupSchema,
+        /** The hidden stems of the month branch that show in the year, month or hour stems (透干) */
+        revealed: z.array(z.object({
+            stem: stemSchema,
+            role: z.enum([
+                'MAIN',
+                'MIDDLE',
+                'RESIDUAL',
+            ]),
+            tenGod: tenGodSchema,
+            positions: z.array(positionSchema).min(1),
+        })),
     }),
     /** null when the chart is balanced */
     useful: usefulGodsSchema.nullable(),
+});
+
+const regulatorSchema = z.object({
+    /** The relative power index (0 to 100) under the day-master strength weights */
+    power: z.number().min(0).max(100),
+    level: z.enum(POWER_LEVELS),
+    present: z.boolean(),
+});
+
+const regulationSchema = z.enum([
+    'insufficient',
+    'moderate',
+    'excessive',
+]);
+
+/** 季節氣候分析 (a simplified model of 調候) */
+const climateSchema = z.object({
+    month: branchSchema,
+    temperature: z.enum([
+        'cold',
+        'cool',
+        'mild',
+        'hot',
+    ]),
+    humidity: z.enum([
+        'moist',
+        'neutral',
+        'dry',
+    ]),
+    monthBias: z.enum([
+        'cold',
+        'hot',
+        'dry',
+        'none',
+    ]),
+    elements: z.object({
+        fire: regulatorSchema, water: regulatorSchema,
+    }),
+    regulation: z.object({
+        warming: regulationSchema, moistening: regulationSchema,
+    }),
+    status: z.enum([
+        'cold',
+        'hot',
+        'dry',
+        'balanced',
+    ]),
+    needs: z.array(z.enum([
+        'warming',
+        'cooling',
+        'moistening',
+    ])),
+    excess: z.array(z.enum(['warming', 'moistening'])),
+    influences: z.array(z.object({
+        element: z.enum(['fire', 'water']),
+        kind: z.enum(['COMBINED', 'CLASHED']),
+    })),
+    summary: z.string(),
 });
 
 const boneSchema = z.object({
@@ -227,6 +310,17 @@ const interpretationSchema = z.object({
     bone: fixedResultResponseSchema.nullable(),
     /** The ten-god theme of the luck step in force today */
     currentLuck: fixedResultResponseSchema.nullable(),
+    /** The readings below are left out while they are not published; they never make the chart a 404 */
+    reveal: fixedResultResponseSchema.nullable(),
+    rivalGods: z.array(fixedResultResponseSchema),
+    idleGods: z.array(fixedResultResponseSchema),
+    climate: fixedResultResponseSchema.nullable(),
+    climateExcess: z.array(fixedResultResponseSchema),
+    /** The six areas of life, by the ten-god group the chart has most of */
+    lifeAspects: z.array(z.object({
+        aspect: z.enum(BAZI_LIFE_ASPECTS),
+        content: fixedResultResponseSchema,
+    })),
 });
 
 export const baziResponseSchema = z.object({
@@ -247,10 +341,13 @@ export const baziResponseSchema = z.object({
     }),
     chart: z.array(chartPillarSchema),
     elementCounts: elementCountsSchema,
+    /** The power of each element with the hidden stems counted: 0 means the element is truly missing */
+    elementPower: z.record(elementSchema, z.number().min(0)),
     tenGodCounts: tenGodCountsSchema,
     groupCounts: groupCountsSchema,
     facts: factsSchema,
     strength: strengthSchema,
+    climate: climateSchema,
     bone: boneSchema.nullable(),
     lateZi: z.boolean(),
     borderline: z.array(borderlineSchema),

@@ -185,7 +185,7 @@ describe('the checks that only count', () => {
 describe('specificTerms', () => {
     const source = {
         system: 'MBTI' as const,
-        position: '日主癸水・太弱',
+        position: '癸水日主・太弱',
         facts: ['接收資訊：直覺（N），明顯偏向', '日主：癸水'],
         facets: ['從「接收資訊：直覺（N）」來看，你傾向「創新突破」：愛嘗試新做法。', '用得太過時：點子多、完成少。'],
         readings: [],
@@ -203,7 +203,7 @@ describe('specificTerms', () => {
             '創新突破',
             '直覺',
             '癸水',
-            '日主癸水',
+            '癸水日主',
             '太弱',
         ]));
         // The quoted fact is not a trait, and a single letter says nothing

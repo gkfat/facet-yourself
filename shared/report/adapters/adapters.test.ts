@@ -12,6 +12,7 @@ import {
     horoscopeReportInput, runeReportInput, tarotReportInput,
 } from './state';
 import { baziReportInput } from './bazi';
+import { BAZI_CLIMATE_NOTE } from '../../constants/baziLabels';
 import { calculateHumanDesign } from '../../../server/humanDesign/calculate';
 import { humanDesignReportInput } from './humanDesign';
 import { mayaKinReportInput } from './mayaKin';
@@ -463,6 +464,23 @@ describe('baziReportInput', () => {
         expect([...new Set(grouped.map((reading) => reading.group))].every((group) => group?.endsWith('歸納'))).toBe(true);
         // The page takes the words before the first colon as the title of a card, so a title has none
         expect(grouped.every((reading) => !reading.title.includes('：'))).toBe(true);
+        expect(accepted(input)).toBe(true);
+    });
+
+    it('adds the readings of the reveal, the rival and idle gods, the season and the life aspects in groups of their own', async () => {
+        const input = await run({
+            birthTime: '06:00', gender: 'MALE',
+        });
+        const titles = (group: string) => input.interpretations.filter((reading) => reading.group === group).map((reading) => reading.title);
+
+        expect(titles('強弱與格局歸納')).toEqual(expect.arrayContaining(['reveal_none', 'idle_wealth']));
+        expect(titles('季節氣候歸納')).toEqual(['climate_dry']);
+        expect(titles('人生面向歸納')).toHaveLength(6);
+        // A reading of an area of life is chosen by the group the chart has most of, which is its term
+        expect(input.interpretations.filter((reading) => reading.group === '人生面向歸納').every((reading) => reading.term === 'bazi:group:resource')).toBe(true);
+        // The readings of directions (the season, the rival and idle gods) are not traits, so they have no term
+        expect(input.interpretations.filter((reading) => reading.group === '季節氣候歸納').every((reading) => reading.term === undefined)).toBe(true);
+        expect(input.notes).toContain(BAZI_CLIMATE_NOTE);
         expect(accepted(input)).toBe(true);
     });
 

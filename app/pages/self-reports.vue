@@ -86,7 +86,7 @@
 
 <script lang="ts" setup>
 import {
-    BAZI_ENTRY_ENABLED, ELEMENT_LABELS,
+    BAZI_ENTRY_ENABLED,
 } from '../../shared/constants/bazi';
 import { HUMAN_DESIGN_TYPE_LABELS } from '../../shared/constants/humanDesignLabels';
 import { assessmentCards } from '../utils/assessmentCards';
@@ -98,8 +98,6 @@ import {
     BLOOD_TYPE_LABELS, ZODIAC_LABELS,
 } from '../../shared/constants/zodiacLabels';
 import type { HumanDesignResponse } from '../../shared/schemas/api/humanDesign.schema';
-import { dayPillarOf } from '../../shared/utils/bazi/dayPillar';
-import { stemElement } from '../../shared/utils/bazi/ganzhi';
 import { kinName, kinOf } from '../../shared/utils/mayaKin';
 import { lifePathNumber } from '../../shared/utils/numerology';
 import { zodiacFromIsoDate } from '../../shared/utils/zodiac';
@@ -149,12 +147,7 @@ watch(() => [progress.value.done.HUMAN_DESIGN, isAuthenticated.value], async ([d
 const birthDate = computed(() => state.value.birthData?.birthDate ?? null);
 const bloodType = computed(() => (state.value.bloodType === 'UNKNOWN' ? null : state.value.bloodType));
 
-/** The day stem only needs the date, so the day master is worked out here without calling the server */
-function dayMasterLabel(isoDate: string): string {
-    const { stem } = dayPillarOf(isoDate);
-
-    return `${stem}${ELEMENT_LABELS[stemElement(stem)]}日主`;
-}
+const baziBadge = useBaziBadge(birthDate);
 
 const items = computed<ReportCard[]>(() => {
     const sign = birthDate.value ? zodiacFromIsoDate(birthDate.value) : null;
@@ -230,7 +223,7 @@ const items = computed<ReportCard[]>(() => {
                 icon: 'mdi-yin-yang',
                 description: '由出生的年、月、日、時排出四柱，看五行的分布、日主的強弱與每十年的節奏。',
                 done: baziReady,
-                result: birthDate.value ? dayMasterLabel(birthDate.value) : '',
+                result: baziBadge.value,
                 to: baziReady ? '/full-report/bazi' : '/#fill',
                 action: baziReady ? '查看八字命盤' : '填寫出生日期與時間',
             }]

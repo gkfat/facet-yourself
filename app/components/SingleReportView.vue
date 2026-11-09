@@ -1,5 +1,13 @@
 <template>
     <div>
+        <!-- A BaZi report has two parts, the chart and what the tradition says of it: a way to jump between them -->
+        <ReportSectionNav
+            v-if="layered"
+            :items="sectionLinks"
+        >
+            <BaziGuide />
+        </ReportSectionNav>
+
         <!-- The report in three lines, ahead of everything: the core traits, what to watch for, where to start -->
         <v-card
             v-if="keypoints.length"
@@ -87,6 +95,16 @@
             </v-card-text>
         </v-card>
 
+        <!-- A chart the page draws (the BaZi pillars), right after the summary and the overview -->
+        <slot name="chart" />
+
+        <ReportSectionHeading
+            v-if="layered"
+            id="report-reading"
+            title="命理解讀"
+            note="傳統命理對上面命盤的說法，來自審核過的固定內容，僅供娛樂與自我探索，不預測吉凶。"
+        />
+
         <!-- What the traits say together, right after the traits themselves -->
         <v-card
             v-if="interactions.length"
@@ -150,7 +168,7 @@
             variant="outlined"
             class="mb-4"
         >
-            <v-card-title>{{ blockTitle('facts') }}</v-card-title>
+            <v-card-title>{{ layered ? '傳統解讀' : blockTitle('facts') }}</v-card-title>
             <v-card-text>
                 <!-- The theme of the day, quoted, ahead of the facts of the draw -->
                 <blockquote
@@ -187,6 +205,12 @@
                                 >
                                     {{ fact.subtitle }}
                                 </div>
+                                <p
+                                    v-if="fact.guide"
+                                    class="text-caption text-medium-emphasis mt-2 mb-0"
+                                >
+                                    {{ fact.guide }}
+                                </p>
                                 <p
                                     v-if="fact.reading"
                                     class="text-body-2 text-medium-emphasis mt-2 mb-0"
@@ -226,7 +250,10 @@
                     </v-row>
                 </div>
 
-                <ReportReadingGroups :groups="readingGroups" />
+                <ReportReadingGroups
+                    :groups="readingGroups"
+                    :notes="layered ? BAZI_READING_GROUP_NOTES : undefined"
+                />
             </v-card-text>
         </v-card>
 
@@ -297,40 +324,14 @@
 
         <!-- What moves with time (the luck steps, the year), in one card after the map of effects, each kind under its own heading -->
         <v-card
-            v-if="timeBlocks.length || baziChart"
+            v-if="shownTimeBlocks.length"
             variant="outlined"
             class="mb-4"
         >
-            <v-card-title>大運與流年</v-card-title>
+            <v-card-title>{{ layered ? '大運與流年解讀' : '大運與流年' }}</v-card-title>
             <v-card-text>
-                <!-- The luck steps with the years of each, when there is a chart to draw them from -->
                 <div
-                    v-if="baziChart"
-                    class="mb-6"
-                >
-                    <BaziLuckTimeline
-                        v-if="baziChart.luck && baziChart.flowYears"
-                        :luck="baziChart.luck"
-                        :flow-years="baziChart.flowYears"
-                    />
-                    <template v-else>
-                        <p class="text-body-2 mb-3">
-                            {{ luckHint }}
-                        </p>
-                        <v-btn
-                            v-if="baziChart.luckStatus === 'NEEDS_GENDER'"
-                            to="/profile"
-                            size="small"
-                            color="primary"
-                            variant="tonal"
-                        >
-                            到「我的資料」提供性別
-                        </v-btn>
-                    </template>
-                </div>
-
-                <div
-                    v-for="(item, blockIndex) in timeBlocks"
+                    v-for="(item, blockIndex) in shownTimeBlocks"
                     :key="item.key"
                     :class="blockIndex > 0 ? 'mt-6' : ''"
                 >
@@ -431,6 +432,9 @@
 import type { BaziResponse } from '../../shared/schemas/api/bazi.schema';
 import type { DimensionScore } from '../../shared/utils/personalityScoring';
 import type { NatalChartResponse } from '../../shared/schemas/api/natalChart.schema';
+import {
+    BAZI_FACT_GUIDE, BAZI_READING_GROUP_NOTES,
+} from '../../shared/constants/baziLabels';
 import { NATAL_LABELS } from '../../shared/constants/natalLabels';
 import { impactCards } from '../utils/impactCards';
 import { splitLead } from '../utils/overviewLead';
@@ -443,7 +447,7 @@ const props = defineProps<{
     natalChart?: NatalChartResponse | null;
     /** The chart cannot be drawn yet: it waits for a birth time and a city */
     natalLocked?: boolean;
-    /** The BaZi chart, when there is one: its luck steps and years are drawn in the card of what moves with time */
+    /** The BaZi chart, when there is one: the report is then told in two parts, the chart's data and the readings of it */
     baziChart?: BaziResponse | null;
     /** The scores of the four MBTI pairs: when there are some, the pairs are drawn as the two-pole scales instead of as facts */
     mbtiDimensions?: Record<string, DimensionScore> | null;
@@ -486,14 +490,15 @@ const readingsByFact = computed(() => {
 const PLACEMENT_LABELS = new Set(Object.values(NATAL_LABELS).map((item) => item.name));
 const isChartFact = (label: string) => props.natalChart != null && (/^第 \d+ 宮/.test(label) || label.startsWith('相位・') || PLACEMENT_LABELS.has(label));
 
-const factCards = computed(() => segmentsOf('facts').filter((segment) => segment.kind === 'FACT').filter((segment) => !isChartFact(splitLabel(segment.text).label)).map((segment) => {
+// The pillars, the day master and the rest are drawn in the chart, so the facts are not listed again beside their readings
+const factCards = computed(() => (layered.value ? [] : segmentsOf('facts')).filter((segment) => segment.kind === 'FACT').filter((segment) => !isChartFact(splitLabel(segment.text).label)).map((segment) => {
     const { label, value } = splitLabel(segment.text);
 
     // A second line in the value is the subtitle (the English name of a card)
     const [title = '', ...subtitle] = value.split('\n');
 
     return {
-        label, title, subtitle: subtitle.join(' '), reading: readingsByFact.value[label] ?? '',
+        label, title, subtitle: subtitle.join(' '), reading: readingsByFact.value[label] ?? '', guide: reportSystem.value === 'BAZI' ? BAZI_FACT_GUIDE[label] ?? '' : '',
     };
 }));
 
@@ -543,12 +548,7 @@ const factIsTheResult = computed(() => reportSystem.value === 'BLOOD');
  * The facts are listed unless they add nothing to what is shown elsewhere: with an overview and the chart (or its
  * invitation) in place, the sun sign is the only fact left and its reading is in the sun's house.
  */
-const showFacts = computed(() => !props.mbtiDimensions && !(overview.value.length > 0 && factCards.value.length <= 1 && readings.value.length === 0 && readingGroups.value.length === 0 && (props.natalChart != null || props.natalLocked === true || factIsTheResult.value)));
-
-/** What a BaZi chart without luck says: the luck needs a gender and a birth time */
-const luckHint = computed(() => (props.baziChart?.luckStatus === 'NEEDS_GENDER'
-    ? '提供性別後可看大運。性別只用來決定大運的排法（男命與女命的順逆不同），不會用在其他地方，也可以選擇不提供。'
-    : '大運的起運要用到精確的出生時刻，所以需要出生時間。'));
+const showFacts = computed(() => !props.mbtiDimensions && !(layered.value && readings.value.length === 0 && readingGroups.value.length === 0) && !(overview.value.length > 0 && factCards.value.length <= 1 && readings.value.length === 0 && readingGroups.value.length === 0 && (props.natalChart != null || props.natalLocked === true || factIsTheResult.value)));
 
 /** What depends on the date, as "label：words": a block for each kind (大運, 流年), the reading of a step after the facts */
 const timeBlocks = computed(() => props.report.blocks.filter((block) => block.key === 'time' || block.key.startsWith('time:')).map((block) => ({
@@ -562,6 +562,24 @@ const timeBlocks = computed(() => props.report.blocks.filter((block) => block.ke
         };
     }).sort((a, b) => Number(a.reading) - Number(b.reading)),
 })));
+
+/** A BaZi report with its chart is told in two parts: the chart's data, then the readings of it */
+const layered = computed(() => props.baziChart != null);
+const sectionLinks = [
+    {
+        id: 'report-chart', label: '命盤資料',
+    },
+    {
+        id: 'report-reading', label: '命理解讀',
+    },
+];
+
+/** With the chart the luck steps and years are drawn in its own card, so only the readings of the time are left here */
+const shownTimeBlocks = computed(() => (layered.value
+    ? timeBlocks.value.map((block) => ({
+        ...block, cards: block.cards.filter((card) => card.reading),
+    })).filter((block) => block.cards.length > 0)
+    : timeBlocks.value));
 
 /** The date the time-sensitive facts were made for */
 const timeAsOf = computed(() => props.report.blocks.filter((block) => block.key === 'time' || block.key.startsWith('time:')).flatMap((block) => block.segments).find((segment) => segment.asOf)?.asOf ?? '');

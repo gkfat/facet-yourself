@@ -14,6 +14,7 @@ import {
     type TenGod,
     type TenGodGroup,
 } from '../../constants/bazi';
+import { elementPowerOf } from './elementPower';
 import {
     branchElement,
     mainHiddenStem,
@@ -66,6 +67,8 @@ export type ChartAnalysis = {
     /** The other seven characters (five without the hour) against the day stem. */
     tenGodCounts: Record<TenGod, number>;
     groupCounts: Record<TenGodGroup, number>;
+    /** The power of each element with the hidden stems counted (60 in all with the hour): an element at 0 is truly missing */
+    elementPower: Record<Element, number>;
 };
 
 /** The ten god of `other` against the day master `me`, by element relation and same / different polarity. */
@@ -146,6 +149,7 @@ export function analyzeChart(pillars: FourPillars): ChartAnalysis {
         elementCounts,
         tenGodCounts,
         groupCounts,
+        elementPower: elementPowerOf(pillars),
     };
 }
 
@@ -169,7 +173,7 @@ export function dominantGroup(counts: Record<TenGodGroup, number>): TenGodGroup 
     return soleTop(counts);
 }
 
-/** Elements that do not appear at all among the characters. */
+/** Elements that do not appear at all: pass the power, which counts the hidden stems, not the characters. */
 export function missingElements(counts: Record<Element, number>): Element[] {
     return ELEMENTS.filter((element) => counts[element] === 0);
 }

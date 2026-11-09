@@ -16,11 +16,13 @@ import {
 } from '../../constants/bazi';
 import {
     computeFacts,
+    findRelations,
     lifeStageOf,
     mingGongOf,
     nayinOf,
     taiYuanOf,
     voidBranchesOf,
+    yueJiangOf,
 } from './facts';
 import {
     branchIndex, ganzhiFromIndex, ganzhiLabel,
@@ -87,8 +89,8 @@ describe('reference chart 1989-10-27 06:00 (己巳 甲戌 庚申 己卯)', () =>
         ]);
     });
 
-    it('gives 命宮 戊辰 and 胎元 乙丑', () => {
-        expect(ganzhiLabel(facts.mingGong!)).toBe('戊辰');
+    it('gives 命宮 丁卯 and 胎元 乙丑', () => {
+        expect(ganzhiLabel(facts.mingGong!)).toBe('丁卯');
         expect(ganzhiLabel(facts.taiYuan)).toBe('乙丑');
     });
 
@@ -99,13 +101,19 @@ describe('reference chart 1989-10-27 06:00 (己巳 甲戌 庚申 己卯)', () =>
         expect(facts.season).toBe('秋');
     });
 
-    it('lists the combinations and no clash', () => {
+    it('lists the combinations, the punishment and the break, and no clash', () => {
         expect(facts.relations).toEqual([
             {
                 kind: 'STEM_COMBINE', pair: '甲己', positions: ['year', 'month'],
             },
             {
                 kind: 'BRANCH_COMBINE', pair: '巳申', positions: ['year', 'day'],
+            },
+            {
+                kind: 'BRANCH_PUNISH', pair: '巳申', positions: ['year', 'day'],
+            },
+            {
+                kind: 'BRANCH_BREAK', pair: '巳申', positions: ['year', 'day'],
             },
             {
                 kind: 'STEM_COMBINE', pair: '甲己', positions: ['month', 'hour'],
@@ -251,11 +259,161 @@ describe('formulas', () => {
         }))).toBe('甲辰');
     });
 
-    it('derives 命宮 from the year stem, month branch and hour branch', () => {
-        expect(ganzhiLabel(mingGongOf('己', '戌', '卯'))).toBe('戊辰');
-        // 寅 month and 寅 hour: 1 + 1 = 2, so position 12 = 丑
-        expect(mingGongOf('甲', '寅', '寅').branch).toBe('丑');
-        // 丑 month (12) and 丑 hour (12): 24, so 26 - 24 = position 2 = 卯
-        expect(mingGongOf('甲', '丑', '丑').branch).toBe('卯');
+    it('derives 命宮 by laying the 月將 on the hour branch and reading off 卯', () => {
+        // Two printed charts: 己 year, 月將 卯, 卯 hour -> 丁卯; 癸 year, 月將 辰, 寅 hour -> 丁巳
+        expect(ganzhiLabel(mingGongOf('己', '卯', '卯'))).toBe('丁卯');
+        expect(ganzhiLabel(mingGongOf('癸', '辰', '寅'))).toBe('丁巳');
+        // The 月將 on the hour branch itself leaves 卯 carrying the 月將 moved by the distance from the hour to 卯
+        expect(mingGongOf('甲', '子', '子').branch).toBe('卯');
+        // The index wraps round: 月將 子 on the 寅 hour, 卯 is one step on from 寅, so it carries 丑
+        expect(mingGongOf('甲', '子', '寅').branch).toBe('丑');
+    });
+
+    it('takes the 月將 from the last 中氣, not from the 節 that starts the month', () => {
+        // 戌 month (寒露 to 立冬): 辰 until 霜降 (about 10-23), 卯 after it
+        expect(yueJiangOf(new Date('1989-10-15T12:00:00+08:00'))).toBe('辰');
+        expect(yueJiangOf(new Date('1989-10-27T06:00:00+08:00'))).toBe('卯');
+        // 酉 month (白露 to 寒露): 辰 from 秋分 (about 9-23), and before it 處暑 gives 巳
+        expect(yueJiangOf(new Date('1983-09-25T04:00:00+08:00'))).toBe('辰');
+        expect(yueJiangOf(new Date('1983-09-12T12:00:00+08:00'))).toBe('巳');
+    });
+});
+
+describe('relations between branches', () => {
+    const pillar = (stem: string, branch: string) => ({
+        stem: stem as never, branch: branch as never,
+    });
+    // The stems are chosen so that none of them combine, which leaves the branches to speak
+    const relationsOf = (branches: [string, string, string, string | null]) => findRelations({
+        year: pillar('甲', branches[0]),
+        month: pillar('丙', branches[1]),
+        day: pillar('戊', branches[2]),
+        hour: branches[3] ? pillar('庚', branches[3]) : null,
+    });
+    const kindsOf = (branches: [string, string, string, string | null], kind: string) => relationsOf(branches).filter((item) => item.kind === kind);
+
+    it('lists a whole 三合 once, with the three pillars and the element, and no halves', () => {
+        const relations = relationsOf([
+            '申',
+            '子',
+            '辰',
+            '寅',
+        ]);
+
+        expect(relations.filter((item) => item.kind === 'BRANCH_TRIAD')).toEqual([
+            {
+                kind: 'BRANCH_TRIAD', pair: '申子辰', positions: [
+                    'year',
+                    'month',
+                    'day',
+                ], element: 'water',
+            },
+        ]);
+        expect(relations.some((item) => item.kind === 'BRANCH_HALF_TRIAD' && item.element === 'water')).toBe(false);
+    });
+
+    it('lists a 半合 only when it holds the middle branch', () => {
+        expect(kindsOf([
+            '子',
+            '辰',
+            '午',
+            '午',
+        ], 'BRANCH_HALF_TRIAD')).toEqual([
+            {
+                kind: 'BRANCH_HALF_TRIAD', pair: '子辰', positions: ['year', 'month'], element: 'water',
+            },
+        ]);
+        // 申 and 辰 are both of the water triad, but without 子 they are no 半合
+        expect(kindsOf([
+            '申',
+            '辰',
+            '午',
+            '午',
+        ], 'BRANCH_HALF_TRIAD').filter((item) => item.element === 'water')).toEqual([]);
+    });
+
+    it('lists a 三會 only when all three branches of a season are there', () => {
+        expect(kindsOf([
+            '寅',
+            '卯',
+            '辰',
+            '午',
+        ], 'BRANCH_MEETING')).toEqual([
+            {
+                kind: 'BRANCH_MEETING', pair: '寅卯辰', positions: [
+                    'year',
+                    'month',
+                    'day',
+                ], element: 'wood',
+            },
+        ]);
+        expect(kindsOf([
+            '寅',
+            '卯',
+            '午',
+            '午',
+        ], 'BRANCH_MEETING')).toEqual([]);
+    });
+
+    it('lists 刑 between different branches of a group, and 自刑 for the same branch twice', () => {
+        expect(kindsOf([
+            '寅',
+            '巳',
+            '子',
+            '午',
+        ], 'BRANCH_PUNISH').map((item) => item.pair)).toEqual(['寅巳']);
+        expect(kindsOf([
+            '子',
+            '卯',
+            '丑',
+            '午',
+        ], 'BRANCH_PUNISH').map((item) => item.pair)).toEqual(['子卯']);
+        expect(kindsOf([
+            '辰',
+            '子',
+            '辰',
+            '午',
+        ], 'BRANCH_SELF_PUNISH')).toEqual([
+            {
+                kind: 'BRANCH_SELF_PUNISH', pair: '辰辰', positions: ['year', 'day'],
+            },
+        ]);
+        // 子 twice is no 自刑
+        expect(kindsOf([
+            '子',
+            '子',
+            '丑',
+            '寅',
+        ], 'BRANCH_SELF_PUNISH')).toEqual([]);
+    });
+
+    it('lists 破 and 害 for each of their pairs', () => {
+        expect(kindsOf([
+            '子',
+            '酉',
+            '寅',
+            '辰',
+        ], 'BRANCH_BREAK').map((item) => item.pair)).toEqual(['子酉']);
+        expect(kindsOf([
+            '子',
+            '未',
+            '寅',
+            '辰',
+        ], 'BRANCH_HARM').map((item) => item.pair)).toEqual(['子未']);
+    });
+
+    it('lists nothing for pillars with no relation, and works without an hour', () => {
+        expect(relationsOf([
+            '子',
+            '寅',
+            '辰',
+            null,
+        ]).filter((item) => item.kind !== 'BRANCH_HALF_TRIAD')).toEqual([]);
+        expect(kindsOf([
+            '申',
+            '子',
+            '辰',
+            null,
+        ], 'BRANCH_TRIAD')).toHaveLength(1);
     });
 });
