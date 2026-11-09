@@ -1,7 +1,7 @@
 version: 1
 generatedBy: system-analysis
-updatedAt: 2026-11-05T12:00:00+08:00
-relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, ai-analysis-question-history]
+updatedAt: 2026-11-09T12:00:00+08:00
+relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, ai-analysis-question-history, add-hexagram-divination]
 source: ai_personality_app_plan.md
 
 # phase: 對應計畫書 §11 Phase 1-5；mvp 表示屬 §15 第一版範圍
@@ -771,6 +771,69 @@ functional:
     mvp: false
     context: [CTX-CON-029, CTX-CON-012, CTX-CON-006, CTX-EXT-005, CTX-ASM-027, CTX-ACTOR-001]
     source: "openspec/changes/ai-analysis-question-history/specs/ai-report/spec.md；firestore.indexes.json；scripts/provision-firebase.ts"
+  - id: FR-089
+    title: 每日免費一卦
+    description: "系統 SHALL 讓已登入使用者每台北日期第一次起卦免費；同一帳號同一日的第一卦 MUST 寫入紀錄，之後查詢與換裝置 MUST 得到同一卦；訪客 SHALL 可起當日免費的一卦，MUST NOT 寫入任何伺服器紀錄，同一 session 同一日 MUST 得到同一卦；日期 MUST 由伺服器以台北時間換算，MUST NOT 接受客戶端日期或身分。"
+    priority: must
+    phase: 8
+    mvp: false
+    context: [CTX-ACTOR-001, CTX-CON-016, CTX-CON-031, CTX-CON-032, CTX-ASM-031, CTX-EXT-005, CTX-EXT-006]
+    source: "user 對話（2026-11-09 易經卦象 D1–D7）；openspec/specs/daily-rune/spec.md；server/services/dailyDraw.engine.ts"
+    note: "訪客規則比照盧恩的訪客抽取"
+  - id: FR-090
+    title: 付費加卦
+    description: "系統 SHALL 讓已登入使用者在當日已起第一卦後再起卦，每卦扣 1 點；點數不足 MUST 拒絕、MUST NOT 寫紀錄或扣點；扣點與紀錄 MUST 原子且以冪等鍵只處理一次，起卦或寫入失敗 MUST 返還已扣點；訪客 MUST NOT 加卦並 MUST 被引導登入；扣點前 MUST 讓使用者看見「將扣 1 點」並確認。"
+    priority: must
+    phase: 8
+    mvp: false
+    context: [CTX-ACTOR-001, CTX-ACTOR-002, CTX-CON-032, CTX-CON-014, CTX-ASM-035, CTX-EXT-005]
+    source: "user 對話（2026-11-09 易經卦象 D1–D7）；openspec/specs/daily-rune/spec.md；server/services/dailyDraw.engine.ts"
+    note: "沿用 points-system 的原子扣點與失敗返還"
+  - id: FR-091
+    title: 銅錢法起卦與變卦
+    description: "系統 SHALL 以三枚銅錢法產生六爻（由下往上，每爻為老陰、少陽、少陰或老陽），回傳本卦、動爻位置與變卦（無動爻時沒有變卦）；結果 MUST 由伺服器依「對象、台北日期、當日序號、規則版本」決定性產生，同輸入同版本 MUST 得到同一結果；請求 MUST NOT 能指定日期、身分、序號或爻值；規則版本 MUST 隨每筆紀錄保存。"
+    priority: must
+    phase: 8
+    mvp: false
+    context: [CTX-CON-031, CTX-ASM-030, CTX-ASM-031, CTX-ASM-032]
+    source: "user 對話（2026-11-09 易經卦象 D1–D7）；openspec/specs/daily-rune/spec.md；server/services/dailyDraw.engine.ts"
+    note: "決定性來源待確認（CTX-ASM-031）"
+  - id: FR-092
+    title: 卦象內容與詮釋
+    description: "系統 SHALL 依動爻數量呈現內容：無動爻顯示本卦的卦辭、彖辭、象辭與白話解讀；一個動爻另顯示該爻的爻辭與白話；兩個以上動爻只列本卦與變卦（卦名與簡述）；內容 MUST 為事先寫好的固定內容（64 卦＋384 爻），MUST NOT 呼叫 AI，MUST NOT 含吉凶斷語或預言，語氣為「這一刻的狀態，不是預言」；所需內容缺少時 MUST 起卦失敗且不扣點。"
+    priority: must
+    phase: 8
+    mvp: false
+    context: [CTX-CON-031, CTX-CON-033, CTX-CON-007, CTX-CON-016, CTX-ACTOR-003, CTX-ASM-032]
+    source: "user 對話（2026-11-09 易經卦象 D1–D7）；openspec/specs/daily-rune/spec.md；server/services/dailyDraw.engine.ts"
+    note: "內容撰寫分批（CTX-CON-033）"
+  - id: FR-093
+    title: 卦象紀錄與查詢
+    description: "系統 SHALL 為已登入者每起一卦保存一筆紀錄（台北日期、當日序號、六爻、起卦時間、規則版本、是否付費、對應扣點交易），僅本人可讀；SHALL 提供查詢今日已起各卦的 API（只讀、不寫）；刪除帳號與刪除資料 MUST 清除這些紀錄；紀錄 SHALL 保存 3 個月（起卦時間加 3 個月），由每日到期作業清除，MUST NOT 使用 Firestore TTL（CTX-ASM-034）。"
+    priority: must
+    phase: 8
+    mvp: false
+    context: [CTX-ACTOR-001, CTX-CON-012, CTX-CON-032, CTX-ASM-033, CTX-ASM-034, CTX-EXT-005]
+    source: "user 對話（2026-11-09 易經卦象 D1–D7）；openspec/specs/daily-rune/spec.md；server/services/dailyDraw.engine.ts"
+    note: "保存 3 個月已確認；塔羅盧恩仍為永久，是否一併改為 3 個月另案確認"
+  - id: FR-094
+    title: 卦象的前端呈現
+    description: "系統 SHALL 在「此刻／今日」區塊提供卦象入口並標示結果隨時間變動；起卦時六爻 SHALL 由下而上逐爻浮現並標明少陰、少陽、老陰或老陽，最後並排呈現本卦與變卦；六爻 MUST 以向量圖繪製，MUST NOT 依賴卦象 Unicode 字元；畫面結果 MUST 取自 API 回應，動畫只負責播放；MUST 尊重 prefers-reduced-motion。"
+    priority: should
+    phase: 8
+    mvp: false
+    context: [CTX-ACTOR-001, CTX-CON-016, CTX-CON-031]
+    source: "user 對話（2026-11-09 易經卦象 D1–D7）；openspec/specs/daily-rune/spec.md；server/services/dailyDraw.engine.ts"
+    note: "首頁今日區塊的規則見 FR-044"
+  - id: FR-095
+    title: 卦象不進報告管線
+    description: "系統 MUST NOT 為卦象提供單維度報告、綜合分析的可選系統、特質映射或 AI 報告來源；卦象 MUST NOT 寫入報告快照；起卦請求 MUST NOT 收「想問的事」或任何使用者自由文字。"
+    priority: must
+    phase: 8
+    mvp: false
+    context: [CTX-CON-031, CTX-CON-007]
+    source: "user 對話（2026-11-09 易經卦象 D1–D7）；openspec/specs/daily-rune/spec.md；server/services/dailyDraw.engine.ts"
+    note: "範圍排除，供驗證用；對應 FR-076 的狀態系統規則（卦象不提供該精簡報告）"
 
 nonFunctional:
   - id: NFR-001
@@ -1045,3 +1108,43 @@ nonFunctional:
     priority: must
     context: [CTX-CON-030, CTX-CON-009, CTX-CON-014]
     source: "openspec/changes/ai-analysis-question-history/specs/ai-report/spec.md；server/ai/quality.ts；延伸 NFR-007、NFR-013"
+  - id: NFR-033
+    category: reliability
+    title: 付費加卦的原子性與冪等
+    description: "付費加卦的扣點與紀錄 MUST 原子；重送與並行的相同請求 MUST NOT 重複扣點或重複寫紀錄；點數不足 MUST NOT 留下紀錄；失敗 MUST 返還。"
+    metric: "並行 N 次相同冪等鍵：紀錄 1 筆、扣 1 點；點數不足：紀錄 0 筆、餘額不變；寫入失敗：餘額回到扣點前"
+    priority: must
+    context: [CTX-CON-032, CTX-ASM-035, CTX-CON-014]
+    source: "user 對話（2026-11-09 易經卦象 D1–D7）；openspec/specs/daily-rune/spec.md；server/services/dailyDraw.engine.ts"
+  - id: NFR-034
+    category: correctness
+    title: 起卦的可重現與分布
+    description: "同一輸入與規則版本 MUST 得到同一結果；大量樣本下六爻四種值的比例與 64 卦的出現率 MUST 與銅錢法機率一致。"
+    metric: "相同輸入重複計算結果相同；100000 組不同輸入中，每卦出現次數與期望值（約 1562）偏差在 ±10% 內，動爻比例約 1/4（容差為暫定，需確認）"
+    priority: must
+    context: [CTX-ASM-030, CTX-ASM-031]
+    source: "user 對話（2026-11-09 易經卦象 D1–D7）；openspec/specs/daily-rune/spec.md；server/services/dailyDraw.engine.ts"
+  - id: NFR-035
+    category: security
+    title: 起卦請求不信任客戶端
+    description: "起卦與查詢 API MUST 以登入憑證或訪客 session 辨識身分、以伺服器時鐘決定日期，MUST 忽略客戶端傳入的日期、身分、序號與爻值；回應 MUST 設為不可共用快取；資料 MUST 只經伺服器存取。"
+    metric: "帶日期、使用者識別或爻值參數的請求仍以伺服器值為準；回應含 Cache-Control: private, no-store；無憑證回 401"
+    priority: must
+    context: [CTX-CON-031, CTX-EXT-005, CTX-EXT-006]
+    source: "user 對話（2026-11-09 易經卦象 D1–D7）；openspec/specs/daily-rune/spec.md；server/services/dailyDraw.engine.ts"
+  - id: NFR-036
+    category: usability
+    title: 卦象的無障礙與減少動態
+    description: "啟用減少動態偏好時 MUST 不播放逐爻動畫而直接顯示結果；六爻圖 MUST 提供文字替代，說明卦名與各爻陰陽與動爻。"
+    metric: "prefers-reduced-motion 下無動畫且結果同時可見；六爻圖的替代文字含卦名與六爻描述"
+    priority: should
+    context: [CTX-CON-031]
+    source: "user 對話（2026-11-09 易經卦象 D1–D7）；openspec/specs/daily-rune/spec.md；server/services/dailyDraw.engine.ts"
+  - id: NFR-037
+    category: correctness
+    title: 卦象內容的完整性與措辭檢查
+    description: "64 卦與 384 條爻的固定內容缺任一筆 MUST 使覆蓋檢查失敗；內容 MUST 通過保守措辭檢查（不含吉凶斷語、診斷或財務用語）；固定內容的預期總筆數 MUST 同步更新。"
+    metric: "content:check 顯示缺少、未發佈、多出皆為 0；含吉凶斷語的內容匯入失敗；測試涵蓋"
+    priority: must
+    context: [CTX-CON-033, CTX-CON-031, CTX-CON-016]
+    source: "user 對話（2026-11-09 易經卦象 D1–D7）；openspec/specs/daily-rune/spec.md；server/services/dailyDraw.engine.ts"

@@ -1,7 +1,7 @@
 version: 1
 generatedBy: requirement-modeling
-updatedAt: 2026-11-05T12:00:00+08:00
-relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, ai-analysis-question-history]
+updatedAt: 2026-11-09T12:00:00+08:00
+relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, ai-analysis-question-history, add-hexagram-divination]
 
 stories:
   - id: STORY-001
@@ -347,6 +347,30 @@ stories:
     benefit: "不必自己重選系統，也能順手加選其他維度做綜合分析"
     requirements: ["FR-085", "FR-087"]
     useCases: ["UC-056"]
+  - id: STORY-057
+    actor: CTX-ACTOR-001
+    want: "每天起一次卦，看到由下而上逐爻浮現的卦象與變卦"
+    benefit: "得到這一刻的狀態提示，並有擲卦的儀式感"
+    requirements: ["FR-089", "FR-091", "FR-092", "FR-094", "FR-095", "NFR-034", "NFR-035", "NFR-036"]
+    useCases: ["UC-057"]
+  - id: STORY-058
+    actor: CTX-ACTOR-001
+    want: "不登入也能起當天免費的一卦"
+    benefit: "先體驗卦象，再決定要不要登入使用加卦"
+    requirements: ["FR-089", "FR-091", "FR-092", "FR-094"]
+    useCases: ["UC-058"]
+  - id: STORY-059
+    actor: CTX-ACTOR-002
+    want: "在今天免費那一卦之後，用 1 點再起一卦"
+    benefit: "想再問一次時可以繼續，且不會被重複扣點"
+    requirements: ["FR-090", "FR-091", "FR-092", "FR-093", "NFR-033"]
+    useCases: ["UC-059"]
+  - id: STORY-060
+    actor: CTX-ACTOR-001
+    want: "回頭看今天已經起過的卦"
+    benefit: "換裝置或重新整理後仍看到同樣的結果，不必再付費"
+    requirements: ["FR-093", "FR-089"]
+    useCases: ["UC-060"]
 
 useCases:
   - id: UC-001
@@ -1513,3 +1537,90 @@ useCases:
       - { condition: "預選的系統使用者尚未備齊資料", handling: "該系統在表單中無法選取並顯示需要什麼" }
     postconditions:
       - "未建立任何報告，直到使用者送出"
+  - id: UC-057
+    title: "登入者起每日免費卦"
+    actor: CTX-ACTOR-001
+    requirements: ["FR-089", "FR-091", "FR-092", "FR-094", "FR-095"]
+    stories: ["STORY-057"]
+    preconditions:
+      - "使用者已登入"
+      - "卦象固定內容（64 卦、384 爻）已發佈"
+    mainFlow:
+      - { step: 1, action: "使用者進入卦象頁，系統查詢當日是否已有卦", constraints: ["NFR-035"] }
+      - { step: 2, action: "使用者點擊起卦；請求不帶日期、身分、序號或爻值", constraints: ["NFR-035"] }
+      - { step: 3, action: "後端依帳號、台北日期、序號 0 與規則版本決定性產生六爻，得本卦、動爻與變卦", constraints: ["NFR-034"] }
+      - { step: 4, action: "後端以交易寫入當日第一卦的紀錄並回傳卦象與固定內容，不扣點" }
+      - { step: 5, action: "前端依回應由下而上逐爻浮現，標明少陰、少陽、老陰、老陽，最後並排本卦與變卦；依動爻數量顯示卦辭、爻辭或本卦與變卦", constraints: ["NFR-036"] }
+    alternateFlows:
+      - { condition: "當日已有第一卦", handling: "直接回傳既有紀錄，不建立新紀錄", constraints: ["NFR-034"] }
+      - { condition: "並行請求", handling: "只建立一份第一卦紀錄", constraints: ["NFR-033"] }
+      - { condition: "未登入", handling: "走 UC-058 的訪客流程" }
+      - { condition: "內容尚未發佈或缺少所需爻辭", handling: "回 404，MUST NOT 寫入紀錄或扣點", constraints: ["NFR-037"] }
+      - { condition: "請求帶有想問的事或自由文字", handling: "拒絕並回驗證錯誤（FR-095）", constraints: ["NFR-035"] }
+      - { condition: "使用者開啟減少動態", handling: "不播放動畫，直接顯示結果", constraints: ["NFR-036"] }
+      - { condition: "跨過台北午夜", handling: "重新查詢並回到未起卦狀態" }
+    postconditions:
+      - "當日第一卦紀錄已建立；不扣點、不呼叫 AI、不產生任何報告或快照"
+    note: "決定性來源待確認（CTX-ASM-031）；首頁今日區塊入口見 FR-044"
+  - id: UC-058
+    title: "訪客起當日免費卦"
+    actor: CTX-ACTOR-001
+    requirements: ["FR-089", "FR-091", "FR-092", "FR-094"]
+    stories: ["STORY-058"]
+    preconditions:
+      - "訪客持有有效的 guest session"
+      - "卦象固定內容已發佈"
+    mainFlow:
+      - { step: 1, action: "訪客進入卦象頁，系統告知今天尚未起卦（訪客沒有保存的紀錄）", constraints: ["NFR-035"] }
+      - { step: 2, action: "訪客點擊起卦" }
+      - { step: 3, action: "後端依 session、台北日期、序號 0 與規則版本決定性產生六爻，不寫入任何紀錄", constraints: ["NFR-034"] }
+      - { step: 4, action: "前端逐爻呈現本卦與變卦與固定內容，並提示登入後可保存與加卦", constraints: ["NFR-036"] }
+    alternateFlows:
+      - { condition: "同一 session 同日再起", handling: "得到同一卦（由 session 與日期決定）", constraints: ["NFR-034"] }
+      - { condition: "沒有有效的 guest session", handling: "回 401", constraints: ["NFR-035"] }
+      - { condition: "內容尚未發佈", handling: "回 404" }
+    postconditions:
+      - "沒有任何伺服器紀錄；不扣點、不呼叫 AI"
+    note: "比照盧恩的訪客抽取；訪客不可加卦（見 UC-059）"
+  - id: UC-059
+    title: "付費加卦"
+    actor: CTX-ACTOR-002
+    requirements: ["FR-090", "FR-091", "FR-092", "FR-093"]
+    stories: ["STORY-059"]
+    preconditions:
+      - "使用者已登入"
+      - "當日已有第一卦（序號 0）"
+      - "可用點數至少 1 點"
+    mainFlow:
+      - { step: 1, action: "使用者在當日卦象頁點「再起一卦」，畫面顯示「將扣 1 點」並請使用者確認" }
+      - { step: 2, action: "使用者確認，前端帶冪等鍵送出請求", constraints: ["NFR-033", "NFR-035"] }
+      - { step: 3, action: "後端在同一個交易中檢查餘額、扣 1 點、以下一個序號決定性產生六爻並寫入紀錄（含扣點交易）", constraints: ["NFR-033", "NFR-034"] }
+      - { step: 4, action: "回傳新的一卦與固定內容，前端逐爻呈現並刷新點數", constraints: ["NFR-036"] }
+    alternateFlows:
+      - { condition: "點數不足", handling: "拒絕並引導購買點數，MUST NOT 寫紀錄或扣點", constraints: ["NFR-033"] }
+      - { condition: "重送或並行的相同冪等鍵", handling: "只處理一次，其餘回傳同一結果", constraints: ["NFR-033"] }
+      - { condition: "起卦或寫入失敗", handling: "返還已扣點並回明確錯誤", constraints: ["NFR-033"] }
+      - { condition: "內容缺少所需爻辭", handling: "在扣點前就失敗，MUST NOT 扣點", constraints: ["NFR-037"] }
+      - { condition: "訪客", handling: "拒絕並引導登入" }
+      - { condition: "使用者取消確認", handling: "不送出請求，不扣點" }
+    postconditions:
+      - "新增一筆付費卦紀錄（序號遞增）與一筆扣點交易；餘額少 1 點；不呼叫 AI"
+    note: "每日無上限、冪等規則待確認（CTX-ASM-035）"
+  - id: UC-060
+    title: "查詢今日已起的卦"
+    actor: CTX-ACTOR-001
+    requirements: ["FR-093", "FR-089"]
+    stories: ["STORY-060"]
+    preconditions:
+      - "使用者已登入"
+    mainFlow:
+      - { step: 1, action: "使用者進入卦象頁，前端呼叫只讀的查詢", constraints: ["NFR-035"] }
+      - { step: 2, action: "後端以登入帳號與伺服器的台北日期讀取今日各卦，依序號排列" }
+      - { step: 3, action: "前端顯示今日已起的卦與固定內容；尚未起卦時顯示起卦入口" }
+    alternateFlows:
+      - { condition: "今日尚未起卦", handling: "回 drawn: false，不寫入" }
+      - { condition: "換裝置登入同一帳號", handling: "看到相同的卦與序號" }
+      - { condition: "未登入", handling: "走 UC-058（訪客只告知日期，不含卦）" }
+      - { condition: "他人的紀錄", handling: "不可讀取，僅本人可讀" }
+    postconditions:
+      - "沒有任何寫入"

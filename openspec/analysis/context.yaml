@@ -1,7 +1,7 @@
 version: 1
 generatedBy: system-analysis
-updatedAt: 2026-11-05T12:00:00+08:00
-relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, ai-analysis-question-history]
+updatedAt: 2026-11-09T12:00:00+08:00
+relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, ai-analysis-question-history, add-hexagram-divination]
 source: ai_personality_app_plan.md
 
 actors:
@@ -196,6 +196,21 @@ constraints:
     category: business
     description: "AI 報告的內容界線（user 已確認）：AI 以融合心理學、命相學、神秘學專家視角的同一位導師，縱觀使用者的過去、現在、未來的狀態、可能發生的事件類型與提醒；談未來只說可能與傾向，不給確切日期、人名或結果，不下吉凶斷言，不預言壽命、疾病、婚姻成敗或財運，不做診斷，不給醫療、法律、財務建議；使用者的提問是唯一允許進入 prompt 的自由文字（100 字內，以資料而非指令處理）；這取代先前「AI 輸入不含使用者自由文字」與「不預測具體事件」的限制"
     source: "user 對話（2026-11-05：「提示 ai 應以心理學、命相學、神秘學等專家角度綜合成一位導師，縱觀提問者在過去、現在、未來的狀態及可能發生的事件與提醒」；「可輸入一段文字(100 字內), 與報告一起送給 ai 做分析」）"
+  - id: CTX-CON-031
+    category: business
+    description: "易經卦象為「此刻／今日」類的狀態系統：結果隨時間變動，為娛樂與自我反思參考，MUST NOT 預言或給吉凶斷語；MUST NOT 做特質映射、單維度報告、不進綜合報告可選系統、不呼叫 AI；第一版只抽卦，不收「想問的事」（延伸 CTX-CON-016、CTX-CON-007）"
+    source: "user 對話（2026-11-09 易經卦象 D1–D7） D5、D6；openspec/specs/daily-rune/spec.md；server/services/dailyDraw.engine.ts"
+    note: "狀態系統的報告規則見 FR-076；卦象因此不新增 ontology 映射，也不改 MAPPING_VERSION"
+  - id: CTX-CON-032
+    category: business
+    description: "卦象的計價（user 已確認）：已登入者每台北日第一卦免費；當日之後每起一卦扣 1 點；訪客只有每日免費的一卦且不存紀錄、不可加卦；這是對 CTX-CON-018「每日抽取型免費且每日僅一次」的例外，塔羅與盧恩不變（延伸 CTX-CON-014）"
+    source: "user 對話（2026-11-09 易經卦象 D1–D7） D2；openspec/specs/daily-rune/spec.md；server/services/dailyDraw.engine.ts"
+    note: "點數扣抵、冪等與失敗返還沿用 points-system 規則"
+  - id: CTX-CON-033
+    category: business
+    description: "卦象的固定內容：64 卦（卦名與卦序、卦辭、彖辭、象辭、白話解讀）＋384 條爻（爻辭、白話）；經文原文為公版，白話解讀為自撰、不呼叫 AI；第一版 64 卦白話先上，爻辭先放原文加簡短白話，可分批補（user 已確認）"
+    source: "user 對話（2026-11-09 易經卦象 D1–D7） D3、D4；openspec/specs/daily-rune/spec.md；server/services/dailyDraw.engine.ts"
+    note: "乾卦用九、坤卦用六不單獨成條，六爻皆動時歸入「兩個以上動爻」的呈現規則（CTX-ASM-032）"
 
 assumptions:
   - id: CTX-ASM-001
@@ -349,3 +364,37 @@ assumptions:
     impact: 影響 FR-085、FR-086、FR-087 的點數與畫面
     status: partially-confirmed
     confirmedBy: "user 對話（2026-11-05：事實攤開只寫 title 與 summary；選 1 到 N 個維度同一流程）；單一系統固定 1 點沿用原單維度分析的價格，未重新確認"
+  - id: CTX-ASM-030
+    description: "起卦採三枚銅錢法，每爻由下往上：老陰（6）1/8、少陽（7）3/8、少陰（8）3/8、老陽（9）1/8；6 與 9 為動爻（每爻 1/4），六爻至少一動約 82%（1 − (3/4)^6）；陽爻機率 1/2，故 64 卦機率相同（1/64）"
+    impact: 影響 FR-091、NFR-034 與內容量（CTX-CON-033）
+    status: confirmed
+    confirmedBy: "user 對話（2026-11-09：D1 銅錢法）；機率為推導"
+  - id: CTX-ASM-031
+    description: "抽取的隨機來源：沿用既有每日抽取的決定性雜湊（對象 + 台北日期 + 當日序號 + 規則版本），序號 0 為免費卦、1 起為付費卦；MUST NOT 使用每次不同的亂數。理由：訪客不存紀錄但同 session 同日需得同一卦、可重現可測、與塔羅盧恩一致。此與先前提議的「server 端 crypto 亂數」不同"
+    impact: 影響 FR-089、FR-090、FR-091、NFR-034
+    status: confirmed
+    confirmedBy: "user 對話（2026-11-09：「1 ok」）"
+    basis: "分析推導（修正先前對話的提議），待 user 確認；若要改回 crypto 亂數，訪客的免費卦需另存暫存紀錄"
+  - id: CTX-ASM-032
+    description: "動爻詮釋規則（user 已確認）：無動爻看本卦卦辭；一個動爻看該爻爻辭；兩個以上動爻只列本卦與變卦（含六爻皆動）。變卦為動爻翻轉後的卦"
+    impact: 影響 FR-091、FR-092 的內容呈現與撰寫量（不需 64×64 組合文案）
+    status: confirmed
+    confirmedBy: "user 對話（2026-11-09：D3 ok）"
+  - id: CTX-ASM-033
+    description: "現行每日抽取引擎（DailyDrawEngine）為「一帳號一日一筆、單一符號加方位」，不能承載「同日多卦、每卦六爻」；卦象需要自己的紀錄形狀（每卦一筆，含序號、六爻、是否付費）。是否重構引擎或另寫，留待 design 決定，不預先抽象（CTX-CON-019）"
+    impact: 影響 FR-093、資料模型與 API 設計
+    status: confirmed
+    confirmedBy: "user 對話（2026-11-09：「2 ok」）"
+    basis: "程式碼現況（server/services/dailyDraw.engine.ts）"
+  - id: CTX-ASM-034
+    description: "卦象抽取紀錄保存 3 個月（user 已確認），由每日到期作業清除、不開 Firestore TTL，刪除帳號時一併清除。塔羅與盧恩現行為永久保留（0bc7f8c、data-retention spec），既有 analysis（CTX-CON-018）仍寫 3 個月，與現況不符；user 希望一律 3 個月，但會刪除既有紀錄，需另案確認，不在本次"
+    impact: 影響 FR-093 與到期清除作業
+    status: confirmed
+    confirmedBy: "user 對話（2026-11-09：「一律改為保存 3 個月」；範圍限卦象，塔羅盧恩另案）"
+    basis: "程式碼現況；待 user 確認卦象是否同樣永久保留"
+  - id: CTX-ASM-035
+    description: "付費加卦每日沒有次數上限，只受點數限制；每次付費請求帶冪等鍵，重送不重複扣點，起卦或寫入失敗須返還"
+    impact: 影響 FR-090、NFR-033
+    status: confirmed
+    confirmedBy: "user 對話（2026-11-09：「4 不設」）"
+    basis: "分析推導；user 只說「後續每一卦耗 1 點」，未提上限"

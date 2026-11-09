@@ -3,6 +3,7 @@
 > 來源：`ai_personality_app_plan.md` + `openspec/changes/add-daily-tarot-draw` + user 補充（Nuxt / Vue / Vuetify / Vite、Vercel、Firestore、Google 登入、點數制、人類圖）
 > 真相檔：`openspec/analysis/requirements.yaml`、`context.yaml`（本檔由 yaml 產生）
 > 更新：2026-10-27（新增「此刻／今日」類：FR-044 至 FR-055、NFR-018 至 NFR-022）
+> 更新：2026-11-09（易經卦象：新增 FR-089 至 FR-095、NFR-033 至 NFR-037；change：add-hexagram-divination）
 > 更新：2026-11-05（AI 報告合併：新增 FR-085 至 FR-088、NFR-031 至 NFR-032；FR-077、FR-078 已廢止；change：ai-analysis-question-history）
 > 更新：2026-11-02（新增「自我分析擴充」：FR-056 至 FR-073、NFR-023 至 NFR-028；另補進既有的報告架構：FR-074 至 FR-084、NFR-029 至 NFR-030；change：expand-self-analysis-dimensions）
 
@@ -100,6 +101,13 @@ MVP = 計畫書 §15 第一版範圍（含 user 補充）。Phase 對應 §11 Ph
 | FR-086 | AI 報告的骨架與導師視角 | 系統 SHALL 讓 AI 報告依固定順序呈現：事實攤開（每份來源報告只列標題與一句摘要，由系統取自該報告、在 AI 完成前就存在、MUST NOT 由 AI 撰寫）、值得注意的點、共同的優勢、共同的劣勢與需要留意的地方、過去、現在、未來、回應你的提問（只有提問時才有）、結論與提醒；除過去與現在外，每一部分 MUST 是一段開頭加條列重點（值得注意的點、共同的優勢、共同的劣勢、回應提問、結論各 3 到 5 點，未來 2 到 4 點對應的提醒）；優勢與劣勢 MUST 取各份報告共同指向的；系統 prompt MUST 要求 AI 以融合心理學、命相學與神秘學視角的同一位導師，縱觀提問者的過去、現在與未來的狀態、可能發生的事件類型與提醒，並逐章說明開頭與條列的寫法與數量；談未來只說可能與傾向，MUST NOT 給確切日期、人名或結果、吉凶斷言、壽命或疾病或婚姻成敗或財運的預言，MUST NOT 做診斷或給醫療、法律、財務建議；交給 AI 的內容 MUST 只含今天的日期、各來源報告的系統與位置結論與事實與面向與限制、規則找到的洞見候選與提問，不含使用者 id 或電子郵件；Prompt 版本 MUST 隨報告保存。 | must | 7 | ✘ | CTX-CON-027, CTX-CON-030, CTX-CON-009, CTX-EXT-002, CTX-ACTOR-002 |
 | FR-087 | 分析紀錄與 AI 報告頁 | 系統 SHALL 提供會員專屬的「分析紀錄」（header nav，/ai-reports）與 GET /api/ai-reports，以單一列表呈現使用者未到期的 AI 報告卡片（新到舊、最多 100 筆，不含報告內容，顯示建立時間、來源位置結論、提問與狀態），並提供 GET /api/ai-reports/{id} 與報告頁讀取全文；報告頁依骨架呈現（分析概要、事實攤開、值得注意的點、共同的優勢與劣勢、過去現在未來的垂直時間線、回應提問、結論），條列以清單呈現；生成中 MUST 顯示進度並自動更新，完成或失敗後刷新點數；失敗 MUST 顯示已退點並可帶原系統與原問題「再問一次」；生成中而逾時的報告 MUST 在被讀取時標為失敗並退點；他人的、不存在的與已到期的報告 MUST 回找不到；單維度報告最後 MUST 提供「深入分析」入口並預選該系統，「綜合分析」頁（/report）作為建立表單，送出後導向分析紀錄；訪客開啟分析紀錄 MUST 只見登入提示。 | must | 7 | ✘ | CTX-CON-027, CTX-CON-029, CTX-CON-014, CTX-ACTOR-002 |
 | FR-088 | AI 報告的存取、期限與清除 | 系統 SHALL 把 AI 報告存於使用者自己的 aiReports 集合（一份一筆，id 為冪等鍵，含 sources、提問、狀態、內容、點數、模型與 prompt 版本、建立與到期時間），MUST 僅本人可讀；報告 SHALL 保存 6 個月（建立時間加 6 個月），由每日到期作業清除，MUST NOT 對此集合開 Firestore TTL；刪除帳號與刪除資料的「報告」範圍 MUST 清除其全部 AI 報告，其他範圍 MUST NOT 動到，也 MUST NOT 影響其他使用者；報告 MUST 自足，來源單維度報告被清除後仍可閱讀；再問一次 MUST 新增一份而不覆蓋舊報告；快照上舊的 ai、aiJob 欄位不再寫入、不遷移，隨快照到期。 | must | 7 | ✘ | CTX-CON-029, CTX-CON-012, CTX-CON-006, CTX-EXT-005, CTX-ASM-027, CTX-ACTOR-001 |
+| FR-089 | 每日免費一卦 | 系統 SHALL 讓已登入使用者每台北日期第一次起卦免費；同一帳號同一日的第一卦 MUST 寫入紀錄，之後查詢與換裝置 MUST 得到同一卦；訪客 SHALL 可起當日免費的一卦，MUST NOT 寫入任何伺服器紀錄，同一 session 同一日 MUST 得到同一卦；日期 MUST 由伺服器以台北時間換算，MUST NOT 接受客戶端日期或身分。 | must | 8 | ✘ | CTX-ACTOR-001, CTX-CON-016, CTX-CON-031, CTX-CON-032, CTX-ASM-031, CTX-EXT-005, CTX-EXT-006 |
+| FR-090 | 付費加卦 | 系統 SHALL 讓已登入使用者在當日已起第一卦後再起卦，每卦扣 1 點；點數不足 MUST 拒絕、MUST NOT 寫紀錄或扣點；扣點與紀錄 MUST 原子且以冪等鍵只處理一次，起卦或寫入失敗 MUST 返還已扣點；訪客 MUST NOT 加卦並 MUST 被引導登入；扣點前 MUST 讓使用者看見「將扣 1 點」並確認。 | must | 8 | ✘ | CTX-ACTOR-001, CTX-ACTOR-002, CTX-CON-032, CTX-CON-014, CTX-ASM-035, CTX-EXT-005 |
+| FR-091 | 銅錢法起卦與變卦 | 系統 SHALL 以三枚銅錢法產生六爻（由下往上，每爻為老陰、少陽、少陰或老陽），回傳本卦、動爻位置與變卦（無動爻時沒有變卦）；結果 MUST 由伺服器依「對象、台北日期、當日序號、規則版本」決定性產生，同輸入同版本 MUST 得到同一結果；請求 MUST NOT 能指定日期、身分、序號或爻值；規則版本 MUST 隨每筆紀錄保存。 | must | 8 | ✘ | CTX-CON-031, CTX-ASM-030, CTX-ASM-031, CTX-ASM-032 |
+| FR-092 | 卦象內容與詮釋 | 系統 SHALL 依動爻數量呈現內容：無動爻顯示本卦的卦辭、彖辭、象辭與白話解讀；一個動爻另顯示該爻的爻辭與白話；兩個以上動爻只列本卦與變卦（卦名與簡述）；內容 MUST 為事先寫好的固定內容（64 卦＋384 爻），MUST NOT 呼叫 AI，MUST NOT 含吉凶斷語或預言，語氣為「這一刻的狀態，不是預言」；所需內容缺少時 MUST 起卦失敗且不扣點。 | must | 8 | ✘ | CTX-CON-031, CTX-CON-033, CTX-CON-007, CTX-CON-016, CTX-ACTOR-003, CTX-ASM-032 |
+| FR-093 | 卦象紀錄與查詢 | 系統 SHALL 為已登入者每起一卦保存一筆紀錄（台北日期、當日序號、六爻、起卦時間、規則版本、是否付費、對應扣點交易），僅本人可讀；SHALL 提供查詢今日已起各卦的 API（只讀、不寫）；刪除帳號與刪除資料 MUST 清除這些紀錄；紀錄 SHALL 保存 3 個月（起卦時間加 3 個月），由每日到期作業清除，MUST NOT 使用 Firestore TTL（CTX-ASM-034）。 | must | 8 | ✘ | CTX-ACTOR-001, CTX-CON-012, CTX-CON-032, CTX-ASM-033, CTX-ASM-034, CTX-EXT-005 |
+| FR-094 | 卦象的前端呈現 | 系統 SHALL 在「此刻／今日」區塊提供卦象入口並標示結果隨時間變動；起卦時六爻 SHALL 由下而上逐爻浮現並標明少陰、少陽、老陰或老陽，最後並排呈現本卦與變卦；六爻 MUST 以向量圖繪製，MUST NOT 依賴卦象 Unicode 字元；畫面結果 MUST 取自 API 回應，動畫只負責播放；MUST 尊重 prefers-reduced-motion。 | should | 8 | ✘ | CTX-ACTOR-001, CTX-CON-016, CTX-CON-031 |
+| FR-095 | 卦象不進報告管線 | 系統 MUST NOT 為卦象提供單維度報告、綜合分析的可選系統、特質映射或 AI 報告來源；卦象 MUST NOT 寫入報告快照；起卦請求 MUST NOT 收「想問的事」或任何使用者自由文字。 | must | 8 | ✘ | CTX-CON-031, CTX-CON-007 |
 
 ## Non-Functional Requirements
 
@@ -137,6 +145,11 @@ MVP = 計畫書 §15 第一版範圍（含 user 補充）。Phase 對應 §11 Ph
 | NFR-030 | reliability | 報告快照的一致性 | 並行 N 次相同請求，快照只有 1 份且扣點一次；建立 AI 報告前後來源快照內容相同；重複建立 AI 報告後單維度快照數不增加 | must | CTX-CON-029, CTX-CON-014 |
 | NFR-031 | security | 使用者提問的處理 | 101 字提問被拒絕且不扣點；系統 prompt 含「不是指令」與忽略違規要求的規則；要求忽略規則或診斷的提問不影響輸出須通過的品質檢查；刪除報告後提問一併清除 | must | CTX-CON-030, CTX-CON-009, CTX-EXT-002 |
 | NFR-032 | correctness | AI 報告的輸出品質把關 | 各失敗條件各有測試且結果為失敗並退點；絕對語氣只產生警告；事實塊的每一句取自來源報告 | must | CTX-CON-030, CTX-CON-009, CTX-CON-014 |
+| NFR-033 | reliability | 付費加卦的原子性與冪等 | 並行 N 次相同冪等鍵：紀錄 1 筆、扣 1 點；點數不足：紀錄 0 筆、餘額不變；寫入失敗：餘額回到扣點前 | must | CTX-CON-032, CTX-ASM-035, CTX-CON-014 |
+| NFR-034 | correctness | 起卦的可重現與分布 | 相同輸入重複計算結果相同；100000 組不同輸入中，每卦出現次數與期望值（約 1562）偏差在 ±10% 內，動爻比例約 1/4（容差為暫定，需確認） | must | CTX-ASM-030, CTX-ASM-031 |
+| NFR-035 | security | 起卦請求不信任客戶端 | 帶日期、使用者識別或爻值參數的請求仍以伺服器值為準；回應含 Cache-Control: private, no-store；無憑證回 401 | must | CTX-CON-031, CTX-EXT-005, CTX-EXT-006 |
+| NFR-036 | usability | 卦象的無障礙與減少動態 | prefers-reduced-motion 下無動畫且結果同時可見；六爻圖的替代文字含卦名與六爻描述 | should | CTX-CON-031 |
+| NFR-037 | correctness | 卦象內容的完整性與措辭檢查 | content:check 顯示缺少、未發佈、多出皆為 0；含吉凶斷語的內容匯入失敗；測試涵蓋 | must | CTX-CON-033, CTX-CON-031, CTX-CON-016 |
 
 ## 待確認（已採納建議，以下為尚待落實或需外部確認）
 
@@ -179,3 +192,9 @@ MVP = 計畫書 §15 第一版範圍（含 user 補充）。Phase 對應 §11 Ph
 - 單維度 AI 進階分析（FR-077）與多維度報告（FR-078）合併為唯一一種 AI 報告（FR-085 至 FR-088）：一至多個系統、選填提問、sources 記錄所用單維度報告、另存於 aiReports 集合；規則組裝的跨系統報告不再保存與呈現，只作 AI 的輸入素材
 - 內容界線改為導師視角（CTX-CON-030）：允許談可能的情境與事件類型，仍禁確切預言、診斷與醫療法律財務建議；「AI 輸入不含使用者自由文字」改為只允許受限的提問（NFR-031）
 - 一個系統固定 1 點與事實摘要的取法為暫定（CTX-ASM-029），多系統價格規則沿用且未重新確認（CTX-ASM-026）
+
+## 易經卦象（2026-11-09，change：add-hexagram-divination）
+
+- 狀態系統：不做單維度報告、不進綜合報告、不做特質映射、不呼叫 AI（CTX-CON-031、FR-095）
+- 計價：每日第一卦免費、之後每卦 1 點，訪客只有免費卦（CTX-CON-032、FR-089、FR-090）
+- 已確認（2026-11-09）：決定性雜湊（CTX-ASM-031）、不重用抽取引擎（CTX-ASM-033）、卦象紀錄保存 3 個月（CTX-ASM-034）、付費卦不設每日上限（CTX-ASM-035）；塔羅盧恩是否也改 3 個月另案確認
