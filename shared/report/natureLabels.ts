@@ -59,4 +59,13 @@ export const SYSTEM_NATURE: Readonly<Record<MappingSystem, { label: string; trad
     PSYCHOLOGICAL_NEEDS: {
         label: '自製的需求與動機問卷，題目沒有經過信度與效度驗證，不是任何既有量表，也不是診斷', tradition: '自製的需求與動機問卷',
     },
+    CAREER_ANCHORS: {
+        label: '自製的生涯錨探索問卷，題目沒有經過信度與效度驗證，不是任何既有量表，也不是診斷', tradition: '自製的生涯錨探索問卷',
+    },
+    CONFLICT_STYLE: {
+        label: '自製的衝突處理風格探索問卷，題目沒有經過信度與效度驗證，不是任何既有量表，也不是診斷', tradition: '自製的衝突處理風格探索問卷',
+    },
+    RESILIENCE: {
+        label: '自製的心理韌性探索問卷，題目沒有經過信度與效度驗證，不是任何既有量表，也不是診斷', tradition: '自製的心理韌性探索問卷',
+    },
 };

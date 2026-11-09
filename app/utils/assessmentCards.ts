@@ -39,6 +39,15 @@ const CARD_INFO: Readonly<Record<AssessmentId, AssessmentCardInfo>> = {
     'psychological-needs': {
         system: 'practical', icon: 'mdi-battery-heart-outline', tone: TONES.violet, description: '看自主、勝任與關係三種需求，哪些被滿足、哪些還有空間。',
     },
+    'career-anchors': {
+        system: 'practical', icon: 'mdi-anchor', tone: TONES.indigo, description: '看哪些工作動機對你最重要，例如專業、自主、穩定或意義。',
+    },
+    'conflict-style': {
+        system: 'practical', icon: 'mdi-handshake-outline', tone: TONES.copper, description: '看你在意見不合時，如何在自己的目標與彼此的關係之間取捨。',
+    },
+    'resilience': {
+        system: 'practical', icon: 'mdi-sprout-outline', tone: TONES.green, description: '看你面對壓力時，目前常用的復原、因應、求助與找意義的資源。',
+    },
 };
 
 /** The order the cards are listed in, within the kind they belong to */
@@ -51,6 +60,9 @@ const CARD_ORDER: readonly AssessmentId[] = [
     'via-strengths',
     'emotional-intelligence',
     'attachment-style',
+    'career-anchors',
+    'conflict-style',
+    'resilience',
 ];
 
 export type AssessmentCard = AssessmentCardInfo & {

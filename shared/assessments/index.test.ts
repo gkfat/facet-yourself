@@ -20,6 +20,9 @@ import {
 import { fixedContentBodySchema } from '../schemas/firestore/fixedContent.schema';
 import { isMultiReportSystem } from '../report/systems';
 import attachmentStyle from '../../content/fixed/attachment-style.json';
+import careerAnchors from '../../content/fixed/career-anchors.json';
+import conflictStyle from '../../content/fixed/conflict-style.json';
+import resilience from '../../content/fixed/resilience.json';
 import coreValues from '../../content/fixed/core-values.json';
 import emotionalIntelligence from '../../content/fixed/emotional-intelligence.json';
 import enneagram from '../../content/fixed/enneagram.json';
@@ -182,6 +185,9 @@ describe('no clinical wording', () => {
             ...riasec,
             ...emotionalIntelligence,
             ...attachmentStyle,
+            ...careerAnchors,
+            ...conflictStyle,
+            ...resilience,
         ];
 
         expect(rows.length).toBe(assessmentContentKeys().length);
@@ -199,6 +205,9 @@ describe('each assessment in a multi-dimension report', () => {
         ...riasec,
         ...emotionalIntelligence,
         ...attachmentStyle,
+        ...careerAnchors,
+        ...conflictStyle,
+        ...resilience,
     ];
     const contents = Object.fromEntries(rows.map((row) => [
         row.key, {

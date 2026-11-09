@@ -9,8 +9,8 @@
             <v-card-text>
                 <div class="map-wrap">
                     <div class="map-axis map-axis--y">
-                        <span>焦慮低</span>
-                        <span>焦慮高</span>
+                        <span>{{ layout.rowLabels[0] }}</span>
+                        <span>{{ layout.rowLabels[1] }}</span>
                     </div>
                     <div class="map-body">
                         <div class="map">
@@ -23,17 +23,17 @@
                                     'map__cell--near': between.includes(cell.id),
                                 }"
                             >
-                                {{ QUADRANT_NAMES[cell.id] }}
+                                {{ layout.names[cell.id] }}
                             </div>
                             <span
                                 class="map__dot"
-                                :style="{ left: `${avoidance}%`, top: `${anxiety}%` }"
+                                :style="{ left: `${columnScore}%`, top: `${rowScore}%` }"
                             />
                         </div>
                     </div>
                     <div class="map-axis map-axis--x">
-                        <span>迴避低</span>
-                        <span>迴避高</span>
+                        <span>{{ layout.columnLabels[0] }}</span>
+                        <span>{{ layout.columnLabels[1] }}</span>
                     </div>
                 </div>
 
@@ -93,7 +93,7 @@
                         :color="index === 0 ? 'success' : 'primary'"
                         variant="flat"
                     >
-                        {{ index === 0 ? '最貼近' : '也可以參考' }}・{{ QUADRANT_NAMES[entry.id] }}
+                        {{ index === 0 ? '最貼近' : '也可以參考' }}・{{ layout.names[entry.id] }}
                     </v-chip>
                 </div>
                 <template v-if="entry.body">
@@ -166,9 +166,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-    ATTACHMENT_QUADRANTS, QUADRANT_NAMES, type AttachmentQuadrant,
-} from '../../shared/assessments/attachmentStyle';
+import { quadrantLayoutOf } from '../utils/assessmentQuadrants';
 import type { ScaleDimensionInfo } from '../../shared/assessments/types';
 import type { AssessmentResult } from '../../shared/schemas/api/assessment.schema';
 import type { FixedResultResponse } from '../../shared/schemas/api/fixedResult.schema';
@@ -189,7 +187,9 @@ const LEVEL_COLORS: Readonly<Record<Level, string>> = {
 };
 
 const isLevel = (value: unknown): value is Level => value === 'low' || value === 'mid' || value === 'high';
-const isQuadrant = (value: unknown): value is AttachmentQuadrant => ATTACHMENT_QUADRANTS.some((quadrant) => quadrant === value);
+
+const layout = computed(() => quadrantLayoutOf(props.result.assessmentId));
+const isQuadrant = (value: unknown): value is string => typeof value === 'string' && layout.value.cells.includes(value);
 
 const sides = computed(() => {
     const raw = props.result.result.scores;
@@ -210,20 +210,18 @@ const sides = computed(() => {
 });
 
 const scoreOf = (id: string) => sides.value.find((entry) => entry.id === id)?.score ?? 50;
-const anxiety = computed(() => scoreOf('anxiety'));
-const avoidance = computed(() => scoreOf('avoidance'));
+const rowScore = computed(() => scoreOf(layout.value.rowDimension));
+const columnScore = computed(() => scoreOf(layout.value.columnDimension));
 
-const primary = computed<AttachmentQuadrant | null>(() => (isQuadrant(props.result.result.primary) ? props.result.result.primary : null));
-const between = computed<AttachmentQuadrant[]>(() => {
+const primary = computed<string | null>(() => (isQuadrant(props.result.result.primary) ? props.result.result.primary : null));
+const between = computed<string[]>(() => {
     const raw = props.result.result.between;
 
     return Array.isArray(raw) ? raw.filter(isQuadrant) : [];
 });
 
-/** Rows of the map: anxiety low on top, high below; avoidance low on the left, high on the right */
-const cells: readonly { id: AttachmentQuadrant }[] = [
-    { id: 'steady' }, { id: 'independent' }, { id: 'close' }, { id: 'torn' },
-];
+/** Rows of the map: the row dimension low on top, high below; the column dimension low on the left, high on the right */
+const cells = computed(() => layout.value.cells.map((id) => ({ id })));
 
 const quadrants = computed(() => [...(primary.value ? [primary.value] : []), ...between.value].map((id) => ({
     id,
@@ -232,7 +230,7 @@ const quadrants = computed(() => [...(primary.value ? [primary.value] : []), ...
 
 const rowsOf = (body: FixedResultResponse) => [
     {
-        label: '在關係中', text: body.loveStyle,
+        label: layout.value.settingLabel, text: body.loveStyle,
     }, {
         label: '日常的樣子', text: body.dailyBehavior,
     }, {

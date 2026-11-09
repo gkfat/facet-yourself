@@ -15,4 +15,7 @@ export const ASSESSMENT_ENTRY_ENABLED: Readonly<Record<AssessmentId, boolean>> =
     'attachment-style': true,
     'core-values': true,
     'psychological-needs': true,
+    'career-anchors': true,
+    'conflict-style': true,
+    'resilience': true,
 };

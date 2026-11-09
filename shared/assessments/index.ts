@@ -12,6 +12,9 @@ import { HEXACO_ASSESSMENT } from './hexaco.ts';
 import { VIA_ASSESSMENT } from './via.ts';
 import { RIASEC_ASSESSMENT } from './riasec.ts';
 import { PSYCHOLOGICAL_NEEDS_ASSESSMENT } from './psychologicalNeeds.ts';
+import { CAREER_ANCHORS_ASSESSMENT } from './careerAnchors.ts';
+import { CONFLICT_STYLE_ASSESSMENT } from './conflictStyle.ts';
+import { RESILIENCE_ASSESSMENT } from './resilience.ts';
 import type { AssessmentDefinition } from './types.ts';
 
 export * from './ids.ts';
@@ -30,6 +33,9 @@ export const ASSESSMENTS: readonly AssessmentDefinition[] = [
     VIA_ASSESSMENT,
     EQ_ASSESSMENT,
     ATTACHMENT_ASSESSMENT,
+    CAREER_ANCHORS_ASSESSMENT,
+    CONFLICT_STYLE_ASSESSMENT,
+    RESILIENCE_ASSESSMENT,
 ];
 
 export function findAssessment(id: string, definitions: readonly AssessmentDefinition[] = ASSESSMENTS): AssessmentDefinition | null {

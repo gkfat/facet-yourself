@@ -33,6 +33,9 @@ export const SOURCE_GROUPS: Readonly<Record<MappingSystem, string>> = {
     ATTACHMENT_STYLE: 'questionnaire',
     CORE_VALUES: 'questionnaire',
     PSYCHOLOGICAL_NEEDS: 'questionnaire',
+    CAREER_ANCHORS: 'questionnaire',
+    CONFLICT_STYLE: 'questionnaire',
+    RESILIENCE: 'questionnaire',
 };
 
 /** MBTI, human design and BaZi are mapped by rules over their structure; the rest by what a term is known to stand for. */
@@ -55,6 +58,9 @@ export const METHOD_BY_SYSTEM: Readonly<Record<MappingSystem, MappingEntry['meth
     ATTACHMENT_STYLE: 'keyword',
     CORE_VALUES: 'keyword',
     PSYCHOLOGICAL_NEEDS: 'keyword',
+    CAREER_ANCHORS: 'keyword',
+    CONFLICT_STYLE: 'keyword',
+    RESILIENCE: 'keyword',
 };
 
 export const isStateSystem = (system: MappingSystem): boolean => (STATE_SYSTEMS as readonly string[]).includes(system);

@@ -11,6 +11,9 @@ export const ASSESSMENT_IDS = [
     'attachment-style',
     'core-values',
     'psychological-needs',
+    'career-anchors',
+    'conflict-style',
+    'resilience',
 ] as const;
 
 export type AssessmentId = typeof ASSESSMENT_IDS[number];
@@ -25,6 +28,9 @@ export const ASSESSMENT_SYSTEM_BY_ID = {
     'attachment-style': 'ATTACHMENT_STYLE',
     'core-values': 'CORE_VALUES',
     'psychological-needs': 'PSYCHOLOGICAL_NEEDS',
+    'career-anchors': 'CAREER_ANCHORS',
+    'conflict-style': 'CONFLICT_STYLE',
+    'resilience': 'RESILIENCE',
 } as const satisfies Record<AssessmentId, string>;
 
 export type AssessmentSystemId = typeof ASSESSMENT_SYSTEM_BY_ID[AssessmentId];
@@ -39,4 +45,7 @@ export const ASSESSMENT_SYSTEM_IDS = [
     'ATTACHMENT_STYLE',
     'CORE_VALUES',
     'PSYCHOLOGICAL_NEEDS',
+    'CAREER_ANCHORS',
+    'CONFLICT_STYLE',
+    'RESILIENCE',
 ] as const satisfies readonly AssessmentSystemId[];
