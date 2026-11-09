@@ -11,7 +11,7 @@ export const tarotDrawDocSchema = z.object({
     cardIndex: z.number().int().min(0).max(TAROT_CARD_COUNT - 1),
     orientation: tarotOrientationSchema,
     drawnAt: epochMsSchema,
-    /** Only documents written before draws were kept for good carry one; it is ignored and never written. */
+    /** When the expiry job removes the draw. Every new draw carries one; a draw written while draws were kept for good has none, and the expiry job leaves it alone. */
     expiresAt: epochMsSchema.optional(),
     /** Version of the draw rule that picked the card */
     drawVersion: z.string().min(1),

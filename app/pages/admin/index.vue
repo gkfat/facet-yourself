@@ -122,8 +122,8 @@
                         />
                         <AdminErrorLine :message="draws.error.value" />
                         <p class="note">
-                            僅含會員，訪客的抽取沒有紀錄。<template v-if="draws.data.value?.earliestDrawAt">
-                                最早的紀錄是 {{ formatAdminTime(draws.data.value.earliestDrawAt) }}，在這之前的天數沒有資料。
+                            僅含會員，訪客的抽取沒有紀錄；抽取紀錄只保存 3 個月，更早的天數沒有資料。<template v-if="draws.data.value?.earliestDrawAt">
+                                目前最早的紀錄是 {{ formatAdminTime(draws.data.value.earliestDrawAt) }}。
                             </template>
                             星座運勢與 Maya Kin 不在統計內。
                         </p>

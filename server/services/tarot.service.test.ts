@@ -7,6 +7,7 @@ import { dailyTarotResponseSchema } from '../../shared/schemas/api/tarot.schema'
 import { TAROT_CARDS } from '../../shared/constants/tarot';
 import { drawDailyCard } from '../../shared/utils/tarot';
 import { NotFoundError } from '../../shared/types/errors';
+import { addMonths } from '../../shared/utils/time';
 
 const holder = vi.hoisted(() => ({ db: undefined as unknown }));
 
@@ -78,8 +79,33 @@ describe('TarotService', () => {
             cardIndex: picked.cardIndex,
             orientation: picked.orientation,
             drawnAt: NOW,
+            expiresAt: addMonths(NOW, 3),
             drawVersion: 'tarot-v1',
         });
+    });
+
+    it('keeps the expiry of the first draw when drawing again the same day', async () => {
+        await seedFor('u1', TODAY);
+        await service.draw('u1');
+
+        clock.now += 3 * 60 * 60 * 1000;
+        await service.draw('u1');
+
+        expect((await db.doc(`users/u1/tarotDraws/${TODAY}`).get()).data()?.expiresAt).toBe(addMonths(NOW, 3));
+    });
+
+    it('still reads a record that has no expiresAt yet, and does not write one', async () => {
+        const picked = await seedFor('u1', TODAY);
+
+        await db.doc(`users/u1/tarotDraws/${TODAY}`).set({
+            cardIndex: picked.cardIndex, orientation: picked.orientation, drawnAt: NOW, drawVersion: 'tarot-v1',
+        });
+
+        expect(await service.getToday('u1')).toMatchObject({
+            drawn: true, card: { index: picked.cardIndex },
+        });
+        expect(await service.draw('u1')).toMatchObject({ drawn: true });
+        expect((await db.doc(`users/u1/tarotDraws/${TODAY}`).get()).data()).not.toHaveProperty('expiresAt');
     });
 
     it('returns the same record when drawing again the same day', async () => {

@@ -21,7 +21,13 @@ const EXPIRING_GROUPS = [
         group: 'humanDesign', key: 'deletedHumanDesigns',
     },
     {
+        group: 'tarotDraws', key: 'deletedTarotDraws',
+    },
+    {
         group: 'kinUnlocks', key: 'deletedKinUnlocks',
+    },
+    {
+        group: 'runeDraws', key: 'deletedRuneDraws',
     },
     {
         group: 'reportSnapshots', key: 'deletedReportSnapshots',
@@ -49,14 +55,16 @@ export class DataExpiryService extends BaseService {
     /**
      * Delete what has passed its retention (RULE-014, RULE-030) and clear expired MBTI values.
      * Each step is independent: one failing does not stop the others, and the failure
-     * is reported so the next run can retry it. Payment records and the daily tarot and rune draws are never touched.
+     * is reported so the next run can retry it. Payment records are never touched. A tarot or rune draw with no `expiresAt` (written while draws were kept for good) is not found by the query, so it is kept.
      */
     async run(): Promise<DataExpiryResult> {
         const now = this.clock();
         const result: DataExpiryResult = {
             deletedAttempts: 0,
             deletedHumanDesigns: 0,
+            deletedTarotDraws: 0,
             deletedKinUnlocks: 0,
+            deletedRuneDraws: 0,
             deletedReportSnapshots: 0,
             deletedAssessmentAttempts: 0,
             deletedAiReports: 0,

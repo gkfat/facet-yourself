@@ -4,9 +4,11 @@ import {
 } from './dailyDraw.engine';
 import { FixedContentService } from './fixedContent.service';
 import { RuneRepository } from '../repositories/rune.repository';
-import { toMillis } from '../utils/firestoreTime';
 import {
-    RUNES, runeContentKey,
+    toMillis, toOptionalMillis,
+} from '../utils/firestoreTime';
+import {
+    RUNES, RUNE_RETENTION_MONTHS, runeContentKey,
 } from '../../shared/constants/runes';
 import type { DailyRuneResponse } from '../../shared/schemas/api/rune.schema';
 import type { FixedResultResponse } from '../../shared/schemas/api/fixedResult.schema';
@@ -32,6 +34,7 @@ export class RuneService extends BaseService {
             {
                 contentType: 'RUNE',
                 drawVersion: RUNE_DRAW_VERSION,
+                retentionMonths: RUNE_RETENTION_MONTHS,
                 pick: (uid, dateKey) => {
                     const {
                         runeIndex, orientation, 
@@ -46,12 +49,14 @@ export class RuneService extends BaseService {
                     symbolIndex: record.symbolIndex,
                     orientation: record.orientation,
                     drawnAt: record.drawnAt,
+                    expiresAt: record.expiresAt,
                     drawVersion: record.drawVersion,
                 }),
                 // A stored reversed draw of a symmetric rune cannot be valid: the schema refuses it
                 fromDocument: (raw) => runeDrawDocSchema.parse({
                     ...raw,
                     drawnAt: toMillis(raw.drawnAt),
+                    expiresAt: toOptionalMillis(raw.expiresAt),
                 }),
             },
             options.repository ?? new RuneRepository(),

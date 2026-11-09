@@ -21,7 +21,9 @@ const TTL_GROUPS = [
 const EXPIRY_QUERY_GROUPS = [
     'testAttempts',
     'humanDesign',
+    'tarotDraws',
     'kinUnlocks',
+    'runeDraws',
     'reportSnapshots',
     'assessmentAttempts',
     'aiReports',

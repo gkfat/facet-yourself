@@ -4,9 +4,11 @@ import {
 } from './dailyDraw.engine';
 import { FixedContentService } from './fixedContent.service';
 import { TarotRepository } from '../repositories/tarot.repository';
-import { toMillis } from '../utils/firestoreTime';
 import {
-    TAROT_CARDS, tarotContentKey,
+    toMillis, toOptionalMillis,
+} from '../utils/firestoreTime';
+import {
+    TAROT_CARDS, TAROT_RETENTION_MONTHS, tarotContentKey,
 } from '../../shared/constants/tarot';
 import type { DailyTarotResponse } from '../../shared/schemas/api/tarot.schema';
 import type { FixedResultResponse } from '../../shared/schemas/api/fixedResult.schema';
@@ -32,6 +34,7 @@ export class TarotService extends BaseService {
             {
                 contentType: 'TAROT',
                 drawVersion: TAROT_DRAW_VERSION,
+                retentionMonths: TAROT_RETENTION_MONTHS,
                 pick: (uid, dateKey) => {
                     const {
                         cardIndex, orientation, 
@@ -47,18 +50,21 @@ export class TarotService extends BaseService {
                     cardIndex: record.symbolIndex,
                     orientation: record.orientation,
                     drawnAt: record.drawnAt,
+                    expiresAt: record.expiresAt,
                     drawVersion: record.drawVersion,
                 }),
                 fromDocument: (raw) => {
                     const doc = tarotDrawDocSchema.parse({
                         ...raw,
                         drawnAt: toMillis(raw.drawnAt),
+                        expiresAt: toOptionalMillis(raw.expiresAt),
                     });
 
                     return {
                         symbolIndex: doc.cardIndex,
                         orientation: doc.orientation,
                         drawnAt: doc.drawnAt,
+                        expiresAt: doc.expiresAt,
                         drawVersion: doc.drawVersion,
                     };
                 },

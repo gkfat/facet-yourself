@@ -17,6 +17,11 @@ export function toMillis(value: unknown): number {
     throw new TypeError('Expected a Firestore Timestamp, Date or epoch milliseconds');
 }
 
+/** Like {@link toMillis}, for a field a document may not have yet: a missing one stays missing. */
+export function toOptionalMillis(value: unknown): number | undefined {
+    return value === undefined ? undefined : toMillis(value);
+}
+
 export function toDate(value: unknown): Date {
     return new Date(toMillis(value));
 }

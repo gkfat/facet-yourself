@@ -9,6 +9,7 @@ import {
 } from '../../shared/constants/runes';
 import { drawDailyRune } from '../../shared/utils/rune';
 import { NotFoundError } from '../../shared/types/errors';
+import { addMonths } from '../../shared/utils/time';
 
 const holder = vi.hoisted(() => ({ db: undefined as unknown }));
 
@@ -90,8 +91,33 @@ describe('RuneService', () => {
             symbolIndex: picked.runeIndex,
             orientation: picked.orientation,
             drawnAt: NOW,
+            expiresAt: addMonths(NOW, 3),
             drawVersion: 'rune-v1',
         });
+    });
+
+    it('keeps the expiry of the first draw when drawing again the same day', async () => {
+        await seedFor('u1', TODAY);
+        await service.draw('u1');
+
+        clock.now += 3 * 60 * 60 * 1000;
+        await service.draw('u1');
+
+        expect((await db.doc(`users/u1/runeDraws/${TODAY}`).get()).data()?.expiresAt).toBe(addMonths(NOW, 3));
+    });
+
+    it('still reads a record that has no expiresAt yet, and does not write one', async () => {
+        const picked = await seedFor('u1', TODAY);
+
+        await db.doc(`users/u1/runeDraws/${TODAY}`).set({
+            symbolIndex: picked.runeIndex, orientation: picked.orientation, drawnAt: NOW, drawVersion: 'rune-v1',
+        });
+
+        expect(await service.getToday('u1')).toMatchObject({
+            drawn: true, rune: { index: picked.runeIndex },
+        });
+        expect(await service.draw('u1')).toMatchObject({ drawn: true });
+        expect((await db.doc(`users/u1/runeDraws/${TODAY}`).get()).data()).not.toHaveProperty('expiresAt');
     });
 
     it('does not touch points', async () => {

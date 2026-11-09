@@ -7,7 +7,9 @@ import type { FixedContentType } from '../../shared/utils/fixedContentKeys';
 import type {
     DrawOrientation, DrawnSymbol,
 } from '../../shared/utils/dailyDraw';
-import { taipeiDateKey } from '../../shared/utils/time';
+import {
+    addMonths, taipeiDateKey,
+} from '../../shared/utils/time';
 
 /** The seed of a visitor's draw: the prefix keeps it apart from every account's uid. */
 export function guestDrawSubject(sessionId: string): string {
@@ -19,6 +21,8 @@ export type DailyDrawRecord = {
     symbolIndex: number;
     orientation: DrawOrientation;
     drawnAt: number;
+    /** When the expiry job removes the record. Set when the record is created; a record written while draws were kept for good has none, and the expiry job leaves it alone. */
+    expiresAt?: number;
     drawVersion: string;
 };
 
@@ -26,6 +30,8 @@ export type DailyDrawRecord = {
 export type DailyDrawConfig = {
     contentType: FixedContentType;
     drawVersion: string;
+    /** How long a draw is kept before the expiry job removes it (RULE-014) */
+    retentionMonths: number;
     pick: (uid: string, dateKey: string) => DrawnSymbol;
     /** Key of the written content of a symbol in the fixed contents */
     contentKey: (symbolIndex: number, orientation: DrawOrientation) => string;
@@ -90,6 +96,7 @@ export class DailyDrawEngine {
         const candidate: DailyDrawRecord = {
             ...picked,
             drawnAt: now,
+            expiresAt: addMonths(now, this.config.retentionMonths),
             drawVersion: this.config.drawVersion,
         };
 
@@ -135,6 +142,7 @@ export class DailyDrawEngine {
             record: {
                 ...picked,
                 drawnAt: now,
+                expiresAt: now,
                 drawVersion: this.config.drawVersion,
             },
             content,

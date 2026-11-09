@@ -93,6 +93,9 @@ export const TAROT_ORIENTATION_LABELS: Record<TarotOrientation, string> = {
     reversed: '逆位',
 };
 
+/** How long a draw is kept before the expiry job removes it (RULE-014). */
+export const TAROT_RETENTION_MONTHS = 3;
+
 /** Key of a card's written content: `<index>_<upright|reversed>`. */
 export function tarotContentKey(cardIndex: number, orientation: TarotOrientation): string {
     return `${cardIndex}_${orientation}`;
