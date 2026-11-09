@@ -33,11 +33,11 @@
 ## 5. 固定內容
 
 - [x] 5.1 擴充 `BAZI` 固定內容金鑰規則與驗證（透干、仇神、閒神、調候、`life_<面向>_<類別>`）
-- [ ] 5.2 透干 3、仇神 5、閒神 5、季節氣候 6 共 19 筆固定內容已起草為 DRAFT，待使用者審核後改為 PUBLISHED
-- [ ] 5.3 起草人生面向 36 筆內容（Claude），交使用者審核後放進 `content/`（已起草為 DRAFT，待審核）
+- [x] 5.2 透干 3、仇神 5、閒神 5、季節氣候 6 共 19 筆固定內容已審核並發佈
+- [x] 5.3 人生面向 36 筆內容由 Claude 起草、使用者審核後發佈
 - [x] 5.4 對全部新內容跑措辭檢查（含「可能／傾向」、不含診斷與財務用語）
 - [x] 5.5 更新固定內容覆蓋檢查，納入新增筆數
-- [ ] 5.6 以 `pnpm content:import <file> --dry-run` 驗證，再正式匯入
+- [x] 5.6 已 dry-run 驗證並正式匯入，線上 170 筆與檔案一致，覆蓋率檢查通過
 
 ## 6. 報告、特質映射與規則
 
@@ -54,7 +54,7 @@
 - [x] 7.1 `pnpm lint`、`pnpm test`、`pnpm ontology:check`、`pnpm check:bundle` 全部通過
 - [x] 7.2 `shared/report/synthesis.test.ts` 窮舉通過
 - [ ] 7.3 手動檢查有命盤、沒出生時間、沒性別三種情況，以及 360px 寬度
-- [ ] 7.4 同步 `bazi-chart` 規格中已過時的「命盤的圖表呈現」描述（雷達圖、分區、重點條、喜用神磚塊），並 `opsx:sync` 本 change 的 delta
+- [x] 7.4 已同步 `bazi-chart` 主規格（含改寫「命盤的圖表呈現」）並新增 `bazi-pattern-analysis`、`bazi-life-aspects`，`single-dimension-report` 新增八字分區需求
 
 ## 8. 對齊印出的命盤
 
