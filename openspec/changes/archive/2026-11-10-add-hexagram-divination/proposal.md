@@ -30,7 +30,7 @@
 ## Impact
 
 - `shared/`：新增 `constants/hexagrams.ts`（八卦、64 卦、經文）、`utils/hexagram.ts`（起卦純函式與版本常數）、`schemas/api/hexagram.schema.ts`、`schemas/firestore/hexagramDraw.schema.ts`；修改 `utils/fixedContentKeys.ts`（`HEXAGRAM` 類型與金鑰）、`schemas/firestore/points.schema.ts`（新增原因）。
-- `server/`：新增 `repositories/hexagram.repository.ts`、`services/hexagram.service.ts`、`api/hexagram/daily.get.ts`、`api/hexagram/daily.post.ts`；修改 `utils/routeAccess.ts`（兩條路徑為 `optional`）、`services/point.service.ts`（`DeductReason`）、`services/deletion.service` 的子集合清單、`services/dataExpiry.service.ts`（到期清除）、`services/adminDashboard.service.ts` 與 `repositories/adminStats.repository.ts`。
+- `server/`：新增 `repositories/hexagram.repository.ts`、`services/hexagram.service.ts`、`api/hexagram/daily.get.ts`、`api/hexagram/daily.post.ts`；修改 `utils/routeAccess.ts`（兩條路徑為 `optional`）、`services/point.service.ts`（`DeductReason`）、`services/dataExpiry.service.ts`（到期清除）、`services/adminDashboard.service.ts` 與 `repositories/adminStats.repository.ts`。
 - `app/`：新增卦象頁與面板、六爻 SVG 元件、`useDailyHexagram`；修改 `pages/fortune.vue`、`components/fortune/HomeEntry.vue`、導覽。
 - `content/fixed/hexagram.json`：448 筆白話內容，需 `pnpm content:import` 匯入才生效；預期總筆數相關測試要更新。
 - `firestore.indexes.json`、`scripts/provision-firebase.ts`：新增 `hexagramDraws` 的 `drawnAt`（後台統計）與 `expiresAt`（到期清除，索引豁免）collection group 索引。

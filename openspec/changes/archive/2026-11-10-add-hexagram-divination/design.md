@@ -30,7 +30,7 @@
    紀錄只存 `lines: [6|7|8|9] × 6`；本卦、變卦、動爻位置都由純函式 `hexagramOf(lines)` 推導，不存衍生欄位，避免不一致。八卦（三爻）→ 64 卦的對照用「上卦、下卦」二維表（King Wen 序），經文常數以卦序 1–64 為鍵。
 
 3. **紀錄位置與唯讀查詢：`users/{uid}/hexagramDraws/{YYYY-MM-DD}_{seq}`。**
-   欄位：`date`、`seq`、`lines`、`drawnAt`、`expiresAt`、`drawVersion`、`paid`、`pointTransactionId`（免費為 null）、`requestId`（付費卦的冪等鍵）。今日各卦用文件 id 範圍查詢（`documentId` 介於 `date_` 與 `date_`），不需複合索引。後台統計需 `hexagramDraws` 依 `drawnAt` 的 collection group 單欄位索引（比照 `runeDraws`）。後台近 30 天統計在 3 個月保存內都讀得到。
+   欄位：`date`、`seq`、`lines`、`drawnAt`、`expiresAt`、`drawVersion`、`paid`、`pointTransactionId`（免費為 null）、`requestId`（付費卦的冪等鍵）。今日各卦用 `date` 欄位的等值查詢（單欄位，Firestore 自動建立索引，不需複合索引），並依 `seq` 在記憶體排序（文件 id 的序號是文字，`_10` 會排在 `_2` 前面）。後台統計需 `hexagramDraws` 依 `drawnAt` 的 collection group 單欄位索引（比照 `runeDraws`）。後台近 30 天統計在 3 個月保存內都讀得到。
    - 保存期限 3 個月（user 已確認）：每筆帶 `expiresAt = drawnAt + 3 個月`，由每日到期作業 `dataExpiry.service` 清除（`EXPIRING_GROUPS` 加入 `hexagramDraws`，結果回報 `deletedHexagramDraws`），MUST NOT 開 Firestore TTL（專案規則）。`expiresAt` 的 collection group 查詢需索引豁免，加進 `firestore.indexes.json` 與 `scripts/provision-firebase.ts` 的 `EXPIRY_QUERY_GROUPS`。隨刪帳號刪除。
    - 與現況的差異：塔羅與盧恩目前仍永久保留（0bc7f8c）。user 已決定它們也改 3 個月，由另一個 change `retain-daily-draws-3-months` 處理（含既有資料回補與刪除）；本 change 不動它們。兩個 change 的 `data-retention` delta 內容相同（三種抽取皆 3 個月），不論同步順序，主 spec 結果一致；`dataExpiry.service.ts` 的 `EXPIRING_GROUPS` 與結果型別兩者都會改，後實作者在先實作者的基礎上合併。
 
@@ -39,6 +39,8 @@
    - 冪等：請求帶客戶端產生的 `requestId`（UUID）。交易先在今日各卦中找同一 `requestId`，找到就直接回傳該卦，不再扣點；沒找到才建立新的一卦。並行的兩個不同請求，後者在交易重試時會取得下一個 `seq`，各扣各的 1 點；`transactionId` 內含 `seq`，保證同一 `seq` 不會扣兩次。
    - 因為扣點與寫紀錄在同一交易，成功與失敗是全有或全無，不需要「失敗返還」。內容在進交易前先確認可交付（比照盧恩），缺內容時起卦失敗且不扣點。
    - 請求不接受日期、身分、序號或爻值；`requestId` 只是冪等鍵，不影響結果。
+   - **付費需明示確認**：請求另有 `confirmCharge`（使用者在「將扣 1 點」的畫面同意後才送）。當日已有卦而請求沒帶它時，伺服器回傳最新一卦，不扣點也不寫紀錄；當日尚無卦時帶了它仍是免費的第一卦。這樣舊分頁、漏帶 key 的重試與「並行的第一卦」都不會誤扣，且「並行的第一卦」只會留下一筆（後到者重試時看到已有卦，直接回傳）。訪客帶它則回 401。
+   - 交易內除了查詢今日各卦，也先讀即將建立的那一筆文件，使另一個請求搶到同一序號時這個交易重試（fake 與正式 Firestore 都成立）。
    - 替代方案：以客戶端傳 `seq` 當冪等鍵。會讓請求「指定序號」，與 FR-091 衝突，故用獨立的 `requestId`。
 
 5. **訪客：只有 `seq = 0` 的免費卦，不寫紀錄。**
@@ -49,18 +51,18 @@
 
 7. **內容分兩層，經文放常數、白話放固定內容。**
    - 常數 `shared/constants/hexagrams.ts`：64 卦的卦序、卦名、上下卦、卦辭、彖辭、象辭，以及每卦六條爻辭（公版原文，不經審稿流程）。
-   - 固定內容 `HEXAGRAM`（448 筆）：金鑰 `<卦序>`（本卦白話，64 筆）與 `<卦序>_<爻位>`（爻的白話，384 筆，爻位 1–6）。內容欄位沿用 `title、summary、strengths、blindSpots、growthAdvice、disclaimer`。變卦只顯示卦名與一句簡述，簡述取自該卦自己的 `HEXAGRAM` 本卦內容的 `title`，不另寫。
+   - 固定內容 `HEXAGRAM`（448 筆）：金鑰 `<卦序>`（本卦白話，64 筆）與 `<卦序>_<爻位>`（爻的白話，384 筆，爻位 1–6）。內容欄位沿用 `title、summary、strengths、blindSpots、growthAdvice、disclaimer`。變卦不另寫文案：API 在 `changed` 帶回變卦自己的 `HEXAGRAM` 本卦內容，畫面以「之後的走向」一張卡顯示它的標題、摘要、日常樣子、可留意之處與建議。
    - 金鑰驗證加進 `isFixedContentKey` 的 `HEXAGRAM` 分支與 `fixedContentIds()`；覆蓋檢查預期筆數 +448。
    - 措辭：內容 MUST 為「這一刻的狀態」口吻，不含吉凶斷語（如「大吉」「大凶」「必」「災」等），並加進內容匯入的措辭檢查。
 
 8. **詮釋規則由純函式決定，前後端共用。**
-   `readingPlan(lines)` 回傳：`moving`（動爻位置）、`mode`：`'none'`（卦辭）、`'single'`（該爻爻辭）、`'multiple'`（本卦與變卦）。API 回應含 `mode`，前端依此排版；兩端不各自實作規則。
+   `readingPlan(lines)` 回傳：`moving`（動爻位置）、`mode`：`'none'`（卦辭）、`'single'`（該爻爻辭）、`'multiple'`（不逐爻讀，只解讀本卦與變卦）。API 回應含 `mode`，前端依此排版；兩端不各自實作規則。
 
-9. **API。** `GET /api/hexagram/daily`：回今日已起各卦（會員）或 `drawn: false`（訪客），只讀；`POST /api/hexagram/daily`：body 只有選填 `requestId`；會員第一次呼叫起免費卦，已有卦後的呼叫即加卦（扣 1 點）；回應含新卦與目前點數。`routeAccess.ts` 兩條皆 `optional`（訪客可用）。`Cache-Control: private, no-store`。
+9. **API。** `GET /api/hexagram/daily`：回今日已起各卦（會員）或 `drawn: false`（訪客），只讀；`POST /api/hexagram/daily`：body 只有選填的 `requestId` 與 `confirmCharge`；會員第一次呼叫起免費卦，已有卦後的呼叫即加卦（扣 1 點）；回應含新卦與目前點數。`routeAccess.ts` 兩條皆 `optional`（訪客可用）。`Cache-Control: private, no-store`。
    - 為什麼單一 POST 不分「免費」與「加卦」兩個路徑：由伺服器依今日已有卦數決定是否扣點，客戶端無法自稱免費。
    - 前端在 `seq ≥ 1` 前顯示「將扣 1 點」並讓使用者確認，確認後才送 POST；確認畫面依 GET 的卦數判斷，但實際是否扣點仍以伺服器為準。
 
-10. **前端。** 新增 `app/pages/hexagram.vue`、`components/fortune/HexagramPanel.vue`、`components/hexagram/Lines.vue`（六爻 SVG：實線為陽、斷線為陰、動爻加標記）與 `useDailyHexagram`；入口放進 `pages/fortune.vue` 與 `HomeEntry.vue`，由 `HEXAGRAM_ENTRY_ENABLED` 開關控制（比照 `RUNE_ENTRY_ENABLED`，內容匯入前為 false）。動畫只負責播放 API 已回傳的 `lines`；`prefers-reduced-motion` 時直接顯示結果。六爻圖提供 `aria-label`（卦名與六爻描述）。不使用 Unicode 卦象字元。
+10. **前端。** 新增 `app/pages/hexagram.vue`、`components/fortune/HexagramPanel.vue`、`components/hexagram/Lines.vue`（六爻 SVG：實線為陽、斷線為陰、動爻加標記）與 `useDailyHexagram`；入口放進 `pages/fortune.vue` 與 `HomeEntry.vue`，由 `HEXAGRAM_ENTRY_ENABLED` 開關控制（比照 `RUNE_ENTRY_ENABLED`，內容匯入前為 false）。起卦後由使用者親自擲六次：每次顯示三枚銅錢（`Coins.vue`），按鈕觸發翻轉動畫，翻到一半換成該爻的正反面（由 API 的 `lines` 決定，一個爻的正面數為值減 6），落下後排出一爻；「自動擲完」會把剩下的爻一爻接一爻擲完，每一爻各播放一次翻轉，不直接跳到結果；付費加卦的確認視窗確認後先關閉再擲。結果完全來自 API，動畫只負責播放；`prefers-reduced-motion` 時直接顯示結果。畫面用語白話化（你的卦、之後的走向、正在變動的爻、陽爻（穩定）等），不標示免費或點數，價格只在確認視窗；正在變動的爻以強調色畫出（`Lines.vue` 的 `moving`），變動後的卦同樣位置也上色，不用圈叉；解讀分兩章，同一個元件 `Chapter.vue` 用兩次（本卦、變卦）：卦的小卡片 `Unit.vue` 之後接概覽、日常的樣子、成長與反思、建議、經文原文，兩章之間以向下的實心箭頭連接；`Reading.vue` 只負責組合兩章與一爻變動時的「正在變動的爻」卡。解讀區塊沿用其他報告（`FixedResultView`）的版型：outlined 卡片、相同標題（概覽、日常的樣子、成長與反思、給你的建議）、引言框與優勢／留意小卡，經文原文直接顯示。六爻圖提供 `aria-label`（卦名與已擲出的爻，不提早透露未擲的爻）。不使用 Unicode 卦象字元。
 
 11. **後台。** `adminStats.repository` 的 `DrawGroup` 加入 `hexagramDraws`，`adminDashboard.service` 的每日使用數加一欄；每日點數消耗已依 `reason` 拆分，補上新原因的顯示名稱。
 

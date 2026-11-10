@@ -1,7 +1,7 @@
 # version: 1
 # generatedBy: api-modeling
-# updatedAt: 2026-11-05T12:00:00+08:00
-# relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, add-report-snapshots, expand-self-analysis-dimensions, ai-analysis-question-history]
+# updatedAt: 2026-11-10T12:00:00+08:00
+# relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, add-report-snapshots, expand-self-analysis-dimensions, ai-analysis-question-history, add-hexagram-divination]
 openapi: "3.0.3"
 info:
   title: "AI 多維度人格探索 App API"
@@ -1952,6 +1952,59 @@ paths:
         domainModel: [ENT-018, AGG-015, ENT-005, AGG-005]
         businessRules: [RULE-035, RULE-036, RULE-037, RULE-038, RULE-047, RULE-049, RULE-050]
         requirements: [NFR-003, NFR-018, NFR-019, NFR-020]
+  "/hexagram/daily":
+    get:
+      operationId: getDailyHexagram
+      summary: "查詢今日卦象"
+      description: "會員：回傳今日已起的各卦（依序號），含六爻、本卦、變卦、讀法與固定內容，以及下一卦的點數（第一卦 0、之後 1）；尚未起卦則 drawn 為 false。訪客：只回日期與 drawn 為 false（訪客不保存紀錄）。唯讀，不寫入。"
+      tags: [Today]
+      responses:
+        "200":
+          description: "今日卦象狀態"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/DailyHexagramState"
+        "401":
+          "$ref": "#/components/responses/Unauthorized"
+      x-trace:
+        id: API-077
+        useCases: [UC-057, UC-058, UC-060]
+        domainModel: []
+        requirements: [FR-089, FR-093, NFR-035]
+        note: "domain-modeling 尚未涵蓋卦象，domainModel 待補（add-hexagram-divination）"
+    post:
+      operationId: castDailyHexagram
+      summary: "起卦"
+      description: "三枚銅錢法，由伺服器依對象、台北日期、當日序號與規則版本決定性產生六爻。會員當日第一卦免費；之後每卦 1 點，且須帶 confirmCharge 才會扣點（未帶則回傳最新一卦、不扣點）；requestId 為冪等鍵，同一鍵重送回傳同一卦。訪客只有當日免費的一卦、不寫紀錄，帶 confirmCharge 回 401。請求只接受 requestId 與 confirmCharge。內容尚未發佈回 404，且不寫紀錄、不扣點；點數不足回 402。"
+      tags: [Today]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/HexagramCastRequest"
+      responses:
+        "200":
+          description: "新起的一卦或既有的一卦"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HexagramCastResponse"
+        "400":
+          "$ref": "#/components/responses/ValidationError"
+        "401":
+          "$ref": "#/components/responses/Unauthorized"
+        "402":
+          "$ref": "#/components/responses/InsufficientPoints"
+        "404":
+          "$ref": "#/components/responses/NotFound"
+      x-trace:
+        id: API-078
+        useCases: [UC-057, UC-058, UC-059]
+        domainModel: []
+        requirements: [FR-089, FR-090, FR-091, FR-092, FR-095, NFR-033, NFR-034, NFR-035]
+        note: "domain-modeling 尚未涵蓋卦象，domainModel 待補（add-hexagram-divination）"
   "/kin/today":
     get:
       operationId: getTodayKin
@@ -3438,6 +3491,133 @@ components:
           "$ref": "#/components/schemas/FixedResultContent"
       required: [date, drawn]
       description: "drawn 為 false 時只有 date；為 true 時含 rune 與 content"
+    HexagramFace:
+      type: object
+      properties:
+        order:
+          type: integer
+          minimum: 1
+          maximum: 64
+          description: "King Wen 序"
+        name:
+          type: string
+        upper:
+          type: string
+          enum: ["乾", "兌", "離", "震", "巽", "坎", "艮", "坤"]
+        lower:
+          type: string
+          enum: ["乾", "兌", "離", "震", "巽", "坎", "艮", "坤"]
+        judgment:
+          type: string
+          description: "卦辭（經文原文）"
+        tuan:
+          type: string
+          description: "彖辭（經文原文）"
+        image:
+          type: string
+          description: "大象（經文原文）"
+      required: [order, name, upper, lower, judgment, tuan, image]
+    HexagramCast:
+      type: object
+      properties:
+        seq:
+          type: integer
+          minimum: 0
+          description: "當日第幾卦，0 為免費的第一卦"
+        paid:
+          type: boolean
+        lines:
+          type: array
+          items:
+            type: integer
+            enum: [6, 7, 8, 9]
+          minItems: 6
+          maxItems: 6
+          description: "由下往上六爻：6 老陰、7 少陽、8 少陰、9 老陽"
+        mode:
+          type: string
+          enum: [none, single, multiple]
+          description: "讀法：無動爻、一個動爻、兩個以上動爻"
+        moving:
+          type: array
+          items:
+            type: integer
+            minimum: 1
+            maximum: 6
+          description: "動爻位置，1 為最下一爻"
+        primary:
+          "$ref": "#/components/schemas/HexagramFace"
+        content:
+          "$ref": "#/components/schemas/FixedResultContent"
+        changed:
+          type: object
+          nullable: true
+          properties:
+            face:
+              "$ref": "#/components/schemas/HexagramFace"
+            content:
+              "$ref": "#/components/schemas/FixedResultContent"
+          required: [face, content]
+          description: "變卦與它自己的白話解讀（之後的走向會是什麼狀態）；無動爻時為 null"
+        movingLine:
+          type: object
+          nullable: true
+          properties:
+            position:
+              type: integer
+              minimum: 1
+              maximum: 6
+            statement:
+              type: string
+              description: "該爻爻辭（經文原文）"
+            content:
+              "$ref": "#/components/schemas/FixedResultContent"
+          required: [position, statement, content]
+          description: "只有恰一個動爻時才有"
+      required: [seq, paid, lines, mode, moving, primary, content, changed, movingLine]
+    HexagramCastRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        requestId:
+          type: string
+          format: uuid
+          description: "冪等鍵"
+        confirmCharge:
+          type: boolean
+          description: "使用者已確認這一卦要扣 1 點；未帶時不會扣點"
+    HexagramCastResponse:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        cast:
+          "$ref": "#/components/schemas/HexagramCast"
+        nextCost:
+          type: integer
+          nullable: true
+          enum: [0, 1]
+          description: "下一卦的點數；訪客為 null（不能再起）"
+      required: [date, cast, nextCost]
+    DailyHexagramState:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        drawn:
+          type: boolean
+        casts:
+          type: array
+          items:
+            "$ref": "#/components/schemas/HexagramCast"
+        nextCost:
+          type: integer
+          nullable: true
+          enum: [0, 1]
+      required: [date, drawn, nextCost]
+      description: "drawn 為 false 時沒有 casts；為 true 時依序號列出今日各卦"
     HoroscopeBody:
       type: object
       properties:
