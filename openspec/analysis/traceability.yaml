@@ -1,7 +1,7 @@
 version: 1
 generatedBy: analysis-validator
-updatedAt: 2026-11-05T12:00:00+08:00
-relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, header-nav-and-pricing, redesign-home-page, ai-analysis-question-history]
+updatedAt: 2026-11-10T12:00:00+08:00
+relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, header-nav-and-pricing, redesign-home-page, ai-analysis-question-history, add-hexagram-divination, add-fortune-history]
 
 links:
   - requirement: FR-001
@@ -230,19 +230,19 @@ links:
     context: ["CTX-ACTOR-001", "CTX-ACTOR-002", "CTX-CON-016", "CTX-ASM-004"]
     useCases: ["UC-022"]
     domainModel: ["AGG-015", "AGG-016", "AGG-017", "ENT-018", "ENT-019", "ENT-020"]
-    api: ["API-040", "API-041", "API-043", "API-045", "API-049"]
+    api: ["API-040", "API-041", "API-043", "API-045", "API-049", "API-079"]
     data: ["DATA-020", "DATA-021", "DATA-022", "DATA-023"]
   - requirement: FR-045
     context: ["CTX-ACTOR-001", "CTX-CON-016", "CTX-CON-018", "CTX-CON-007", "CTX-EXT-005", "CTX-EXT-006"]
     useCases: ["UC-023"]
     domainModel: ["AGG-005", "AGG-015", "ENT-005", "ENT-018", "VO-018"]
-    api: ["API-041", "API-042"]
+    api: ["API-041", "API-042", "API-079"]
     data: ["DATA-006", "DATA-020", "DATA-021"]
   - requirement: FR-046
     context: ["CTX-ACTOR-001", "CTX-CON-016", "CTX-CON-018", "CTX-CON-019", "CTX-ASM-016"]
     useCases: ["UC-024"]
     domainModel: ["AGG-005", "AGG-015", "ENT-005", "ENT-018", "VO-018"]
-    api: ["API-043", "API-044"]
+    api: ["API-043", "API-044", "API-079"]
     data: ["DATA-006", "DATA-020", "DATA-021"]
   - requirement: FR-047
     context: ["CTX-ACTOR-001", "CTX-CON-016", "CTX-CON-020", "CTX-ASM-015", "CTX-ASM-017", "CTX-EXT-006"]
@@ -476,14 +476,56 @@ links:
     context: ["CTX-CON-027", "CTX-CON-029", "CTX-CON-014", "CTX-ACTOR-002"]
     useCases: ["UC-055", "UC-056"]
     domainModel: ["AGG-025", "ENT-028", "VO-037", "VO-038", "VO-039"]
-    api: ["API-063", "API-064", "API-065"]
+    api: ["API-063", "API-064", "API-065", "API-066"]
     data: ["DATA-006", "DATA-010", "DATA-011", "DATA-014", "DATA-019", "DATA-026", "DATA-027"]
   - requirement: FR-088
     context: ["CTX-CON-029", "CTX-CON-012", "CTX-CON-006", "CTX-EXT-005", "CTX-ASM-027", "CTX-ACTOR-001"]
     useCases: ["UC-052", "UC-055"]
     domainModel: ["AGG-021", "AGG-025", "ENT-024", "ENT-028", "VO-037", "VO-038", "VO-039"]
-    api: ["API-028", "API-029", "API-037", "API-064", "API-065"]
+    api: ["API-028", "API-029", "API-037", "API-064", "API-065", "API-066"]
     data: ["DATA-001", "DATA-005", "DATA-009", "DATA-010", "DATA-011", "DATA-012", "DATA-014", "DATA-016", "DATA-024", "DATA-026", "DATA-027"]
+  - requirement: FR-089
+    context: ["CTX-ACTOR-001", "CTX-CON-016", "CTX-CON-031", "CTX-CON-032", "CTX-ASM-031", "CTX-EXT-005", "CTX-EXT-006"]
+    useCases: ["UC-057", "UC-058", "UC-060"]
+    domainModel: []
+    api: ["API-077", "API-078"]
+    data: []
+  - requirement: FR-090
+    context: ["CTX-ACTOR-001", "CTX-ACTOR-002", "CTX-CON-032", "CTX-CON-014", "CTX-ASM-035", "CTX-EXT-005"]
+    useCases: ["UC-059"]
+    domainModel: []
+    api: ["API-078"]
+    data: []
+  - requirement: FR-091
+    context: ["CTX-CON-031", "CTX-ASM-030", "CTX-ASM-031", "CTX-ASM-032"]
+    useCases: ["UC-057", "UC-058", "UC-059"]
+    domainModel: []
+    api: ["API-077", "API-078"]
+    data: []
+  - requirement: FR-092
+    context: ["CTX-CON-031", "CTX-CON-033", "CTX-CON-007", "CTX-CON-016", "CTX-ACTOR-003", "CTX-ASM-032"]
+    useCases: ["UC-057", "UC-058", "UC-059"]
+    domainModel: []
+    api: ["API-077", "API-078"]
+    data: []
+  - requirement: FR-093
+    context: ["CTX-ACTOR-001", "CTX-CON-012", "CTX-CON-032", "CTX-ASM-033", "CTX-ASM-034", "CTX-EXT-005"]
+    useCases: ["UC-059", "UC-060"]
+    domainModel: []
+    api: ["API-077", "API-078", "API-079"]
+    data: []
+  - requirement: FR-094
+    context: ["CTX-ACTOR-001", "CTX-CON-016", "CTX-CON-031"]
+    useCases: ["UC-057", "UC-058"]
+    domainModel: []
+    api: ["API-077", "API-078"]
+    data: []
+  - requirement: FR-095
+    context: ["CTX-CON-031", "CTX-CON-007"]
+    useCases: ["UC-057"]
+    domainModel: []
+    api: ["API-077", "API-078"]
+    data: []
 
 gaps:
   - type: render-drift
@@ -637,4 +679,24 @@ gaps:
   - type: legacy-deprecated-reference
     id: "VO-032、VO-033、UC-049、UC-050"
     description: "快照仍會回傳舊資料的 ai、aiJob，所以 AGG-021 的 members、API-054 的 x-trace 與 DATA-026 的 domainModel 仍引用已廢止的 VO-032、VO-033；另有許多 Entity、Value Object、Aggregate、Event、Rule 在新增 UC-054 之外，仍保留對已廢止 UC-049、UC-050 的引用（為了保留歷史追溯）"
+    severity: low
+  - type: orphan-api
+    id: "API-067、API-069 至 API-076"
+    description: "超級管理員後台的 API（/admin/users、/admin/users/{id}、/admin/dashboard/*）x-trace 的 useCases、requirements 皆為空，沒有任何 FR／UC 支撐，也沒有對應的 domain model（change：永久保留塔羅與盧恩抽取紀錄、新增 /admin）"
+    severity: medium
+  - type: missing-domain-data-model
+    id: "FR-089 至 FR-095、UC-057 至 UC-060、API-077、API-078"
+    description: "易經卦象（add-hexagram-divination）已有 FR／UC／API，但 domain-model.yaml 與 data-model.yaml 尚未涵蓋：沒有卦象紀錄的 Entity／Aggregate，也沒有 users/{uid}/hexagramDraws 對應的 DATA 條目，所以這七條追溯鏈的 domainModel 與 data 為空（API-077、API-078 的 x-trace 已標註待補）"
+    severity: medium
+  - type: analysis-not-updated
+    id: "add-fortune-history、API-079"
+    description: "歷史運勢（GET /api/fortune/history，API-079）沒有獨立的 FR／UC：x-trace 只掛 FR-044、FR-045、FR-046、FR-093，useCases 與 domainModel 為空；保存期限對應的 RULE-014 也待確認；它只讀取既有的塔羅、盧恩、卦象紀錄，沒有新資料表"
+    severity: low
+  - type: nfr-not-landed
+    id: "NFR-036、NFR-037"
+    description: "NFR（卦象的無障礙與減少動態、卦象內容的完整性與措辭檢查）沒有在 api-model 或 data-model 任何一處被提及（屬前端呈現與內容檢查的設計層約束）"
+    severity: low
+  - type: nfr-not-landed
+    id: "NFR-013"
+    description: "NFR（AI 報告品質驗證）沒有在 api-model 或 data-model 任何一處被提及（屬測試與品質檢查的設計層約束，prompt 與 server/ai/quality.ts 落實）"
     severity: low
