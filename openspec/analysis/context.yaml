@@ -189,7 +189,7 @@ constraints:
     source: "openspec/specs/trait-ontology/spec.md、openspec/specs/trait-mapping/spec.md、openspec/specs/trait-context-fragments/spec.md"
   - id: CTX-CON-029
     category: business
-    description: "報告快照存當時全文（日後固定內容修改仍可重現）、含版本與計算依據；僅本人可讀；保存 6 個月，由每日到期作業清除，不開 Firestore TTL；每人快照數有上限，超過時刪最舊；訪客與塔羅、盧恩、星座運勢的每日報告不存快照；刪除帳號與刪除資料的「報告」範圍都清除快照；AI 報告不存快照，另存於 aiReports 集合，同樣保存 6 個月、不開 TTL、由每日到期作業清除，並納入刪報告與刪帳號"
+    description: "報告快照存當時全文（日後固定內容修改仍可重現）、含版本與計算依據；僅本人可讀；保存 3 個月（2026-11-10 由 6 個月統一為 3 個月），由每日到期作業清除，不開 Firestore TTL；每人快照數有上限，超過時刪最舊；訪客與塔羅、盧恩、星座運勢的每日報告不存快照；刪除帳號與刪除資料的「報告」範圍都清除快照；AI 報告不存快照，另存於 aiReports 集合，同樣保存 3 個月、不開 TTL、由每日到期作業清除，並納入刪報告與刪帳號"
     source: "openspec/specs/report-snapshots/spec.md；openspec/specs/single-dimension-report/spec.md（組裝結果寫入快照）；延伸 CTX-CON-012；openspec/changes/ai-analysis-question-history/design.md"
 
   - id: CTX-CON-030
@@ -350,7 +350,7 @@ assumptions:
     status: partially-confirmed
     confirmedBy: "程式實作；API-057 的描述（已由 AI 報告 POST /ai-reports 取代）"
   - id: CTX-ASM-027
-    description: "每人快照數的上限為設定值（MAX_SNAPSHOTS_PER_USER，見 server/services/reportSnapshot.service.ts），保存期限 6 個月（SNAPSHOT_RETENTION_MONTHS）；分析中不寫死數字"
+    description: "每人快照數的上限為設定值（MAX_SNAPSHOTS_PER_USER，見 server/services/reportSnapshot.service.ts），保存期限 3 個月（SNAPSHOT_RETENTION_MONTHS）；分析中不寫死數字"
     impact: 影響 FR-080
     status: confirmed
     confirmedBy: "已實作的 report-snapshots 規格"

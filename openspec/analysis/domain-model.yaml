@@ -311,7 +311,7 @@ entities:
       - { name: ai, type: "VO-032 | null", description: "已廢止：不再寫入，舊資料隨快照到期（AI 報告見 ENT-028）" }
       - { name: aiJob, type: "VO-033 | null", description: "已廢止：不再寫入，舊資料隨快照到期" }
       - { name: generatedAt, type: "timestamp", description: "" }
-      - { name: expiresAt, type: "timestamp", description: "產生後 6 個月" }
+      - { name: expiresAt, type: "timestamp", description: "產生後 3 個月" }
   - id: ENT-025
     name: TraitOntology
     nameZh: "特質本體"
@@ -343,7 +343,7 @@ entities:
   - id: ENT-028
     name: AiReport
     nameZh: "AI 報告"
-    description: "唯一一種 AI 報告：由一個以上單維度報告綜合而成，帶使用者的選填提問；自帶生成狀態與退點，6 個月到期；取代快照上的 ai 欄位與規則組裝的多維度報告"
+    description: "唯一一種 AI 報告：由一個以上單維度報告綜合而成，帶使用者的選填提問；自帶生成狀態與退點，3 個月到期；取代快照上的 ai 欄位與規則組裝的多維度報告"
     useCases: ["UC-054", "UC-055", "UC-056", "UC-052"]
     attributes:
       - { name: id, type: "string", description: "即請求的 Idempotency-Key" }
@@ -357,7 +357,7 @@ entities:
       - { name: modelName, type: "string | null", description: "完成前為 null" }
       - { name: promptVersion, type: "string | null", description: "完成前為 null" }
       - { name: createdAt, type: "timestamp", description: "" }
-      - { name: expiresAt, type: "timestamp", description: "建立後 6 個月" }
+      - { name: expiresAt, type: "timestamp", description: "建立後 3 個月" }
 
 valueObjects:
   - id: VO-001
@@ -1014,7 +1014,7 @@ domainEvents:
   - id: EVT-030
     name: ReportSnapshotExpired
     triggeredBy: AGG-021
-    description: "快照超過 6 個月被每日作業清除"
+    description: "快照超過 3 個月被每日作業清除"
     useCases: ["UC-052"]
   - id: EVT-031
     name: OldestSnapshotEvicted
@@ -1039,7 +1039,7 @@ domainEvents:
   - id: EVT-035
     name: AiReportExpired
     triggeredBy: AGG-025
-    description: "AI 報告超過 6 個月被每日作業清除"
+    description: "AI 報告超過 3 個月被每日作業清除"
     useCases: ["UC-052"]
 
 businessRules:
@@ -1416,7 +1416,7 @@ businessRules:
     appliesTo: ["AGG-021"]
     useCases: ["UC-047", "UC-051"]
   - id: RULE-087
-    description: "快照僅本人可讀（他人讀取回找不到，不洩漏存在與否）；保存 6 個月，由每日到期作業清除，不開 Firestore TTL；刪除帳號與刪除資料的「報告」範圍清除全部快照，其他範圍不動快照"
+    description: "快照僅本人可讀（他人讀取回找不到，不洩漏存在與否）；保存 3 個月，由每日到期作業清除，不開 Firestore TTL；刪除帳號與刪除資料的「報告」範圍清除全部快照，其他範圍不動快照"
     appliesTo: ["AGG-021"]
     useCases: ["UC-051", "UC-052"]
   - id: RULE-088
@@ -1468,7 +1468,7 @@ businessRules:
     appliesTo: ["AGG-025", "AGG-023"]
     useCases: ["UC-054"]
   - id: RULE-100
-    description: "AI 報告存於使用者自己的集合，僅本人可讀（他人、不存在或已到期都回找不到）；保存 6 個月（建立時間加 6 個月），由每日到期作業清除，不開 Firestore TTL；刪除帳號與刪除資料的「報告」範圍清除全部 AI 報告，其他範圍不動；報告自足，來源報告被清除後仍可閱讀；再問一次新增一份而不覆蓋舊報告；舊快照的 ai、aiJob 欄位不再寫入、不遷移"
+    description: "AI 報告存於使用者自己的集合，僅本人可讀（他人、不存在或已到期都回找不到）；保存 3 個月（建立時間加 3 個月），由每日到期作業清除，不開 Firestore TTL；刪除帳號與刪除資料的「報告」範圍清除全部 AI 報告，其他範圍不動；報告自足，來源報告被清除後仍可閱讀；再問一次新增一份而不覆蓋舊報告；舊快照的 ai、aiJob 欄位不再寫入、不遷移"
     appliesTo: ["AGG-025"]
     useCases: ["UC-055", "UC-052"]
   - id: RULE-101

@@ -1057,6 +1057,36 @@ paths:
         requirements: []
         source: "change add-admin-backend；待確認：尚未建立對應的 requirement 與 use case"
   "/admin/users/{id}":
+    get:
+      operationId: adminGetUserDetail
+      summary: "後台：查看會員詳細資訊"
+      description: "僅限超級管理員。回傳該會員的列表欄位、個人資料（生日、星座、出生時間地點、性別、血型、MBTI）與使用狀況（點數、多維度報告、單維度報告快照、塔羅／盧恩／卦象紀錄筆數）；不含測驗作答或報告內容。每次查看記錄管理員與對象（不記內容），回應 private、no-store。單一計數讀取失敗為 null。會員不存在回 404。"
+      tags: [Admin]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "會員詳細資訊"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/AdminUserDetail"
+        "401":
+          "$ref": "#/components/responses/Unauthorized"
+        "403":
+          "$ref": "#/components/responses/Forbidden"
+        "404":
+          "$ref": "#/components/responses/NotFound"
+      x-trace:
+        id: API-080
+        useCases: []
+        domainModel: []
+        requirements: []
+        note: "no upstream source, needs review（後台尚無 FR／UC，見 API-067 的 gap）"
     patch:
       operationId: adminSetUserDisabled
       summary: "後台：停用或啟用會員"
@@ -1167,7 +1197,7 @@ paths:
     get:
       operationId: adminDashboardAnalyses
       summary: "後台：單維度分析排行"
-      description: "僅限超級管理員。各系統已產生的單維度分析快照數（受 6 個月保存期限影響），由多到少。"
+      description: "僅限超級管理員。各系統已產生的單維度分析快照數（受 3 個月保存期限影響），由多到少。"
       tags: [Admin]
       responses:
         "200":
@@ -1520,7 +1550,7 @@ paths:
     get:
       operationId: listAiReports
       summary: "列出我的 AI 報告"
-      description: "只回傳呼叫者自己未到期的 AI 報告卡片（含生成中、完成、失敗已退點），新到舊，最多 100 筆。每筆含 sources（用了哪些單維度報告）與提問（沒提問為 null），不含報告內容；內容以 GET /ai-reports/{id} 讀取。報告保存 6 個月。生成中而逾時的報告在此被標為失敗並退點。"
+      description: "只回傳呼叫者自己未到期的 AI 報告卡片（含生成中、完成、失敗已退點），新到舊，最多 100 筆。每筆含 sources（用了哪些單維度報告）與提問（沒提問為 null），不含報告內容；內容以 GET /ai-reports/{id} 讀取。報告保存 3 個月。生成中而逾時的報告在此被標為失敗並退點。"
       tags: [ReportSnapshots]
       responses:
         "200":
@@ -1650,7 +1680,7 @@ paths:
     get:
       operationId: listReportSnapshots
       summary: "列出我的報告快照"
-      description: "只回傳呼叫者自己未到期的報告，新到舊，不含全文。快照保存 6 個月。"
+      description: "只回傳呼叫者自己未到期的報告，新到舊，不含全文。快照保存 3 個月。"
       tags: [ReportSnapshots]
       responses:
         "200":
@@ -3344,10 +3374,10 @@ components:
           description: "實際扣的點數"
         createdAt:
           type: integer
-          description: "epoch 毫秒；報告保存到建立後 6 個月"
+          description: "epoch 毫秒；報告保存到建立後 3 個月"
         expiresAt:
           type: integer
-          description: "epoch 毫秒；到期時間（建立後 6 個月），到期後讀取回 404，也可由本人提前刪除"
+          description: "epoch 毫秒；到期時間（建立後 3 個月），到期後讀取回 404，也可由本人提前刪除"
       required: [id, sources, question, status, failureReason, cost, createdAt, expiresAt]
     AiReportItem:
       allOf:
@@ -3447,7 +3477,7 @@ components:
           description: "epoch 毫秒"
         expiresAt:
           type: integer
-          description: "epoch 毫秒；產生後 6 個月"
+          description: "epoch 毫秒；產生後 3 個月"
       required: [id, kind, systems, position, parts, aiStatus, aiAugmented, generatedAt, expiresAt]
     ReportSnapshotDetail:
       allOf:
@@ -3708,6 +3738,75 @@ components:
           type: boolean
           description: "窗口內的卦象多於讀取上限，較舊的卦象未全部列出"
       required: [days, nextBefore, truncated]
+    AdminUserDetail:
+      type: object
+      properties:
+        uid:
+          type: string
+        email:
+          type: string
+        createdAt:
+          type: integer
+        lastSignInAt:
+          type: integer
+          nullable: true
+        disabled:
+          type: boolean
+        pointBalance:
+          type: integer
+          nullable: true
+        multiReportCount:
+          type: integer
+          nullable: true
+        profile:
+          type: object
+          description: "會員尚未填寫資料時各欄位為 null"
+          properties:
+            birthDate:
+              type: string
+              format: date
+              nullable: true
+            zodiac:
+              type: string
+              nullable: true
+            birthTime:
+              type: string
+              nullable: true
+            birthPlace:
+              type: string
+              nullable: true
+            bloodType:
+              type: string
+              nullable: true
+            mbti:
+              type: string
+              nullable: true
+            gender:
+              type: string
+              nullable: true
+            mbtiExpiresAt:
+              type: integer
+              nullable: true
+            profileUpdatedAt:
+              type: integer
+              nullable: true
+        usage:
+          type: object
+          description: "讀取失敗的計數為 null"
+          properties:
+            tarotDraws:
+              type: integer
+              nullable: true
+            runeDraws:
+              type: integer
+              nullable: true
+            hexagramDraws:
+              type: integer
+              nullable: true
+            reportSnapshots:
+              type: integer
+              nullable: true
+      required: [uid, email, createdAt, lastSignInAt, disabled, pointBalance, multiReportCount, profile, usage]
     HoroscopeBody:
       type: object
       properties:

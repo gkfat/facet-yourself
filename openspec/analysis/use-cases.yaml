@@ -1441,7 +1441,7 @@ useCases:
     preconditions:
       - "有到期的快照或 AI 報告，或使用者刪除帳號或選擇刪除「報告」範圍，或使用者的快照數超過上限"
     mainFlow:
-      - { step: 1, action: "每日到期作業掃描並清除超過 6 個月的快照與 AI 報告（aiReports，到期時間為建立時間加 6 個月），不對這些集合開 TTL" }
+      - { step: 1, action: "每日到期作業掃描並清除超過 3 個月的快照與 AI 報告（aiReports，到期時間為建立時間加 3 個月），不對這些集合開 TTL" }
       - { step: 2, action: "使用者刪除帳號時，全部快照與 AI 報告隨帳號一併清除；刪除資料的「報告」範圍清除全部快照與 AI 報告（含提問），其他範圍不動", constraints: ["NFR-031"] }
       - { step: 3, action: "新增快照使總數超過上限時，先刪最舊的一份再保存" }
     alternateFlows:

@@ -101,7 +101,7 @@ describe('ReportSnapshotService', () => {
             expect(JSON.stringify(detail)).not.toContain('改過的說法');
         });
 
-        it('expires 6 months after it was made', async () => {
+        it('expires 3 months after it was made', async () => {
             const {
                 id, expiresAt, 
             } = await service.save('u1', content());

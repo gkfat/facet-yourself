@@ -463,7 +463,7 @@ tables:
       - { name: "generatedAt", type: "timestamp", constraints: "required" }
       - { name: "downloadCount", type: "int", constraints: "規劃中（尚未實作）；預設 0；PDF 每次下載 +1（UC-021）" }
       - { name: "lastDownloadedAt", type: "timestamp", constraints: "規劃中（尚未實作）；nullable；供重複下載時提醒上次下載時間" }
-      - { name: "expiresAt", type: "timestamp", constraints: "required；= generatedAt + 6 個月，由每日到期作業清除（不用 TTL）" }
+      - { name: "expiresAt", type: "timestamp", constraints: "required；= generatedAt + 3 個月，由每日到期作業清除（不用 TTL）" }
     indexes:
       - { fields: ["expiresAt ASC"], scope: "COLLECTION_GROUP", purpose: "排程清除到期資料（UC-017）" }
     notes: "報告的實際落地集合，取代 summaries 與 detailedReports（DATA-007、DATA-008）。領域概念為 ReportSnapshot（ENT-024，AGG-021）；本體、映射與片段（ENT-025 至 ENT-027）是程式內的固定定義，不落地。AI 結果不再寫入這裡，改存 aiReports（DATA-027）；建立 AI 報告時每個系統的單維度報告各存（或重用）一份。"
@@ -486,7 +486,7 @@ tables:
       - { name: "modelName", type: "string", constraints: "nullable；完成前為 null" }
       - { name: "promptVersion", type: "string", constraints: "nullable；完成前為 null" }
       - { name: "createdAt", type: "timestamp", constraints: "required；epoch 毫秒；列表依此降序、最多 100 筆" }
-      - { name: "expiresAt", type: "timestamp", constraints: "required；epoch 毫秒；= createdAt + 6 個月，由每日到期作業清除（不用 TTL）" }
+      - { name: "expiresAt", type: "timestamp", constraints: "required；epoch 毫秒；= createdAt + 3 個月，由每日到期作業清除（不用 TTL）" }
     indexes:
       - { fields: ["expiresAt ASC"], scope: "COLLECTION_GROUP", purpose: "排程清除到期資料（UC-052）；單欄位索引豁免已由 provision-firebase.ts 與 firestore.indexes.json 建立" }
       - { fields: ["createdAt DESC"], scope: "COLLECTION", purpose: "分析紀錄列表（UC-055）；單欄位排序，不需另建複合索引" }

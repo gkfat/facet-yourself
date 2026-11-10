@@ -187,6 +187,81 @@ describe('AdminUserService', () => {
         });
     });
 
+    describe('getDetail', () => {
+        it('adds the profile and the usage counts to the list row', async () => {
+            await db.doc('users/a').set({
+                email: 'a@example.com',
+                createdAt: 10,
+                birthData: {
+                    birthDate: '1990-05-17', zodiac: 'taurus', birthTime: '08:30', birthPlace: 'tw-taipei',
+                },
+                bloodType: 'A',
+                mbti: 'INTJ',
+                gender: 'FEMALE',
+                mbtiExpiresAt: 500,
+                updatedAt: 99,
+            });
+            await db.doc('users/a/tarotDraws/2026-11-01').set({ cardIndex: 0 });
+            await db.doc('users/a/tarotDraws/2026-11-02').set({ cardIndex: 1 });
+            await db.doc('users/a/runeDraws/2026-11-01').set({ symbolIndex: 0 });
+            await db.doc('users/b/tarotDraws/2026-11-01').set({ cardIndex: 0 });
+
+            const detail = await service.getDetail(ADMIN, 'a');
+
+            expect(detail).toMatchObject({
+                uid: 'a', email: 'a@example.com', disabled: false, pointBalance: 7, lastSignInAt: 11,
+            });
+            expect(detail.profile).toEqual({
+                birthDate: '1990-05-17',
+                zodiac: 'taurus',
+                birthTime: '08:30',
+                birthPlace: 'tw-taipei',
+                bloodType: 'A',
+                mbti: 'INTJ',
+                gender: 'FEMALE',
+                mbtiExpiresAt: 500,
+                profileUpdatedAt: 99,
+            });
+            expect(detail.usage).toEqual({
+                tarotDraws: 2, runeDraws: 1, hexagramDraws: 0, reportSnapshots: 0,
+            });
+        });
+
+        it('reads a member who has not filled in the profile as all empty', async () => {
+            await db.doc('users/a').set({
+                email: 'a@example.com', createdAt: 10,
+            });
+
+            expect((await service.getDetail(ADMIN, 'a')).profile).toEqual({
+                birthDate: null,
+                zodiac: null,
+                birthTime: null,
+                birthPlace: null,
+                bloodType: null,
+                mbti: null,
+                gender: null,
+                mbtiExpiresAt: null,
+                profileUpdatedAt: null,
+            });
+        });
+
+        it('is a 404 for a member that does not exist', async () => {
+            await expect(service.getDetail(ADMIN, 'nobody')).rejects.toBeInstanceOf(NotFoundError);
+        });
+
+        it('writes nothing', async () => {
+            await db.doc('users/a').set({
+                email: 'a@example.com', createdAt: 10,
+            });
+
+            const before = db.paths().sort();
+
+            await service.getDetail(ADMIN, 'a');
+
+            expect(db.paths().sort()).toEqual(before);
+        });
+    });
+
     describe('setDisabled', () => {
         it('disables and enables a member', async () => {
             expect(await service.setDisabled(ADMIN, 'b', true)).toEqual({

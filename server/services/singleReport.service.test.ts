@@ -86,12 +86,12 @@ describe('SingleReportService', () => {
     });
 
     describe('the blood type report', () => {
-        it('makes a report the API schema accepts, kept for 6 months', async () => {
+        it('makes a report the API schema accepts, kept for 3 months', async () => {
             const report = await service.generate({ uid: 'u1' }, 'BLOOD');
 
             expect(reportSnapshotDetailSchema.safeParse(report).success).toBe(true);
             expect(report).toMatchObject({
-                kind: 'SINGLE', systems: ['BLOOD'], position: 'O 型', aiAugmented: false, ai: null, expiresAt: addMonths(NOW, 6),
+                kind: 'SINGLE', systems: ['BLOOD'], position: 'O 型', aiAugmented: false, ai: null, expiresAt: addMonths(NOW, 3),
             });
             expect(snapshotPaths()).toHaveLength(1);
         });

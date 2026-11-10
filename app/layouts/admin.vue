@@ -63,7 +63,7 @@ type MenuItem = {
 
 const navItems: MenuItem[] = [
     {
-        to: '/admin', label: 'Dashboard', icon: 'mdi-view-dashboard-outline',
+        to: '/admin', label: '儀表板', icon: 'mdi-view-dashboard-outline',
     },
     {
         to: '/admin/users', label: '使用者', icon: 'mdi-account-multiple-outline',

@@ -41,8 +41,8 @@
             <v-table>
                 <thead>
                     <tr>
-                        <th>Email</th>
                         <th>UID</th>
+                        <th>Email</th>
                         <th>狀態</th>
                         <th class="text-no-wrap text-right">
                             可用點數
@@ -64,11 +64,11 @@
                         v-for="item in items"
                         :key="item.uid"
                     >
-                        <td class="email">
-                            {{ item.email }}
-                        </td>
                         <td class="uid">
                             {{ item.uid }}
+                        </td>
+                        <td class="email">
+                            {{ item.email }}
                         </td>
                         <td>
                             <v-chip
@@ -92,6 +92,13 @@
                             {{ formatAdminTime(item.lastSignInAt) }}
                         </td>
                         <td class="text-no-wrap text-right">
+                            <v-btn
+                                icon="mdi-information-outline"
+                                variant="text"
+                                size="small"
+                                aria-label="詳細資訊"
+                                @click="openDetail(item)"
+                            />
                             <v-btn
                                 v-if="!item.disabled"
                                 icon="mdi-account-off-outline"
@@ -150,6 +157,11 @@
             </v-btn>
         </div>
 
+        <AdminUserDetailDialog
+            v-model="detailOpen"
+            :user="detailUser"
+        />
+
         <AdminUserActionDialog
             v-model="actionOpen"
             :action="action"
@@ -179,6 +191,8 @@ const query = ref('');
 const actionOpen = ref(false);
 const action = ref<UserAction>('disable');
 const actionUser = ref<AdminUserListItem | null>(null);
+const detailOpen = ref(false);
+const detailUser = ref<AdminUserListItem | null>(null);
 
 const isSelf = (item: AdminUserListItem) => item.uid === user.value?.uid;
 
@@ -190,6 +204,11 @@ function clearSearch() {
     query.value = '';
 
     return search('');
+}
+
+function openDetail(item: AdminUserListItem) {
+    detailUser.value = item;
+    detailOpen.value = true;
 }
 
 function openAction(next: UserAction, item: AdminUserListItem) {

@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1 class="admin-title">
-            Dashboard
+            儀表板
         </h1>
 
         <v-row>
@@ -254,7 +254,7 @@
                         </template>
                         <AdminErrorLine :message="analyses.error.value" />
                         <p class="note">
-                            數字是已產生的分析快照數，不等於操作次數；快照只保存 6 個月，且相同內容會重用同一份。
+                            數字是已產生的分析快照數，不等於操作次數；快照只保存 3 個月，且相同內容會重用同一份。
                         </p>
                     </v-card-text>
                 </v-card>
@@ -376,7 +376,7 @@
                                 </tbody>
                             </v-table>
                             <p class="note">
-                                提問是使用者填寫的原文，不顯示是誰問的。報告只保存 6 個月。<template v-if="aiReports.data.value.truncated">
+                                提問是使用者填寫的原文，不顯示是誰問的。報告只保存 3 個月。<template v-if="aiReports.data.value.truncated">
                                     期間內的報告超過 {{ aiReports.data.value.scanned.toLocaleString('zh-TW') }} 筆，只統計最新的這些，較早日期的次數不完整。
                                 </template>
                             </p>
@@ -400,7 +400,7 @@ definePageMeta({
     middleware: 'admin',
 });
 
-useHead({ title: '後台 Dashboard' });
+useHead({ title: '後台儀表板' });
 
 const DAYS = 30;
 

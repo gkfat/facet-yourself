@@ -24,7 +24,7 @@ Dashboard SHALL 顯示總會員數與本月新會員數；本月以台北時區�
 - **THEN** 本月新會員從 0 重新計算
 
 ### Requirement: 單維度分析使用排行
-Dashboard SHALL 顯示各單維度系統的分析數量排行（`kind` 為 SINGLE 的 reportSnapshots，依 `systems` 分組，時間依 `generatedAt`）。畫面 MUST 標示此數字為「已產生的分析快照數」，且資料受 6 個月保存期限影響。
+Dashboard SHALL 顯示各單維度系統的分析數量排行（`kind` 為 SINGLE 的 reportSnapshots，依 `systems` 分組，時間依 `generatedAt`）。畫面 MUST 標示此數字為「已產生的分析快照數」，且資料受 3 個月保存期限影響。
 
 #### Scenario: 排行
 - **WHEN** 管理員開啟 Dashboard

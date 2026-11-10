@@ -1,7 +1,7 @@
 import type { ReportSnapshotContent } from '../schemas/firestore/reportSnapshot.schema';
 
 /** How long a report is kept, in months (the same as an AI report). */
-export const SNAPSHOT_RETENTION_MONTHS = 6;
+export const SNAPSHOT_RETENTION_MONTHS = 3;
 
 /** The most reports one member keeps; making another removes the oldest. */
 export const MAX_SNAPSHOTS_PER_USER = 20;

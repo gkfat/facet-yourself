@@ -129,7 +129,7 @@ export const reportSnapshotDocSchema = z.object({
     /** The latest request for that analysis; null when none was made */
     aiJob: snapshotAiJobSchema.nullable().default(null),
     generatedAt: epochMsSchema,
-    /** generatedAt + 6 months; removed by the daily expiry job (no TTL) */
+    /** generatedAt + 3 months; removed by the daily expiry job (no TTL) */
     expiresAt: epochMsSchema,
     /** A digest of what the report says (see `reportFingerprint`), to find the same report again without reading the others; null for a report kept before it existed */
     fingerprint: z.string().nullable().default(null),

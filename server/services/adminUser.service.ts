@@ -3,13 +3,13 @@ import { BaseService } from './base.service';
 import { DeletionService } from './deletion.service';
 import { PointService } from './point.service';
 import {
-    AdminUserRepository, type AdminUserCursor, type AdminUserRow,
+    AdminUserRepository, type AdminUsageCollection, type AdminUserCursor, type AdminUserRow,
 } from '../repositories/adminUser.repository';
 import {
     createFirebaseAuthDirectory, type AuthAccount, type AuthDirectory,
 } from '../utils/firebaseAuthDirectory';
 import type {
-    AdminUserList, AdminUserListItem, AdminUserListQuery,
+    AdminUserDetail, AdminUserList, AdminUserListItem, AdminUserListQuery,
 } from '../../shared/schemas/api/adminUsers.schema';
 import { mapLimit } from '../utils/mapLimit';
 import { epochMsSchema } from '../../shared/schemas/common';
@@ -78,6 +78,54 @@ export class AdminUserService extends BaseService {
                     createdAt: last.createdAt, uid: last.uid,
                 })
                 : null,
+        };
+    }
+
+    /**
+     * Everything the detail window shows about one member: the list row, the profile and how much they have used.
+     * The profile is personal data, so each read is logged with who looked at whom (and nothing of what was seen).
+     */
+    async getDetail(actorUid: string, uid: string): Promise<AdminUserDetail> {
+        const row = await this.requireMember(uid);
+        const profile = await this.repository.findProfile(uid);
+        const [item] = await this.withAccounts([row]);
+
+        if (!item || !profile) throw new NotFoundError('User');
+
+        const [
+            tarotDraws,
+            runeDraws,
+            hexagramDraws,
+            reportSnapshots,
+        ] = await Promise.all([
+            this.readUsage(uid, 'tarotDraws'),
+            this.readUsage(uid, 'runeDraws'),
+            this.readUsage(uid, 'hexagramDraws'),
+            this.readUsage(uid, 'reportSnapshots'),
+        ]);
+
+        this.logInfo('member detail viewed', {
+            action: 'getDetail',
+            userId: actorUid,
+            data: { targetUid: uid },
+        });
+
+        return {
+            ...item,
+            profile: {
+                birthDate: profile.birthData?.birthDate ?? null,
+                zodiac: profile.birthData?.zodiac ?? null,
+                birthTime: profile.birthData?.birthTime ?? null,
+                birthPlace: profile.birthData?.birthPlace ?? null,
+                bloodType: profile.bloodType ?? null,
+                mbti: profile.mbti ?? null,
+                gender: profile.gender ?? null,
+                mbtiExpiresAt: profile.mbtiExpiresAt ?? null,
+                profileUpdatedAt: profile.updatedAt ?? null,
+            },
+            usage: {
+                tarotDraws, runeDraws, hexagramDraws, reportSnapshots,
+            },
         };
     }
 
@@ -187,6 +235,22 @@ export class AdminUserService extends BaseService {
             this.logError('could not count the multi-dimension reports', {
                 action: 'list',
                 data: { targetUid: uid },
+                error,
+            });
+
+            return null;
+        }
+    }
+
+    private async readUsage(uid: string, collection: AdminUsageCollection): Promise<number | null> {
+        try {
+            return await this.repository.countUsage(uid, collection);
+        } catch (error) {
+            this.logError('could not count what the member has kept', {
+                action: 'getDetail',
+                data: {
+                    targetUid: uid, collection,
+                },
                 error,
             });
 

@@ -36,7 +36,7 @@ export const aiReportDocSchema = z.object({
     modelName: z.string().min(1).nullable(),
     promptVersion: z.string().min(1).nullable(),
     createdAt: epochMsSchema,
-    /** createdAt + 6 months; removed by the daily expiry job (no TTL) */
+    /** createdAt + 3 months; removed by the daily expiry job (no TTL) */
     expiresAt: epochMsSchema,
 });
 

@@ -55,7 +55,7 @@
 
 #### Scenario: 管理員進入
 - **WHEN** 管理員開啟 `/admin`
-- **THEN** 顯示後台 Dashboard
+- **THEN** 顯示後台儀表板
 
 #### Scenario: 非管理員進入
 - **WHEN** 一般會員開啟 `/admin`

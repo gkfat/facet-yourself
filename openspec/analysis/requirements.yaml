@@ -355,7 +355,7 @@ functional:
     source: "user 補充（點數需有效期）；user 採納建議（購買點數無限期、贈點 90 天）"
   - id: FR-033
     title: 資料到期刪除
-    description: 系統 SHALL 在會員的測驗作答與結果、多維度分析報告、MBTI 欄位、人類圖結果、每日抽取紀錄與即時星象報告滿 3 個月後、詳細分析滿 6 個月後（各以產生時間點起算）自動刪除；付款紀錄 MUST NOT 因保留期限被刪除。
+    description: 系統 SHALL 在會員的測驗作答與結果、多維度分析報告、單維度報告快照、MBTI 欄位、人類圖結果、每日抽取紀錄與即時星象報告滿 3 個月後、詳細分析滿 6 個月後（各以產生時間點起算）自動刪除（單維度報告快照與多維度 AI 報告同為 3 個月；2026-11-10 由 6 個月統一為 3 個月）；付款紀錄 MUST NOT 因保留期限被刪除。
     priority: must
     phase: 2
     mvp: true
@@ -701,7 +701,7 @@ functional:
     source: "openspec/specs/report-snapshots/spec.md"
   - id: FR-080
     title: 報告快照的存取、期限與清除
-    description: 快照 MUST 僅本人可讀（他人讀取回找不到，不洩漏存在與否），API 輸入輸出 MUST 通過 schema 驗證；快照 SHALL 保存 6 個月，由每日到期作業清除，MUST NOT 對此集合開 Firestore TTL；刪除帳號與刪除資料的「報告」範圍 MUST 清除其全部快照，其他範圍 MUST NOT 動到快照；每人快照數有上限，超過時 MUST 先刪最舊的一份；相同的基本報告只保存一份；AI 分析不寫入快照（AI 報告另存，見 FR-088），快照上舊的 ai、aiJob 欄位不再寫入。
+    description: 快照 MUST 僅本人可讀（他人讀取回找不到，不洩漏存在與否），API 輸入輸出 MUST 通過 schema 驗證；快照 SHALL 保存 3 個月，由每日到期作業清除，MUST NOT 對此集合開 Firestore TTL；刪除帳號與刪除資料的「報告」範圍 MUST 清除其全部快照，其他範圍 MUST NOT 動到快照；每人快照數有上限，超過時 MUST 先刪最舊的一份；相同的基本報告只保存一份；AI 分析不寫入快照（AI 報告另存，見 FR-088），快照上舊的 ai、aiJob 欄位不再寫入。
     priority: must
     phase: 7
     mvp: false
@@ -765,7 +765,7 @@ functional:
     source: "openspec/changes/ai-analysis-question-history/specs/ai-report/spec.md、site-navigation/spec.md、single-dimension-report/spec.md"
   - id: FR-088
     title: AI 報告的存取、期限與清除
-    description: 系統 SHALL 把 AI 報告存於使用者自己的 aiReports 集合（一份一筆，id 為冪等鍵，含 sources、提問、狀態、內容、點數、模型與 prompt 版本、建立與到期時間），MUST 僅本人可讀；報告 SHALL 保存 6 個月（建立時間加 6 個月），由每日到期作業清除，MUST NOT 對此集合開 Firestore TTL；刪除帳號與刪除資料的「報告」範圍 MUST 清除其全部 AI 報告，其他範圍 MUST NOT 動到，也 MUST NOT 影響其他使用者；報告 MUST 自足，來源單維度報告被清除後仍可閱讀；再問一次 MUST 新增一份而不覆蓋舊報告；快照上舊的 ai、aiJob 欄位不再寫入、不遷移，隨快照到期。
+    description: 系統 SHALL 把 AI 報告存於使用者自己的 aiReports 集合（一份一筆，id 為冪等鍵，含 sources、提問、狀態、內容、點數、模型與 prompt 版本、建立與到期時間），MUST 僅本人可讀；報告 SHALL 保存 3 個月（建立時間加 3 個月），由每日到期作業清除，MUST NOT 對此集合開 Firestore TTL；刪除帳號與刪除資料的「報告」範圍 MUST 清除其全部 AI 報告，其他範圍 MUST NOT 動到，也 MUST NOT 影響其他使用者；報告 MUST 自足，來源單維度報告被清除後仍可閱讀；再問一次 MUST 新增一份而不覆蓋舊報告；快照上舊的 ai、aiJob 欄位不再寫入、不遷移，隨快照到期。
     priority: must
     phase: 7
     mvp: false
@@ -1095,7 +1095,7 @@ nonFunctional:
   - id: NFR-031
     category: security
     title: 使用者提問的處理
-    description: 使用者的提問是唯一進入 prompt 的自由文字，MUST 以「資料而非指令」處理：長度上限 100 字（以字元計）、前後空白去除；系統 prompt MUST 聲明提問不得改變 AI 的角色、輸出格式或任何規則，無關或違規的要求一律忽略；AI 輸出 MUST 經結構與品質檢查，違反即判失敗並退點；提問隨 AI 報告保存，納入 6 個月到期、刪報告與刪帳號的清除。
+    description: 使用者的提問是唯一進入 prompt 的自由文字，MUST 以「資料而非指令」處理：長度上限 100 字（以字元計）、前後空白去除；系統 prompt MUST 聲明提問不得改變 AI 的角色、輸出格式或任何規則，無關或違規的要求一律忽略；AI 輸出 MUST 經結構與品質檢查，違反即判失敗並退點；提問隨 AI 報告保存，納入 3 個月到期、刪報告與刪帳號的清除。
     metric: "101 字提問被拒絕且不扣點；系統 prompt 含「不是指令」與忽略違規要求的規則；要求忽略規則或診斷的提問不影響輸出須通過的品質檢查；刪除報告後提問一併清除"
     priority: must
     context: [CTX-CON-030, CTX-CON-009, CTX-EXT-002]
