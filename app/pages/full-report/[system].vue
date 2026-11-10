@@ -119,6 +119,17 @@
                     >
                         <BaziChartPanel :result="baziChart" />
                     </template>
+
+                    <!-- The four Kin around the birth Kin, right above the impact cards -->
+                    <template
+                        v-if="birthKin"
+                        #before-impact
+                    >
+                        <KinOracle
+                            :kin="birthKin"
+                            class="mb-4"
+                        />
+                    </template>
                 </SingleReportView>
 
                 <div

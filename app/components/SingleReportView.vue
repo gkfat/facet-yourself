@@ -280,6 +280,9 @@
             </v-card-text>
         </v-card>
 
+        <!-- A card the page puts right above the impact cards (the Kin oracle) -->
+        <slot name="before-impact" />
+
         <!-- How each trait can show in different times, toward different people and in different parts of life: all of it, one trait after another -->
         <v-card
             v-if="impactGroups.length"
@@ -436,6 +439,7 @@ import {
     BAZI_FACT_GUIDE, BAZI_READING_GROUP_NOTES,
 } from '../../shared/constants/baziLabels';
 import { NATAL_LABELS } from '../../shared/constants/natalLabels';
+import { KIN_ORACLE_LABEL_SET } from '../../shared/constants/mayaKin';
 import { impactCards } from '../utils/impactCards';
 import { splitLead } from '../utils/overviewLead';
 import { parseSummary } from '../utils/summaryFacets';
@@ -490,8 +494,11 @@ const readingsByFact = computed(() => {
 const PLACEMENT_LABELS = new Set(Object.values(NATAL_LABELS).map((item) => item.name));
 const isChartFact = (label: string) => props.natalChart != null && (/^第 \d+ 宮/.test(label) || label.startsWith('相位・') || PLACEMENT_LABELS.has(label));
 
+/** The four Kin of the oracle are drawn in the oracle card above the impact cards, so they are not listed again as fact cards */
+const isOracleFact = (label: string) => reportSystem.value === 'MAYA_KIN' && KIN_ORACLE_LABEL_SET.has(label);
+
 // The pillars, the day master and the rest are drawn in the chart, so the facts are not listed again beside their readings
-const factCards = computed(() => (layered.value ? [] : segmentsOf('facts')).filter((segment) => segment.kind === 'FACT').filter((segment) => !isChartFact(splitLabel(segment.text).label)).map((segment) => {
+const factCards = computed(() => (layered.value ? [] : segmentsOf('facts')).filter((segment) => segment.kind === 'FACT').filter((segment) => !isChartFact(splitLabel(segment.text).label)).filter((segment) => !isOracleFact(splitLabel(segment.text).label)).map((segment) => {
     const { label, value } = splitLabel(segment.text);
 
     // A second line in the value is the subtitle (the English name of a card)
