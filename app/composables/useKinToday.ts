@@ -40,7 +40,7 @@ export function useKinToday() {
         }
     }
 
-    /** Ask whether today's Kin has been unlocked. Writes nothing. */
+    /** Ask whether today's Kin has been revealed. Writes nothing. */
     async function load(): Promise<void> {
         if (status.value !== 'ready') status.value = 'loading';
 
@@ -60,12 +60,22 @@ export function useKinToday() {
         }
     }
 
+    /**
+     * Today's Kin, shown at once: ask for it and, when it has not been revealed yet today, reveal it. Nobody has to press
+     * anything. A visitor's Kin is worked out from the session and the date and kept in the browser for the day.
+     */
+    async function show(): Promise<void> {
+        await load();
+
+        if (status.value === 'ready' && !today.value?.unlocked) await unlock();
+    }
+
     function clear(): void {
         today.value = null;
         status.value = 'idle';
     }
 
     return {
-        today, status, unlocking, load, unlock, clear,
+        today, status, unlocking, load, unlock, show, clear,
     };
 }

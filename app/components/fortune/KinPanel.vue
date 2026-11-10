@@ -1,7 +1,7 @@
 <template>
     <div>
         <LoadingState
-            v-if="status === 'loading'"
+            v-if="status === 'loading' || unlocking"
             class="mb-4"
         />
 
@@ -30,37 +30,6 @@
         >
             今天的內容還在準備中，晚一點再回來看看。
         </v-alert>
-
-        <!-- Not unlocked: an invitation and one button, and nothing about today's Kin -->
-        <v-card
-            v-if="!unlocked && status !== 'loading' && status !== 'failed'"
-            variant="outlined"
-            class="mb-4 text-center"
-        >
-            <v-card-text class="py-8">
-                <v-icon
-                    icon="mdi-calendar-star"
-                    size="40"
-                    color="primary"
-                    class="mb-3"
-                />
-                <p class="text-body-1 mb-1">
-                    今天的 Kin 還沒揭曉
-                </p>
-                <p class="text-body-2 text-medium-emphasis mb-5">
-                    每天可以揭曉一次，看看今天的圖騰與調性
-                </p>
-                <v-btn
-                    color="primary"
-                    size="large"
-                    prepend-icon="mdi-star-four-points-outline"
-                    :loading="unlocking"
-                    @click="unlock"
-                >
-                    揭曉今日 Kin
-                </v-btn>
-            </v-card-text>
-        </v-card>
 
         <template v-if="unlocked">
             <KinBadge
@@ -133,7 +102,7 @@
 import { kinTodayReading } from '../../../shared/report/adapters/kinToday';
 
 const {
-    today, status, unlocking, load, unlock,
+    today, status, unlocking, load, show,
 } = useKinToday();
 
 const unlocked = computed(() => (today.value?.unlocked ? today.value : null));
@@ -145,11 +114,12 @@ const reading = computed(() => (unlocked.value ? kinTodayReading({
 
 // The page may stay open past Taipei midnight: asking again when it is looked at again gives the new day.
 function onVisible() {
-    if (document.visibilityState === 'visible') void load();
+    if (document.visibilityState === 'visible') void show();
 }
 
+// Today's Kin is shown as soon as the part is opened: there is nothing to press
 onMounted(() => {
-    void load();
+    void show();
     document.addEventListener('visibilitychange', onVisible);
 });
 
