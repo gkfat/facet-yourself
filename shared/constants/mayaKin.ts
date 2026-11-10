@@ -238,3 +238,22 @@ export const KIN_UNLOCK_RETENTION_MONTHS = 3;
  * reviewed and imported, since the pages answer 404 ("準備中") without them.
  */
 export const KIN_ENTRY_ENABLED = true;
+
+/** The names of the four positions around the main Kin in the oracle (the main Kin is the fifth: 主印記) */
+export const KIN_ORACLE_LABELS = {
+    guide: '引導',
+    analog: '支持',
+    antipode: '挑戰',
+    occult: '隱藏推動',
+} as const;
+
+/** What each position is said to stand for, in a short line */
+export const KIN_ORACLE_MEANINGS = {
+    guide: '給你方向的力量',
+    analog: '在背後支持你的力量',
+    antipode: '促使你擴展的力量',
+    occult: '較少被察覺的內在動力',
+} as const;
+
+/** The same names as a set, to tell the oracle's facts from the others */
+export const KIN_ORACLE_LABEL_SET: ReadonlySet<string> = new Set(Object.values(KIN_ORACLE_LABELS));

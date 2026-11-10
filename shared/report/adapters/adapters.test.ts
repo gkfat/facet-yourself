@@ -373,6 +373,21 @@ describe('mayaKinReportInput', () => {
         expect(input.traits).toEqual(['kin:seal:7', 'kin:tone:12']);
     });
 
+    it('gives the four Kin of the oracle around the main Kin, as facts with no trait of their own', () => {
+        const label = (name: string) => input.facts.find((fact) => fact.label === name);
+
+        expect(label('引導')?.value).toBe('水晶的藍風暴\nKin 259・給你方向的力量');
+        expect(label('支持')?.value).toContain('水晶的黃人');
+        expect(label('挑戰')?.value).toContain('Kin 77');
+        expect(label('隱藏推動')?.value).toContain('月亮的白巫師');
+        expect([
+            '引導',
+            '支持',
+            '挑戰',
+            '隱藏推動',
+        ].every((name) => label(name)?.term === undefined)).toBe(true);
+    });
+
     it('is the overview of the report, as the sun sign, the blood type and the life path number are', () => {
         expect(input.interpretations.length).toBeGreaterThan(0);
         expect(input.interpretations.every((reading) => reading.overview === true)).toBe(true);
@@ -389,7 +404,7 @@ describe('mayaKinReportInput', () => {
     it('records what it was calculated from and gives a report the snapshot schema accepts', () => {
         expect(input.basis).toMatchObject([
             {
-                system: 'MAYA_KIN', ruleVersion: 'dreamspell-v1', inputs: { birthDate: '2012-12-21' },
+                system: 'MAYA_KIN', ruleVersion: 'dreamspell-v2', inputs: { birthDate: '2012-12-21' },
             },
         ]);
         expect(accepted(input)).toBe(true);

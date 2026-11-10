@@ -2,7 +2,7 @@ import {
     describe, expect, it,
 } from 'vitest';
 import {
-    kinFromNumber, kinName, kinOf, sealName, toneName,
+    kinFromNumber, kinFromSealAndTone, kinName, kinOf, kinOracle, sealName, toneName,
 } from './mayaKin';
 import {
     GALACTIC_TONES, KIN_COUNT, SOLAR_SEALS,
@@ -197,5 +197,81 @@ describe('names in Chinese', () => {
         expect(() => sealName(0)).toThrow(RangeError);
         expect(() => sealName(21)).toThrow(RangeError);
         expect(() => toneName(14)).toThrow(RangeError);
+    });
+});
+
+describe('kinFromSealAndTone', () => {
+    it('finds the one Kin of every seal and tone, and gives back the same seal and tone', () => {
+        const found = new Set<number>();
+
+        for (let seal = 1; seal <= 20; seal++) {
+            for (let tone = 1; tone <= 13; tone++) {
+                const kin = kinFromSealAndTone(seal, tone);
+
+                expect(kin.solarSeal).toBe(seal);
+                expect(kin.galacticTone).toBe(tone);
+                found.add(kin.kinNumber);
+            }
+        }
+
+        expect(found.size).toBe(KIN_COUNT);
+    });
+
+    it('rejects a seal or tone out of range', () => {
+        expect(() => kinFromSealAndTone(0, 1)).toThrow(RangeError);
+        expect(() => kinFromSealAndTone(1, 14)).toThrow(RangeError);
+    });
+});
+
+describe('kinOracle', () => {
+    const numbers = (kin: number) => {
+        const oracle = kinOracle(kinFromNumber(kin));
+
+        return [
+            oracle.guide.kinNumber,
+            oracle.analog.kinNumber,
+            oracle.antipode.kinNumber,
+            oracle.occult.kinNumber,
+        ];
+    };
+
+    it('gives guide, analog, antipode and occult of Kin 77 (Crystal Red Earth) as 129, 142, 207 and 184', () => {
+        expect(numbers(77)).toEqual([
+            129,
+            142,
+            207,
+            184,
+        ]);
+    });
+
+    it('is its own guide for tones 1, 6 and 11', () => {
+        for (const kin of [
+            1,
+            6,
+            11,
+            14,
+            19,
+        ]) {
+            expect(kinOracle(kinFromNumber(kin)).guide.kinNumber).toBe(kin);
+        }
+    });
+
+    it('puts the occult at 261 minus the main Kin, and the analog and the antipode in the tone of the main Kin', () => {
+        for (let kin = 1; kin <= KIN_COUNT; kin++) {
+            const oracle = kinOracle(kinFromNumber(kin));
+
+            expect(oracle.occult.kinNumber).toBe(KIN_COUNT + 1 - kin);
+            expect(oracle.analog.galacticTone).toBe(oracle.antipode.galacticTone);
+            expect(oracle.guide.galacticTone).toBe(kinFromNumber(kin).galacticTone);
+        }
+    });
+
+    it('keeps the analog and the antipode paired both ways', () => {
+        for (let kin = 1; kin <= KIN_COUNT; kin++) {
+            const main = kinFromNumber(kin);
+
+            expect(kinOracle(kinOracle(main).analog).analog.kinNumber).toBe(kin);
+            expect(kinOracle(kinOracle(main).antipode).antipode.kinNumber).toBe(kin);
+        }
     });
 });

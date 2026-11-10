@@ -20,7 +20,7 @@ export const RULE_VERSIONS: Readonly<Record<VersionedSystem, string>> = {
     NATAL_CHART: 'natal-v2',
     HUMAN_DESIGN: 'human-design-v1',
     NUMEROLOGY: 'numerology-v1',
-    MAYA_KIN: 'dreamspell-v1',
+    MAYA_KIN: 'dreamspell-v2',
     HOROSCOPE: 'horoscope-v1',
     TAROT: TAROT_DRAW_VERSION,
     RUNE: RUNE_DRAW_VERSION,

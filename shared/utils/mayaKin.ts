@@ -82,6 +82,74 @@ export function kinOf(isoDate: string): Kin {
     return kinFromNumber(((REFERENCE.kin - 1 + wrapped) % KIN_COUNT) + 1);
 }
 
+/** The Kin with a given seal (1 to 20) and tone (1 to 13): the one of the 13 Kin of that seal that has that tone. */
+export function kinFromSealAndTone(solarSeal: number, galacticTone: number): Kin {
+    if (!Number.isInteger(solarSeal) || solarSeal < 1 || solarSeal > SOLAR_SEAL_COUNT) {
+        throw new RangeError(`Unknown solar seal ${solarSeal}`);
+    }
+
+    if (!Number.isInteger(galacticTone) || galacticTone < 1 || galacticTone > GALACTIC_TONE_COUNT) {
+        throw new RangeError(`Unknown galactic tone ${galacticTone}`);
+    }
+
+    for (let kinNumber = solarSeal; kinNumber <= KIN_COUNT; kinNumber += SOLAR_SEAL_COUNT) {
+        if ((kinNumber - 1) % GALACTIC_TONE_COUNT === galacticTone - 1) return kinFromNumber(kinNumber);
+    }
+
+    throw new RangeError(`No Kin has seal ${solarSeal} and tone ${galacticTone}`);
+}
+
+/** How many seals ahead the guide is, by the tone of the main Kin (index = tone - 1): tones 1, 6 and 11 are their own guide. */
+const GUIDE_SEAL_SHIFT: readonly number[] = [
+    0,
+    12,
+    4,
+    16,
+    8,
+    0,
+    12,
+    4,
+    16,
+    8,
+    0,
+    12,
+    4,
+];
+
+export type KinOracle = {
+    guide: Kin;
+    analog: Kin;
+    antipode: Kin;
+    occult: Kin;
+};
+
+/**
+ * The four Kin around the main Kin in the Dreamspell oracle (the main Kin is the fifth):
+ * - guide: the same tone; the seal is ahead by a shift that depends on the tone (see GUIDE_SEAL_SHIFT)
+ * - analog (support): the same tone; the seal pairs with the main one to 19
+ * - antipode (challenge): the same tone; the seal is 10 away
+ * - occult (hidden push): the seal pairs with the main one to 21, the tone to 14 (its number is 261 minus the main Kin's)
+ *
+ * Changing what this calculates: raise RULE_VERSIONS.MAYA_KIN in shared/utils/analysisBasis.ts.
+ */
+export function kinOracle(kin: Kin): KinOracle {
+    const {
+        solarSeal, galacticTone,
+    } = kin;
+    const guideShift = GUIDE_SEAL_SHIFT[galacticTone - 1];
+
+    if (guideShift === undefined) throw new RangeError(`Unknown galactic tone ${galacticTone}`);
+
+    const wrapSeal = (value: number): number => ((value - 1) % SOLAR_SEAL_COUNT + SOLAR_SEAL_COUNT) % SOLAR_SEAL_COUNT + 1;
+
+    return {
+        guide: kinFromSealAndTone(wrapSeal(solarSeal + guideShift), galacticTone),
+        analog: kinFromSealAndTone(wrapSeal(19 - solarSeal), galacticTone),
+        antipode: kinFromSealAndTone(wrapSeal(solarSeal + 10), galacticTone),
+        occult: kinFromSealAndTone(wrapSeal(21 - solarSeal), GALACTIC_TONE_COUNT + 1 - galacticTone),
+    };
+}
+
 /** The seal with its colour, e.g. `藍手`. */
 export function sealName(solarSeal: number): string {
     const seal = SOLAR_SEALS[solarSeal - 1];
