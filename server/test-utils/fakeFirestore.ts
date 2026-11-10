@@ -2,7 +2,7 @@
  * Minimal in-memory Firestore fake for unit tests.
  *
  * Supports the subset the services use: documents, sub-collections, simple
- * queries (ordering by field or `__name__`, startAfter, count and sum aggregations),
+ * queries (filtering and ordering by field or `__name__`, startAfter, count and sum aggregations),
  * collection-group queries, recursiveDelete and transactions with
  * optimistic concurrency (a transaction retries when a document it read was
  * changed by another writer before commit), which is what the idempotency and
@@ -87,8 +87,9 @@ function getField(data: Data, field: string): unknown {
     }, data);
 }
 
-function matches(data: Data, filter: Filter): boolean {
-    const actual = getField(data, filter.field);
+function matches(data: Data, filter: Filter, path: string): boolean {
+    // `__name__` is the document id, the last segment of its path
+    const actual = filter.field === '__name__' ? path.split('/').pop() : getField(data, filter.field);
     const a = comparable(actual);
     const b = comparable(filter.value);
 
@@ -214,7 +215,7 @@ export class FakeQuery {
     resolve(): FakeDocumentSnapshot[] {
         const entries = [...this.db.entries()].filter(([path]) => this.inScope(path));
         let rows = entries
-            .filter(([, stored]) => this.filters.every((f) => matches(stored.data, f)));
+            .filter(([path, stored]) => this.filters.every((f) => matches(stored.data, f, path)));
 
         const valueOf = (path: string, data: Data, field: string) => (
             field === '__name__' ? path.split('/').pop() as string : getField(data, field)

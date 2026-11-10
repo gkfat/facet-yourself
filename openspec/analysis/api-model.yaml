@@ -2005,6 +2005,45 @@ paths:
         domainModel: []
         requirements: [FR-089, FR-090, FR-091, FR-092, FR-095, NFR-033, NFR-034, NFR-035]
         note: "domain-modeling 尚未涵蓋卦象，domainModel 待補（add-hexagram-divination）"
+  "/fortune/history":
+    get:
+      operationId: getFortuneHistory
+      summary: "查詢歷史運勢"
+      description: "僅會員。回傳最近 3 個月（台北日期，起點為今天往前推 3 個月）每天抽到的塔羅、盧恩與易經卦象（一天可多卦，依序號），由新到舊、以有紀錄的日期分頁，每頁最多 14 天，每項帶當時的固定內容（內容已下架時為 null，紀錄仍保留）。before 為游標（只回該日期之前，須為合法日期、不晚於今天、不早於窗口起點），limit 預設與上限皆 14，其他參數與超出範圍回驗證錯誤。不含瑪雅 Kin 與星座運勢；卦象依入口開關納入。卦象讀取達上限時 truncated 為 true。唯讀、不寫入、不扣點、不呼叫 AI，回應 private、no-store。"
+      tags: [Today]
+      parameters:
+        - name: before
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 14
+            default: 14
+      responses:
+        "200":
+          description: "一頁歷史運勢"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/FortuneHistoryState"
+        "400":
+          "$ref": "#/components/responses/ValidationError"
+        "401":
+          "$ref": "#/components/responses/Unauthorized"
+      x-trace:
+        id: API-079
+        useCases: []
+        domainModel: []
+        requirements: [FR-044, FR-045, FR-046, FR-093]
+        businessRules: [RULE-014]
+        note: "add-fortune-history：未新增獨立 FR／UC，useCases 與 domainModel 待確認（需另跑 requirement-modeling、domain-modeling）；保存期限對應 RULE-014（待確認）"
   "/kin/today":
     get:
       operationId: getTodayKin
@@ -3618,6 +3657,57 @@ components:
           enum: [0, 1]
       required: [date, drawn, nextCost]
       description: "drawn 為 false 時沒有 casts；為 true 時依序號列出今日各卦"
+    FortuneHistoryState:
+      type: object
+      properties:
+        days:
+          type: array
+          description: "有紀錄的日期，由新到舊；沒有任何紀錄的日期不出現"
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                format: date
+              tarot:
+                type: object
+                nullable: true
+                properties:
+                  card:
+                    "$ref": "#/components/schemas/TarotCard"
+                  content:
+                    allOf:
+                      - "$ref": "#/components/schemas/FixedResultContent"
+                    nullable: true
+                    description: "內容已下架時為 null"
+                required: [card, content]
+              rune:
+                type: object
+                nullable: true
+                properties:
+                  rune:
+                    "$ref": "#/components/schemas/RuneCard"
+                  content:
+                    allOf:
+                      - "$ref": "#/components/schemas/FixedResultContent"
+                    nullable: true
+                    description: "內容已下架時為 null"
+                required: [rune, content]
+              hexagrams:
+                type: array
+                description: "當日各卦，依序號；各項解讀（content、changed.content、movingLine.content）已下架時為 null"
+                items:
+                  "$ref": "#/components/schemas/HexagramCast"
+            required: [date, tarot, rune, hexagrams]
+        nextBefore:
+          type: string
+          format: date
+          nullable: true
+          description: "還有更舊的日期時為本頁最舊日期，作為下一頁的 before；否則為 null"
+        truncated:
+          type: boolean
+          description: "窗口內的卦象多於讀取上限，較舊的卦象未全部列出"
+      required: [days, nextBefore, truncated]
     HoroscopeBody:
       type: object
       properties:

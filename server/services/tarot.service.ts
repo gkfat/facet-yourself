@@ -10,7 +10,10 @@ import {
 import {
     TAROT_CARDS, TAROT_RETENTION_MONTHS, tarotContentKey,
 } from '../../shared/constants/tarot';
-import type { DailyTarotResponse } from '../../shared/schemas/api/tarot.schema';
+import type { HistoryTarotItem } from '../../shared/schemas/api/fortuneHistory.schema';
+import type {
+    DailyTarotResponse, TarotCardResponse,
+} from '../../shared/schemas/api/tarot.schema';
 import type { FixedResultResponse } from '../../shared/schemas/api/fixedResult.schema';
 import { tarotDrawDocSchema } from '../../shared/schemas/firestore/tarot.schema';
 import {
@@ -102,6 +105,32 @@ export class TarotService extends BaseService {
         return this.toResponse(result.date, result.record, result.content);
     }
 
+    /** The Taipei dates from `from` to `to` that have a kept draw, newest first. Reads only ids. Never writes. */
+    recordedDates(uid: string, from: string, to: string): Promise<string[]> {
+        return this.engine.recordedDates(uid, from, to);
+    }
+
+    /** The kept draws of the Taipei dates `from` to `to`, newest first, with their content. Never writes. */
+    async listRange(uid: string, from: string, to: string): Promise<{ date: string; item: HistoryTarotItem }[]> {
+        const listed = await this.engine.listRange(uid, from, to);
+
+        return listed.map(({
+            date, record, content,
+        }) => {
+            if (!content) {
+                this.logWarn('tarot content missing for a kept draw', {
+                    action: 'listRange', userId: uid, data: { date },
+                });
+            }
+
+            return {
+                date, item: {
+                    card: this.cardOf(record), content,
+                },
+            };
+        });
+    }
+
     /** A visitor never has a kept draw: asking only tells the date. */
     getTodayForGuest(): DailyTarotResponse {
         return {
@@ -117,22 +146,26 @@ export class TarotService extends BaseService {
     }
 
     private toResponse(date: string, record: DailyDrawRecord, content: FixedResultResponse): DailyTarotResponse {
+        return {
+            date,
+            drawn: true,
+            card: this.cardOf(record),
+            content,
+        };
+    }
+
+    private cardOf(record: DailyDrawRecord): TarotCardResponse {
         const card = TAROT_CARDS[record.symbolIndex];
 
         if (!card) throw new RangeError(`Unknown tarot card index ${record.symbolIndex}`);
 
         return {
-            date,
-            drawn: true,
-            card: {
-                index: card.index,
-                roman: card.roman,
-                name: card.name,
-                englishName: card.englishName,
-                orientation: record.orientation,
-                illustration: card.illustration,
-            },
-            content,
+            index: card.index,
+            roman: card.roman,
+            name: card.name,
+            englishName: card.englishName,
+            orientation: record.orientation,
+            illustration: card.illustration,
         };
     }
 }

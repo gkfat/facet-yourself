@@ -10,7 +10,10 @@ import {
 import {
     RUNES, RUNE_RETENTION_MONTHS, runeContentKey,
 } from '../../shared/constants/runes';
-import type { DailyRuneResponse } from '../../shared/schemas/api/rune.schema';
+import type { HistoryRuneItem } from '../../shared/schemas/api/fortuneHistory.schema';
+import type {
+    DailyRuneResponse, RuneResponse,
+} from '../../shared/schemas/api/rune.schema';
 import type { FixedResultResponse } from '../../shared/schemas/api/fixedResult.schema';
 import { runeDrawDocSchema } from '../../shared/schemas/firestore/runeDraw.schema';
 import {
@@ -92,6 +95,32 @@ export class RuneService extends BaseService {
         return this.toResponse(result.date, result.record, result.content);
     }
 
+    /** The Taipei dates from `from` to `to` that have a kept draw, newest first. Reads only ids. Never writes. */
+    recordedDates(uid: string, from: string, to: string): Promise<string[]> {
+        return this.engine.recordedDates(uid, from, to);
+    }
+
+    /** The kept draws of the Taipei dates `from` to `to`, newest first, with their content. Never writes. */
+    async listRange(uid: string, from: string, to: string): Promise<{ date: string; item: HistoryRuneItem }[]> {
+        const listed = await this.engine.listRange(uid, from, to);
+
+        return listed.map(({
+            date, record, content,
+        }) => {
+            if (!content) {
+                this.logWarn('rune content missing for a kept draw', {
+                    action: 'listRange', userId: uid, data: { date },
+                });
+            }
+
+            return {
+                date, item: {
+                    rune: this.runeOf(record), content,
+                },
+            };
+        });
+    }
+
     /** A visitor never has a kept draw: asking only tells the date. */
     getTodayForGuest(): DailyRuneResponse {
         return {
@@ -107,22 +136,26 @@ export class RuneService extends BaseService {
     }
 
     private toResponse(date: string, record: DailyDrawRecord, content: FixedResultResponse): DailyRuneResponse {
+        return {
+            date,
+            drawn: true,
+            rune: this.runeOf(record),
+            content,
+        };
+    }
+
+    private runeOf(record: DailyDrawRecord): RuneResponse {
         const rune = RUNES[record.symbolIndex];
 
         if (!rune) throw new RangeError(`Unknown rune index ${record.symbolIndex}`);
 
         return {
-            date,
-            drawn: true,
-            rune: {
-                index: rune.index,
-                name: rune.name,
-                glyph: rune.glyph,
-                meaning: rune.meaning,
-                orientation: record.orientation,
-                illustration: rune.illustration,
-            },
-            content,
+            index: rune.index,
+            name: rune.name,
+            glyph: rune.glyph,
+            meaning: rune.meaning,
+            orientation: record.orientation,
+            illustration: rune.illustration,
         };
     }
 }

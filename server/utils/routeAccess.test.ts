@@ -43,6 +43,11 @@ describe('classifyRoute', () => {
         expect(classifyRoute('GET', '/api/admin/dashboard/summary')).toBe('required');
     });
 
+    it('needs a signed-in member for the history of the daily draws, which a visitor does not have', () => {
+        expect(classifyRoute('GET', '/api/fortune/history')).toBe('required');
+        expect(classifyRoute('GET', '/api/fortune/history?before=2026-11-01&limit=14')).toBe('required');
+    });
+
     it('keeps writing a horoscope out of reach', () => {
         expect(classifyRoute('POST', '/api/horoscope/daily')).toBe('required');
     });

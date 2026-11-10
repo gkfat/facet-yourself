@@ -23,6 +23,18 @@ export class HexagramRepository {
         return this.db.collection('users').doc(uid).collection('hexagramDraws').where('date', '==', dateKey);
     }
 
+    /**
+     * The casts of the Taipei dates `from` to `to`, both included, newest date first, at most `limit` of them (so the
+     * oldest are the ones cut off): a range on the `date` field, which has an automatic single-field index. Read only.
+     */
+    range(uid: string, from: string, to: string, limit: number): Query {
+        return this.db.collection('users').doc(uid).collection('hexagramDraws')
+            .where('date', '>=', from)
+            .where('date', '<=', to)
+            .orderBy('date', 'desc')
+            .limit(limit);
+    }
+
     runTransaction<T>(fn: (tx: Transaction) => Promise<T>): Promise<T> {
         return this.db.runTransaction(fn);
     }

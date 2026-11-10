@@ -8,13 +8,17 @@ import { toMillis } from '../utils/firestoreTime';
 import {
     hexagramContentKey, hexagramLineContentKey, type Hexagram,
 } from '../../shared/constants/hexagrams';
+import type { HistoryHexagramItem } from '../../shared/schemas/api/fortuneHistory.schema';
 import type {
     DailyHexagramResponse, HexagramCastItem, HexagramCastResponse, HexagramFace,
 } from '../../shared/schemas/api/hexagram.schema';
 import {
     hexagramDrawDocSchema, type HexagramDrawDoc,
 } from '../../shared/schemas/firestore/hexagramDraw.schema';
-import { AuthError } from '../../shared/types/errors';
+import { FORTUNE_HISTORY_HEXAGRAM_READ_LIMIT } from '../../shared/constants/fortuneHistory';
+import {
+    AuthError, NotFoundError,
+} from '../../shared/types/errors';
 import {
     HEXAGRAM_DRAW_VERSION, HEXAGRAM_EXTRA_CAST_COST, hexagramOf, readingPlan, toHexagramLines,
     type HexagramLines,
@@ -174,6 +178,43 @@ export class HexagramService extends BaseService {
         };
     }
 
+    /**
+     * The Taipei dates from `from` to `to` that have a kept cast, newest first. Reads only the document ids, at most
+     * {@link FORTUNE_HISTORY_HEXAGRAM_READ_LIMIT} of them: `truncated` says the window held more, so the oldest are
+     * missing. Never writes.
+     */
+    async recordedDates(uid: string, from: string, to: string): Promise<{ dates: string[]; truncated: boolean }> {
+        const snap = await this.repository.range(uid, from, to, FORTUNE_HISTORY_HEXAGRAM_READ_LIMIT).select().get();
+        const truncated = snap.docs.length >= FORTUNE_HISTORY_HEXAGRAM_READ_LIMIT;
+
+        if (truncated) {
+            this.logWarn('hexagram history reached the read limit', {
+                action: 'recordedDates', userId: uid, data: { limit: FORTUNE_HISTORY_HEXAGRAM_READ_LIMIT },
+            });
+        }
+
+        return {
+            dates: [...new Set(snap.docs.map((doc) => doc.id.slice(0, 10)))].sort().reverse(),
+            truncated,
+        };
+    }
+
+    /**
+     * The kept casts of the Taipei dates `from` to `to`, newest date first and, within a date, in the order they were
+     * cast, each with its readings (null where one is no longer published). Never writes.
+     */
+    async listRange(uid: string, from: string, to: string): Promise<{ date: string; item: HistoryHexagramItem }[]> {
+        const snap = await this.repository.range(uid, from, to, FORTUNE_HISTORY_HEXAGRAM_READ_LIMIT).get();
+        const docs = snap.docs
+            .map((doc) => this.parseDoc(doc.data()))
+            .sort((a, b) => b.date.localeCompare(a.date) || a.seq - b.seq);
+
+        return Promise.all(docs.map(async (doc) => ({
+            date: doc.date,
+            item: await this.historyItemOf(uid, doc),
+        })));
+    }
+
     /** A visitor keeps no casts: asking only tells the date. */
     getTodayForGuest(): DailyHexagramResponse {
         return {
@@ -230,6 +271,48 @@ export class HexagramService extends BaseService {
         };
     }
 
+    /** A kept cast as the history shows it: when a reading is gone the cast stays, with its readings null and a warning. */
+    private async historyItemOf(uid: string, doc: HexagramDrawDoc): Promise<HistoryHexagramItem> {
+        const lines = toHexagramLines(doc.lines);
+
+        try {
+            return await this.itemOf(doc.seq, doc.paid, lines);
+        } catch (error) {
+            if (!(error instanceof NotFoundError)) throw error;
+
+            this.logWarn('hexagram content missing for a kept cast', {
+                action: 'listRange', userId: uid, data: {
+                    date: doc.date, seq: doc.seq,
+                },
+            });
+
+            const cast = hexagramOf(lines);
+            const { mode } = readingPlan(lines);
+            const position = cast.moving[0] ?? 0;
+            const statement = cast.primary.lines[position - 1];
+
+            return {
+                seq: doc.seq,
+                paid: doc.paid,
+                lines: [...lines],
+                mode,
+                moving: [...cast.moving],
+                primary: faceOf(cast.primary),
+                content: null,
+                changed: cast.changed
+                    ? {
+                        face: faceOf(cast.changed), content: null,
+                    }
+                    : null,
+                movingLine: mode === 'single' && statement !== undefined
+                    ? {
+                        position, statement, content: null,
+                    }
+                    : null,
+            };
+        }
+    }
+
     private async movingLineOf(primary: Hexagram, position: number): Promise<HexagramCastItem['movingLine']> {
         const statement = primary.lines[position - 1];
 
@@ -245,12 +328,16 @@ export class HexagramService extends BaseService {
     /** The stored casts of a day, checked (they are untrusted input) and in the order they were cast. */
     private parseDay(raws: Record<string, unknown>[]): HexagramDrawDoc[] {
         return raws
-            .map((raw) => hexagramDrawDocSchema.parse({
-                ...raw,
-                drawnAt: toMillis(raw.drawnAt),
-                expiresAt: toMillis(raw.expiresAt),
-            }))
+            .map((raw) => this.parseDoc(raw))
             .sort((a, b) => a.seq - b.seq);
+    }
+
+    private parseDoc(raw: Record<string, unknown>): HexagramDrawDoc {
+        return hexagramDrawDocSchema.parse({
+            ...raw,
+            drawnAt: toMillis(raw.drawnAt),
+            expiresAt: toMillis(raw.expiresAt),
+        });
     }
 
     private write(tx: Transaction, ref: ReturnType<HexagramRepository['ref']>, doc: HexagramDrawDoc): void {

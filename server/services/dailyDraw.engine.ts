@@ -1,5 +1,5 @@
 import type {
-    DocumentReference, Transaction,
+    DocumentReference, Query, Transaction,
 } from 'firebase-admin/firestore';
 import type { FixedContentService } from './fixedContent.service';
 import type { FixedResultResponse } from '../../shared/schemas/api/fixedResult.schema';
@@ -10,6 +10,7 @@ import type {
 import {
     addMonths, taipeiDateKey,
 } from '../../shared/utils/time';
+import { NotFoundError } from '../../shared/types/errors';
 
 /** The seed of a visitor's draw: the prefix keeps it apart from every account's uid. */
 export function guestDrawSubject(sessionId: string): string {
@@ -43,7 +44,16 @@ export type DailyDrawConfig = {
 /** Where the records live: `users/{uid}/<collection>/{date}`. */
 export type DailyDrawStore = {
     ref: (uid: string, dateKey: string) => DocumentReference;
+    /** The records of the Taipei dates `from` to `to`, both included, in no particular order */
+    range: (uid: string, from: string, to: string) => Query;
     runTransaction: <T>(fn: (tx: Transaction) => Promise<T>) => Promise<T>;
+};
+
+/** A kept record of an earlier day. `content` is null when its written content is no longer published. */
+export type DailyDrawListed = {
+    date: string;
+    record: DailyDrawRecord;
+    content: FixedResultResponse | null;
 };
 
 export type DailyDrawResult = {
@@ -75,6 +85,38 @@ export class DailyDrawEngine {
         const record = await this.find(uid, date);
 
         return record ? this.result(date, record) : null;
+    }
+
+    /** The Taipei dates from `from` to `to` that have a record, newest first. Reads only the document ids. Never writes. */
+    async recordedDates(uid: string, from: string, to: string): Promise<string[]> {
+        const snap = await this.store.range(uid, from, to).select().get();
+
+        return snap.docs.map((doc) => doc.id).sort().reverse();
+    }
+
+    /**
+     * The records of the Taipei dates `from` to `to`, newest first, each with its written content (null when that is
+     * no longer published, so one gap does not fail the rest). Never writes.
+     */
+    async listRange(uid: string, from: string, to: string): Promise<DailyDrawListed[]> {
+        const snap = await this.store.range(uid, from, to).get();
+        const docs = [...snap.docs].sort((a, b) => b.id.localeCompare(a.id));
+
+        return Promise.all(docs.map(async (doc) => {
+            const record = this.config.fromDocument(doc.data() as Record<string, unknown>);
+
+            try {
+                return {
+                    date: doc.id, record, content: await this.contentOf(record),
+                };
+            } catch (error) {
+                if (!(error instanceof NotFoundError)) throw error;
+
+                return {
+                    date: doc.id, record, content: null,
+                };
+            }
+        }));
     }
 
     /**

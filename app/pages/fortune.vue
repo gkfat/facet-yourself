@@ -8,11 +8,23 @@
         />
 
         <GuestNotice>
-            每天翻一翻，看看今天給你的提醒。登入後可以保存每天的紀錄，也能看見自己運勢的流動。
+            每天翻一翻，看看今天給你的提醒。登入後可以保存每天的紀錄，並在「歷史運勢」回頭看最近 3 個月抽到的牌、符文與卦。
         </GuestNotice>
 
         <!-- The way in: one card for each -->
         <template v-if="!selected">
+            <!-- The history is not a card to draw: a button beside the cards. A visitor who opens it is asked to sign in. -->
+            <div class="d-flex justify-end mb-2">
+                <v-btn
+                    variant="text"
+                    color="primary"
+                    prepend-icon="mdi-history"
+                    @click="open('history')"
+                >
+                    歷史運勢
+                </v-btn>
+            </div>
+
             <!-- Two kinds of daily part: the ones you draw or cast, and the ones read from the sky and the calendar -->
             <v-tabs
                 v-if="groups.length > 1"
@@ -188,6 +200,7 @@
             <FortuneKinPanel v-else-if="selected === 'kin'" />
             <FortuneRunePanel v-else-if="selected === 'rune'" />
             <FortuneHexagramPanel v-else-if="selected === 'hexagram'" />
+            <FortuneHistoryPanel v-else-if="selected === 'history'" />
             <FortuneHoroscopePanel v-else />
         </template>
     </div>
@@ -256,7 +269,7 @@ function sealStyle(seal: number) {
 
 useHead({ title: '今日運勢' });
 
-type FortuneView = 'tarot' | 'kin' | 'rune' | 'hexagram' | 'horoscope';
+type FortuneView = 'tarot' | 'kin' | 'rune' | 'hexagram' | 'horoscope' | 'history';
 
 const route = useRoute();
 const router = useRouter();
@@ -417,10 +430,13 @@ onMounted(() => {
     if (HOROSCOPE_ENTRY_ENABLED) void loadHoroscope();
 });
 
-// Which one is open lives in the address (/fortune#tarot, #kin, #rune), so the browser's back button, a
+// Which one is open lives in the address (/fortune#tarot, #kin, #rune, #history), so the browser's back button, a
 // reload and the links from the home page and the old /tarot and /kin addresses all work.
 const selected = computed<FortuneView | null>(() => {
     const wanted = route.hash.slice(1);
+
+    // The history is always there, whichever parts are switched on
+    if (wanted === 'history') return 'history';
 
     return entries.value.find((entry) => entry.value === wanted)?.value ?? null;
 });
@@ -468,7 +484,11 @@ const tab = computed<FortuneGroup>({
 
 const visibleEntries = computed(() => entries.value.filter((entry) => entry.group === tab.value));
 
-const selectedLabel = computed(() => entries.value.find((entry) => entry.value === selected.value)?.label ?? '');
+const selectedLabel = computed(() => {
+    if (selected.value === 'history') return '歷史運勢';
+
+    return entries.value.find((entry) => entry.value === selected.value)?.label ?? '';
+});
 
 function open(view: FortuneView) {
     void router.push({
