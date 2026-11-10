@@ -14,32 +14,40 @@
                     {{ member ? '每天花一分鐘，看看今天給你的提醒。' : '每天翻塔羅、算今日 Kin、抽盧恩符文，不用登入就能試試。' }}
                 </p>
             </div>
-            <span
-                v-if="member && countedTotal"
-                class="today__progress"
-            >
-                今天已揭曉 <strong>{{ doneCount }}</strong> / {{ countedTotal }}
-            </span>
         </header>
 
-        <ul class="today__tiles">
-            <li
-                v-for="(entry, position) in entries"
-                :key="entry.label"
-                class="tile"
-                :class="{ 'tile--done': member && entry.done }"
-                :style="{ '--i': position }"
-            >
-                <span class="tile__icon">
-                    <v-icon
-                        :icon="member && entry.done && entry.counted ? 'mdi-check' : entry.icon"
-                        size="22"
-                    />
-                </span>
-                <span class="tile__label">{{ entry.label }}</span>
-                <span class="tile__text">{{ member ? entry.text : entry.hint }}</span>
-            </li>
-        </ul>
+        <div
+            v-for="section in sections"
+            :key="section.value"
+            class="today__group"
+        >
+            <h3 class="today__group-title">
+                {{ section.label }}
+            </h3>
+            <ul class="today__tiles">
+                <li
+                    v-for="entry in section.entries"
+                    :key="entry.label"
+                    class="tile"
+                    :class="{ 'tile--done': member && entry.done }"
+                    :style="{ '--i': entries.indexOf(entry) }"
+                >
+                    <NuxtLink
+                        :to="`/fortune?tab=${entry.group}#${entry.view}`"
+                        class="tile__link"
+                    >
+                        <span class="tile__icon">
+                            <v-icon
+                                :icon="member && entry.done && entry.counted ? 'mdi-check' : entry.icon"
+                                size="22"
+                            />
+                        </span>
+                        <span class="tile__label">{{ entry.label }}</span>
+                        <span class="tile__text">{{ member ? entry.text : entry.hint }}</span>
+                    </NuxtLink>
+                </li>
+            </ul>
+        </div>
 
         <footer class="today__foot">
             <v-btn
@@ -56,6 +64,7 @@
 </template>
 
 <script lang="ts" setup>
+import { HEXAGRAM_ENTRY_ENABLED } from '../../../shared/constants/hexagramShape';
 import { HOROSCOPE_ENTRY_ENABLED } from '../../../shared/constants/horoscope';
 import { KIN_ENTRY_ENABLED } from '../../../shared/constants/mayaKin';
 import {
@@ -66,6 +75,7 @@ import {
 } from '../../../shared/constants/tarot';
 import { ZODIAC_LABELS } from '../../../shared/constants/zodiacLabels';
 import { kinName } from '../../../shared/utils/mayaKin';
+import { castHeadline } from '../../utils/hexagramView';
 
 const {
     isAuthenticated, initialized,
@@ -74,11 +84,14 @@ const {
     today: tarotToday, load: loadTarot,
 } = useDailyTarot();
 const {
-    today: kinToday, load: loadKin,
+    today: kinToday, show: showKin,
 } = useKinToday();
 const {
     today: runeToday, load: loadRune,
 } = useDailyRune();
+const {
+    today: hexagramToday, load: loadHexagram,
+} = useDailyHexagram();
 const {
     today: horoscopeToday, status: horoscopeStatus, load: loadHoroscope,
 } = useDailyHoroscope();
@@ -86,6 +99,8 @@ const {
 const tarotDrawn = computed(() => (tarotToday.value?.drawn ? tarotToday.value : null));
 const kinUnlocked = computed(() => (kinToday.value?.unlocked ? kinToday.value : null));
 const runeDrawn = computed(() => (runeToday.value?.drawn ? runeToday.value : null));
+/** The latest cast of the day: the page counts the day's hexagram as done once there is one. */
+const hexagramLatest = computed(() => (hexagramToday.value?.drawn ? hexagramToday.value.casts[hexagramToday.value.casts.length - 1] ?? null : null));
 const horoscopeMoon = computed(() => horoscopeToday.value?.bodies.find((entry) => entry.body === 'MOON') ?? null);
 
 /** One line for each part that is switched on. */
@@ -93,6 +108,8 @@ const entries = computed(() => [
     ...(TAROT_ENTRY_ENABLED
         ? [{
             label: '今日塔羅',
+            view: 'tarot',
+            group: 'divination' as const,
             icon: 'mdi-cards-playing-outline',
             hint: '每天翻一張牌',
             done: Boolean(tarotDrawn.value),
@@ -105,18 +122,23 @@ const entries = computed(() => [
     ...(KIN_ENTRY_ENABLED
         ? [{
             label: '今日 Kin',
+            view: 'kin',
+            group: 'calendar' as const,
             icon: 'mdi-calendar-star',
-            hint: '算出今天的 Kin',
-            done: Boolean(kinUnlocked.value),
-            counted: true,
+            hint: '看今天的 Kin',
+            // Shown as soon as it is looked at, so it is never something still to do
+            done: true,
+            counted: false,
             text: kinUnlocked.value
                 ? `${kinName(kinUnlocked.value.kin)}（Kin ${kinUnlocked.value.kin.kinNumber}）`
-                : '還沒揭曉，每天可以揭曉一次',
+                : '看今天的 Kin 與調性',
         }]
         : []),
     ...(RUNE_ENTRY_ENABLED
         ? [{
             label: '盧恩符文',
+            view: 'rune',
+            group: 'divination' as const,
             icon: 'mdi-alpha-r-circle-outline',
             hint: '每天抽一枚符文',
             done: Boolean(runeDrawn.value),
@@ -126,10 +148,24 @@ const entries = computed(() => [
                 : '還沒抽符，每天可以抽一枚',
         }]
         : []),
+    ...(HEXAGRAM_ENTRY_ENABLED
+        ? [{
+            label: '易經卦象',
+            view: 'hexagram',
+            group: 'divination' as const,
+            icon: 'mdi-yin-yang',
+            hint: '每天擲一卦',
+            done: Boolean(hexagramLatest.value),
+            counted: true,
+            text: hexagramLatest.value ? castHeadline(hexagramLatest.value) : '還沒起卦，每天第一卦免費',
+        }]
+        : []),
     // Read, not drawn: it is always there, so it never counts as something still to do
     ...(HOROSCOPE_ENTRY_ENABLED
         ? [{
             label: '星座運勢',
+            view: 'horoscope',
+            group: 'calendar' as const,
             icon: 'mdi-zodiac-leo',
             hint: '以你的星座看今天',
             done: true,
@@ -141,10 +177,26 @@ const entries = computed(() => [
         : []),
 ]);
 
+type FortuneGroup = 'divination' | 'calendar';
+
+/** Same two groups as the tabs of the fortune page. */
+const GROUPS: readonly { value: FortuneGroup; label: string }[] = [
+    {
+        value: 'divination', label: '抽牌卜卦',
+    },
+    {
+        value: 'calendar', label: '星象與曆法',
+    },
+];
+
+const sections = computed(() => GROUPS
+    .map((group) => ({
+        ...group, entries: entries.value.filter((entry) => entry.group === group.value),
+    }))
+    .filter((group) => group.entries.length));
+
 const member = computed(() => initialized.value && isAuthenticated.value);
 const counted = computed(() => entries.value.filter((entry) => entry.counted));
-const countedTotal = computed(() => counted.value.length);
-const doneCount = computed(() => counted.value.filter((entry) => entry.done).length);
 const allDone = computed(() => counted.value.every((entry) => entry.done));
 
 /** Today's date as the app counts it (Taipei), for the corner of the card */
@@ -156,8 +208,9 @@ watch(() => initialized.value && isAuthenticated.value, (member) => {
     if (!member) return;
 
     if (TAROT_ENTRY_ENABLED) void loadTarot();
-    if (KIN_ENTRY_ENABLED) void loadKin();
+    if (KIN_ENTRY_ENABLED) void showKin();
     if (RUNE_ENTRY_ENABLED) void loadRune();
+    if (HEXAGRAM_ENTRY_ENABLED) void loadHexagram();
     if (HOROSCOPE_ENTRY_ENABLED) void loadHoroscope();
 }, { immediate: true });
 </script>
@@ -204,16 +257,15 @@ watch(() => initialized.value && isAuthenticated.value, (member) => {
     color: rgba(var(--v-theme-on-surface), 0.7);
 }
 
-.today__progress {
-    padding: 3px 12px;
-    border: 1px solid rgba(var(--v-theme-primary), 0.4);
-    border-radius: 999px;
-    font-size: 0.8125rem;
-    color: var(--tint);
+.today__group {
+    margin-top: 18px;
 }
 
-.today__progress strong {
-    font-size: 1rem;
+.today__group-title {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: rgba(var(--v-theme-on-surface), 0.62);
 }
 
 .today__tiles {
@@ -221,7 +273,7 @@ watch(() => initialized.value && isAuthenticated.value, (member) => {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
     padding: 0;
-    margin: 18px 0 0;
+    margin: 8px 0 0;
     list-style: none;
 }
 
@@ -232,15 +284,28 @@ watch(() => initialized.value && isAuthenticated.value, (member) => {
 }
 
 .tile {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 12px;
     border: 1px solid rgba(var(--v-theme-night), 0.08);
     border-radius: 12px;
     background: rgb(var(--v-theme-background));
     animation: tile-in 0.4s ease backwards;
     animation-delay: calc(var(--i) * 70ms);
+    transition: border-color 0.15s ease;
+}
+
+.tile:hover,
+.tile:focus-within {
+    border-color: rgba(var(--v-theme-primary), 0.55);
+}
+
+.tile__link {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    height: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    color: inherit;
+    text-decoration: none;
 }
 
 .tile--done {

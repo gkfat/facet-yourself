@@ -13,13 +13,30 @@
 
         <!-- The way in: one card for each -->
         <template v-if="!selected">
+            <!-- Two kinds of daily part: the ones you draw or cast, and the ones read from the sky and the calendar -->
+            <v-tabs
+                v-if="groups.length > 1"
+                v-model="tab"
+                color="primary"
+                align-tabs="center"
+                class="mb-4"
+            >
+                <v-tab
+                    v-for="group in groups"
+                    :key="group.value"
+                    :value="group.value"
+                >
+                    {{ group.label }}
+                </v-tab>
+            </v-tabs>
+
             <v-row class="entries">
                 <v-col
-                    v-for="(entry, position) in entries"
+                    v-for="(entry, position) in visibleEntries"
                     :key="entry.value"
                     cols="12"
                     sm="6"
-                    :md="entries.length >= 4 ? 3 : entries.length > 2 ? 4 : 6"
+                    :md="visibleEntries.length >= 4 ? 3 : visibleEntries.length > 2 ? 4 : 6"
                 >
                     <v-card
                         variant="outlined"
@@ -105,6 +122,14 @@
                                         :aria-label="entry.result.main"
                                         :style="sealStyle(entry.result.sealIndex)"
                                     />
+                                    <!-- A hexagram is shown as its six lines -->
+                                    <HexagramLines
+                                        v-else-if="entry.result.hexagram"
+                                        class="entry__hexagram"
+                                        :yang="entry.result.hexagram.yang"
+                                        :moving="entry.result.hexagram.moving"
+                                        :label="entry.result.hexagram.label"
+                                    />
                                     <span
                                         v-else
                                         class="entry__mark"
@@ -162,12 +187,14 @@
             <FortuneTarotPanel v-if="selected === 'tarot'" />
             <FortuneKinPanel v-else-if="selected === 'kin'" />
             <FortuneRunePanel v-else-if="selected === 'rune'" />
+            <FortuneHexagramPanel v-else-if="selected === 'hexagram'" />
             <FortuneHoroscopePanel v-else />
         </template>
     </div>
 </template>
 
 <script lang="ts" setup>
+import { HEXAGRAM_ENTRY_ENABLED } from '../../shared/constants/hexagramShape';
 import { HOROSCOPE_ENTRY_ENABLED } from '../../shared/constants/horoscope';
 import { KIN_ENTRY_ENABLED } from '../../shared/constants/mayaKin';
 import {
@@ -190,6 +217,9 @@ import {
     RUNE_SPRITE, runeSpriteCell,
 } from '../../shared/constants/runeSprite';
 import { taipeiDateKey } from '../../shared/utils/time';
+import {
+    hexagramAriaLabel, hexagramDrawings, movementNote,
+} from '../utils/hexagramView';
 
 /** Shows one cell of the sheet of rune pictures on the element it is set on */
 function spriteStyle(cell: number) {
@@ -226,15 +256,16 @@ function sealStyle(seal: number) {
 
 useHead({ title: '今日運勢' });
 
-type FortuneView = 'tarot' | 'kin' | 'rune' | 'horoscope';
+type FortuneView = 'tarot' | 'kin' | 'rune' | 'hexagram' | 'horoscope';
 
 const route = useRoute();
 const router = useRouter();
 
 /** What each part has already revealed today; the landing cards show it so the page can be read at a glance. */
 const { today: tarotToday, load: loadTarot } = useDailyTarot();
-const { today: kinToday, load: loadKin } = useKinToday();
+const { today: kinToday, show: showKin } = useKinToday();
 const { today: runeToday, load: loadRune } = useDailyRune();
+const { today: hexagramToday, load: loadHexagram } = useDailyHexagram();
 const {
     today: horoscopeToday, status: horoscopeStatus, load: loadHoroscope,
 } = useDailyHoroscope();
@@ -254,6 +285,8 @@ type EntryResult = {
     cardIndex?: number;
     /** The solar seal (1 to 20) whose glyph is shown on the sheet of kin glyphs */
     sealIndex?: number;
+    /** A hexagram is shown as its six lines, the changing ones in the accent color */
+    hexagram?: { yang: boolean[]; moving: number[]; label: string };
 };
 
 const tarotResult = computed<EntryResult | null>(() => {
@@ -298,6 +331,28 @@ const runeResult = computed<EntryResult | null>(() => {
         : null;
 });
 
+const hexagramResult = computed<EntryResult | null>(() => {
+    const cast = hexagramToday.value?.drawn ? hexagramToday.value.casts[hexagramToday.value.casts.length - 1] : null;
+
+    return cast && hexagramToday.value?.drawn
+        ? {
+            main: `${cast.primary.name}卦`,
+            sub: [
+                `第 ${cast.primary.order} 卦`,
+                hexagramToday.value.casts.length > 1 ? `今天第 ${cast.seq + 1} 次` : '',
+                cast.changed ? `之後的走向：${cast.changed.face.name}卦` : '',
+                movementNote(cast),
+            ].filter(Boolean).join(' · '),
+            mark: String(cast.primary.order),
+            hexagram: {
+                yang: hexagramDrawings(cast).primary,
+                moving: cast.moving,
+                label: hexagramAriaLabel(cast.primary.name, cast),
+            },
+        }
+        : null;
+});
+
 /** Today's Moon in the member's houses, the headline of the sign horoscope: there is nothing to reveal, so it is shown at once. */
 const horoscopeResult = computed<EntryResult | null>(() => {
     const moon = horoscopeToday.value?.bodies.find((entry) => entry.body === 'MOON');
@@ -316,22 +371,28 @@ const horoscopeResult = computed<EntryResult | null>(() => {
 const entries = computed(() => [
     ...(TAROT_ENTRY_ENABLED
         ? [{
-            value: 'tarot' as const, label: '塔羅', icon: 'mdi-cards-playing-outline', kind: 'ritual' as const, hint: '每天翻一張牌', action: '去翻牌', result: tarotResult.value,
+            value: 'tarot' as const, group: 'divination' as const, label: '塔羅', icon: 'mdi-cards-playing-outline', kind: 'ritual' as const, hint: '每天翻一張牌', action: '去翻牌', result: tarotResult.value,
         }]
         : []),
     ...(KIN_ENTRY_ENABLED
         ? [{
-            value: 'kin' as const, label: '瑪雅 Kin', icon: 'mdi-calendar-star', kind: 'ritual' as const, hint: '每天揭曉一次今日 Kin', action: '去揭曉', result: kinResult.value,
+            value: 'kin' as const, group: 'calendar' as const, label: '瑪雅 Kin', icon: 'mdi-calendar-star', kind: 'reading' as const, hint: '以今天的日期看 Kin', action: '看今日 Kin', result: kinResult.value,
         }]
         : []),
     ...(RUNE_ENTRY_ENABLED
         ? [{
-            value: 'rune' as const, label: '盧恩符文', icon: 'mdi-alpha-r-circle-outline', kind: 'ritual' as const, hint: '每天抽一枚符文', action: '去抽符', result: runeResult.value,
+            value: 'rune' as const, group: 'divination' as const, label: '盧恩符文', icon: 'mdi-alpha-r-circle-outline', kind: 'ritual' as const, hint: '每天抽一枚符文', action: '去抽符', result: runeResult.value,
+        }]
+        : []),
+    ...(HEXAGRAM_ENTRY_ENABLED
+        ? [{
+            value: 'hexagram' as const, group: 'divination' as const, label: '易經卦象', icon: 'mdi-yin-yang', kind: 'ritual' as const, hint: '每天擲一卦', action: '去起卦', result: hexagramResult.value,
         }]
         : []),
     ...(HOROSCOPE_ENTRY_ENABLED
         ? [{
             value: 'horoscope' as const,
+            group: 'calendar' as const,
             label: '星座運勢',
             icon: 'mdi-zodiac-leo',
             kind: 'reading' as const,
@@ -349,8 +410,10 @@ const todayKey = taipeiDateKey(new Date());
 // Ask what has been revealed today, so the cards can show it. Nothing is written by asking.
 onMounted(() => {
     if (TAROT_ENTRY_ENABLED) void loadTarot();
-    if (KIN_ENTRY_ENABLED) void loadKin();
+    // Today's Kin is simply there: the page shows it without anyone pressing anything
+    if (KIN_ENTRY_ENABLED) void showKin();
     if (RUNE_ENTRY_ENABLED) void loadRune();
+    if (HEXAGRAM_ENTRY_ENABLED) void loadHexagram();
     if (HOROSCOPE_ENTRY_ENABLED) void loadHoroscope();
 });
 
@@ -367,11 +430,43 @@ const drawDate = computed(() => {
     if (!selected.value) return todayKey;
     if (selected.value === 'tarot' && tarotToday.value?.drawn) return tarotToday.value.date;
     if (selected.value === 'rune' && runeToday.value?.drawn) return runeToday.value.date;
+    if (selected.value === 'hexagram' && hexagramToday.value?.drawn) return hexagramToday.value.date;
     if (selected.value === 'kin' && kinToday.value?.unlocked) return kinToday.value.date;
     if (selected.value === 'horoscope') return horoscopeToday.value?.date;
 
     return undefined;
 });
+
+type FortuneGroup = 'divination' | 'calendar';
+
+/** The two tabs of the landing page, in the order they are shown. */
+const GROUPS: readonly { value: FortuneGroup; label: string }[] = [
+    {
+        value: 'divination', label: '抽牌卜卦',
+    },
+    {
+        value: 'calendar', label: '星象與曆法',
+    },
+];
+
+/** A tab is shown only when something in it is switched on. */
+const groups = computed(() => GROUPS.filter((group) => entries.value.some((entry) => entry.group === group.value)));
+
+/** Which tab is open lives in the address too (/fortune?tab=calendar), so a reload and the way back from a part keep it. */
+const tab = computed<FortuneGroup>({
+    get: () => {
+        const wanted = route.query.tab;
+
+        return groups.value.find((group) => group.value === wanted)?.value ?? groups.value[0]?.value ?? 'divination';
+    },
+    set: (value) => {
+        void router.replace({
+            path: route.path, query: { tab: value },
+        });
+    },
+});
+
+const visibleEntries = computed(() => entries.value.filter((entry) => entry.group === tab.value));
 
 const selectedLabel = computed(() => entries.value.find((entry) => entry.value === selected.value)?.label ?? '');
 
@@ -381,8 +476,13 @@ function open(view: FortuneView) {
     });
 }
 
+/** Back to the landing page, on the tab of the part that was open */
 function back() {
-    void router.push({ path: route.path });
+    const group = entries.value.find((entry) => entry.value === selected.value)?.group;
+
+    void router.push({
+        path: route.path, query: group ? { tab: group } : {},
+    });
 }
 </script>
 
@@ -447,6 +547,13 @@ function back() {
     aspect-ratio: 7 / 12;
     background-repeat: no-repeat;
     filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25));
+}
+
+.entry__stage .entry__hexagram {
+    width: auto;
+    height: 100%;
+    max-height: 112px;
+    padding: 12px 0;
 }
 
 .entry__card--reversed {

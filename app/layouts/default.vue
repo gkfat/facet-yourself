@@ -184,6 +184,7 @@
 <script lang="ts" setup>
 import { useDisplay } from 'vuetify';
 import { WELCOME_BATCH_VALID_DAYS } from '../../shared/constants/points';
+import { HEXAGRAM_ENTRY_ENABLED } from '../../shared/constants/hexagramShape';
 import { KIN_ENTRY_ENABLED } from '../../shared/constants/mayaKin';
 import { RUNE_ENTRY_ENABLED } from '../../shared/constants/runes';
 import { TAROT_ENTRY_ENABLED } from '../../shared/constants/tarot';
@@ -196,7 +197,7 @@ type MenuItem = {
 
 /** The main routes, in the header from md up and in the drawer below it */
 const navItems: MenuItem[] = [
-    ...(TAROT_ENTRY_ENABLED || KIN_ENTRY_ENABLED || RUNE_ENTRY_ENABLED
+    ...(TAROT_ENTRY_ENABLED || KIN_ENTRY_ENABLED || RUNE_ENTRY_ENABLED || HEXAGRAM_ENTRY_ENABLED
         ? [
             {
                 to: '/fortune', label: '今日運勢', icon: 'mdi-cards-playing-outline',

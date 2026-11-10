@@ -18,6 +18,13 @@ function statusOf(error: unknown): number | undefined {
  * the date without keeping it, so what the visitor has already revealed today is remembered here, in the browser
  * (the same place the session id is kept), and dropped as soon as the Taipei date or the session changes.
  */
+/** What reveal sends and how it reads the answer, for a part that is revealed with a request body. */
+export type RevealOptions<T> = {
+    body?: Record<string, unknown>;
+    /** Turns the server's answer into what is kept and returned; the answer as it is when absent */
+    parse?: (raw: unknown) => T;
+};
+
 export function useFortuneAccess<T extends { date: string }>(kind: string, schema: ZodType<T>) {
     const {
         get, post,
@@ -67,15 +74,20 @@ export function useFortuneAccess<T extends { date: string }>(kind: string, schem
     }
 
     /** Reveal today's part. A visitor gets a session first, and a fresh one if theirs has expired. */
-    async function reveal(url: string): Promise<T> {
+    async function reveal(url: string, options: RevealOptions<T> = {}): Promise<T> {
         const who = await settled();
+        const send = async (): Promise<T> => {
+            const raw = await post<unknown>(url, options.body, {}, 'optional');
 
-        if (who === 'member') return post<T>(url, undefined, {}, 'optional');
+            return options.parse ? options.parse(raw) : raw as T;
+        };
+
+        if (who === 'member') return send();
 
         await ensureSession();
 
         try {
-            const response = await post<T>(url, undefined, {}, 'optional');
+            const response = await send();
 
             keep(response);
 
@@ -87,7 +99,7 @@ export function useFortuneAccess<T extends { date: string }>(kind: string, schem
             forget();
             await ensureSession();
 
-            const response = await post<T>(url, undefined, {}, 'optional');
+            const response = await send();
 
             keep(response);
 
