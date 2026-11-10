@@ -33,6 +33,8 @@ export const adminDailyDrawsSchema = z.object({
         date: dateKeySchema,
         tarot: z.number().int().nonnegative(),
         rune: z.number().int().nonnegative(),
+        /** Casts, the paid ones too: one member can make several in a day */
+        hexagram: z.number().int().nonnegative(),
     })),
     /** When the oldest kept draw was made: counts before it do not exist. null when there is none. */
     earliestDrawAt: epochMsSchema.nullable(),

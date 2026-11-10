@@ -100,9 +100,14 @@ export class AdminDashboardService extends BaseService {
                     date,
                     tarot: await this.repository.countDraws('tarotDraws', range),
                     rune: await this.repository.countDraws('runeDraws', range),
+                    hexagram: await this.repository.countDraws('hexagramDraws', range),
                 };
             });
-            const earliest = await Promise.all([this.repository.earliestDrawAt('tarotDraws'), this.repository.earliestDrawAt('runeDraws')]);
+            const earliest = await Promise.all([
+                this.repository.earliestDrawAt('tarotDraws'),
+                this.repository.earliestDrawAt('runeDraws'),
+                this.repository.earliestDrawAt('hexagramDraws'),
+            ]);
             const known = earliest.filter((value): value is number => value !== null);
 
             return {

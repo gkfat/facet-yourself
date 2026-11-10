@@ -82,23 +82,27 @@ describe('AdminDashboardService', () => {
     });
 
     describe('dailyDraws', () => {
-        it('counts tarot and rune per Taipei day, with zeros for quiet days, and finds the first draw', async () => {
+        it('counts tarot, rune and hexagram per Taipei day, with zeros for quiet days, and finds the first draw', async () => {
             await db.doc('users/u1/tarotDraws/2026-11-09').set({ drawnAt: taipei(11, 9, 0) + 60_000 });
             await db.doc('users/u2/tarotDraws/2026-11-09').set({ drawnAt: taipei(11, 9, 0) + 120_000 });
             await db.doc('users/u1/tarotDraws/2026-11-08').set({ drawnAt: taipei(11, 8, 23) });
             await db.doc('users/u1/runeDraws/2026-11-08').set({ drawnAt: taipei(11, 8, 9) });
+            // One member can cast several times in a day: every cast counts
+            await db.doc('users/u1/hexagramDraws/2026-11-09_0').set({ drawnAt: taipei(11, 9, 8) });
+            await db.doc('users/u1/hexagramDraws/2026-11-09_1').set({ drawnAt: taipei(11, 9, 9) });
+            await db.doc('users/u2/hexagramDraws/2026-11-09_0').set({ drawnAt: taipei(11, 9, 10) });
 
             const result = await service.dailyDraws(3);
 
             expect(result.days).toEqual([
                 {
-                    date: '2026-11-07', tarot: 0, rune: 0,
+                    date: '2026-11-07', tarot: 0, rune: 0, hexagram: 0,
                 },
                 {
-                    date: '2026-11-08', tarot: 1, rune: 1,
+                    date: '2026-11-08', tarot: 1, rune: 1, hexagram: 0,
                 },
                 {
-                    date: '2026-11-09', tarot: 2, rune: 0,
+                    date: '2026-11-09', tarot: 2, rune: 0, hexagram: 3,
                 },
             ]);
             expect(result.earliestDrawAt).toBe(taipei(11, 8, 9));
@@ -108,7 +112,7 @@ describe('AdminDashboardService', () => {
             const result = await service.dailyDraws(2);
 
             expect(result.earliestDrawAt).toBeNull();
-            expect(result.days.every((day) => day.tarot === 0 && day.rune === 0)).toBe(true);
+            expect(result.days.every((day) => day.tarot === 0 && day.rune === 0 && day.hexagram === 0)).toBe(true);
         });
     });
 
@@ -141,6 +145,27 @@ describe('AdminDashboardService', () => {
                     reason: 'MULTI_REPORT', deducted: 9,
                 },
             ]);
+        });
+    });
+
+    describe('dailyPoints by reason', () => {
+        it('counts the points spent on a hexagram cast as a reason of their own', async () => {
+            const tx = (path: string, amount: number, reason: string, createdAt: number) => db.doc(path).set({
+                type: 'DEDUCT', amount, reason, createdAt,
+            });
+
+            await tx('users/u1/pointTransactions/h1', 1, 'HEXAGRAM_CAST', taipei(11, 9, 8));
+            await tx('users/u1/pointTransactions/h2', 1, 'HEXAGRAM_CAST', taipei(11, 9, 9));
+            await tx('users/u2/pointTransactions/h3', 1, 'HEXAGRAM_CAST', taipei(11, 8, 9));
+
+            const result = await service.dailyPoints(2);
+
+            expect(result.deductedByReason).toEqual([
+                {
+                    reason: 'HEXAGRAM_CAST', deducted: 3,
+                },
+            ]);
+            expect(result.days.map((day) => day.deducted)).toEqual([1, 2]);
         });
     });
 

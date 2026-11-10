@@ -117,8 +117,11 @@
                                 {
                                     label: '盧恩', data: draws.data.value.days.map((day) => day.rune), color: TONES.copper,
                                 },
+                                {
+                                    label: '卦象', data: draws.data.value.days.map((day) => day.hexagram), color: TONES.teal,
+                                },
                             ]"
-                            aria-label="每日塔羅與盧恩使用數"
+                            aria-label="每日塔羅、盧恩與卦象使用數"
                         />
                         <AdminErrorLine :message="draws.error.value" />
                         <p class="note">
@@ -404,6 +407,7 @@ const DAYS = 30;
 const REASON_LABELS: Record<string, string> = {
     SINGLE_AI_ANALYSIS: '單維度 AI 分析',
     MULTI_REPORT: '綜合報告',
+    HEXAGRAM_CAST: '卦象加卦',
     WELCOME: '新手贈點',
     PURCHASE: '購買',
 };

@@ -31,7 +31,7 @@ const aiReportRowSchema = aiReportDocSchema.pick({
     status: true, question: true, createdAt: true, sources: true,
 });
 
-export type DrawGroup = 'tarotDraws' | 'runeDraws';
+export type DrawGroup = 'tarotDraws' | 'runeDraws' | 'hexagramDraws';
 
 /**
  * Aggregations for the back-office dashboard. Every number is a Firestore count or sum, so no document is
@@ -48,7 +48,7 @@ export class AdminStatsRepository extends BaseRepository<UserDoc> {
         return this.count(query);
     }
 
-    /** Draws made in the range, by the members' collection group (`tarotDraws` or `runeDraws`). */
+    /** Draws made in the range, by the members' collection group (`tarotDraws`, `runeDraws` or `hexagramDraws`). */
     async countDraws(group: DrawGroup, range: TimeRange): Promise<number> {
         return this.count(this.db.collectionGroup(group).where('drawnAt', '>=', range.from).where('drawnAt', '<', range.to));
     }

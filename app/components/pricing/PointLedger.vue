@@ -124,6 +124,7 @@ const reasonLabel = {
     WELCOME: '註冊贈點',
     SINGLE_AI_ANALYSIS: '深入分析',
     MULTI_REPORT: '綜合分析',
+    HEXAGRAM_CAST: '再起一卦',
     PURCHASE: '購買點數',
 } as const;
 
