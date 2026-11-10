@@ -72,7 +72,7 @@
                             <!-- The stage: each part's own mark, the same size on every card -->
                             <div
                                 class="entry__stage"
-                                :class="{ 'entry__stage--card': entry.result?.cardIndex !== undefined || entry.result?.runeIndex !== undefined }"
+                                :class="{ 'entry__stage--card': entry.result?.cardIndex !== undefined || entry.result?.runeIndex !== undefined || entry.result?.sealIndex !== undefined }"
                             >
                                 <template v-if="entry.result">
                                     <span
@@ -96,6 +96,14 @@
                                         role="img"
                                         :aria-label="entry.result.main"
                                         :style="spriteStyle(entry.result.runeIndex)"
+                                    />
+                                    <!-- A Kin is shown as the glyph of its solar seal -->
+                                    <span
+                                        v-else-if="entry.result.sealIndex !== undefined"
+                                        class="entry__seal"
+                                        role="img"
+                                        :aria-label="entry.result.main"
+                                        :style="sealStyle(entry.result.sealIndex)"
                                     />
                                     <span
                                         v-else
@@ -176,6 +184,9 @@ import {
     TAROT_SPRITE, tarotSpriteCell,
 } from '../../shared/constants/tarotSprite';
 import {
+    KIN_SPRITE, kinSpriteCell,
+} from '../../shared/constants/kinSprite';
+import {
     RUNE_SPRITE, runeSpriteCell,
 } from '../../shared/constants/runeSprite';
 import { taipeiDateKey } from '../../shared/utils/time';
@@ -199,6 +210,17 @@ function cardStyle(cell: number) {
 
     return {
         backgroundImage: `url(${TAROT_SPRITE.url})`, backgroundSize: size, backgroundPosition: position,
+    };
+}
+
+/** Shows the glyph of one solar seal (1 to 20) on the element it is set on */
+function sealStyle(seal: number) {
+    const {
+        size, position,
+    } = kinSpriteCell(seal);
+
+    return {
+        backgroundImage: `url(${KIN_SPRITE.url})`, backgroundSize: size, backgroundPosition: position,
     };
 }
 
@@ -230,6 +252,8 @@ type EntryResult = {
     runeIndex?: number;
     /** The cell of the tarot sheet that holds the picture of the card */
     cardIndex?: number;
+    /** The solar seal (1 to 20) whose glyph is shown on the sheet of kin glyphs */
+    sealIndex?: number;
 };
 
 const tarotResult = computed<EntryResult | null>(() => {
@@ -254,7 +278,8 @@ const kinResult = computed<EntryResult | null>(() => {
             main: kinName(unlocked.kin),
             sub: `圖騰 ${sealName(unlocked.kin.solarSeal)} · 調性 ${toneName(unlocked.kin.galacticTone)}`,
             mark: String(unlocked.kin.kinNumber),
-            eyebrow: 'KIN',
+            eyebrow: `KIN ${unlocked.kin.kinNumber}`,
+            sealIndex: unlocked.kin.solarSeal,
         }
         : null;
 });
@@ -460,6 +485,13 @@ function back() {
 .entry__stone {
     height: 100%;
     aspect-ratio: 4 / 5;
+    background-repeat: no-repeat;
+}
+
+.entry__seal {
+    height: 100%;
+    max-height: 104px;
+    aspect-ratio: 1 / 1;
     background-repeat: no-repeat;
 }
 

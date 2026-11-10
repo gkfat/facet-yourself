@@ -5,6 +5,11 @@
         :style="{ '--seal': accent }"
     >
         <v-card-text class="text-center">
+            <KinGlyph
+                :seal="kin.solarSeal"
+                :label="`${seal}圖騰`"
+                class="badge__glyph"
+            />
             <div class="text-caption text-medium-emphasis">
                 Kin
             </div>
@@ -79,6 +84,10 @@ const accent = computed(() => ACCENTS[SOLAR_SEALS[props.kin.solarSeal - 1]?.colo
 .badge {
     border-color: var(--seal);
     border-width: 2px;
+}
+
+.badge__glyph {
+    margin: 0 auto 8px;
 }
 
 .badge__number {
