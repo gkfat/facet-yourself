@@ -1,0 +1,7042 @@
+[
+  {
+    "contentType": "HEXAGRAM",
+    "key": "1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "乾卦：持續向前的力量",
+      "summary": "這一刻你可能有一股想往前推進的力量，傾向把目標看得很清楚，也願意持續投入。",
+      "strengths": [
+        "主動",
+        "堅持",
+        "有擔當"
+      ],
+      "blindSpots": [
+        "太用力時，容易忽略身邊的人與節奏，也不容易承認自己需要休息。"
+      ],
+      "dailyBehavior": "你可能一早就想把重要的事先排好，說話比平常更直接，也更想主動帶頭。",
+      "lifeContexts": {
+        "work": "適合主導一個你有把握的任務，設定明確目標並持續推進。",
+        "relationships": "你的主動容易帶動身邊的人，但也要留意別讓對方覺得被推著走。",
+        "stress": "壓力大時你傾向更用力，試著安排固定的休息，避免撐過頭。",
+        "decision": "先看清楚大方向再決定，一旦決定就少回頭反覆。",
+        "habits": "保持規律的作息與運動，讓力量能持續而不是一次用完。"
+      },
+      "growthAdvice": "挑一件最重要的事全力做，其他的先放一放，並留一點空檔給自己。",
+      "growthReflection": {
+        "useStrength": "把你的行動力用在最重要的一件事上，並邀請別人一起。",
+        "watchHabit": "留意自己是否總是搶著做、很少休息。",
+        "reflectionQuestion": "如果今天只能把一件事做好，你會選哪一件？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "坤卦：承載與配合",
+      "summary": "這一刻可能比較適合順著情勢走，用柔軟與耐心承接眼前的事，讓事情慢慢成形。",
+      "strengths": [
+        "包容",
+        "耐心",
+        "支持"
+      ],
+      "blindSpots": [
+        "太習慣配合時，可能把自己的想法放到最後，變得不敢表達。"
+      ],
+      "dailyBehavior": "你可能比平常更願意傾聽與配合，把空間留給別人，自己默默把事情接起來。",
+      "lifeContexts": {
+        "work": "適合做支援、整合與照顧細節的工作，穩穩地把事情做完。",
+        "relationships": "你的包容讓人安心，但也別長期只扮演配合的一方。",
+        "stress": "壓力來時你傾向吞下來，找一個可以說出口的人。",
+        "decision": "不必急著表態，先聽完各方的需要再決定。",
+        "habits": "規律地照顧身體，讓自己有被好好承載的感覺。"
+      },
+      "growthAdvice": "先聽清楚別人需要什麼，再說出一件你自己也在意的事。",
+      "growthReflection": {
+        "useStrength": "把你的耐心與包容用在需要長期經營的事上。",
+        "watchHabit": "留意自己是否習慣說「都可以」。",
+        "reflectionQuestion": "這一週，我有哪件事其實想要卻沒說出口？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "屯卦：剛起步的卡關",
+      "summary": "事情像剛發芽，方向還不穩，這一刻可能覺得阻力多、頭緒亂，需要先安頓好基礎。",
+      "strengths": [
+        "韌性",
+        "願意從頭來",
+        "找幫手"
+      ],
+      "blindSpots": [
+        "想一次把所有事情做好，可能讓自己更焦慮。"
+      ],
+      "dailyBehavior": "你可能覺得事情很多、一時理不出頭緒，做一件事就冒出三件新的。",
+      "lifeContexts": {
+        "work": "新開始的計畫先求站穩，把第一步拆小，再找人幫忙。",
+        "relationships": "剛建立的關係還在磨合，給彼此一些時間，不要急著下定論。",
+        "stress": "感覺卡住時，先停下來整理清單，比硬衝更有效。",
+        "decision": "先做最小的一步來試試看，再決定要不要加碼。",
+        "habits": "固定時間處理雜事，讓頭腦不被零碎的事塞滿。"
+      },
+      "growthAdvice": "把事情拆成幾個小步驟，先做最容易的一步，也可以請人幫忙。",
+      "growthReflection": {
+        "useStrength": "把你願意從頭來過的韌性，用在最基礎的準備上。",
+        "watchHabit": "留意自己是否想一次解決所有問題。",
+        "reflectionQuestion": "如果只做第一步，那一步是什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "蒙卦：還在摸索的階段",
+      "summary": "這一刻你可能對事情還不太明白，帶著好奇與疑問，適合虛心請教、慢慢學。",
+      "strengths": [
+        "好奇",
+        "可塑性",
+        "願意學"
+      ],
+      "blindSpots": [
+        "一知半解就行動，或一直猶豫不問，都可能讓你原地打轉。"
+      ],
+      "dailyBehavior": "你可能對某件事充滿疑問，想問又怕被覺得不懂。",
+      "lifeContexts": {
+        "work": "適合學習新技能、向有經驗的人請益，先求理解再求表現。",
+        "relationships": "對不熟悉的人事，保持好奇而不是急著評斷。",
+        "stress": "不知道怎麼辦時，承認不懂，比假裝懂更能減輕壓力。",
+        "decision": "資訊不足時，先蒐集再決定，不必急著給答案。",
+        "habits": "每天留一點時間學習或閱讀，累積一點點就好。"
+      },
+      "growthAdvice": "找一位可信的人請教，把疑問一條一條問清楚。",
+      "growthReflection": {
+        "useStrength": "把你的好奇心當成力量，勇敢問出口。",
+        "watchHabit": "留意自己是否因為怕丟臉而不敢問。",
+        "reflectionQuestion": "我現在最想弄懂的一件事是什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "需卦：等待時機",
+      "summary": "這一刻適合先把自己準備好，不急著推進，等條件成熟再行動會比較穩。",
+      "strengths": [
+        "耐心",
+        "懂得蓄力",
+        "穩定"
+      ],
+      "blindSpots": [
+        "等著等著可能變成拖延，或讓焦慮在心裡累積。"
+      ],
+      "dailyBehavior": "你可能正在等一個消息或時機，心裡有點急，卻也知道急不來。",
+      "lifeContexts": {
+        "work": "先把準備做足，時機到了才能立即行動。",
+        "relationships": "關係中給對方一些時間，不要用催促換取答案。",
+        "stress": "等待讓人焦慮時，做一件能掌控的小事來安定自己。",
+        "decision": "條件還不成熟就先觀望，並設定重新評估的日期。",
+        "habits": "保持日常節奏，吃好睡好，等待也是一種準備。"
+      },
+      "growthAdvice": "利用等待的時間補足準備，並替自己設一個重新評估的日期。",
+      "growthReflection": {
+        "useStrength": "把等待的時間用來補足不足的地方。",
+        "watchHabit": "留意等待是否變成拖延。",
+        "reflectionQuestion": "我在等的是時機，還是還沒準備好的藉口？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "訟卦：意見相左與爭執",
+      "summary": "這一刻你可能與人在意見或權益上有拉扯，容易想為自己爭個清楚。",
+      "strengths": [
+        "明辨是非",
+        "敢於表達",
+        "有原則"
+      ],
+      "blindSpots": [
+        "越爭越僵時，可能失去原本想保護的關係與時間。"
+      ],
+      "dailyBehavior": "你可能對某件事感到不公平，腦中反覆演練要怎麼為自己說話。",
+      "lifeContexts": {
+        "work": "在權責或意見不同時，把事實與需求整理清楚再溝通。",
+        "relationships": "爭執中你想被理解，試著先說出感受而不是指責。",
+        "stress": "情緒高漲時先暫停，隔一段時間再回應。",
+        "decision": "在爭論之前，先想清楚你真正想要的結果是什麼。",
+        "habits": "把想說的話先寫下來，再決定要不要說。"
+      },
+      "growthAdvice": "先把自己想要的結果寫下來，想想有沒有雙方都能接受的折衷。",
+      "growthReflection": {
+        "useStrength": "把你明辨是非的能力用在釐清問題，而不是贏過對方。",
+        "watchHabit": "留意自己是否為了贏而延長爭執。",
+        "reflectionQuestion": "我要的是贏，還是把事情解決？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "7",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "師卦：組織與紀律",
+      "summary": "這一刻可能需要帶領一群人，或處理一件需要紀律與分工的事，重點在規矩與信任。",
+      "strengths": [
+        "組織力",
+        "紀律",
+        "責任感"
+      ],
+      "blindSpots": [
+        "管得太緊或指令不清，可能讓團隊疲乏。"
+      ],
+      "dailyBehavior": "你可能要協調一群人或處理需要分工的事，責任感特別明顯。",
+      "lifeContexts": {
+        "work": "明確分工、制定規則，並確認每個人都清楚目標。",
+        "relationships": "在團體中信任與紀律並重，別用命令取代溝通。",
+        "stress": "責任重時，把事情分給能分擔的人。",
+        "decision": "重大決定前先確認目標與資源，再下令行動。",
+        "habits": "固定開會或回報，讓大家同步。"
+      },
+      "growthAdvice": "把目標和分工說清楚，並留意大家的狀態。",
+      "growthReflection": {
+        "useStrength": "把你的組織力用在建立簡單清楚的流程。",
+        "watchHabit": "留意自己是否管得太細或太緊。",
+        "reflectionQuestion": "我有沒有把目標講到每個人都聽得懂？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "8",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "比卦：親近與結盟",
+      "summary": "這一刻適合靠近可信的人，彼此支持，也傾向在關係裡尋找安定感。",
+      "strengths": [
+        "親和",
+        "合作",
+        "信任"
+      ],
+      "blindSpots": [
+        "為了不落單而勉強靠攏，可能失去自己的立場。"
+      ],
+      "dailyBehavior": "你可能特別想靠近某些人，想知道自己是不是被接納。",
+      "lifeContexts": {
+        "work": "與合適的夥伴合作會更順，主動聯絡可以信任的人。",
+        "relationships": "選擇讓你自在的關係，彼此支持而不是勉強討好。",
+        "stress": "有壓力時別獨自扛，找一位可信的人說說。",
+        "decision": "重要決定前，聽聽信任的人的看法。",
+        "habits": "定期和重要的人聯繫，維持關係的溫度。"
+      },
+      "growthAdvice": "主動與一位值得往來的人聯繫，也留意這段關係是否讓你自在。",
+      "growthReflection": {
+        "useStrength": "把你的親和力用在建立可靠的合作關係。",
+        "watchHabit": "留意自己是否為了不落單而勉強靠攏。",
+        "reflectionQuestion": "我身邊誰是讓我真正放鬆的人？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "9",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "小畜卦：小小的累積",
+      "summary": "這一刻能做的是一點一滴的累積，力量還不足以一次到位，適合先把小事做好。",
+      "strengths": [
+        "細心",
+        "累積",
+        "克制"
+      ],
+      "blindSpots": [
+        "覺得進展太慢而焦躁，或把力氣花在零碎的事上。"
+      ],
+      "dailyBehavior": "你可能覺得努力了卻看不到大進展，只能一點一滴往前。",
+      "lifeContexts": {
+        "work": "先完成小目標，累積成果，不求一步到位。",
+        "relationships": "關係需要細水長流，小小的關心就很有價值。",
+        "stress": "覺得慢時，回頭看看已經累積了多少。",
+        "decision": "力量不足時，先做小而確定的選擇。",
+        "habits": "每天做一點點，比偶爾衝刺更有效。"
+      },
+      "growthAdvice": "為眼前的小目標排好順序，今天完成一件就好。",
+      "growthReflection": {
+        "useStrength": "把你的細心與克制用在累積上。",
+        "watchHabit": "留意自己是否因為進展慢而焦躁。",
+        "reflectionQuestion": "今天我可以完成的最小一件事是什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "10",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "履卦：小心前行",
+      "summary": "這一刻像走在有點危險的路上，禮貌與謹慎會讓事情走得更穩。",
+      "strengths": [
+        "謹慎",
+        "守禮",
+        "知進退"
+      ],
+      "blindSpots": [
+        "過度小心可能讓你不敢開口或行動。"
+      ],
+      "dailyBehavior": "你可能覺得眼前像走在薄冰上，說話做事都特別小心。",
+      "lifeContexts": {
+        "work": "遇到強勢或難纏的對象時，先把規矩與界線弄清楚。",
+        "relationships": "禮貌與分寸能化解緊張，但不必過度壓抑自己。",
+        "stress": "緊張時深呼吸，一步一步處理，不必一次面對全部。",
+        "decision": "先評估風險，再決定走多快。",
+        "habits": "重要的事前先演練一次，降低不安。"
+      },
+      "growthAdvice": "先把規則與界線弄清楚，再放心往前走一小步。",
+      "growthReflection": {
+        "useStrength": "把你的謹慎用在避免不必要的衝突上。",
+        "watchHabit": "留意自己是否因為怕出錯而不敢行動。",
+        "reflectionQuestion": "這件事最大的風險是什麼，我要怎麼預防？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "11",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "泰卦：順暢與交流",
+      "summary": "這一刻上下溝通順暢，事情可能比較容易推進，是適合交流與合作的狀態。",
+      "strengths": [
+        "開放",
+        "互通",
+        "順勢而為"
+      ],
+      "blindSpots": [
+        "順利時容易鬆懈，忽略小問題慢慢累積。"
+      ],
+      "dailyBehavior": "你可能覺得溝通比平常順利，彼此容易理解對方的意思。",
+      "lifeContexts": {
+        "work": "適合開會討論、推動合作，把懸而未決的事談定。",
+        "relationships": "關係中容易有默契，是修補誤會的好時機。",
+        "stress": "狀態好的時候，也要留意不要累積太多事。",
+        "decision": "趁溝通順暢，做出需要共識的決定。",
+        "habits": "保持固定交流的習慣，讓順暢持續。"
+      },
+      "growthAdvice": "趁交流順暢，把拖著的對話或請託處理掉。",
+      "growthReflection": {
+        "useStrength": "把這份順暢用在處理拖延已久的對話。",
+        "watchHabit": "留意順利時是否忽略了小問題。",
+        "reflectionQuestion": "有什麼話我一直想說，現在剛好可以說？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "12",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "否卦：閉塞與不通",
+      "summary": "這一刻你可能覺得溝通不順、事情卡住，彼此的想法對不上。",
+      "strengths": [
+        "守住原則",
+        "低調",
+        "自持"
+      ],
+      "blindSpots": [
+        "硬要突破或抱怨，可能耗掉自己的力氣。"
+      ],
+      "dailyBehavior": "你可能覺得跟人說話像隔了一層，怎麼說對方都聽不進去。",
+      "lifeContexts": {
+        "work": "不順時先守好自己的本分，不急著推動新計畫。",
+        "relationships": "彼此想法對不上時，先不爭辯，給彼此空間。",
+        "stress": "悶住時，把心力放在能控制的小事上。",
+        "decision": "重大決定先延後，等溝通恢復再說。",
+        "habits": "整理環境與日程，讓自己有秩序感。"
+      },
+      "growthAdvice": "先把心力放在守住自己的事，等時機再溝通。",
+      "growthReflection": {
+        "useStrength": "把這段安靜的時間用來充實自己。",
+        "watchHabit": "留意自己是否一直在抱怨或硬要突破。",
+        "reflectionQuestion": "這段不順，有什麼是我現在能做的？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "13",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "同人卦：與人同心",
+      "summary": "這一刻適合與志同道合的人一起做事，重視公開、公平的合作。",
+      "strengths": [
+        "協作",
+        "坦誠",
+        "包容"
+      ],
+      "blindSpots": [
+        "只和相似的人往來，可能忽略不同的聲音。"
+      ],
+      "dailyBehavior": "你可能特別想找到志同道合的人，一起把事情做起來。",
+      "lifeContexts": {
+        "work": "適合團隊合作與共同目標的專案，公開透明地分工。",
+        "relationships": "在關係裡重視公平與坦誠，願意接納不同的人。",
+        "stress": "壓力大時和夥伴一起分擔，比獨自扛更好。",
+        "decision": "做決定時邀請相關的人參與，一起承擔。",
+        "habits": "定期與同伴碰面交流想法。"
+      },
+      "growthAdvice": "把共同的目標講清楚，也邀請不同意見的人說說看。",
+      "growthReflection": {
+        "useStrength": "把你的協作精神用在聚集不同背景的人。",
+        "watchHabit": "留意自己是否只跟相似的人往來。",
+        "reflectionQuestion": "我的目標，有沒有人可以和我一起走？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "14",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大有卦：豐盛與擁有",
+      "summary": "這一刻你可能感到資源或機會比較充足，也容易受到支持，重點在如何善用。",
+      "strengths": [
+        "資源",
+        "信任",
+        "開闊"
+      ],
+      "blindSpots": [
+        "擁有得多時，可能忘了節制，或因炫耀而招來嫉妒。"
+      ],
+      "dailyBehavior": "你可能覺得手上的資源與機會比平常多，也有人願意支持你。",
+      "lifeContexts": {
+        "work": "適合整合資源、擴大影響，但要把成果分享給團隊。",
+        "relationships": "慷慨與開放會讓關係更好，也要避免炫耀。",
+        "stress": "資源多時也要避免承擔過多，量力而為。",
+        "decision": "選擇真正重要的方向投入，不要樣樣都要。",
+        "habits": "定期整理手上的資源與承諾，保持清楚。"
+      },
+      "growthAdvice": "把手上的資源用在真正重要的事，也記得分享。",
+      "growthReflection": {
+        "useStrength": "把你的資源用在幫助他人與長期目標。",
+        "watchHabit": "留意自己是否在順利時變得驕傲。",
+        "reflectionQuestion": "我擁有的，有哪些其實可以分享出去？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "15",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "謙卦：謙遜與平衡",
+      "summary": "這一刻適合放低姿態，願意看見他人的長處，也不誇大自己的功勞。",
+      "strengths": [
+        "謙虛",
+        "平衡",
+        "受人信任"
+      ],
+      "blindSpots": [
+        "過度謙讓可能讓你的貢獻被忽略。"
+      ],
+      "dailyBehavior": "你可能比平常更願意承認別人的長處，也不想搶功。",
+      "lifeContexts": {
+        "work": "適合低調地把事情做好，並且讓團隊得到肯定。",
+        "relationships": "謙遜會讓人更親近，但也要說出自己的貢獻。",
+        "stress": "不必證明自己，專注把事情做好就好。",
+        "decision": "做決定時多聽別人的意見，並保持平衡。",
+        "habits": "每天寫下一件別人幫助過你的事。"
+      },
+      "growthAdvice": "可以誠實說出自己的成果，同時感謝幫助你的人。",
+      "growthReflection": {
+        "useStrength": "把你的謙遜用在建立信任上。",
+        "watchHabit": "留意自己是否太習慣把功勞讓出去。",
+        "reflectionQuestion": "我今天有哪件事，值得被好好看見？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "16",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "豫卦：愉悅與預備",
+      "summary": "這一刻氣氛可能比較輕鬆、有熱情，也適合提前準備好下一步。",
+      "strengths": [
+        "熱情",
+        "感染力",
+        "預備"
+      ],
+      "blindSpots": [
+        "沉溺在快樂裡，可能忽略該做的準備。"
+      ],
+      "dailyBehavior": "你可能心情輕快，想與人分享，也容易被熱鬧的氣氛感染。",
+      "lifeContexts": {
+        "work": "適合啟動新計畫、鼓舞士氣，同時別忘了準備細節。",
+        "relationships": "帶著熱情與人相處，讓氣氛輕鬆。",
+        "stress": "開心時也要留意別透支體力與時間。",
+        "decision": "在興奮時不要急著承諾，先想想後續的準備。",
+        "habits": "享樂與休息都要有節制，保持作息。"
+      },
+      "growthAdvice": "享受當下的同時，列出接下來要準備的三件事。",
+      "growthReflection": {
+        "useStrength": "把你的熱情用在凝聚大家，並提早準備。",
+        "watchHabit": "留意自己是否沉溺在快樂中而忽略責任。",
+        "reflectionQuestion": "我現在的熱情，下一步需要準備什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "17",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "隨卦：隨順與跟隨",
+      "summary": "這一刻適合順著情勢與別人的節奏調整，選擇值得跟隨的對象與方向。",
+      "strengths": [
+        "彈性",
+        "適應",
+        "判斷力"
+      ],
+      "blindSpots": [
+        "為了迎合而盲從，可能失去判斷。"
+      ],
+      "dailyBehavior": "你可能在決定跟隨誰、或要不要配合某個安排。",
+      "lifeContexts": {
+        "work": "適合跟隨有經驗的人學習，也能彈性調整計畫。",
+        "relationships": "願意配合對方的節奏，同時保有自己的判斷。",
+        "stress": "變化多時，先接受再調整，不必硬撐。",
+        "decision": "跟隨前先確認方向是否值得，再做選擇。",
+        "habits": "順著自己的節奏調整作息，不勉強。"
+      },
+      "growthAdvice": "跟隨之前先問自己：這個方向值得嗎？",
+      "growthReflection": {
+        "useStrength": "把你的彈性用在適應新情勢。",
+        "watchHabit": "留意自己是否為了迎合而失去想法。",
+        "reflectionQuestion": "我現在跟隨的方向，是我真正想要的嗎？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "18",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "蠱卦：整頓舊事",
+      "summary": "這一刻可能要處理過去留下來的問題或慣性，需要重新整理與修正。",
+      "strengths": [
+        "整頓",
+        "負責",
+        "願意修正"
+      ],
+      "blindSpots": [
+        "一直責怪過去，可能讓事情更沉重。"
+      ],
+      "dailyBehavior": "你可能發現過去留下來的問題浮上檯面，想要整頓卻不知從哪開始。",
+      "lifeContexts": {
+        "work": "適合整理舊流程、修正累積已久的問題。",
+        "relationships": "面對家庭或舊有關係的慣性，用溫和的方式重新調整。",
+        "stress": "面對舊問題的壓力，先選一個最小的修正點。",
+        "decision": "先列出需要修正的項目，再排優先順序。",
+        "habits": "每天整理一個小角落，慢慢整頓。"
+      },
+      "growthAdvice": "選一件拖了很久的事，列出需要修正的地方，從一項開始改。",
+      "growthReflection": {
+        "useStrength": "把你的責任感用在修正而不是責怪。",
+        "watchHabit": "留意自己是否一直在怪過去的人事。",
+        "reflectionQuestion": "有哪件拖了很久的事，我現在可以先處理一小部分？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "19",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "臨卦：靠近與關照",
+      "summary": "這一刻適合以誠意接近他人、帶著關懷處理事情，狀態正在上升。",
+      "strengths": [
+        "關懷",
+        "積極",
+        "親和"
+      ],
+      "blindSpots": [
+        "事情順時容易大意，忘了這樣的勢頭不會一直持續。"
+      ],
+      "dailyBehavior": "你可能比平常更願意靠近他人、主動關心對方。",
+      "lifeContexts": {
+        "work": "適合帶領、指導或關照他人，用誠意贏得信任。",
+        "relationships": "主動靠近與關心，讓關係升溫。",
+        "stress": "情況順時也要留意體力，別過度投入。",
+        "decision": "把握現在的助力，同時保留彈性。",
+        "habits": "固定關心身邊的人，持續而不過度。"
+      },
+      "growthAdvice": "把握現在的助力，但保留對後續變化的彈性。",
+      "growthReflection": {
+        "useStrength": "把你的關懷用在需要幫助的人身上。",
+        "watchHabit": "留意順利時是否忘了這樣的勢頭不會一直持續。",
+        "reflectionQuestion": "我可以用什麼方式，讓身邊的人感到被關心？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "20",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "觀卦：觀察與省思",
+      "summary": "這一刻適合先靜下來看清楚，從旁觀察別人與自己，再決定怎麼做。",
+      "strengths": [
+        "觀察力",
+        "沉靜",
+        "省思"
+      ],
+      "blindSpots": [
+        "只看不動，可能錯過參與的時機。"
+      ],
+      "dailyBehavior": "你可能比平常更想靜下來看看周遭，也想看清楚自己。",
+      "lifeContexts": {
+        "work": "適合調查、研究、觀察別人如何做，再決定自己的做法。",
+        "relationships": "觀察對方的需要，比急著表達更有幫助。",
+        "stress": "退一步觀察，常能減輕當下的緊張。",
+        "decision": "資訊足夠之前不急著下決定，先看清楚。",
+        "habits": "每天留一點時間靜心與記錄。"
+      },
+      "growthAdvice": "花一點時間記下你觀察到的重點，再決定下一步。",
+      "growthReflection": {
+        "useStrength": "把你的觀察力用在看見事情的全貌。",
+        "watchHabit": "留意自己是否只看不動。",
+        "reflectionQuestion": "我觀察到的哪一點，最值得我採取行動？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "21",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "噬嗑卦：排除阻礙",
+      "summary": "這一刻可能有一件事橫在中間，需要明確處理，有時需要堅定表態。",
+      "strengths": [
+        "決斷",
+        "公正",
+        "行動力"
+      ],
+      "blindSpots": [
+        "處理得過於強硬，可能傷到關係。"
+      ],
+      "dailyBehavior": "你可能遇到一個卡在中間的問題，必須好好處理才能前進。",
+      "lifeContexts": {
+        "work": "適合處理爭議、釐清責任，用規則與事實解決。",
+        "relationships": "關係中有未說開的事，需要坦率但不傷人地談。",
+        "stress": "問題拖著只會更卡，鼓起勇氣面對。",
+        "decision": "做決定時重視公平，並說清楚理由。",
+        "habits": "遇到問題當天就處理，不累積。"
+      },
+      "growthAdvice": "把問題的重點說清楚，用合理的方式處理。",
+      "growthReflection": {
+        "useStrength": "把你的決斷用在排除真正的阻礙。",
+        "watchHabit": "留意自己處理問題是否過於強硬。",
+        "reflectionQuestion": "現在卡住我的那個問題，我能先說清楚它是什麼嗎？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "22",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "賁卦：修飾與外在",
+      "summary": "這一刻你可能比較在意外表、形象與呈現方式，也適合把細節整理得好看。",
+      "strengths": [
+        "美感",
+        "得體",
+        "用心"
+      ],
+      "blindSpots": [
+        "太重外表，可能忽略內容是否扎實。"
+      ],
+      "dailyBehavior": "你可能特別在意自己看起來如何，也想把事情包裝得好看。",
+      "lifeContexts": {
+        "work": "適合整理簡報、作品或形象，讓內容更容易被理解。",
+        "relationships": "用心的小細節會讓關係更好，但別只做表面功夫。",
+        "stress": "壓力下別只顧外表，先確認內容是否扎實。",
+        "decision": "決定前先問：這是為了好看，還是真的需要？",
+        "habits": "整理儀容與環境，讓自己心情好。"
+      },
+      "growthAdvice": "整理呈現方式的同時，確認內容本身站得住。",
+      "growthReflection": {
+        "useStrength": "把你的美感用在讓內容更清楚。",
+        "watchHabit": "留意自己是否太在意別人怎麼看。",
+        "reflectionQuestion": "我最想讓別人看見的，是什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "23",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "剝卦：剝落與減少",
+      "summary": "這一刻你可能覺得有些東西正在流失或鬆動，適合守住最重要的部分。",
+      "strengths": [
+        "看清現實",
+        "守住核心",
+        "沉得住氣"
+      ],
+      "blindSpots": [
+        "硬要挽回所有東西，可能耗盡力氣。"
+      ],
+      "dailyBehavior": "你可能感到有些熟悉的東西在流失，像在做減法。",
+      "lifeContexts": {
+        "work": "專案資源縮減時，聚焦最核心的部分。",
+        "relationships": "有些關係可能漸漸疏遠，守住真正重要的人。",
+        "stress": "失去帶來壓力，允許自己難過，再整理剩下的。",
+        "decision": "辨認哪些該保留、哪些該放手。",
+        "habits": "簡化生活，只留下真正需要的。"
+      },
+      "growthAdvice": "先辨認哪些真的重要，其餘可以放手。",
+      "growthReflection": {
+        "useStrength": "把你看清現實的能力用在守住核心。",
+        "watchHabit": "留意自己是否想挽回所有東西。",
+        "reflectionQuestion": "在現在的處境裡，什麼是我最不能失去的？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "24",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "復卦：回復與重新開始",
+      "summary": "這一刻是一個重新啟動的小小起點，狀態慢慢回來，適合循序漸進。",
+      "strengths": [
+        "恢復",
+        "重新出發",
+        "循序"
+      ],
+      "blindSpots": [
+        "急著回到原本的速度，可能再度疲乏。"
+      ],
+      "dailyBehavior": "你可能感覺狀態一點一點回來，想重新開始某件事。",
+      "lifeContexts": {
+        "work": "適合重新啟動被中斷的計畫，從小步開始。",
+        "relationships": "與疏遠的人重新聯繫，用簡單的問候開始。",
+        "stress": "恢復期別急著追回進度，給自己時間。",
+        "decision": "回到最初想做的事，再決定下一步。",
+        "habits": "從一個很小的習慣開始，連續做幾天。"
+      },
+      "growthAdvice": "從一個很小的習慣重新開始，持續幾天就好。",
+      "growthReflection": {
+        "useStrength": "把重新出發的力量用在循序漸進的恢復。",
+        "watchHabit": "留意自己是否急著回到原本的速度。",
+        "reflectionQuestion": "我想重新開始的那件事，最小的第一步是什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "25",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "无妄卦：真誠不造作",
+      "summary": "這一刻適合依照本心行事，不耍心機也不抱太多期待，順其自然。",
+      "strengths": [
+        "真誠",
+        "自然",
+        "不強求"
+      ],
+      "blindSpots": [
+        "過度被動，或把意外當成理所當然。"
+      ],
+      "dailyBehavior": "你可能想放下心機與計算，單純依照心裡的感覺行動。",
+      "lifeContexts": {
+        "work": "適合誠實面對任務，不誇大也不隱瞞。",
+        "relationships": "真誠相待讓關係更自在，不必刻意經營形象。",
+        "stress": "意外發生時，不必過度責怪自己。",
+        "decision": "依照本心做選擇，結果交給時間。",
+        "habits": "維持自然的作息，不勉強自己。"
+      },
+      "growthAdvice": "做自己覺得對的事，結果交給時間。",
+      "growthReflection": {
+        "useStrength": "把你的真誠用在說出真實的想法。",
+        "watchHabit": "留意自己是否把意外當成理所當然。",
+        "reflectionQuestion": "如果不計較結果，我今天會怎麼做？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "26",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大畜卦：蓄積與充實",
+      "summary": "這一刻適合儲備實力，學習與累積，等能量足夠時再出發。",
+      "strengths": [
+        "蓄積",
+        "學習",
+        "厚實"
+      ],
+      "blindSpots": [
+        "只蓄積不行動，可能錯過機會。"
+      ],
+      "dailyBehavior": "你可能想多學一點、多準備一點，再往前走。",
+      "lifeContexts": {
+        "work": "適合進修、整理資料、累積實力。",
+        "relationships": "與有智慧的人往來，從對話中獲得養分。",
+        "stress": "準備太久也會焦慮，設定一個出發的期限。",
+        "decision": "蓄積到一定程度就要行動，不要一直等。",
+        "habits": "固定每天學習或閱讀的時間。"
+      },
+      "growthAdvice": "替自己安排一段固定的學習或整理時間。",
+      "growthReflection": {
+        "useStrength": "把你的蓄積用在關鍵時刻。",
+        "watchHabit": "留意自己是否只蓄積不行動。",
+        "reflectionQuestion": "我已經準備夠了嗎？還缺的是什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "27",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "頤卦：養與自養",
+      "summary": "這一刻適合留意自己如何照顧身心，也看看說話與飲食這些日常習慣。",
+      "strengths": [
+        "自我照顧",
+        "節制",
+        "慎言"
+      ],
+      "blindSpots": [
+        "過度在意別人的供養，或隨口說話傷到人。"
+      ],
+      "dailyBehavior": "你可能特別在意自己吃得好不好、說話得不得體。",
+      "lifeContexts": {
+        "work": "適合調整工作節奏，兼顧身心的滋養。",
+        "relationships": "說話前先想一想，避免無心傷人。",
+        "stress": "壓力大時，先照顧好睡眠與飲食。",
+        "decision": "想想這個選擇是否有益於長期的身心。",
+        "habits": "規律三餐與作息，少說無益的話。"
+      },
+      "growthAdvice": "檢視最近的作息與飲食，調整一個小習慣。",
+      "growthReflection": {
+        "useStrength": "把你的自我照顧用在建立穩定的生活。",
+        "watchHabit": "留意自己是否過度依賴外在的供給。",
+        "reflectionQuestion": "最近哪一個習慣最需要調整？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "28",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大過卦：負荷過重",
+      "summary": "這一刻你可能覺得壓力超過平常，像樑柱承受太多，需要重新分配。",
+      "strengths": [
+        "擔當",
+        "勇氣",
+        "獨立"
+      ],
+      "blindSpots": [
+        "硬撐可能讓自己撐不住。"
+      ],
+      "dailyBehavior": "你可能覺得肩上的擔子特別重，像是一個人撐著很多事。",
+      "lifeContexts": {
+        "work": "負荷過重時，重新分配任務，請人協助。",
+        "relationships": "不要只是一個人扛，讓身邊的人知道你需要支援。",
+        "stress": "撐不住就說出來，這不是軟弱。",
+        "decision": "重大決定前先減輕其他的負擔。",
+        "habits": "刪掉一件不必要的承諾，騰出空間。"
+      },
+      "growthAdvice": "辨認哪些責任可以分給別人，先減輕一部分。",
+      "growthReflection": {
+        "useStrength": "把你的擔當用在最需要你的地方。",
+        "watchHabit": "留意自己是否習慣硬撐。",
+        "reflectionQuestion": "我現在扛的事情裡，哪些其實不必一個人扛？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "29",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "坎卦：重重難關",
+      "summary": "這一刻可能一關接著一關，感覺像陷在險境，需要保持內心的信念與耐心。",
+      "strengths": [
+        "堅持",
+        "誠信",
+        "面對"
+      ],
+      "blindSpots": [
+        "在難處打轉，可能越想越陷入。"
+      ],
+      "dailyBehavior": "你可能感覺一個問題剛解決，下一個又來了。",
+      "lifeContexts": {
+        "work": "處在困難時期，先求穩，把眼前最重要的事做好。",
+        "relationships": "難關中真誠的支持很珍貴，也可以主動求助。",
+        "stress": "在險境中保持內心的信念，一步一步來。",
+        "decision": "風險高時，選擇最穩妥的路。",
+        "habits": "固定的小儀式，例如散步、寫日記，幫你穩住。"
+      },
+      "growthAdvice": "先穩住心情，把眼前最需要處理的一件事做好。",
+      "growthReflection": {
+        "useStrength": "把你的堅持用在度過眼前的難關。",
+        "watchHabit": "留意自己是否越想越陷入。",
+        "reflectionQuestion": "眼前最需要先處理的一件事是什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "30",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "離卦：光明與依附",
+      "summary": "這一刻你可能想把事情看清楚，也適合與有光的人事物為伴，注意別過度依賴。",
+      "strengths": [
+        "明辨",
+        "熱情",
+        "溫暖"
+      ],
+      "blindSpots": [
+        "火太旺容易急躁，或把安定建立在別人身上。"
+      ],
+      "dailyBehavior": "你可能想把事情看得清楚透徹，也希望有人理解你。",
+      "lifeContexts": {
+        "work": "適合需要觀察力與表達的工作，把想法說明白。",
+        "relationships": "與有溫度的人相處，但別把安定都放在別人身上。",
+        "stress": "熱情太旺時容易急躁，給自己降溫的時間。",
+        "decision": "先看清楚事實，再憑直覺做判斷。",
+        "habits": "保持自己的興趣與熱情，不只依附他人。"
+      },
+      "growthAdvice": "讓自己的熱情有節奏，並確認你依靠的是什麼。",
+      "growthReflection": {
+        "useStrength": "把你的明辨用在照亮方向。",
+        "watchHabit": "留意自己是否過度依賴某個人或某件事。",
+        "reflectionQuestion": "我真正依靠的是什麼？它穩固嗎？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "31",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "咸卦：感應與相互吸引",
+      "summary": "這一刻容易有直覺的感受與連結，適合真誠交流，也要留意感情用事。",
+      "strengths": [
+        "共感",
+        "真誠",
+        "直覺"
+      ],
+      "blindSpots": [
+        "被感覺牽著走，可能忽略現實條件。"
+      ],
+      "dailyBehavior": "你可能特別有感覺，容易被某人某事打動。",
+      "lifeContexts": {
+        "work": "適合需要同理與溝通的工作，傾聽對方的需求。",
+        "relationships": "真誠交流讓彼此靠近，也要留意是否太快投入。",
+        "stress": "感受很強時，先確認事實再反應。",
+        "decision": "做決定時，同時聽自己的感覺和現實條件。",
+        "habits": "把感受寫下來，幫助自己整理。"
+      },
+      "growthAdvice": "把感受說出來，同時確認事實。",
+      "growthReflection": {
+        "useStrength": "把你的共感用在理解別人。",
+        "watchHabit": "留意自己是否被感覺牽著走。",
+        "reflectionQuestion": "我的感覺在告訴我什麼？事實又是什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "32",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "恆卦：持久與恆常",
+      "summary": "這一刻適合堅持原有的方向與習慣，用穩定的節奏走長遠的路。",
+      "strengths": [
+        "堅持",
+        "穩定",
+        "長期"
+      ],
+      "blindSpots": [
+        "一成不變可能讓你僵化。"
+      ],
+      "dailyBehavior": "你可能想維持原有的節奏，不想太多變動。",
+      "lifeContexts": {
+        "work": "適合長期專案，持續累積而非追求速成。",
+        "relationships": "穩定的陪伴勝過一時的熱情，持續經營關係。",
+        "stress": "變動多時，守住一兩個固定的習慣。",
+        "decision": "選擇可以長期做下去的方式。",
+        "habits": "每天固定做一件小事，持之以恆。"
+      },
+      "growthAdvice": "維持核心習慣，同時留意是否需要微調。",
+      "growthReflection": {
+        "useStrength": "把你的堅持用在值得長期投入的事。",
+        "watchHabit": "留意自己是否因為固定而變得僵化。",
+        "reflectionQuestion": "我想長久維持的習慣是什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "33",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "遯卦：退讓與保存",
+      "summary": "這一刻適合暫時退後一步，避開鋒頭，保存實力等待更好的時機。",
+      "strengths": [
+        "知進退",
+        "自保",
+        "冷靜"
+      ],
+      "blindSpots": [
+        "退得太久，可能變成逃避。"
+      ],
+      "dailyBehavior": "你可能想暫時退開，避免捲入不必要的紛爭。",
+      "lifeContexts": {
+        "work": "不利時先保存實力，低調等待時機。",
+        "relationships": "與消耗你的人保持距離，保護自己的心力。",
+        "stress": "退一步不是逃避，是重新整理。",
+        "decision": "現在不適合硬碰硬，先暫停決定。",
+        "habits": "給自己安靜獨處的時間。"
+      },
+      "growthAdvice": "有意識地退一步，同時決定何時再回來。",
+      "growthReflection": {
+        "useStrength": "把你的冷靜用在判斷何時該退、何時該回。",
+        "watchHabit": "留意自己是否退得太久而變成逃避。",
+        "reflectionQuestion": "我這次退一步，是為了什麼目的？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "34",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大壯卦：強盛與衝勁",
+      "summary": "這一刻力量很足、衝勁大，適合行動，但要留意用力的方式合不合宜。",
+      "strengths": [
+        "活力",
+        "自信",
+        "推進力"
+      ],
+      "blindSpots": [
+        "太逞強可能碰壁或傷到別人。"
+      ],
+      "dailyBehavior": "你可能覺得精力旺盛，想要大步向前。",
+      "lifeContexts": {
+        "work": "適合推動需要力量的計畫，但先確認方向。",
+        "relationships": "強勢的表達要留意對方的感受。",
+        "stress": "力量大的時候也要留意收斂，避免衝撞。",
+        "decision": "行動前先問：這樣做合乎分寸嗎？",
+        "habits": "把多餘的精力用在運動或創作。"
+      },
+      "growthAdvice": "把力氣用在對的地方，行動前確認是否合乎分寸。",
+      "growthReflection": {
+        "useStrength": "把你的衝勁用在對的地方。",
+        "watchHabit": "留意自己是否逞強。",
+        "reflectionQuestion": "我的力量，要用在哪裡最有價值？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "35",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "晉卦：向前晉升",
+      "summary": "這一刻你可能有機會被看見、進步或獲得肯定，適合積極展現能力。",
+      "strengths": [
+        "進取",
+        "被看見",
+        "光明"
+      ],
+      "blindSpots": [
+        "太急著表現，可能引來比較與壓力。"
+      ],
+      "dailyBehavior": "你可能覺得自己有機會被看見，或得到進步。",
+      "lifeContexts": {
+        "work": "適合展現成果、爭取機會，穩穩表現。",
+        "relationships": "感謝提攜你的人，讓關係更好。",
+        "stress": "被關注也有壓力，保持平常心。",
+        "decision": "面對機會，評估自己的準備再行動。",
+        "habits": "持續精進，不因被看見而鬆懈。"
+      },
+      "growthAdvice": "穩穩展現實力，也謝謝提攜你的人。",
+      "growthReflection": {
+        "useStrength": "把你的進取心用在紮實的成果上。",
+        "watchHabit": "留意自己是否太急著表現。",
+        "reflectionQuestion": "我想被看見的是哪一部分？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "36",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "明夷卦：光芒被遮蔽",
+      "summary": "這一刻你可能感覺自己的能力不被看見，或環境不太友善，適合低調保護自己。",
+      "strengths": [
+        "內斂",
+        "韌性",
+        "守住初心"
+      ],
+      "blindSpots": [
+        "過度壓抑自己，可能越來越沉悶。"
+      ],
+      "dailyBehavior": "你可能覺得自己的付出沒有被看見，或環境不太友善。",
+      "lifeContexts": {
+        "work": "在不利的環境中，低調保護自己，保留實力。",
+        "relationships": "不必什麼都說，保護自己的內心。",
+        "stress": "壓力大時，找一個安全的角落喘息。",
+        "decision": "不利時不要急著表態，保守為上。",
+        "habits": "保有一個屬於自己的小角落或活動。"
+      },
+      "growthAdvice": "暫時收起鋒芒，但別放棄內心的原則。",
+      "growthReflection": {
+        "useStrength": "把你的韌性用在守住初心。",
+        "watchHabit": "留意自己是否過度壓抑而變得沉悶。",
+        "reflectionQuestion": "在這樣的環境裡，我最想守住的是什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "37",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "家人卦：家庭與角色",
+      "summary": "這一刻適合關注家中與親近關係的相處，各安其位、說話有分寸。",
+      "strengths": [
+        "照顧",
+        "角色清楚",
+        "穩定"
+      ],
+      "blindSpots": [
+        "過度控制，或把外面的壓力帶回家。"
+      ],
+      "dailyBehavior": "你可能特別在意家裡的氣氛與家人之間的相處。",
+      "lifeContexts": {
+        "work": "把工作與家庭的界線說清楚，不把壓力帶回家。",
+        "relationships": "與家人說清楚彼此的期待，並留時間陪伴。",
+        "stress": "家庭壓力大時，找出能分擔的人。",
+        "decision": "重大決定前，與家人溝通想法。",
+        "habits": "固定與家人吃飯聊天。"
+      },
+      "growthAdvice": "和家人說清楚各自的期待，並留時間陪伴。",
+      "growthReflection": {
+        "useStrength": "把你的照顧用在建立穩定的家庭節奏。",
+        "watchHabit": "留意自己是否過度控制。",
+        "reflectionQuestion": "我對家人最想表達的一句話是什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "38",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "睽卦：分歧與乖離",
+      "summary": "這一刻你可能與人意見不合、彼此看不順眼，需要從小地方先求同。",
+      "strengths": [
+        "獨立",
+        "看到差異",
+        "求同存異"
+      ],
+      "blindSpots": [
+        "放大差異，可能讓隔閡變深。"
+      ],
+      "dailyBehavior": "你可能覺得與某人彼此看不順眼，怎麼說都不對盤。",
+      "lifeContexts": {
+        "work": "意見不合時，先找出彼此都同意的小事。",
+        "relationships": "差異是存在的，不必強求一致。",
+        "stress": "感到孤立時，找一位理解你的人。",
+        "decision": "在分歧中，先選擇可以合作的部分。",
+        "habits": "練習從對方的角度看一次。"
+      },
+      "growthAdvice": "從一件小事開始找共識，不急著談大事。",
+      "growthReflection": {
+        "useStrength": "把你看見差異的敏銳，用在找出共同點。",
+        "watchHabit": "留意自己是否放大差異。",
+        "reflectionQuestion": "我和對方有什麼是一樣的？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "39",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "蹇卦：行路艱難",
+      "summary": "這一刻可能行動受阻、進展慢，適合停下來反省，也尋求可信的幫助。",
+      "strengths": [
+        "反省",
+        "謹慎",
+        "求助"
+      ],
+      "blindSpots": [
+        "硬闖會更辛苦，也可能怪罪自己。"
+      ],
+      "dailyBehavior": "你可能覺得做什麼都不順，進展特別慢。",
+      "lifeContexts": {
+        "work": "遇到阻礙時，退一步檢討方法，並尋求協助。",
+        "relationships": "在困境中，身邊的人是重要的支持。",
+        "stress": "先承認困難，再一步一步處理。",
+        "decision": "暫緩冒進，先找替代方法。",
+        "habits": "降低要求，先維持基本作息。"
+      },
+      "growthAdvice": "先退一步找方法，並向可靠的人求助。",
+      "growthReflection": {
+        "useStrength": "把你的反省用在調整方向。",
+        "watchHabit": "留意自己是否責怪自己。",
+        "reflectionQuestion": "這個阻礙，有沒有人可以幫我？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "40",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "解卦：解開與放下",
+      "summary": "這一刻像一個結正在鬆開，適合處理拖延的事、原諒與放下。",
+      "strengths": [
+        "釋放",
+        "寬容",
+        "行動"
+      ],
+      "blindSpots": [
+        "事情過去後又重複同樣的模式。"
+      ],
+      "dailyBehavior": "你可能覺得壓著的事開始鬆動，心情比較輕。",
+      "lifeContexts": {
+        "work": "趁事情鬆動，處理拖延的工作。",
+        "relationships": "原諒與放下讓關係重新流動。",
+        "stress": "壓力釋放後，記得休息。",
+        "decision": "把該結束的事結束，騰出空間。",
+        "habits": "清掉一個拖延的待辦事項。"
+      },
+      "growthAdvice": "把一件拖著的事處理完，並記下學到的教訓。",
+      "growthReflection": {
+        "useStrength": "把你的釋放用在放下舊的包袱。",
+        "watchHabit": "留意自己是否又回到同樣的模式。",
+        "reflectionQuestion": "我可以放下的是什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "41",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "損卦：減損與取捨",
+      "summary": "這一刻適合減少不必要的花費或負擔，用真誠取代形式，有取有捨。",
+      "strengths": [
+        "節制",
+        "真誠",
+        "取捨"
+      ],
+      "blindSpots": [
+        "只想著減少，可能忽略真正需要的投入。"
+      ],
+      "dailyBehavior": "你可能覺得需要減少一些東西，讓生活輕一點。",
+      "lifeContexts": {
+        "work": "精簡流程與承諾，保留重要的。",
+        "relationships": "用真誠取代形式，簡單地相處。",
+        "stress": "減少不必要的負擔，壓力自然降低。",
+        "decision": "決定取捨，並接受有失有得。",
+        "habits": "檢視支出與行程，刪掉一件。"
+      },
+      "growthAdvice": "檢視最近的支出與承諾，放下一件不必要的。",
+      "growthReflection": {
+        "useStrength": "把你的節制用在聚焦真正重要的事。",
+        "watchHabit": "留意自己是否只想著減少而忽略了需要投入的部分。",
+        "reflectionQuestion": "我可以放下哪一件不再需要的事？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "42",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "益卦：增益與助力",
+      "summary": "這一刻你可能得到幫助或成長，適合把握機會做有益的事，並回饋他人。",
+      "strengths": [
+        "成長",
+        "把握",
+        "回饋"
+      ],
+      "blindSpots": [
+        "得到幫助卻不珍惜，或過度依賴。"
+      ],
+      "dailyBehavior": "你可能感覺有人幫忙或有機會，事情比較順。",
+      "lifeContexts": {
+        "work": "適合啟動有益的計畫，借助他人的資源。",
+        "relationships": "接受幫助，也回饋他人，讓善意流動。",
+        "stress": "得到幫助時，不要覺得虧欠，感謝就好。",
+        "decision": "把握有利的時機，做有益的決定。",
+        "habits": "每天做一件對別人有幫助的小事。"
+      },
+      "growthAdvice": "把握機會做一件有益的事，並感謝幫助你的人。",
+      "growthReflection": {
+        "useStrength": "把你得到的助力用在成長與回饋。",
+        "watchHabit": "留意自己是否過度依賴別人。",
+        "reflectionQuestion": "我可以如何回報幫助我的人？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "43",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "夬卦：決斷與揭露",
+      "summary": "這一刻可能需要果斷地把話說清楚，揭露問題，但要留意方式。",
+      "strengths": [
+        "果斷",
+        "坦率",
+        "負責"
+      ],
+      "blindSpots": [
+        "太直接可能傷人，或太急著下結論。"
+      ],
+      "dailyBehavior": "你可能覺得有些話不說不行，想把問題攤開來。",
+      "lifeContexts": {
+        "work": "適合清楚表態、處理一直拖著的問題。",
+        "relationships": "坦率說出想法，但注意語氣。",
+        "stress": "把話說清楚能減輕壓力，但要選好時機。",
+        "decision": "果斷做出決定，並承擔後果。",
+        "habits": "練習用溫和的方式說出真話。"
+      },
+      "growthAdvice": "把想說的話整理好，用溫和而清楚的方式表達。",
+      "growthReflection": {
+        "useStrength": "把你的果斷用在解決關鍵問題。",
+        "watchHabit": "留意自己是否太直接而傷人。",
+        "reflectionQuestion": "我想說的話，怎麼說對方比較容易聽進去？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "44",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "姤卦：不期而遇",
+      "summary": "這一刻你可能遇到意料之外的人或事，需要判斷是否適合靠近。",
+      "strengths": [
+        "開放",
+        "敏銳",
+        "判斷"
+      ],
+      "blindSpots": [
+        "太快投入或被吸引，可能忽略後續影響。"
+      ],
+      "dailyBehavior": "你可能遇到意料之外的人或事，心裡有些驚訝。",
+      "lifeContexts": {
+        "work": "突發的機會要先評估是否適合自己。",
+        "relationships": "新的相遇很有魅力，先觀察再靠近。",
+        "stress": "不確定感讓人緊張，給自己時間判斷。",
+        "decision": "不要因為新鮮感就急著投入。",
+        "habits": "保持平常的作息，不被突發事件帶走。"
+      },
+      "growthAdvice": "先觀察一段時間，再決定要不要深入。",
+      "growthReflection": {
+        "useStrength": "把你的敏銳用在判斷新事物。",
+        "watchHabit": "留意自己是否太快投入。",
+        "reflectionQuestion": "這個突然出現的人事，真的適合我嗎？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "45",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "萃卦：聚集與匯合",
+      "summary": "這一刻適合把人或資源聚在一起，目標一致時力量會變大。",
+      "strengths": [
+        "凝聚",
+        "儀式感",
+        "互助"
+      ],
+      "blindSpots": [
+        "人多事雜，容易起爭執或失去重點。"
+      ],
+      "dailyBehavior": "你可能正在聚集資源或人群，想把大家凝聚起來。",
+      "lifeContexts": {
+        "work": "適合籌辦活動、聚集團隊，明確共同目標。",
+        "relationships": "一起參與活動能讓關係更近。",
+        "stress": "人多事雜時，記得留給自己安靜的時間。",
+        "decision": "聚集前先確認目的與分工。",
+        "habits": "定期聚會，維持連結。"
+      },
+      "growthAdvice": "先確認共同目標，再召集大家。",
+      "growthReflection": {
+        "useStrength": "把你的凝聚力用在共同目標上。",
+        "watchHabit": "留意人多時是否失去焦點。",
+        "reflectionQuestion": "我們聚在一起的共同目標是什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "46",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "升卦：逐步上升",
+      "summary": "這一刻適合一步一步往上走，穩穩累積，有貴人或機會時要把握。",
+      "strengths": [
+        "耐心",
+        "穩進",
+        "把握機會"
+      ],
+      "blindSpots": [
+        "急著一次升到頂，可能站不穩。"
+      ],
+      "dailyBehavior": "你可能覺得慢慢在進步，一階一階往上。",
+      "lifeContexts": {
+        "work": "適合設定階段目標，穩步晉升。",
+        "relationships": "與前輩或貴人保持良好關係。",
+        "stress": "進步中的壓力，用小步伐化解。",
+        "decision": "把握機會，但不要一次跳太高。",
+        "habits": "每週檢視進度，往前一點點。"
+      },
+      "growthAdvice": "訂定一個階段目標，每週往前一點。",
+      "growthReflection": {
+        "useStrength": "把你的穩定用在長期累積。",
+        "watchHabit": "留意自己是否急著一次升到頂。",
+        "reflectionQuestion": "我下個階段的目標是什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "47",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "困卦：困頓與受限",
+      "summary": "這一刻你可能感到資源不足、處處受限，說了也沒人相信，需要內在的定力。",
+      "strengths": [
+        "定力",
+        "自省",
+        "不輕易放棄"
+      ],
+      "blindSpots": [
+        "一直說明或抱怨，可能更疲累。"
+      ],
+      "dailyBehavior": "你可能覺得資源不夠、處處受限，說出來也沒人相信。",
+      "lifeContexts": {
+        "work": "資源有限時，先做最重要的一件事。",
+        "relationships": "少說多做，用行動換取信任。",
+        "stress": "困頓時，守住內在的定力。",
+        "decision": "選擇可以負擔得起的方案。",
+        "habits": "簡化生活，維持基本的規律。"
+      },
+      "growthAdvice": "少說多做，先把能做的一件小事做好。",
+      "growthReflection": {
+        "useStrength": "把你的定力用在度過這段時期。",
+        "watchHabit": "留意自己是否不停地解釋或抱怨。",
+        "reflectionQuestion": "在受限的情況下，我還能做的一件事是什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "48",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "井卦：滋養與維護",
+      "summary": "這一刻適合維護身邊穩定的資源與關係，像井水供人，需要持續保養。",
+      "strengths": [
+        "穩定",
+        "服務",
+        "持續"
+      ],
+      "blindSpots": [
+        "只取不修，資源可能漸漸枯竭。"
+      ],
+      "dailyBehavior": "你可能想到身邊那些默默支持你的資源與人。",
+      "lifeContexts": {
+        "work": "維護現有的制度與資源，比開新坑更重要。",
+        "relationships": "長期穩定的關係需要維護，不要只索取。",
+        "stress": "資源枯竭前，先補充與整理。",
+        "decision": "選擇可以長期使用、持續供給的方案。",
+        "habits": "定期檢查並保養重要的資源。"
+      },
+      "growthAdvice": "檢查並整理你長期依賴的資源或關係。",
+      "growthReflection": {
+        "useStrength": "把你的穩定用在服務他人。",
+        "watchHabit": "留意自己是否只取不修。",
+        "reflectionQuestion": "我長期依賴的資源或關係，最近有被好好維護嗎？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "49",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "革卦：改變與革新",
+      "summary": "這一刻適合更新舊的做法，但需要時機與信任，才能讓改變被接受。",
+      "strengths": [
+        "勇氣",
+        "創新",
+        "判斷時機"
+      ],
+      "blindSpots": [
+        "急著推翻一切，可能失去支持。"
+      ],
+      "dailyBehavior": "你可能覺得舊的做法已經不適用，想要改變。",
+      "lifeContexts": {
+        "work": "適合改善流程、推動變革，先說明原因。",
+        "relationships": "改變關係的相處方式，需要雙方的理解。",
+        "stress": "變動帶來不安，先做小改變看看。",
+        "decision": "確認時機成熟與支持度，再推動改變。",
+        "habits": "換掉一個舊習慣，觀察一週。"
+      },
+      "growthAdvice": "先說明為什麼要改，並讓人看到小成果。",
+      "growthReflection": {
+        "useStrength": "把你的勇氣用在有計畫的改變。",
+        "watchHabit": "留意自己是否急著推翻一切。",
+        "reflectionQuestion": "我想改變的是什麼？為什麼是現在？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "50",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "鼎卦：穩固與新局",
+      "summary": "這一刻適合建立穩定的新局面，把資源整合成有價值的成果。",
+      "strengths": [
+        "穩重",
+        "整合",
+        "培養人才"
+      ],
+      "blindSpots": [
+        "只顧成果，可能忽略根基是否穩。"
+      ],
+      "dailyBehavior": "你可能想把手上的東西整合起來，做出一個完整的成果。",
+      "lifeContexts": {
+        "work": "適合整合團隊、培養人才、建立穩定的新局面。",
+        "relationships": "穩固的關係需要彼此培養。",
+        "stress": "成果前的壓力，穩住根基最重要。",
+        "decision": "選擇可以長期站穩的方案。",
+        "habits": "固定整理與盤點自己的優勢。"
+      },
+      "growthAdvice": "把團隊或自己的優勢整理清楚，再往前。",
+      "growthReflection": {
+        "useStrength": "把你的整合力用在建立穩定的基礎。",
+        "watchHabit": "留意自己是否只顧成果而忽略根基。",
+        "reflectionQuestion": "我的團隊或我自己，有什麼優勢還沒被好好運用？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "51",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "震卦：驚動與警醒",
+      "summary": "這一刻你可能被突發事件嚇到，但事後往往讓人更警覺、更成長。",
+      "strengths": [
+        "警覺",
+        "反應",
+        "成長"
+      ],
+      "blindSpots": [
+        "過度驚慌，會影響判斷。"
+      ],
+      "dailyBehavior": "你可能被一件突然的事嚇到，心跳加快。",
+      "lifeContexts": {
+        "work": "突發狀況發生時，先穩住情緒再處理。",
+        "relationships": "事後與人聊聊，讓情緒有出口。",
+        "stress": "驚嚇之後，深呼吸，給自己緩衝。",
+        "decision": "情緒未平時，不做重大決定。",
+        "habits": "建立簡單的應變清單，讓你更安心。"
+      },
+      "growthAdvice": "先深呼吸，待情緒穩定再處理事情。",
+      "growthReflection": {
+        "useStrength": "把你的警覺用在預防類似的事。",
+        "watchHabit": "留意自己是否過度驚慌。",
+        "reflectionQuestion": "這次的驚嚇，讓我學到什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "52",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "艮卦：靜止與克制",
+      "summary": "這一刻適合停下來，管好自己的念頭與行動，在該止的地方止。",
+      "strengths": [
+        "自制",
+        "沉靜",
+        "界線"
+      ],
+      "blindSpots": [
+        "停得太久可能僵住，或壓抑想法。"
+      ],
+      "dailyBehavior": "你可能想停下來，不想再往前或表態。",
+      "lifeContexts": {
+        "work": "適合暫停、檢視，避免過度投入。",
+        "relationships": "在關係中設定界線，並尊重對方的界線。",
+        "stress": "壓力大時，練習安靜地待著。",
+        "decision": "在該停的地方停，不勉強前進。",
+        "habits": "每天留一段不看手機的靜止時間。"
+      },
+      "growthAdvice": "選一件想衝動去做的事，先等一天再決定。",
+      "growthReflection": {
+        "useStrength": "把你的自制用在守住界線。",
+        "watchHabit": "留意自己是否因為停太久而僵住。",
+        "reflectionQuestion": "我現在最需要停下來的是什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "53",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "漸卦：循序漸進",
+      "summary": "這一刻適合一步一步來，像大雁慢慢前進，穩定而有次序。",
+      "strengths": [
+        "耐心",
+        "次序",
+        "穩健"
+      ],
+      "blindSpots": [
+        "一直慢慢來，可能錯過時機。"
+      ],
+      "dailyBehavior": "你可能覺得事情要慢慢來，不能急。",
+      "lifeContexts": {
+        "work": "適合按步驟推進，穩定完成。",
+        "relationships": "關係慢慢升溫，比急著定義更自然。",
+        "stress": "急不來的事，接受它需要時間。",
+        "decision": "把目標拆成階段，一階一階決定。",
+        "habits": "維持穩定節奏，每天前進一點。"
+      },
+      "growthAdvice": "把目標拆成階段，按順序完成。",
+      "growthReflection": {
+        "useStrength": "把你的耐心用在循序漸進。",
+        "watchHabit": "留意自己是否因慢而錯失時機。",
+        "reflectionQuestion": "我的目標可以拆成哪幾個階段？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "54",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "歸妹卦：歸屬與名分",
+      "summary": "這一刻你可能面對關係或身分的安排，需要看清自己的位置與期待。",
+      "strengths": [
+        "適應",
+        "責任",
+        "看清位置"
+      ],
+      "blindSpots": [
+        "勉強接受不平等的安排。"
+      ],
+      "dailyBehavior": "你可能正面對一段關係或身分的安排，心裡有些複雜。",
+      "lifeContexts": {
+        "work": "看清自己的位置與期待，再接下新角色。",
+        "relationships": "在關係中釐清彼此的期待，避免勉強。",
+        "stress": "角色轉換期，給自己適應的時間。",
+        "decision": "不要因為壓力而勉強接受不適合的安排。",
+        "habits": "寫下自己真正想要的是什麼。"
+      },
+      "growthAdvice": "釐清這段關係中你真正想要的是什麼。",
+      "growthReflection": {
+        "useStrength": "把你的適應力用在新的角色。",
+        "watchHabit": "留意自己是否勉強接受不平等的安排。",
+        "reflectionQuestion": "在這段關係或位置中，我真正想要的是什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "55",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "豐卦：盛大與頂點",
+      "summary": "這一刻狀態很豐盛，像正午的太陽，要懂得照顧全局，也想到盛極而衰的可能。",
+      "strengths": [
+        "光明",
+        "氣勢",
+        "全局觀"
+      ],
+      "blindSpots": [
+        "太滿可能走向下坡，也容易忽略陰影。"
+      ],
+      "dailyBehavior": "你可能覺得一切正在高峰，事情很多也很精彩。",
+      "lifeContexts": {
+        "work": "事業順利時，照顧全局，預留備案。",
+        "relationships": "豐盛時分享給身邊的人。",
+        "stress": "盛況也是壓力，記得休息。",
+        "decision": "順利時更要看長遠，不被一時氣氛帶走。",
+        "habits": "在忙碌中保留固定的休息。"
+      },
+      "growthAdvice": "在順利時預留一些空間與備案。",
+      "growthReflection": {
+        "useStrength": "把你的氣勢用在照顧更大的局面。",
+        "watchHabit": "留意自己是否忽略了陰影。",
+        "reflectionQuestion": "在順利的時候，我需要預備什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "56",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "旅卦：旅行與在外",
+      "summary": "這一刻你可能像在外作客，處在陌生環境，適合謙遜低調、保護好自己。",
+      "strengths": [
+        "適應",
+        "低調",
+        "獨立"
+      ],
+      "blindSpots": [
+        "太拘謹或太隨意，都可能讓你不自在。"
+      ],
+      "dailyBehavior": "你可能覺得像在外作客，環境陌生、有些不自在。",
+      "lifeContexts": {
+        "work": "新環境中，先觀察規則，低調融入。",
+        "relationships": "作客時保持禮貌與謙遜。",
+        "stress": "陌生感帶來壓力，建立一個小小的日常儀式。",
+        "decision": "在陌生處，不要太冒險。",
+        "habits": "帶著熟悉的小物，讓自己安心。"
+      },
+      "growthAdvice": "先熟悉環境與規則，再慢慢融入。",
+      "growthReflection": {
+        "useStrength": "把你的適應力用在融入新環境。",
+        "watchHabit": "留意自己是否太拘謹或太隨意。",
+        "reflectionQuestion": "在這個新環境，我需要先了解什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "57",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "巽卦：滲透與順入",
+      "summary": "這一刻適合以溫和而持續的方式影響別人，像風一樣慢慢滲透。",
+      "strengths": [
+        "柔和",
+        "持續",
+        "善於溝通"
+      ],
+      "blindSpots": [
+        "猶豫不決或過於順從，可能顯得沒有主見。"
+      ],
+      "dailyBehavior": "你可能想用溫和的方式影響別人，而不是強硬表態。",
+      "lifeContexts": {
+        "work": "適合說服、溝通與持續推動，不必大聲。",
+        "relationships": "柔和而持續的關心，讓關係慢慢加深。",
+        "stress": "猶豫時，先決定一件小事。",
+        "decision": "一致而穩定地說明你的想法。",
+        "habits": "每天一點點，持續做同一件事。"
+      },
+      "growthAdvice": "用一致的方式說明你的想法，持續幾次。",
+      "growthReflection": {
+        "useStrength": "把你的柔和用在持續而溫和的影響。",
+        "watchHabit": "留意自己是否過於順從。",
+        "reflectionQuestion": "我想傳達的想法，有沒有用一致的方式說明？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "58",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "兌卦：喜悅與交流",
+      "summary": "這一刻適合以愉悅的心情與人交談，分享與討論，也要留意言語的真誠。",
+      "strengths": [
+        "親切",
+        "表達",
+        "愉快"
+      ],
+      "blindSpots": [
+        "只說好聽的話，可能失去真實。"
+      ],
+      "dailyBehavior": "你可能心情愉快，想與人聊天分享。",
+      "lifeContexts": {
+        "work": "適合討論、分享、交流想法。",
+        "relationships": "愉快的交談拉近距離，但也說出真話。",
+        "stress": "說出口能讓壓力減輕，找人聊聊。",
+        "decision": "在交流中釐清想法，再做決定。",
+        "habits": "每天與人交流一次，保持開心。"
+      },
+      "growthAdvice": "真誠地說出你的想法，同時尊重對方。",
+      "growthReflection": {
+        "useStrength": "把你的表達用在建立連結。",
+        "watchHabit": "留意自己是否只說好聽的話。",
+        "reflectionQuestion": "我真正想說的話是什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "59",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "渙卦：消散與疏通",
+      "summary": "這一刻像冰在融化，適合化解心結、疏通人群，讓堵塞的氣氛流動起來。",
+      "strengths": [
+        "化解",
+        "疏通",
+        "凝聚"
+      ],
+      "blindSpots": [
+        "散得太開，可能失去中心。"
+      ],
+      "dailyBehavior": "你可能覺得心裡有些結正在鬆開，氣氛也在流動。",
+      "lifeContexts": {
+        "work": "適合化解僵局、疏通溝通管道。",
+        "relationships": "化解小誤會，讓關係重新流動。",
+        "stress": "放下一些執念，壓力就會散去。",
+        "decision": "打破僵局時，先找一個切入點。",
+        "habits": "整理環境，讓空氣流動。"
+      },
+      "growthAdvice": "先化解一個小誤會，再談其他事。",
+      "growthReflection": {
+        "useStrength": "把你的化解力用在凝聚人心。",
+        "watchHabit": "留意自己是否散得太開。",
+        "reflectionQuestion": "有哪個結，我現在可以先解開一點？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "60",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "節卦：節制與分寸",
+      "summary": "這一刻適合設定界線與規則，讓生活有節奏，但別節制得太苦。",
+      "strengths": [
+        "自律",
+        "分寸",
+        "制度"
+      ],
+      "blindSpots": [
+        "苦撐著節制，可能撐不久。"
+      ],
+      "dailyBehavior": "你可能想為生活設定一些界線與規則。",
+      "lifeContexts": {
+        "work": "適合建立制度、控制預算與時程。",
+        "relationships": "為關係設定合理的界線。",
+        "stress": "節制過頭也會壓力，允許自己彈性。",
+        "decision": "訂出合理的限度，再決定。",
+        "habits": "建立簡單的規則，例如固定睡覺時間。"
+      },
+      "growthAdvice": "訂一個合理的限度，並允許自己彈性。",
+      "growthReflection": {
+        "useStrength": "把你的自律用在建立可持續的節奏。",
+        "watchHabit": "留意自己是否節制得太苦。",
+        "reflectionQuestion": "哪一項限制讓我更自在，哪一項讓我更辛苦？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "61",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "中孚卦：誠信與內心",
+      "summary": "這一刻重視真誠與信任，內心與外在一致，容易感動並影響他人。",
+      "strengths": [
+        "誠信",
+        "真心",
+        "感染力"
+      ],
+      "blindSpots": [
+        "太相信別人而失去警覺。"
+      ],
+      "dailyBehavior": "你可能特別重視誠信，也期待被真誠對待。",
+      "lifeContexts": {
+        "work": "以誠信贏得信任，說到做到。",
+        "relationships": "真心相待，建立深層的信任。",
+        "stress": "誠實面對自己，壓力會減輕。",
+        "decision": "依據內心的誠信做選擇。",
+        "habits": "言行一致，從小事開始。"
+      },
+      "growthAdvice": "用一致的言行建立信任，同時保有判斷。",
+      "growthReflection": {
+        "useStrength": "把你的真誠用在建立信任。",
+        "watchHabit": "留意自己是否太容易相信別人。",
+        "reflectionQuestion": "我的言行，有沒有一致？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "62",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "小過卦：小事可為",
+      "summary": "這一刻適合謹慎處理小事，不宜好高騖遠，在小處放低姿態。",
+      "strengths": [
+        "謹慎",
+        "謙恭",
+        "務實"
+      ],
+      "blindSpots": [
+        "過度保守可能錯失機會。"
+      ],
+      "dailyBehavior": "你可能覺得現在適合處理小事，不適合做大動作。",
+      "lifeContexts": {
+        "work": "先把小事做好，大事慢慢準備。",
+        "relationships": "謙恭與細心勝過大動作。",
+        "stress": "不要給自己太高的目標。",
+        "decision": "小處放低姿態，不好高騖遠。",
+        "habits": "每天完成一件小事。"
+      },
+      "growthAdvice": "先把小事做好，大事慢慢準備。",
+      "growthReflection": {
+        "useStrength": "把你的務實用在腳踏實地。",
+        "watchHabit": "留意自己是否過度保守。",
+        "reflectionQuestion": "現在適合先做的小事是什麼？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "63",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "既濟卦：完成與維持",
+      "summary": "這一刻事情大致已完成，容易進入維持階段，要預防問題在鬆懈中出現。",
+      "strengths": [
+        "完成",
+        "秩序",
+        "警覺"
+      ],
+      "blindSpots": [
+        "太放心而忽略小裂縫。"
+      ],
+      "dailyBehavior": "你可能覺得一件事情大致完成，心裡鬆了一口氣。",
+      "lifeContexts": {
+        "work": "完成後建立維護機制，檢查是否有遺漏。",
+        "relationships": "關係穩定時，不要忘了持續經營。",
+        "stress": "完成後的空虛，找新的小目標。",
+        "decision": "在穩定時預防問題，而不是等問題出現。",
+        "habits": "建立維護清單，定期檢查。"
+      },
+      "growthAdvice": "檢查已完成事項有沒有疏漏，並建立維護習慣。",
+      "growthReflection": {
+        "useStrength": "把你的完成力用在持續維持。",
+        "watchHabit": "留意自己是否太放心。",
+        "reflectionQuestion": "已完成的事裡，有哪裡需要再檢查一次？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "64",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "未濟卦：尚未完成",
+      "summary": "這一刻事情還在途中，離完成差一步，適合謹慎收尾，並保持希望。",
+      "strengths": [
+        "希望",
+        "謹慎",
+        "持續"
+      ],
+      "blindSpots": [
+        "太急著收尾，可能功虧一簣。"
+      ],
+      "dailyBehavior": "你可能覺得事情快要完成，但還差最後一步。",
+      "lifeContexts": {
+        "work": "謹慎收尾，細節確認。",
+        "relationships": "關係尚未定案，保持耐心與希望。",
+        "stress": "接近終點最容易急，慢下來。",
+        "decision": "最後一步前再確認一次。",
+        "habits": "把最後一步拆成小步驟。"
+      },
+      "growthAdvice": "把最後一步拆細，確認每個細節。",
+      "growthReflection": {
+        "useStrength": "把你的希望用在堅持到最後。",
+        "watchHabit": "留意自己是否太急著收尾。",
+        "reflectionQuestion": "最後一步需要確認哪些細節？"
+      },
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "1_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "乾・初爻",
+      "summary": "力量還藏在底下，這一刻你可能很想行動，但時機和條件都還沒成熟，現在出手容易白白消耗自己。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "把基礎再打穩一點，先默默準備，不急著讓人看見。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "1_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "乾・二爻",
+      "summary": "你的能力開始被看見，身邊出現願意指點或支持你的人，適合走出去、讓別人認識你做的事。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "主動向一位有經驗的人請教，並讓他看到你的成果。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "1_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "乾・三爻",
+      "summary": "這一刻事情多、壓力也大，你得一邊持續努力、一邊保持警覺；只要每天回頭檢視，就不容易出大差錯。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "每天收工前花五分鐘回顧今天，修正一個小地方。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "1_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "乾・四爻",
+      "summary": "你站在可進可退的位置：可以跳一步試試，也可以退回原位，兩種都不算錯，關鍵是自己準備好了沒有。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先評估風險，只做一個小幅度的嘗試。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "1_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "乾・五爻",
+      "summary": "能力與時機剛好對上，容易有發揮的空間，也容易被人看見與信任，這是比較順的一段。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "善用你的影響力，並邀請真正有幫助的人一起做。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "1_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "乾・上爻",
+      "summary": "站得最高、走得最滿的時候，反而容易失去彈性，之後可能需要往回調整。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "在高點時預留退路，也聽聽別人的提醒。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "2_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "坤・初爻",
+      "summary": "腳下踩到薄霜，代表更冷的情況正在靠近；眼前的小徵兆，可能是之後變化的開始。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "留意最近的小警訊，趁還小的時候先處理。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "2_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "坤・二爻",
+      "summary": "正直、方正、寬大，你不必刻意經營什麼，順著本性把事情做好，自然就穩。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "守住誠實與分寸，用最自然的方式做事。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "2_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "坤・三爻",
+      "summary": "把才華收在裡面，不急著表現，適合默默做出成果，需要時再出力。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先把事情做好，讓成果自己說話。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "2_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "坤・四爻",
+      "summary": "像把袋口紮緊：少說話、不爭功，雖然得不到讚美，也能避開不必要的麻煩。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "今天少表態，專心守住自己的位置。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "2_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "坤・五爻",
+      "summary": "內斂而有內涵的人，不必張揚就有分量，也容易贏得別人的敬重。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "保持謙和，讓品格自然發光。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "2_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "坤・上爻",
+      "summary": "兩股力量在外頭正面衝突，雙方都可能受傷，這一刻的對立已經走到了極端。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "避免硬碰硬，想一個雙方都能接受的出口。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "3_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "屯・初爻",
+      "summary": "你在原地徘徊，還沒找到方向；在剛起步的階段，先站穩比急著往前衝更重要。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先把基礎安頓好，找一位可靠的夥伴一起。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "3_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "屯・二爻",
+      "summary": "你進退兩難，有人想靠近你，但時機還沒到；先守住自己的原則，不要急著答應。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "不急著決定，等條件成熟再回應。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "3_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "屯・三爻",
+      "summary": "沒有嚮導就追進森林，很容易迷路；在不熟的領域貿然前進，往往得不償失。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先找熟悉的人帶路，再出發。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "3_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "屯・四爻",
+      "summary": "你承認自己需要幫手，主動去尋求合作，事情因此出現轉機。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "開口邀請一位合適的人加入。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "3_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "屯・五爻",
+      "summary": "資源被卡住了：小地方可以慢慢改善，但大動作容易受阻，這一刻不適合大刀闊斧。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "從一個小改善開始，不要一次大改。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "3_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "屯・上爻",
+      "summary": "走到困局的盡頭，容易覺得無助與悲傷，這是需要重新調整、而不是硬撐的時候。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "允許自己難過一下，然後找人幫忙、先休息。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "4_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "蒙・初爻",
+      "summary": "對還不懂的事，需要有規矩來啟發，適度的約束是為了讓方向更清楚。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "替自己訂一個簡單的規則，照著做幾天。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "4_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "蒙・二爻",
+      "summary": "你願意包容還不懂的人，也承擔起教導與照顧的責任，這會讓你自己也更穩定。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "耐心一點，並把自己該做的先做好。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "4_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "蒙・三爻",
+      "summary": "眼前的誘惑很吸引人，但一頭栽進去可能失去自己，要小心被表象影響。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先看清楚對方或事情的動機，再決定。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "4_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "蒙・四爻",
+      "summary": "困在自己的無知與偏見裡，又不肯請教，容易留下遺憾。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "承認不懂，去找一位能指點你的人。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "4_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "蒙・五爻",
+      "summary": "用單純、虛心的態度學習，反而最容易得到別人的幫助。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "保持好奇，放下面子，大方地問。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "4_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "蒙・上爻",
+      "summary": "面對頑固的無知，需要嚴格處理，但要拿捏分寸，適可而止。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "立場可以堅定，但不要用力過猛。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "5_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "需・初爻",
+      "summary": "等待的地點還離得很遠，保持平常心與固定的節奏，不必因為等待而亂了陣腳。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "維持日常的步調，慢慢等。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "5_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "需・二爻",
+      "summary": "等待的過程中會聽到一些閒言閒語，帶來小小的波動，但整體會順利過去。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "聽到雜音時不必在意，繼續等。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "5_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "需・三爻",
+      "summary": "你等待的位置離危險很近，容易招來麻煩，這一刻要特別小心。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "不要靠近風險，保持警覺。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "5_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "需・四爻",
+      "summary": "你處在緊張的局面，這時候退出險境，比硬撐更重要。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先脫離險境，再重新評估。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "5_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "需・五爻",
+      "summary": "在安穩的狀態裡等待，適合與人好好相處、享受當下，不必焦慮。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "好好吃飯、好好休息，保持心情正向。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "5_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "需・上爻",
+      "summary": "意外的人或事突然出現，以尊重與誠意對待，反而會帶來好的結果。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "用恭敬的態度接待突然來的人或事。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "6_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "訟・初爻",
+      "summary": "爭執不要拖長，小小的口角很快就會過去，不必把它放大。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "不糾纏，適度退讓，讓事情在這裡結束。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "6_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "訟・二爻",
+      "summary": "你的勢力不如對方，這時回頭退讓、避開衝突，反而能保全身邊的人。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "退一步，先保護自己與周圍的人。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "6_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "訟・三爻",
+      "summary": "靠過去累積的德行與基礎過日子，雖然有風險，但守住本分就能平安。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "守住本分，不要貿然去爭功。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "6_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "訟・四爻",
+      "summary": "放棄爭執、回到正道之後，心就安下來，事情也比較穩定。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "放下這場爭執，回到原本的軌道。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "6_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "訟・五爻",
+      "summary": "有公正的人出面裁決，事情可以得到合理的處理，這是比較公平的局面。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "找一位公正的第三方協助判斷。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "6_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "訟・上爻",
+      "summary": "爭贏了得到獎賞，卻很快又被奪走，這代表勝利可能撐不久。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "別為了贏而執著，想想你真正要的是什麼。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "7_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "師・初爻",
+      "summary": "出發時要有紀律與規矩，沒有規則，事情很容易出差錯。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先訂好規則，再開始行動。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "7_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "師・二爻",
+      "summary": "你居中統領，得到上位者的支持，也要承擔相應的責任。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "穩住中心，同時回應大家對你的信任。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "7_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "師・三爻",
+      "summary": "指揮不一、意見分歧，可能造成不必要的損失。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "統一指揮，避免多頭馬車。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "7_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "師・四爻",
+      "summary": "暫時退守，是明智的選擇，不算失敗。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "適度後退，保存實力。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "7_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "師・五爻",
+      "summary": "要有明確的理由才行動，而且需要由合適的人來主導，不能隨便分權。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "讓有能力的人負責，並說清楚為什麼要做。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "7_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "師・上爻",
+      "summary": "到了論功行賞、安排位置的時候，用人要看品德與能力，而不只是功勞。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "分配角色時，看重品格。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "8_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "比・初爻",
+      "summary": "以真誠靠近別人，彼此信任，這份誠意會帶來好的結果。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "真誠待人，不耍心機。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "8_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "比・二爻",
+      "summary": "從內心出發去結交，關係自然穩固，不必勉強。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "靠近真正契合的人。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "8_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "比・三爻",
+      "summary": "你親近的對象可能不太合適，需要留意自己交往的人。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "重新檢視身邊的關係。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "8_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "比・四爻",
+      "summary": "向外尋找並親近賢能的人，會帶來實際的幫助。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "主動結識值得學習的人。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "8_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "比・五爻",
+      "summary": "光明正大地結交，不強求，來去都自由，這樣的關係最自在。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "大方開放，不強求別人。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "8_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "比・上爻",
+      "summary": "結盟時沒有領頭的人，或是太晚才靠攏，容易失去方向。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "及早確認方向，以及誰來帶頭。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "9_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "小畜・初爻",
+      "summary": "回到自己原本的路上，回歸正道不會有問題，不必為轉身感到後悔。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "回到自己的軌道。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "9_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "小畜・二爻",
+      "summary": "和同伴牽著手一起回到正路，彼此扶持，不是一個人在撐。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "和同伴一起調整方向。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "9_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "小畜・三爻",
+      "summary": "車輪脫落、夫妻反目，代表關係出現了裂縫，這時不適合硬往前走。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "停下來，先修補關係再前進。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "9_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "小畜・四爻",
+      "summary": "用誠信化解憂慮，擔心的事自然會過去。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "誠懇溝通，讓疑慮散去。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "9_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "小畜・五爻",
+      "summary": "誠信相繫，並與身邊的人分享資源，彼此都會更富足。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "願意分享，讓關係更穩。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "9_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "小畜・上爻",
+      "summary": "事情已經有結果、累積已經成形，這時適合守成，不要再勉強往前。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "見好就收，守住成果。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "10_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "履・初爻",
+      "summary": "用樸素、不裝飾的態度前行，不會出錯。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "坦率而樸實地做事。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "10_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "履・二爻",
+      "summary": "道路平坦，安靜自得的人能保持內心的平靜。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "保持淡定，不急著和人比較。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "10_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "履・三爻",
+      "summary": "能力有限卻逞強，可能受傷，需要先認清自己的程度。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "量力而為，不要逞強。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "10_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "履・四爻",
+      "summary": "雖然面對風險，但戒慎恐懼、步步為營，最後能平安度過。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "謹慎處理，一步一步來。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "10_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "履・五爻",
+      "summary": "果斷往前走，但要意識到風險，不可以大意。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "果斷之餘，保持警覺。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "10_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "履・上爻",
+      "summary": "回頭檢視走過的路與自己的作為，就能得到好的結果。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "回顧並檢討自己的行動。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "11_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "泰・初爻",
+      "summary": "拔起一根茅草會連著其他的根，合作時彼此相連，適合大家一起前進。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "邀請夥伴一起行動。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "11_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "泰・二爻",
+      "summary": "寬廣包容，也敢於承擔困難，並顧及遠方的人，這是比較有格局的狀態。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "胸懷放寬，兼顧各方。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "11_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "泰・三爻",
+      "summary": "沒有永遠平坦的路；順境時保持警覺，艱難時仍守住正道，才能走得長久。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "順利的時候也預備變化。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "11_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "泰・四爻",
+      "summary": "放下身段與身邊的人往來，誠心相待，不需要戒備。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "放下架子，用誠意交流。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "11_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "泰・五爻",
+      "summary": "以謙遜的態度促成一件好事，帶來福氣與支持。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "以謙和的姿態促成合作。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "11_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "泰・上爻",
+      "summary": "城牆倒回壕溝，局勢逆轉；這時不要再向外動員，要先整頓內部。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "停止擴張，先穩住內部。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "12_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "否・初爻",
+      "summary": "與志同道合的人牽在一起、一起守著原則；在不通的時期，有同伴比單打獨鬥更撐得住。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "找一兩位價值觀相近的人保持聯絡。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "12_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "否・二爻",
+      "summary": "在閉塞的局面裡，順從與容納會讓小人物得利，但有原則的人要選擇不同流；重點是你站在哪一邊。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "不隨便附和，也不必起衝突，安靜守住原則。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "12_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "否・三爻",
+      "summary": "你可能正在忍受一些讓自己覺得羞愧的處境，這提醒你想想是不是為了安穩而委屈了本心。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "找出讓你不對勁的那件事，決定是否還要忍。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "12_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "否・四爻",
+      "summary": "如果能順應大局、聽從合理的安排，就能和同伴一起度過；這時不需要逞強突圍。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "接受合理的安排，並和同伴分工。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "12_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "否・五爻",
+      "summary": "閉塞的狀態正在鬆動，但別因此放鬆，要像把東西繫在桑樹根上一樣，先確保穩固再放心。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "改善局面的同時，留一個保險的做法。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "12_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "否・上爻",
+      "summary": "僵局走到盡頭就會被推翻，先苦後喜；你現在的辛苦，可能正是轉變前的最後一段。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "再撐一小段，並準備好迎接新的局面。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "13_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "同人・初爻",
+      "summary": "從門口開始與人相交，不帶預設與偏見，這樣的開始最不容易出錯。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "用開放的心情和新認識的人聊聊。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "13_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "同人・二爻",
+      "summary": "只和自己人往來會讓格局變小，久了容易變成排外的小圈子。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "找一個圈子以外的人，聽聽不同的看法。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "13_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "同人・三爻",
+      "summary": "暗地設防、各自埋伏，關係只會越來越僵，也很難再回到原本的信任。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "找機會把顧慮說開，不要繼續暗自防備。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "13_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "同人・四爻",
+      "summary": "你已經爬上牆頭卻沒攻下來，代表勢頭已到盡頭；這時收手，反而是明智的選擇。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "知道該停就停，不必為了爭一口氣繼續。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "13_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "同人・五爻",
+      "summary": "先經歷哭泣與分離，最後才笑著重逢；這段關係需要時間才能走到好結果。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "不急著要答案，持續保持聯絡。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "13_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "同人・上爻",
+      "summary": "在郊外與人相交，沒有太深的牽扯，也沒有後悔；這是一種輕鬆而有距離的相處。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "維持輕鬆的往來，不必勉強更靠近。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "14_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大有・初爻",
+      "summary": "還沒碰到會傷害你的事，所以保持小心就好，不必過度擔心。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "保持謹慎，遠離明顯的是非。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "14_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大有・二爻",
+      "summary": "你有能力承載大的事，像大車能裝很多東西，可以放心接下重任。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "確認自己的負荷後，大方承擔。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "14_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大有・三爻",
+      "summary": "把資源拿出來貢獻給更大的目標，才是有格局；只想自己留著的人，承受不起這份豐盛。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "拿出一部分資源，用在大家共同的目標上。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "14_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大有・四爻",
+      "summary": "不炫耀盛大、保持低調，就不會招來嫉妒與麻煩。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "享受成果，但不必讓所有人都知道。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "14_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大有・五爻",
+      "summary": "以誠信與人往來，再加上適度的威嚴，讓人敬重也願意靠近。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "說到做到，同時守住該有的分寸。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "14_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大有・上爻",
+      "summary": "好運像是從天而降，一切順利；這是需要感恩的時刻，不是理所當然。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "對幫助過你的人說聲謝謝，繼續做對的事。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "15_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "謙・初爻",
+      "summary": "把謙遜放在最前面，即使面對大的考驗也能度過，因為你不跟人爭風頭。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "在新的環境先放低姿態，多聽少說。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "15_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "謙・二爻",
+      "summary": "你的謙遜被人看見，名聲慢慢傳開，是因為你做事實在。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "持續做實在的事，不必刻意宣傳。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "15_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "謙・三爻",
+      "summary": "你辛苦付出卻不邀功，這樣的人最終會得到好的結果與人們的敬重。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "繼續努力，也讓需要被看見的人被看見。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "15_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "謙・四爻",
+      "summary": "在適當的地方表現謙讓，沒有不順利的，也讓合作更順暢。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "在別人需要時讓一步，換取長期的合作。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "15_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "謙・五爻",
+      "summary": "與身邊的人共享資源，必要時也要堅定處理不合理的事，謙遜不等於沒有立場。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "溫和地說出界線，不讓謙讓變成吃虧。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "15_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "謙・上爻",
+      "summary": "謙遜的名聲已經傳開，這時你有力量整頓內部、處理該處理的事。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "趁信任足夠，整頓自己的團隊或習慣。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "16_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "豫・初爻",
+      "summary": "一直炫耀自己的快樂與得意，反而容易招來麻煩與不順。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "分享快樂可以，但別把它變成炫耀。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "16_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "豫・二爻",
+      "summary": "像石頭一樣穩，不被享樂牽著走，很快就能看清局勢，不必拖到天黑。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "在快樂的氣氛裡保持清醒，記得想下一步。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "16_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "豫・三爻",
+      "summary": "一直抬頭等著快樂，等到後悔也來不及；遲疑與依賴都會讓你錯過時機。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "別只是等，現在就開始做準備。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "16_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "豫・四爻",
+      "summary": "你是大家快樂與行動力的來源，這份影響力很大，不必疑慮，朋友自然會聚過來。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "大方帶動大家，真誠地邀請夥伴。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "16_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "豫・五爻",
+      "summary": "長期把一個擔憂放在心裡，但不至於失去什麼；需要一點定力才不被它拖垮。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "帶著擔憂前進，別讓它主導你的決定。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "16_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "豫・上爻",
+      "summary": "沉迷在享樂中，如果能及時改變，就沒有過失；覺察是關鍵。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "察覺自己沉溺了，就減少一點，換成該做的事。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "17_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "隨・初爻",
+      "summary": "你的立場有了轉變，只要守住正道並走出去與人往來，就會有成果。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "主動走出去，與人合作，而不是自己想。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "17_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "隨・二爻",
+      "summary": "抓住了小的、錯過了大的，這是在取捨之間的誤判。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "分清楚什麼才是這件事真正重要的。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "17_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "隨・三爻",
+      "summary": "選擇大的、放下小的，順著正確的方向走，這樣的跟隨是對的。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "放下不重要的牽掛，選擇更值得的方向。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "17_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "隨・四爻",
+      "summary": "跟隨別人有收穫，但要以誠信為本，別因為貪功而失去自己。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "誠信第一，不誇大自己的成果。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "17_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "隨・五爻",
+      "summary": "對美好的人與事誠心相待，會得到真誠的回應。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "對值得的人用心，不計較得失。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "17_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "隨・上爻",
+      "summary": "被緊緊地牽繫住，難以抽身；這是一種深度的連結，也可能是束縛。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "留意這段關係或選擇是否讓你過度受限。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "18_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "蠱・初爻",
+      "summary": "接手上一代留下來的問題，有可以託付的人，雖然危險但最終順利，要保持警惕。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先弄清楚問題的來龍去脈，再動手處理。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "18_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "蠱・二爻",
+      "summary": "家裡柔性的事務需要溫和的手法，不適合硬碰硬，否則更難收拾。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "用商量的方式處理，不要強硬指令。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "18_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "蠱・三爻",
+      "summary": "太用力整頓會有些後悔，但沒有大過錯；力道稍微放柔就好。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "調整處理的力道，留一點彈性給對方。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "18_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "蠱・四爻",
+      "summary": "對舊問題太寬鬆、一直拖著，最後只會令人遺憾，是該處理的時候了。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "選一個拖最久的問題，今天先處理一小部分。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "18_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "蠱・五爻",
+      "summary": "用你的聲譽與品格去整頓，容易得到別人的支持與信任。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "用公正與誠信處理，讓人願意配合。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "18_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "蠱・上爻",
+      "summary": "不追逐名利，專心做自己看重的事，這是一種高潔的選擇。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "問問自己真正在意什麼，並把時間放在那裡。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "19_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "臨・初爻",
+      "summary": "以感通的方式接近他人、堅持正道，事情會順利，這是有利的開始。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "用真誠而正直的態度接近對方。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "19_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "臨・二爻",
+      "summary": "感通持續下去，各方面都順利，這是順勢的一段。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "持續用心關照，不要中途鬆手。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "19_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "臨・三爻",
+      "summary": "用甜言蜜語接近別人其實沒有益處；如果能意識到並加以反省，就不會有大問題。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "說話前想一想，是想討好，還是真的關心。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "19_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "臨・四爻",
+      "summary": "親自到場、親身處理，這樣的關照最扎實，不會有過失。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "重要的事親自去，不只靠轉達。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "19_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "臨・五爻",
+      "summary": "用智慧來領導與關照，是大領導者的作風，也最能讓人安心。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "用信任與判斷來帶人，不事必躬親。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "19_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "臨・上爻",
+      "summary": "以敦厚誠懇的態度關照別人，讓人安心，沒有過失。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "敦厚待人，持續關心身邊的人。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "20_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "觀・初爻",
+      "summary": "像孩童般看事情，看得很淺；對一般人無妨，但對有責任的人來說就不夠。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "多看幾個角度，不要只看表面。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "20_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "觀・二爻",
+      "summary": "像從門縫偷看，視野有限，只看到局部，容易以偏概全。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "不要用片面的資訊下結論，多問幾個人。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "20_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "觀・三爻",
+      "summary": "觀察自己的行為與走過的路，再決定進退，這是一種自我省察。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "回顧最近的決定，看看哪些該調整。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "20_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "觀・四爻",
+      "summary": "看見別人的光彩與成就，適合受邀參與、向有成就的人學習。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "去看一個你敬佩的人怎麼做事，並學一點。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "20_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "觀・五爻",
+      "summary": "觀察自己的作為，如果沒有過失，就不會有麻煩，重點是誠實檢視。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "誠實面對自己，不替自己找理由。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "20_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "觀・上爻",
+      "summary": "觀察別人的作為，同時提醒自己保持省察，從旁學習也是智慧。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "從旁觀察一件事的發展，不急著介入。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "21_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "噬嗑・初爻",
+      "summary": "腳上戴了刑具，及早受到小小的懲戒，就不會犯大錯；小錯及時處理最划算。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "發現小錯就立刻改，別等它變大。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "21_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "噬嗑・二爻",
+      "summary": "處理柔軟容易的部分很順利，甚至有些用力過度，但沒有大礙。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "處理問題時，也留意別傷到不該傷的地方。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "21_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "噬嗑・三爻",
+      "summary": "咬到陳年的硬肉又遇到毒，有點麻煩但沒有大問題；舊問題處理起來比想像棘手。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "處理舊問題時，多留一些小心與耐心。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "21_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "噬嗑・四爻",
+      "summary": "面對艱難的事，需要在困難中守住正道，最終會有收穫。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "面對難題，保持堅定，先處理最關鍵的一點。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "21_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "噬嗑・五爻",
+      "summary": "處理事情有收穫，但要保持警惕與正直，不要因為順利而鬆懈。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "守住公正，並提防順利時的誘惑。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "21_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "噬嗑・上爻",
+      "summary": "戴著枷鎖看不見也聽不見，不聽勸告就可能受傷；你可能已經沒聽進別人的提醒。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "停下來，聽聽身邊的人怎麼說。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "22_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "賁・初爻",
+      "summary": "把腳打扮得好看，寧願走路也不坐車，代表你重視自己的原則勝過排場。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "守住自己的原則，不被排場帶著走。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "22_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "賁・二爻",
+      "summary": "修飾鬍鬚要隨著主體一起，外表要配合內在，不是只顧外表。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "讓外在的整理配合內在的實質。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "22_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "賁・三爻",
+      "summary": "光彩潤澤，持續保持正道就很好，美好需要穩定地維持。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "持續保持，不因為好看就鬆懈。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "22_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "賁・四爻",
+      "summary": "樸素純白，雖然讓人有些懷疑，但並不是壞意，只是單純。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "保持單純，也別多疑。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "22_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "賁・五爻",
+      "summary": "回到簡樸的田園，雖然儉樸，結果是好的；簡單有簡單的價值。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "回歸簡單的生活或做法。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "22_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "賁・上爻",
+      "summary": "用白色裝飾，回歸素樸、不再加修飾，不會有過失，這是裝飾的最終境界。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "不再修飾，用真實的樣子面對人。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "23_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "剝・初爻",
+      "summary": "床腳先被侵蝕，根基受到影響，要先穩住最基礎的部分。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "找出最根本的一項，先守住它。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "23_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "剝・二爻",
+      "summary": "侵蝕到了床架，狀況更嚴重，需要加強對重要部分的守護。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "加強守住重要的人事物，不再退讓。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "23_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "剝・三爻",
+      "summary": "在大家都在剝落的環境中，你選擇與眾不同，因此沒有咎害。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "與消耗你的環境保持距離。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "23_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "剝・四爻",
+      "summary": "已經傷到身體，局勢相當緊急，需要立刻處理，不能再拖。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "立即停損，不再投入更多。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "23_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "剝・五爻",
+      "summary": "眾人有秩序地跟隨，得到恩寵與保護，沒有不利。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "讓大家有秩序地跟隨，不要失去條理。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "23_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "剝・上爻",
+      "summary": "大果子沒有被吃掉，留下最後的希望；有德的人被承載，無德的人失去住處。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "保留最後的種子，留一條重新開始的路。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "24_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "復・初爻",
+      "summary": "走不遠就回頭，沒有大的悔恨，是很好的開始；發現偏了就回來。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "發現方向不對時，立刻回頭，不必不好意思。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "24_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "復・二爻",
+      "summary": "美好的回歸，向有德的人學習，容易順利。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "向做得好的人看齊，重新找回方向。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "24_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "復・三爻",
+      "summary": "反覆地回到原點，雖然有些危險，但沒有過失；失敗了再來是可以的。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "別怕反覆，每次修正都比上次更穩。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "24_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "復・四爻",
+      "summary": "在人群中獨自回到正道，需要定力與勇氣。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "堅持走回自己的路，不必管別人怎麼看。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "24_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "復・五爻",
+      "summary": "誠心篤實地回歸，沒有悔恨；真誠面對自己是最扎實的修正。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "誠懇面對自己的偏差，並從小處改起。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "24_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "復・上爻",
+      "summary": "執迷不悟、不願回頭，可能招來麻煩，影響很久；需要承認迷路。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "承認自己走偏了，儘早回頭。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "25_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "无妄・初爻",
+      "summary": "以真誠、沒有妄念的心前行，事情順利；單純是最好的動力。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "抱持單純的心前進，少想太多。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "25_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "无妄・二爻",
+      "summary": "不計較收穫地耕種，專心做事、不問結果，反而順利。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "專注在過程，不去計算回報。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "25_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "无妄・三爻",
+      "summary": "意外的變故，與自己無關也可能發生，不必自責。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "面對意外時，先照顧好自己，再處理事情。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "25_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "无妄・四爻",
+      "summary": "可以堅持正道，沒有過失；守住自己的原則就好。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "守住原則，保持平常心。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "25_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "无妄・五爻",
+      "summary": "無端出現的不適，不用特別處理，自然會好轉；不需過度反應。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "不必過度處理，給時間恢復。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "25_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "无妄・上爻",
+      "summary": "在不適合行動的時候行動，反而會有麻煩；時機未到就不要妄動。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "時機還沒到，先等一等。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "26_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大畜・初爻",
+      "summary": "有危險，這時適合停下來，不要往前；蓄積需要克制。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "察覺風險就先停，不要硬闖。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "26_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大畜・二爻",
+      "summary": "車軸脫離，停下來等待，不勉強前進，這是自覺的停止。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "主動停下來，檢查需要修的地方。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "26_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大畜・三爻",
+      "summary": "良馬奔馳，但要在艱難中保持正道，並練習防衛，才能長久。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "一邊前進，一邊練習保護自己。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "26_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大畜・四爻",
+      "summary": "在小牛長角之前先加上護木，防患於未然，成本最低。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "及早預防，比事後補救省力。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "26_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大畜・五爻",
+      "summary": "把野豬閹割之後牙就不危險了；用疏導代替壓制，更有效。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "用疏導的方式處理，而不是硬壓。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "26_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大畜・上爻",
+      "summary": "通向天上的大道，蓄積終於通達；準備夠了，可以放心往前。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "準備足夠後，大方往前走。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "27_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "頤・初爻",
+      "summary": "放棄自己的靈性，只羨慕別人的食物，會招來不順；別看輕自己的長處。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "珍惜自己的長處，不要只羨慕別人。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "27_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "頤・二爻",
+      "summary": "向下求養違反常理，往前會有問題；走偏的路得不到滿足。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "別用走偏的方式尋求滿足，回到正常的方式。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "27_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "頤・三爻",
+      "summary": "違背養生之道，長期不得志，沒有益處；壞習慣會拖累自己。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "調整一個不好的作息或習慣。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "27_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "頤・四爻",
+      "summary": "向下求養卻有正當的理由，眼光專注，不會有過失；用對方法就沒問題。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "專注目標，正當地尋求支持。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "27_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "頤・五爻",
+      "summary": "違背常規卻能居正，守住正道，不適合冒險。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "守住常軌，不做冒險的事。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "27_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "頤・上爻",
+      "summary": "成為大家倚靠的對象，艱難也能化解；你承擔了養育他人的責任。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "承擔起責任，同時留意自己的負荷。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "28_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大過・初爻",
+      "summary": "像用白茅墊在器物下面，在負荷過重的時候格外謹慎，就不會出錯。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "做事格外細心，先墊好基礎。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "28_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大過・二爻",
+      "summary": "老樹發出新芽，老與少互相搭配，舊的事物可以重新有生機。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "讓舊的事物以新的方式重新開始。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "28_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大過・三爻",
+      "summary": "棟樑彎曲，承載得太重快要撐不住，這是該減輕負擔、重新分配的時候。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "減輕負荷，把部分責任交給別人。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "28_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大過・四爻",
+      "summary": "棟樑隆起，穩固有力，只要避免多餘的牽絆，就能承載得住。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "保持穩固，不要接下額外的牽扯。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "28_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大過・五爻",
+      "summary": "老樹開花，短暫地有光，卻不是真正的長久，不要把它當成轉機。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "別誤以為短暫的好轉就是長久。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "28_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大過・上爻",
+      "summary": "涉水太深而淹過頭頂，雖然危險，但並不是有意為之，也就不必過度責怪自己。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "量力而為，下次不要涉險太深。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "29_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "坎・初爻",
+      "summary": "一再陷進險境，越陷越深，這時需要警覺，及早離開。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "及早脫離危險，不要再往下陷。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "29_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "坎・二爻",
+      "summary": "在險中不必求太多，求取小小的收穫就是適當的做法。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "別求太多，先求自保。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "29_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "坎・三爻",
+      "summary": "來去都有險，進退皆難，暫時不要輕舉妄動，先等局勢明朗。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先停下來，不要輕舉妄動。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "29_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "坎・四爻",
+      "summary": "用最簡單的酒菜，從窗口誠心交流，終究沒有過失；簡單而真誠勝過排場。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "用簡單而真誠的方式溝通。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "29_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "坎・五爻",
+      "summary": "水還沒有滿，等水平了就沒事，不需要勉強。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "耐心等待水位回升。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "29_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "坎・上爻",
+      "summary": "被繩索綑綁、關在荊棘中，長期受困，需要承認被困並想辦法解脫。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "承認被困的事實，開始思考脫身的方法。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "30_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "離・初爻",
+      "summary": "腳步雜亂，保持敬慎就沒有過失；剛起步的時候慢一點。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "放慢腳步，保持恭敬。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "30_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "離・二爻",
+      "summary": "像黃色一樣中正，光明正大，保持中道最好。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "守住中道，不偏激。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "30_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "離・三爻",
+      "summary": "夕陽西下，不如敲著缶唱歌，坦然面對時光流逝，不要為衰老而嘆息。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "珍惜當下，接受變化。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "30_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "離・四爻",
+      "summary": "突然出現又消失，來勢洶洶的火焰很快就熄滅；衝動的力量不長久。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "避免突然的衝動，讓熱情有節奏。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "30_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "離・五爻",
+      "summary": "淚流滿面、憂傷，但能夠反省，終會好轉。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "允許自己悲傷，再重新出發。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "30_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "離・上爻",
+      "summary": "出征立下功勞，但只處置首惡，不牽連其他人，處理要有分寸。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "處理關鍵問題，不要牽連無辜。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "31_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "咸・初爻",
+      "summary": "感應只在腳大拇指，剛有一點動靜，還沒有行動；感覺才剛開始。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "感覺剛萌芽，先觀察。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "31_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "咸・二爻",
+      "summary": "感應到了小腿，容易急著行動，這時安靜等待比較好。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "別急著衝動，先等一等。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "31_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "咸・三爻",
+      "summary": "感應到了大腿，容易盲目地跟著走，行動要慎重。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "不要只因衝動而行動。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "31_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "咸・四爻",
+      "summary": "心裡思緒往來不停，需要守住正道，才能吸引真正同類的人。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "專一心念，不要胡思亂想。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "31_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "咸・五爻",
+      "summary": "感應在背脊，不會有後悔，但感受不深，也不要勉強。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "感覺淺淡的時候，不要勉強。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "31_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "咸・上爻",
+      "summary": "只靠嘴巴言語來感應，缺乏實質，容易流於空談。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "少說空話，付諸行動。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "32_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "恆・初爻",
+      "summary": "一開始就要求太深太久，反而不順；持久需要循序漸進。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "循序漸進，不要一開始就要求太多。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "32_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "恆・二爻",
+      "summary": "懊悔消失，保持中道就能長久。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "維持適當的節奏。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "32_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "恆・三爻",
+      "summary": "德行不穩定，容易受到羞辱，需要有持續的原則。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "守住一貫的原則。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "32_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "恆・四爻",
+      "summary": "長期在沒有獵物的地方打獵，方向不對，努力白費。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "檢查努力的方向對不對。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "32_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "恆・五爻",
+      "summary": "持守德行，對某些角色是好事，要看適不適合你。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "在適合的角色上堅持。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "32_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "恆・上爻",
+      "summary": "靠躁動來求長久，不穩定，結果不佳。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "不要靠急躁來維持長久。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "33_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "遯・初爻",
+      "summary": "退得太慢，像落在隊尾，有危險，這時不適合再往前走。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "現在別再多走，先停下。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "33_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "遯・二爻",
+      "summary": "用堅固的皮革綁住，決心堅定，不容易被動搖。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "堅定自己的決心。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "33_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "遯・三爻",
+      "summary": "被牽絆而難以退身，像有不適的困擾，這時照顧好身邊的人有益。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "被牽絆時，先照顧身邊的人。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "33_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "遯・四爻",
+      "summary": "愉快地退隱，有胸襟的人做得到，執著的人做不到。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "瀟灑放手，不執著。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "33_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "遯・五爻",
+      "summary": "美好的隱退，守住正道就會有好的結果。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "有尊嚴地退下。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "33_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "遯・上爻",
+      "summary": "從容寬裕地隱退，沒有不利，不必有牽掛。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "從容退場，不留遺憾。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "34_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大壯・初爻",
+      "summary": "力量剛冒出來，卻只長在腳趾上：你可能衝勁十足，但根基還薄，這時硬往前走容易吃虧。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先做一件小而確定的事試試水溫，不要一次押上全部。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "34_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大壯・二爻",
+      "summary": "你的力量已經夠用，又能守住分寸，不需要特別逞強，事情自然朝好的方向走。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "把力氣集中在最重要的一件事上，其他的先放掉。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "34_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大壯・三爻",
+      "summary": "小人把力氣當武器，高手把力氣留著：你可能正被「我可以硬幹」的念頭誘惑，這樣容易像羊角卡進籬笆，進退兩難。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "遇到卡住的事先停手，換個方式或找人幫忙，不要再硬推。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "34_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大壯・四爻",
+      "summary": "阻礙鬆開了，你的力量用在對的地方，不需要再多費力就能前進；這是順勢而為的時刻。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "趁路通的時候把進度往前推一大步。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "34_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大壯・五爻",
+      "summary": "你可能在不起眼的地方丟了一些東西或機會，如果能不執著，反而不會留下後悔。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "接受這次的損失，不再花力氣去追回。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "34_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "大壯・上爻",
+      "summary": "你又撞進老問題裡，進退兩難，短期內沒有好處；但只要肯耐心處理，艱難之後還是會鬆開。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先停下來把現況寫下來，找出最小的鬆動點，慢慢處理。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "35_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "晉・初爻",
+      "summary": "你剛往前走就被潑冷水，別人可能還不信任你；這時急著證明自己反而更辛苦。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "被質疑時不辯解，用一件做好的事慢慢說話。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "35_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "晉・二爻",
+      "summary": "前進的路上帶點憂愁，但你守住自己的方向，會得到年長或前輩的照顧與肯定。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "主動向一位前輩報告近況，接受對方的協助。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "35_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "晉・三爻",
+      "summary": "周圍的人認同你的做法，原本的猶豫會消失；這是被團體接納的時候。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "把握大家願意配合的時機，讓計畫往前推進。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "35_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "晉・四爻",
+      "summary": "你可能像小動物一樣又貪又怕：想多拿一點，又擔心被發現，結果心神不寧、處境不穩。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "決定你真正要的是什麼，把多餘的念頭放下。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "35_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "晉・五爻",
+      "summary": "不再計較得失，你反而走得順利；往前不會有壞處。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "放下得失心，專心把眼前這件事做好。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "35_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "晉・上爻",
+      "summary": "你前進到了最高點，力量更適合拿來整頓自己，而不是再去對外擴張；過度會帶來遺憾。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "停止開新戰線，先把手上的事整理乾淨。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "36_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "明夷・初爻",
+      "summary": "光芒被壓下來，你像受傷的鳥垂著翅膀，三天吃不下飯，仍然得往前；別人可能還會議論你。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "照顧好自己的作息和飲食，議論先放一邊。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "36_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "明夷・二爻",
+      "summary": "你受了點傷，這時需要有力的人伸手拉一把；及時求助就能順利度過。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "主動開口找可靠的人幫忙，不要硬撐。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "36_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "明夷・三爻",
+      "summary": "你可能在黑暗的處境中找到了問題的根源，但急著根治反而會出事，要有耐心。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先弄清楚問題在哪裡，再分幾步慢慢處理。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "36_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "明夷・四爻",
+      "summary": "你深入到內部，看清了黑暗的核心，這時最聰明的是安全離開，不再留下陪著受傷。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "看清真相後，離開不適合你的環境，不必爭辯。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "36_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "明夷・五爻",
+      "summary": "在最糟的環境裡把光藏起來，守住自己的原則，這是對自己最好的保護。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "低調一點，不必急著表現，但原則不能退。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "36_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "明夷・上爻",
+      "summary": "黑暗走到頂，先是高高在上、後來摔下來；提醒你盛衰會輪替，不要在得意時失去警覺。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "在順境時也要留餘地，不把事情做絕。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "37_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "家人・初爻",
+      "summary": "一開始就把家裡的規矩講清楚，之後就不容易有爭執與後悔。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "現在就和家人談一次彼此的期待，把規則說清楚。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "37_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "家人・二爻",
+      "summary": "你不需要做大事，把日常的飲食、家務和照顧做好，就是最大的價值。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "把今天的家務和一餐做好，不必急著做更多。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "37_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "家人・三爻",
+      "summary": "管得太嚴會有些辛苦，但家裡有秩序；一味嬉鬧放任，最後反而容易失序。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "在嚴與寬之間選一個折衷點，訂出少數必要的規矩。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "37_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "家人・四爻",
+      "summary": "讓家裡富足安穩，是很大的福氣；重點是把經濟與生活的根基顧好。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "檢查家裡最需要補強的一項，優先處理。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "37_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "家人・五爻",
+      "summary": "用關愛與感召對待家人，不用強硬就能讓大家凝聚起來。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "用陪伴和傾聽取代命令，花十分鐘和家人聊聊。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "37_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "家人・上爻",
+      "summary": "你有誠信，也保有適度的威嚴，最後家庭或團體可以穩定下來。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "說到做到，並在該堅持的地方保持一致。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "38_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "睽・初爻",
+      "summary": "你可能覺得和身邊的人漸行漸遠，失去的東西不必追，它會自己回來；對看似不合的人也不必拒絕。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "不追逐已經離開的人事物，對不合的人保持禮貌。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "38_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "睽・二爻",
+      "summary": "在小巷裡意外遇到該遇到的人，這樣的相遇不是刻意安排，也沒有問題。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "別刻意製造機會，多留意身邊自然出現的人。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "38_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "睽・三爻",
+      "summary": "你可能一開始被拉扯、被阻擋，顯得很狼狽，但只要撐過開頭，結局會比較好。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "開頭不順時不要放棄，先撐過這一段。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "38_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "睽・四爻",
+      "summary": "感到孤立的時候遇到真誠的人，彼此信任，雖然有風險，但不會有過失。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "和一位真誠的人坦白說出你的處境，互相支持。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "38_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "睽・五爻",
+      "summary": "原本的懊悔消失，身邊親近的人願意貼近你，往前走沒有問題。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "主動靠近真正親近的人，不再猶豫。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "38_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "睽・上爻",
+      "summary": "孤立久了，你可能把朋友看成敵人、疑心很重；後來發現是誤會，才放下防備，像雨後轉晴。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先把疑心放一邊，問清楚再下結論，給對方一個解釋的機會。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "39_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "蹇・初爻",
+      "summary": "往前走很困難，退一步反而得到肯定；這時不適合硬闖。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "暫時退一步，換個比較有利的位置再看看。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "39_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "蹇・二爻",
+      "summary": "你可能為了責任而艱難前進，不是為了自己；這份辛苦有它的意義，但不要把自己累垮。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "提醒自己為什麼而做，累的時候休息一下。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "39_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "蹇・三爻",
+      "summary": "往前困難，回頭和身邊的人在一起，能得到力量；你不必一個人撐。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "回家或回到身邊的人那裡，聽聽他們的想法。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "39_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "蹇・四爻",
+      "summary": "往前困難，退回來和同伴連結，大家一起面對比一個人硬撐更有效。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "找一位同伴，把你卡住的事分一部分給他。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "39_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "蹇・五爻",
+      "summary": "處境非常艱難的時候，會有同伴前來幫忙；你不是孤單的。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "開口求助，並放心接受對方的協助。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "39_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "蹇・上爻",
+      "summary": "往前困難，回頭整頓後反而有大收穫，這時需要有經驗的人給你意見。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "回頭整理手上的事，並請教一位有經驗的人。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "40_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "解・初爻",
+      "summary": "事情剛開始鬆開，沒有過失；不需要再做額外的動作，順著自然的節奏就好。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "讓事情自然鬆開，不要急著再做新的動作。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "40_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "解・二爻",
+      "summary": "你可能要面對很多狡猾或複雜的人事，只要守住公正的原則，就能抓到重點而有收穫。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "用公平的標準處理，不被各種說法牽著走。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "40_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "解・三爻",
+      "summary": "背著貴重的東西還坐在車上，就像佔著不屬於自己的位置，容易招來麻煩。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "檢視自己是不是佔用了不屬於自己的資源或位置，必要時讓出來。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "40_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "解・四爻",
+      "summary": "解開腳趾上的束縛，朋友才敢來信任你；放掉不必要的牽絆，關係才會乾淨。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "放下一個拖累你的人事物，讓真正合得來的人靠近。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "40_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "解・五爻",
+      "summary": "智者懂得解開糾結，連對你有疑慮的人也會被你的誠意說服。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "用誠意說明你的想法，不靠辯論贏過別人。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "40_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "解・上爻",
+      "summary": "在高牆上一箭射中隼，一次解決了最關鍵的問題；時機到了就果斷處理。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "找出最關鍵的一個問題，一次把它處理掉。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "41_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "損・初爻",
+      "summary": "事情做完就趕快去幫忙是好事，但要評估對方需要多少，量力而為，不要一次付出太多。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先確認自己的餘裕，再決定付出多少。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "41_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "損・二爻",
+      "summary": "守住自己的原則比較有利，勉強去討好別人反而不好；不減損自己，就是對別人最大的增益。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "不要為了討好而過度付出，守住自己的節奏。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "41_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "損・三爻",
+      "summary": "三個人同行容易有人被排擠，一個人走反而容易遇到同伴；提醒你關係要精簡一點。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "縮小人際範圍，把心力放在少數幾位真正重要的人身上。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "41_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "損・四爻",
+      "summary": "減少自己的毛病，進步得快，也會有喜悅；改掉缺點本身就是一種增益。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "選一個你最想改的壞習慣，今天開始減少一點。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "41_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "損・五爻",
+      "summary": "有人給你很大的幫助，你無法拒絕，這是很好的福氣；用感激接受就好。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "心懷感激地接受這份幫助，並記得回報。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "41_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "損・上爻",
+      "summary": "不需要減損自己，就能獲得增益，是得到大家支持的結果；保持穩定，自然會成長。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "保持穩定，不要急著再多拿什麼。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "42_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "益・初爻",
+      "summary": "有人給你助力，適合做一件大事，只要做得穩就不會有過失。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "把握這個時機，做一件你想做很久的事。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "42_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "益・二爻",
+      "summary": "有人給你很大的幫助，你無法推辭；要守住最初的目標，福氣才會持續。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "接受幫助，同時守住你最初的目標。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "42_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "益・三爻",
+      "summary": "在艱難的事上得到助益，只要你有誠信、不偏不倚，就不會有過失。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "在困難中保持誠信，不走極端的做法。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "42_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "益・四爻",
+      "summary": "走中道、把事情清楚告知上位者，會得到跟從；適合進行重大的調整。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "把你的想法溝通清楚，爭取支持後再推動改變。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "42_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "益・五爻",
+      "summary": "帶著誠意與善意對待他人，不必問結果，自然會得到好的回報。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "真誠地給予，不先計算會得到什麼。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "42_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "益・上爻",
+      "summary": "沒有人幫你，甚至遭到攻擊，是因為你的決心不夠堅定、心意不夠持久。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "重新確認你的決定，堅定下來再行動。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "43_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "夬・初爻",
+      "summary": "腳趾衝在前面，沒有把握就想往前，容易失敗。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "沒有把握的事先不要出手。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "43_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "夬・二爻",
+      "summary": "保持警覺、必要時喊出聲，夜裡即使有動靜也不必太擔心。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "保持警覺，但不必讓自己過度緊張。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "43_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "夬・三爻",
+      "summary": "你可能在臉上露出強烈的情緒，招來麻煩；獨自冷靜地前行，雖然被淋濕、有怨氣，但沒有過失。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "別把情緒寫在臉上，冷靜地處理。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "43_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "夬・四爻",
+      "summary": "行走艱難，如果肯聽勸就能沒有後悔，但很多人聽不進去。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "聽進身邊人的勸告，不堅持己見。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "43_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "夬・五爻",
+      "summary": "你得果決地處理一件事，只要走中道，就沒有過失；斷得乾淨，但不要過頭。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "果斷處理這件事，同時守住分寸。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "43_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "夬・上爻",
+      "summary": "沒有人呼喊求助，到最後會有麻煩；不要忽略小問題。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "有問題就說出來，不要拖到無法收拾。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "44_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "姤・初爻",
+      "summary": "有個不太對勁的人事物剛剛出現，現在還很小，你可能覺得不必在意；但越早設下界線，越不容易被它牽著走。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "在它變大之前，明確說出你的底線，或先減少接觸。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "44_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "姤・二爻",
+      "summary": "一個好機會剛好落在你手上，現在最適合先自己把它消化、處理好，還不到對外分享的時候。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先把手上的機會做出一個成果，再決定要不要讓別人加入。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "44_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "姤・三爻",
+      "summary": "你可能覺得進退都不順，像坐不穩也站不穩；雖然有點煩躁，但只要放慢，不會出大問題。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "暫停一件不急的事，先處理當下最卡的那一個點。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "44_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "姤・四爻",
+      "summary": "你可能忽略了身邊原本支持你的人，等發現時，彼此已經有些疏遠；這件事容易引發誤會。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "主動聯絡一位最近冷落的人，說一句關心的話。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "44_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "姤・五爻",
+      "summary": "有一份價值你在默默累積，沒有張揚；你可能不知道的是，好結果往往在這樣的低調中悄悄靠近。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "繼續專心累積，不必急著證明，也不需要等別人認可。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "44_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "姤・上爻",
+      "summary": "你走到頂端，才發現很難再與人貼近，會有一點孤單；這不是你做錯，只是位置帶來的距離。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "主動放下一點姿態，找一位能平等聊天的人。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "45_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "萃・初爻",
+      "summary": "你想加入某個群體，但心裡有點不踏實，可能想靠近又不太敢；只要誠實說出需要，很快會被接住。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "向群體裡一個友善的人開口，說出你想加入的原因。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "45_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "萃・二爻",
+      "summary": "有人把你領進群體，你可能不用刻意表現，也不必準備很多；真誠地出現，就已經足夠。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "接受這份邀請，先簡單參與，不要為了表現而過度準備。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "45_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "萃・三爻",
+      "summary": "你雖然在人群裡，卻覺得不太對勁，甚至想嘆氣；這份不舒服可能在提醒你，你想靠近的人不一定適合。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "想一想你在這個群體裡的真實感受，決定要不要換個位置。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "45_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "萃・四爻",
+      "summary": "你可能正在為團體做出有分量的貢獻，成果也大；這時候最重要的是目標清楚，不要被其他聲音拉走。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "把最重要的一件事列出來，其餘先放一邊。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "45_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "萃・五爻",
+      "summary": "你在團體裡有一定的位置，但有些人可能還沒完全信任你；急著證明反而容易用力過度。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "用穩定、持續的行動累積信任，不用逐一說服。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "45_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "萃・上爻",
+      "summary": "聚在一起的場面散了以後，你可能特別感到孤單與難過；這份感受很自然，不代表你有什麼錯。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "允許自己難過一下，並找一個願意聽你說話的人。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "46_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "升・初爻",
+      "summary": "有人對你有信心，你的位置開始往上走；這是很好的起點，只要你願意接住。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "認真完成對方交給你的第一件事，讓信任有依據。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "46_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "升・二爻",
+      "summary": "你不必用盛大的方式證明自己，把誠意放在簡單的事情上，就足夠打動人。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "把準備的重點放在真誠，而不是排場。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "46_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "升・三爻",
+      "summary": "你可能發現前方沒有什麼阻礙，一路順暢；但越是順利，越容易忽略小細節，變得大意。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "在順利的進度中，每個階段設一個檢查點，確認沒有漏掉東西。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "46_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "升・四爻",
+      "summary": "你的上升有許多前人的幫助，現在你站在他們鋪好的路上；懂得感謝，路會走得更穩。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "寫下或說出一位曾經幫過你的人，向他表達感謝。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "46_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "升・五爻",
+      "summary": "你正一步步穩穩往上，沒有走捷徑；這樣的速度可能不快，卻最扎實。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "把今天的進度分成幾個小階段，一階一階完成。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "46_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "升・上爻",
+      "summary": "你可能急著再往上，卻忽略自己已經看不清方向；繼續往上不一定是進步。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "暫停一下，確認你要往上走的理由，再決定要不要繼續。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "47_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "困・初爻",
+      "summary": "你像是被困在一個沒有出路的地方，很久都沒有人來；這種孤立感可能讓你很想亂動。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先照顧好體力與作息，等狀況清楚再行動。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "47_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "困・二爻",
+      "summary": "你可能被眼前的舒適或享樂拖住，沒有發現自己其實也是被困住；這時急著出手反而不好，貴人可能就快到來。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "不要急著做決定，先處理手上最需要的一件事，等待對方出現。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "47_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "困・三爻",
+      "summary": "你可能把自己逼進死胡同，往哪走都碰壁，連回家都找不到安慰；這提醒你，目前的做法已經走到盡頭。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "換一種方式處理，不再用同一種方法硬撐。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "47_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "困・四爻",
+      "summary": "你的援助來得比較慢，可能有些失落，但最終會抵達；你需要的不是更多力氣，而是耐心。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "繼續做自己的事，並提醒自己這只是時間的問題。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "47_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "困・五爻",
+      "summary": "你在位置上受了傷，覺得被困住，連想說的話也不好說；但有耐心的人，會慢慢等到轉機。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "不勉強自己立刻解決，給事情一段緩衝時間。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "47_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "困・上爻",
+      "summary": "你可能覺得一動就會後悔，因此不敢行動；其實這份後悔，正是你願意改變的證據。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "把你後悔的事寫下來，挑一個最小的改變先做。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "48_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "井・初爻",
+      "summary": "你長期仰賴的某個資源，已經不再有用，就像一口積滿泥的舊井，沒有人再來取水；繼續守著，只會浪費力氣。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "盤點手上有哪個資源已經沒人用，列出一個替代方案。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "48_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "井・二爻",
+      "summary": "你的能力或資源只被用在很小的地方，而且還一直漏掉；你可能感覺很努力，卻留不住成果。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "找出最容易漏掉的一個環節，先補起來。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "48_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "井・三爻",
+      "summary": "你的價值已經準備好了，卻還沒被人看見，這會讓你覺得可惜；一旦被賞識，大家都能受益。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "主動讓一位可能用得上你的人，知道你能做什麼。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "48_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "井・四爻",
+      "summary": "你正在默默整修自己的基礎，沒有人看見，但它會讓之後的使用更穩；這份功夫不會白費。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "花一段時間維護你長期依賴的技能、關係或系統。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "48_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "井・五爻",
+      "summary": "你的價值像清澈的泉水，已經被人看見也被使用；這個好狀態來自長時間的累積。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "讓自己的能力派上用場，不用再藏著。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "48_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "井・上爻",
+      "summary": "你把資源開放出來，讓更多人使用，也因此得到更大的信任與福氣；分享讓你的價值持續擴大。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "把你知道的經驗整理出來，分享給需要的人。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "49_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "革・初爻",
+      "summary": "你很想改變，但現在像被牢牢綁住，條件還沒鬆動；強行改變只會讓自己碰壁。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先把現況穩住，把想改的事情寫下來，等時機到了再動。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "49_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "革・二爻",
+      "summary": "改變的時機到了，這時行動比較有把握；但仍需要等到「日子對了」才出手。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "確認時機真的成熟，再做第一個動作。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "49_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "革・三爻",
+      "summary": "你急著改變，卻遇到阻力；這時如果硬衝，會失去別人的信任，需要多一些溝通。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "開一次溝通，把想改的內容與理由說清楚，聽完意見再決定。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "49_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "革・四爻",
+      "summary": "你的猶豫消失，帶著誠意推動改變，這一步有機會改變整體方向。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "用誠意說明改變的原因，邀請身邊的人一起參與。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "49_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "革・五爻",
+      "summary": "你的改變已經很明顯，大家一眼就能看出你是認真的；不需要多做解釋。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "把改變做得具體可見，例如固定一個新習慣。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "49_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "革・上爻",
+      "summary": "你已經完成蛻變，身邊的人也跟著調整；這時如果再繼續求變，容易過頭，守住新局比較好。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "維持新的做法一陣子，不再急著繼續更動。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "50_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "鼎・初爻",
+      "summary": "你正在清掉舊有的、不合適的東西，這可能讓人覺得失去，但其實是在騰出位置給新的。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "選一個舊的做法或關係，鼓起勇氣清掉它。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "50_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "鼎・二爻",
+      "summary": "你已經累積了真正的內容，周圍的競爭暫時碰不到你；重點是守住自己的實力。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "專心守住你的成果，不被外界的比較干擾。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "50_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "鼎・三爻",
+      "summary": "你覺得自己的能力或成果被卡住，無法被拿出來使用；但只要耐心等待，時機到了就會順利。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先找出卡住的環節，修好之後再往前。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "50_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "鼎・四爻",
+      "summary": "你可能接下超過自己能力的事，結果弄得一團糟；承擔太多會讓自己受傷。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "重新評估責任範圍，把做不到的事交給更適合的人。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "50_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "鼎・五爻",
+      "summary": "你有可靠的支持，也有穩定的原則；守住這兩件事，你的位置會更穩。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "善用身邊可靠的人，並維持你的原則。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "50_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "鼎・上爻",
+      "summary": "你的收尾溫潤而圓滿，成果與關係都能保持在好的狀態；這是一個適合感謝的時候。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "用溫和的方式完成收尾，並對身邊的人說聲謝謝。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "51_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "震・初爻",
+      "summary": "一件突發的事先讓你嚇了一跳，之後才發現有驚無險；這次的驚嚇讓你更懂得警覺。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "把這次學到的警覺記下來，之後遇到類似的事先預防。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "51_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "震・二爻",
+      "summary": "突發狀況可能讓你有些損失，你想立刻追回；其實先保護自己比較重要，失去的東西過幾天可能會自己回來。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先確保自己安全，不急著追討損失。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "51_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "震・三爻",
+      "summary": "你被震動搞得不安，這種時候最怕定在原地；動一動，反而能讓你的心安定。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "做一件小而具體的事，讓自己動起來。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "51_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "震・四爻",
+      "summary": "震驚過後，你可能像陷進泥巴裡，動作變慢、提不起勁；這是正常反應，需要一點時間脫身。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先放慢步調，把自己從混亂中慢慢拉出來。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "51_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "震・五爻",
+      "summary": "你在來來回回間處處警覺，雖然有風險，但不會失去什麼；你手上還有重要的事要完成。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "保持警覺，同時繼續完成最重要的事。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "51_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "震・上爻",
+      "summary": "你可能被眼前的混亂嚇得發抖、看不清方向，這時往前並不明智；而混亂其實發生在別人身上，不必攬到自己身上。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先穩住自己，不要被別人的混亂牽著走。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "52_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "艮・初爻",
+      "summary": "你在一開始就克制自己，不急著往前，這樣的穩定可以維持很久。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "在行動之前先停三秒鐘，確認自己真的想這樣做。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "52_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "艮・二爻",
+      "summary": "你可能想停，卻發現自己控制不了局勢，也無法幫到跟隨你的人，心裡不舒服；這時承認限制反而比較誠實。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "對身邊的人說明你的限制，不勉強做不到的事。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "52_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "艮・三爻",
+      "summary": "你把情緒或衝動硬壓下去，讓自己非常緊繃，焦慮感不斷升高；硬壓只會傷到自己。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "別硬撐，找一個安全的方式把壓力釋放出來。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "52_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "艮・四爻",
+      "summary": "你把自己管好了，不再被外界牽動；這份穩定本身就很有價值。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "專心管好自己，不去管別人怎麼想。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "52_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "艮・五爻",
+      "summary": "你學會謹慎說話，說得有條理，因此後悔減少；說得少而準確，比說得多更有力。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "開口之前先想一句，確定這是你真正想說的。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "52_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "艮・上爻",
+      "summary": "你穩重地收尾，沒有急著再開新的事；最後一步守住，就守住了整件事。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "最後一步不要鬆懈，把收尾做完整。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "53_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "漸・初爻",
+      "summary": "事情剛開始，進展很慢，可能會有人在旁邊議論；其實這是漸進的起點，不需要急。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "把這個階段當成起步，不急著要結果，先走好第一步。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "53_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "漸・二爻",
+      "summary": "你到了一個穩固的位置，可以悠閒地吃喝、享受這份安樂；這是休息與補充力量的時候。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "在穩固的位置上補充力量，也和身邊的人分享喜悅。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "53_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "漸・三爻",
+      "summary": "你可能想離開安全的地方，往更遠處走，但這時如果勉強往前，會遇到風險；要先防範外來的威脅。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "不要冒進，先確認周圍的安全與支持。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "53_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "漸・四爻",
+      "summary": "你不必到處尋找，只要找到一個平穩的位置就能安身；有時候一個小小的落腳處就足夠。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "找到一個適合你的位置，穩下來。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "53_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "漸・五爻",
+      "summary": "你的努力很久沒有成果，可能有些焦慮，但最終沒有人能阻擋你；時間會證明你的堅持。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "不急著看結果，持續做你認為對的事。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "53_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "漸・上爻",
+      "summary": "你的歷程已經成為別人的參考，大家可能會看著你學習；這份影響力是你長期累積的成果。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "把你的經驗分享給需要的人，同時保持謙虛。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "54_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "歸妹・初爻",
+      "summary": "你以輔助的角色參與，雖然不是主角，也能一步一步前進；這不是缺點，而是另一種位置。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "在輔助的角色中做好自己的事，不必急著爭取主位。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "54_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "歸妹・二爻",
+      "summary": "你的條件有限，卻仍然能看見眼前的事；安靜守住自己的位置，反而對你有益。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "做好你能做的事，不要勉強去做不屬於你的事。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "54_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "歸妹・三爻",
+      "summary": "你一直在等待，最後還是只能以輔助的身分加入；這個位置有些尷尬，需要看清楚現實。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "看清楚你在這段關係或團體中的位置，再決定是否留下。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "54_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "歸妹・四爻",
+      "summary": "你錯過了原本的時機，但晚一點也有合適的時候；耐心等待，不必焦慮。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "別因為晚了就急著找替代，繼續等待更合適的時機。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "54_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "歸妹・五爻",
+      "summary": "你重視內在勝過外表，不靠華麗取勝，而是靠真誠；在最好的時機來臨前保持低調最好。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "重視內在的準備，不和別人比外表。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "54_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "歸妹・上爻",
+      "summary": "你只剩形式，缺少實質，就像捧著空籃子；這樣繼續投入，不會有結果。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "檢查這件事是否只剩形式，必要時停止投入。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "55_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "豐・初爻",
+      "summary": "你遇到一位實力與你相當的夥伴，不必分誰高誰低，合作起來反而順；這是個好開頭，只要不拖太久，會被看重。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "主動邀請這位夥伴一起做一件小事，先建立默契。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "55_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "豐・二爻",
+      "summary": "你的光被一些事擋住，別人可能對你的能力有疑慮；這時急著辯解效果有限，坦白說明你的誠意比較能化解。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "把你的想法和做法老實講清楚，讓對方看到你的出發點。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "55_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "豐・三爻",
+      "summary": "你被擋得很嚴實，只看得到一點點光，也可能覺得有些使不上力；這多半是條件暫時不足，不是你不夠好。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "承認目前的限制，不責怪自己，改用你做得到的方式推進。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "55_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "豐・四爻",
+      "summary": "雖然被遮住，你遇到願意對等合作的人，事情因此有了進展；你可能不需要一個人撐。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "找一位能對等合作的人，把卡住的那件事分給他一部分。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "55_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "豐・五爻",
+      "summary": "你開始吸引到有才華的人，帶來好名聲與喜悅；懂得用人，事情會比自己硬幹更順。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "把一件適合的事交給有才華的人，並給他發揮的空間。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "55_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "豐・上爻",
+      "summary": "你的成就很大，卻把自己圍在高牆裡，幾乎沒人能靠近；盛大的外表反而讓你變得孤立。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "主動走出你的小圈子，約一個久沒見的人聊聊。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "56_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "旅・初爻",
+      "summary": "你在陌生的環境，容易為了一點小事斤斤計較，結果反而讓自己吃虧；在外格局放寬一點比較好。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "碰到小摩擦就先放過，把力氣留給真正重要的事。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "56_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "旅・二爻",
+      "summary": "你找到了落腳處，手上有資源，身邊也有可靠的人願意幫你；把資源管好，這段旅途會很安穩。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "盤點手上的資源，整理好，並對幫過你的人說聲謝謝。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "56_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "旅・三爻",
+      "summary": "你可能因為一路順利而放鬆警覺，結果弄丟了落腳處與幫手；在陌生處要比平常更謙虛。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "在順利時放慢一點，主動請教當地人或熟悉的人。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "56_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "旅・四爻",
+      "summary": "你有了棲身之處，也有資源，但心裡還是不太踏實；環境安頓了，心還沒有安頓。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "花一點時間做讓你放鬆的事，不要只顧著處理外在的事。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "56_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "旅・五爻",
+      "summary": "你可能需要付出一點代價，才能換到最後的肯定；過程中有些損失，但整體是划算的。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "接受這次小小的損失，把眼光放在最後的結果。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "56_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "旅・上爻",
+      "summary": "你在覺得安全的時候放鬆了，結果先高興後難過，失去重要的東西；大意可能讓你付出不小的代價。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "在看似安全的地方也留意一下細節，重要的東西要確認。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "57_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "巽・初爻",
+      "summary": "你進退不定，反覆猶豫；這時需要像軍人一樣下定決心，不再來回搖擺。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "選定一個方向，說給一個人聽，然後開始做。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "57_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "巽・二爻",
+      "summary": "你把姿態放得很低，用很多誠意去溝通與請示，這樣不會有過失；謙遜是你目前的優勢。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "謙虛地向對方請教，並把你的誠意說清楚。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "57_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "巽・三爻",
+      "summary": "你一再勉強自己配合別人，委屈到有些難受，最後可能留下遺憾；配合也要有界線。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "說出一次你的真實想法，不再一味配合。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "57_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "巽・四爻",
+      "summary": "你的猶豫消失，因為適度配合別人，反而得到豐富的收穫；懂得調整姿態，會讓你有成果。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "在配合別人的同時，保留一個你不退讓的重點。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "57_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "巽・五爻",
+      "summary": "開頭可能不順，但只要守住原則，最後會有好結果；事前事後都要多想幾天。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "不順時先別放棄，事前事後各多想幾天再決定。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "57_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "巽・上爻",
+      "summary": "你把自己放得太低，連自己的資源都讓出去，繼續這樣反而不好；順從過頭，等於失去自己。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "回到自己的底線，把不該讓的東西收回來。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "58_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "兌・初爻",
+      "summary": "你以平和愉快的心和人往來，事情容易順利；好心情本身就是最好的開場。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "用輕鬆的態度開啟一次對話，不帶任何目的。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "58_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "兌・二爻",
+      "summary": "你用真誠與喜悅和人交往，所以順利，之前的後悔也消失了；真心的笑容比客套話更有力。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "真誠地和對方互動，不用刻意討好。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "58_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "兌・三爻",
+      "summary": "你主動去討好別人，反而惹來麻煩；為了被喜歡而失去自己，並不划算。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "不為了被喜歡而迎合別人，守住自己的立場。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "58_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "兌・四爻",
+      "summary": "你還在想怎麼取悅別人，心裡不安；如果能避開讓你不舒服的事，反而會迎來喜事。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先處理讓你不安的事，再談愉快的往來。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "58_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "兌・五爻",
+      "summary": "你可能太相信某個會傷害你的人；信任需要判斷，不要輕易交出。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "對甜言蜜語保持一點距離，先觀察對方的行為。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "58_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "兌・上爻",
+      "summary": "你被引誘而感到喜悅，這時最容易失去判斷；要留意自己是不是被誘惑牽著走。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "做決定前先停一下，問自己：沒有這個誘惑，我還會這樣選嗎？",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "59_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "渙・初爻",
+      "summary": "關係或團隊才剛出現一點裂縫，現在處理最省力；你可能會想「再看看」，但拖得越久，越需要更大的力氣收拾。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "這週內找對方或相關的人，把你察覺到的裂縫攤開來談。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "59_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "渙・二爻",
+      "summary": "局面鬆散、人心浮動時，你傾向先找一個穩的依靠，像抓住一張可靠的桌子；這樣做能讓你安定下來，之前的懊悔也會淡掉。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先回到最可靠的人、地方或例行事務，穩住再想下一步。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "59_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "渙・三爻",
+      "summary": "你可能一直把自己的立場、面子或得失看得很重；當你稍微放下「我」，事情反而鬆開，也不再後悔。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "選一件你一直堅持的小事，這次先讓一步，看看結果。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "59_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "渙・四爻",
+      "summary": "你有機會跳出原本的小圈子，把原本分散的人或資源重新連起來，可能收穫比預期大，連你自己都沒想到。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "主動介紹兩位原本不認識、但可能互補的人認識。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "59_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "渙・五爻",
+      "summary": "這個階段需要你把話說清楚、把方向講出去，像汗水一旦出來就收不回；你站在負責的位置，說出口就要承擔。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "寫下你的決定與理由，在正式場合說一次，並說明你會負責哪一塊。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "59_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "渙・上爻",
+      "summary": "讓你受傷的處境，現在適合拉開距離、離開；這不是逃避，而是保護自己，也沒有過失。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "決定一個具體的離開或減少接觸的方式，並在期限內做到。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "60_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "節・初爻",
+      "summary": "現在條件還沒到，你可能很想行動；先留在原地、把話守住，反而不會出錯，這是有意識的克制。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "把你想做的事寫下來，標上「等某個條件成熟再動」，暫時放著。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "60_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "節・二爻",
+      "summary": "時機已經到了，你卻因為過度小心而沒踏出去；這份保守可能讓你錯過本來可以把握的機會。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "設一個最小的行動，例如先寄出一封訊息，今天就做。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "60_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "節・三爻",
+      "summary": "你可能一直放任自己，直到出現後果才嘆氣；這時責怪別人沒有用，因為問題出在自己的習慣。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "挑一個最需要節制的習慣，訂一個今天就能做到的小限制。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "60_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "節・四爻",
+      "summary": "你對自己的限制已經很自然，不需要咬牙硬撐；這樣的節制讓你輕鬆又穩定，事情也順利。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "維持現在的做法，不要為了顯得更自律而加碼。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "60_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "節・五爻",
+      "summary": "你的節制讓人覺得舒服，也讓周圍的人願意跟著做；用快樂的方式守規矩，比處罰更有影響力。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "讓規則帶一點好玩或獎勵，例如完成後獎勵自己一件小事。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "60_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "節・上爻",
+      "summary": "你把自己管得太嚴，過程很苦，也可能讓人喘不過氣；這樣繼續下去對你不好，適度放鬆反而讓你走得更久。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "把規則鬆一格，留一個固定的「自由時間」給自己。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "61_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "中孚・初爻",
+      "summary": "這一刻你需要專心在一個值得信任的方向上；若心裡同時想著好幾件事，就很難安穩，也很難被別人信任。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "只選一個目標，這週不開新的承諾。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "61_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "中孚・二爻",
+      "summary": "你和一位心意相通的人彼此呼應，不必刻意說明，就能理解對方；這份默契很珍貴，值得好好維繫。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "主動向這位知己分享一件最近的心情或好事。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "61_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "中孚・三爻",
+      "summary": "你很在意對方或對手的反應，一下興奮、一下低落、一下想哭、一下想笑；你的情緒可能被外界牽著跑。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "把今天要做的事列出三項，先完成它們，再回頭看對方的反應。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "61_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "中孚・四爻",
+      "summary": "你已接近圓滿，卻可能因為在意比較而放不下；這時放掉一個執著，反而讓你更完整，也沒有過失。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "想一個你一直拿來比較的對象，這週先不看他的近況。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "61_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "中孚・五爻",
+      "summary": "你與身邊的人之間有很牢的信任，這份信任像繩子把大家連在一起；你只要穩定地守住它就夠了。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "兌現一個你曾答應別人的小事，讓信任有依據。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "61_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "中孚・上爻",
+      "summary": "聲勢很大，但內容還沒跟上，像只有聲音想往上衝；光靠說得漂亮，長久下去容易落空。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "在下一次發言前，先準備一個具體的成果或數字。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "62_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "小過・初爻",
+      "summary": "你想一下子飛得很高，但條件還沒到，可能反而遇到麻煩；現在比較適合在低處把基礎做好。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "把目標縮小成一個這週能完成的版本。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "62_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "小過・二爻",
+      "summary": "你沒有直接找最高層，而是先遇到適合的對象；不越級反而更順，也不會有過失。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "從你身邊最直接的人開始溝通，不急著找最上面的人。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "62_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "小過・三爻",
+      "summary": "你可能覺得自己沒問題，因此沒做防備，這時容易被意外或他人傷到；一點點防範就能避免。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "檢查一個你一直沒處理的小漏洞，現在補上。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "62_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "小過・四爻",
+      "summary": "你沒有過失，在不逞強的位置遇到對的人；前進可能有風險，需要警戒，也不要固執地硬撐同一種做法。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "遇到阻礙時，先調整一個小做法，而不是用力撞同一處。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "62_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "小過・五爻",
+      "summary": "條件看起來都已備齊，卻還沒落下雨水；這代表時機還沒到，先處理眼前確定能做的小事比較實在。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "選一件手邊能馬上完成的小事先做，不談大計畫。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "62_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "小過・上爻",
+      "summary": "你走得太過頭，超過了事情該有的分寸，可能因此失去原本擁有的東西；要在恰當的位置停下來。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "在目標達成後，主動設一個「到此為止」的線，不再加碼。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "63_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "既濟・初爻",
+      "summary": "一開始就慢一點，不急著衝，這樣即使有小狀況也不會出大錯；起步放慢是對的。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "第一步先做準備清單，確認好再加速。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "63_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "既濟・二爻",
+      "summary": "你可能失去一件重要的東西，想立刻追回；這時追得越急越找不到，等待幾天它可能自己回來。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先停一週不追，先做好眼前要做的事。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "63_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "既濟・三爻",
+      "summary": "這是需要長期努力的一件事，可能得花上很久才見成果；過程中選對人、不被眼前的小利益誘惑很重要。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "把目標拆成一年的階段，並檢視共事的人是否適合。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "63_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "既濟・四爻",
+      "summary": "事情看起來已經穩定，但仍要留意可能出現的小漏洞；就像華美的衣服也要預備破布，有備無患。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "為一個可能出錯的環節準備備案，寫下來。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "63_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "既濟・五爻",
+      "summary": "場面做得再盛大，都比不上真誠、簡單的心意；你可能在排場上花了很多力氣，卻忽略了對方真正在意的事。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "刪掉一個形式上的環節，把省下的時間用在真誠的交流上。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "63_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "既濟・上爻",
+      "summary": "事情完成後你可能太得意，忽略了底下的風險，容易陷入困境；成功之後最需要保持清醒。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "完成之後，寫下一個仍可能出問題的地方，並預先處理。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "64_1",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "未濟・初爻",
+      "summary": "你才剛起步就太急著往前，可能留下遺憾；還沒準備完整就出手，容易弄濕自己的腳。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "先花一天觀察，確認方向與資源後再開始。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "64_2",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "未濟・二爻",
+      "summary": "你放慢速度，守住正確的方向，反而讓事情順利；慢不代表落後，而是穩。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "維持目前的節奏，不要因為別人快就跟著加速。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "64_3",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "未濟・三爻",
+      "summary": "事情還沒完成，現在硬衝可能有麻煩；但你很適合把準備做足，為之後的大行動鋪路。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "列出渡過這個關卡需要的三項準備，一項一項完成。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "64_4",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "未濟・四爻",
+      "summary": "你已經守住方向，之前的後悔慢慢消失，願意長期投入，三年後有機會得到肯定；這是需要時間的事。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "為這件事訂一個長期的檢核點，每季回顧一次。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "64_5",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "未濟・五爻",
+      "summary": "你守住方向也沒有後悔，整個人散發出一種穩定的光彩，大家因你的誠信而信任你。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "在下一次互動中，做到你說過的承諾。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  },
+  {
+    "contentType": "HEXAGRAM",
+    "key": "64_6",
+    "status": "PUBLISHED",
+    "body": {
+      "title": "未濟・上爻",
+      "summary": "你完成了該做的事，可以放鬆享受，沒有過失；但如果慶祝過頭而失去分寸，反而會損害成果。",
+      "strengths": [],
+      "blindSpots": [],
+      "growthAdvice": "慶祝時為自己設一個上限，例如到幾點結束。",
+      "disclaimer": "卦象僅供娛樂與自我反思參考，描述的是這一刻的狀態，不預測未來，也不構成醫療、法律或財務建議。"
+    }
+  }
+]

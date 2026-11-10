@@ -22,6 +22,8 @@ async function seed(db: FakeFirestore) {
     await db.doc('users/u1/kinUnlocks/2026-10-28').set({ kin: { kinNumber: 2 } });
     await db.doc('users/u1/runeDraws/2026-10-27').set({ symbolIndex: 3 });
     await db.doc('users/u1/runeDraws/2026-10-28').set({ symbolIndex: 5 });
+    await db.doc('users/u1/hexagramDraws/2026-10-27_0').set({ seq: 0 });
+    await db.doc('users/u1/hexagramDraws/2026-10-27_1').set({ seq: 1 });
     await db.doc('users/u1/reportSnapshots/s1').set({ position: 'a' });
     await db.doc('users/u1/reportSnapshots/s2').set({ position: 'b' });
     await db.doc('users/u1/aiReports/j1').set({ question: 'q' });
@@ -34,6 +36,7 @@ async function seed(db: FakeFirestore) {
     await db.doc('users/u2/tarotDraws/2026-10-27').set({ cardIndex: 9 });
     await db.doc('users/u2/kinUnlocks/2026-10-27').set({ kin: { kinNumber: 3 } });
     await db.doc('users/u2/runeDraws/2026-10-27').set({ symbolIndex: 9 });
+    await db.doc('users/u2/hexagramDraws/2026-10-27_0').set({ seq: 0 });
     await db.doc('users/u2/reportSnapshots/s9').set({ position: 'c' });
     await db.doc('users/u2/aiReports/j9').set({ question: 'q' });
     await db.doc('welcomeGrants/hash1').set({ googleUidHash: 'hash1' });
@@ -102,6 +105,20 @@ describe('DeletionService.deleteData', () => {
         expect(db.paths()).toContain('users/u1/assessmentAttempts/a1');
     });
 
+    it('leaves the hexagram casts alone, as it does the tarot and rune draws', async () => {
+        await service.deleteData('u1', [
+            'RESULTS',
+            'REPORTS',
+            'HUMAN_DESIGN',
+        ]);
+
+        expect(db.paths().filter((p) => p.includes('/hexagramDraws/'))).toEqual([
+            'users/u1/hexagramDraws/2026-10-27_0',
+            'users/u1/hexagramDraws/2026-10-27_1',
+            'users/u2/hexagramDraws/2026-10-27_0',
+        ]);
+    });
+
     it('never touches points or payments', async () => {
         await service.deleteData('u1', [
             'RESULTS',
@@ -154,6 +171,12 @@ describe('DeletionService.deleteAccount', () => {
         await new DeletionService({ deleteAuthUser: async () => undefined }).deleteAccount('u1');
 
         expect(db.paths().filter((p) => p.includes('/runeDraws/'))).toEqual(['users/u2/runeDraws/2026-10-27']);
+    });
+
+    it('removes every hexagram cast of the user and keeps those of other users', async () => {
+        await new DeletionService({ deleteAuthUser: async () => undefined }).deleteAccount('u1');
+
+        expect(db.paths().filter((p) => p.includes('/hexagramDraws/'))).toEqual(['users/u2/hexagramDraws/2026-10-27_0']);
     });
 
     it('removes every self-analysis attempt of the user and keeps those of other users', async () => {

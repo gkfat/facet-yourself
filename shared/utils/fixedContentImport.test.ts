@@ -197,6 +197,59 @@ describe('CSV', () => {
     });
 });
 
+describe('a hexagram reading', () => {
+    const reading = (key: string, text: string) => parseImportJson(JSON.stringify([
+        {
+            contentType: 'HEXAGRAM',
+            key,
+            body: {
+                ...body, summary: text,
+            },
+        },
+    ]));
+
+    it('is accepted when it describes the moment and promises nothing', () => {
+        expect(reading('1', '這一刻可能適合先把方向看清楚，再決定下一步。').errors).toEqual([]);
+        expect(reading('12_3', '傾向在這個階段多觀察，少下結論。').errors).toEqual([]);
+    });
+
+    it('is refused when it gives a verdict of luck, a certainty, clinical wording or money advice', () => {
+        for (const text of [
+            '今天是大吉的一天',
+            '這件事必定成功',
+            '注定會失敗',
+            '這是憂鬱的徵兆',
+            '適合投資股票',
+        ]) {
+            const result = reading('1', text);
+
+            expect(result.rows, text).toEqual([]);
+            expect(result.errors[0]?.message, text).toContain('must not use');
+        }
+    });
+
+    it('names the words it found', () => {
+        expect(reading('1', '大吉，而且必定順利').errors[0]?.message).toContain('大吉、必定');
+    });
+
+    it('does not apply to the other content types', () => {
+        const result = parseImportJson(JSON.stringify([
+            {
+                contentType: 'ZODIAC', key: 'aries', body: {
+                    ...body, summary: '運氣大吉',
+                },
+            },
+        ]));
+
+        expect(result.errors).toEqual([]);
+    });
+
+    it('is refused for a key that is not a hexagram or a line of one', () => {
+        expect(reading('65', '這一刻先觀察。').errors).toHaveLength(1);
+        expect(reading('1_7', '這一刻先觀察。').errors).toHaveLength(1);
+    });
+});
+
 describe('computeCoverage', () => {
     const all = expectedFixedContentIds();
 
@@ -206,7 +259,7 @@ describe('computeCoverage', () => {
         })));
 
         expect(report).toMatchObject({
-            expected: 1044, published: 1044, complete: true,
+            expected: 1492, published: 1492, complete: true,
         });
     });
 
@@ -227,6 +280,6 @@ describe('computeCoverage', () => {
         expect(report.missing).toEqual(all.slice(0, 2));
         expect(report.unpublished).toHaveLength(1);
         expect(report.unexpected).toEqual(['ZODIAC_aries_XXXX']);
-        expect(report.published).toBe(1044 - 2 - 1);
+        expect(report.published).toBe(1492 - 2 - 1);
     });
 });

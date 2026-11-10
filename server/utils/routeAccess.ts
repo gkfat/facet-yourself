@@ -43,10 +43,10 @@ const RULES: readonly Rule[] = [
         method: 'GET', pattern: /^\/api\/home\/preview$/, access: 'public',
     },
     {
-        method: 'GET', pattern: /^\/api\/(tarot\/daily|rune\/daily|kin\/today|horoscope\/daily)$/, access: 'optional',
+        method: 'GET', pattern: /^\/api\/(tarot\/daily|rune\/daily|hexagram\/daily|kin\/today|horoscope\/daily)$/, access: 'optional',
     },
     {
-        method: 'POST', pattern: /^\/api\/(tarot\/daily|rune\/daily|kin\/today)$/, access: 'optional',
+        method: 'POST', pattern: /^\/api\/(tarot\/daily|rune\/daily|hexagram\/daily|kin\/today)$/, access: 'optional',
     },
     {
         method: 'POST', pattern: /^\/api\/tests\/[^/]+\/submissions$/, access: 'optional',

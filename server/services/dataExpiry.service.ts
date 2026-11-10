@@ -30,6 +30,9 @@ const EXPIRING_GROUPS = [
         group: 'runeDraws', key: 'deletedRuneDraws',
     },
     {
+        group: 'hexagramDraws', key: 'deletedHexagramDraws',
+    },
+    {
         group: 'reportSnapshots', key: 'deletedReportSnapshots',
     },
     {
@@ -65,6 +68,7 @@ export class DataExpiryService extends BaseService {
             deletedTarotDraws: 0,
             deletedKinUnlocks: 0,
             deletedRuneDraws: 0,
+            deletedHexagramDraws: 0,
             deletedReportSnapshots: 0,
             deletedAssessmentAttempts: 0,
             deletedAiReports: 0,

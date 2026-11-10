@@ -24,6 +24,7 @@ const EXPIRY_QUERY_GROUPS = [
     'tarotDraws',
     'kinUnlocks',
     'runeDraws',
+    'hexagramDraws',
     'reportSnapshots',
     'assessmentAttempts',
     'aiReports',
@@ -35,6 +36,9 @@ const DASHBOARD_FIELD_INDEXES = [
     },
     {
         group: 'runeDraws', field: 'drawnAt',
+    },
+    {
+        group: 'hexagramDraws', field: 'drawnAt',
     },
     {
         group: 'aiReports', field: 'createdAt',

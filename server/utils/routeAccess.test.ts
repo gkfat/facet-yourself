@@ -28,6 +28,8 @@ describe('classifyRoute', () => {
         expect(classifyRoute('POST', '/api/tarot/daily')).toBe('optional');
         expect(classifyRoute('GET', '/api/rune/daily')).toBe('optional');
         expect(classifyRoute('POST', '/api/rune/daily')).toBe('optional');
+        expect(classifyRoute('GET', '/api/hexagram/daily')).toBe('optional');
+        expect(classifyRoute('POST', '/api/hexagram/daily')).toBe('optional');
         expect(classifyRoute('GET', '/api/kin/today')).toBe('optional');
         expect(classifyRoute('POST', '/api/kin/today')).toBe('optional');
         expect(classifyRoute('GET', '/api/horoscope/daily')).toBe('optional');

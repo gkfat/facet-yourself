@@ -163,6 +163,20 @@
       ]
     },
     {
+      "collectionGroup": "hexagramDraws",
+      "fieldPath": "expiresAt",
+      "indexes": [
+        {
+          "order": "ASCENDING",
+          "queryScope": "COLLECTION_GROUP"
+        },
+        {
+          "order": "ASCENDING",
+          "queryScope": "COLLECTION"
+        }
+      ]
+    },
+    {
       "collectionGroup": "reportSnapshots",
       "fieldPath": "expiresAt",
       "indexes": [
@@ -206,6 +220,20 @@
     },
     {
       "collectionGroup": "runeDraws",
+      "fieldPath": "drawnAt",
+      "indexes": [
+        {
+          "order": "ASCENDING",
+          "queryScope": "COLLECTION_GROUP"
+        },
+        {
+          "order": "ASCENDING",
+          "queryScope": "COLLECTION"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "hexagramDraws",
       "fieldPath": "drawnAt",
       "indexes": [
         {

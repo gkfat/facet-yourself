@@ -146,6 +146,37 @@ describe('KIN keys', () => {
     });
 });
 
+describe('HEXAGRAM keys', () => {
+    it('accepts a hexagram as its number and a line as its number and position', () => {
+        for (const key of [
+            '1',
+            '12',
+            '64',
+            '12_3',
+            '1_1',
+            '64_6',
+        ]) expect(isValidContentKey('HEXAGRAM', key), key).toBe(true);
+    });
+
+    it('rejects a number outside 1 to 64, a position outside 1 to 6 and anything that is not written that way', () => {
+        for (const key of [
+            '0',
+            '65',
+            '012',
+            '1_0',
+            '12_7',
+            '64_7',
+            '1_',
+            '_1',
+            '1_1_1',
+            'a',
+            '1 ',
+            '1.0',
+            '',
+        ]) expect(isValidContentKey('HEXAGRAM', key), key).toBe(false);
+    });
+});
+
 describe('RUNE keys', () => {
     it('accepts every rune upright, and reversed only for the ones that can be reversed', () => {
         expect(isValidContentKey('RUNE', '0_upright')).toBe(true);
@@ -251,9 +282,9 @@ describe('baziContentKeys', () => {
 describe('expectedFixedContentIds', () => {
     const ids = expectedFixedContentIds();
 
-    it('lists 44 single results, 170 BaZi contents and 44 tarot contents, 520 Kin contents and 39 rune contents and 60 sign horoscope contents and the self-assessment contents, all unique', () => {
-        expect(ids).toHaveLength(1044);
-        expect(new Set(ids).size).toBe(1044);
+    it('lists 44 single results, 170 BaZi contents and 44 tarot contents, 520 Kin contents and 39 rune contents and 60 sign horoscope contents and 448 hexagram readings and the self-assessment contents, all unique', () => {
+        expect(ids).toHaveLength(1492);
+        expect(new Set(ids).size).toBe(1492);
         expect(ids.filter((id) => id.startsWith('ZODIAC_'))).toHaveLength(12);
         expect(ids.filter((id) => id.startsWith('BLOOD_'))).toHaveLength(4);
         expect(ids.filter((id) => id.startsWith('MBTI_'))).toHaveLength(16);
@@ -264,6 +295,7 @@ describe('expectedFixedContentIds', () => {
         expect(ids.filter((id) => id.startsWith('KIN_TODAY_'))).toHaveLength(260);
         expect(ids.filter((id) => id.startsWith('RUNE_'))).toHaveLength(39);
         expect(ids.filter((id) => id.startsWith('HOROSCOPE_'))).toHaveLength(60);
+        expect(ids.filter((id) => id.startsWith('HEXAGRAM_'))).toHaveLength(448);
     });
 
     it('uses the same id format as fixedContentId', () => {

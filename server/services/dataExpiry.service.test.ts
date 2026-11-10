@@ -43,6 +43,10 @@ describe('DataExpiryService', () => {
         await db.doc('users/u1/runeDraws/2026-03-01').set({ expiresAt: PAST });
         await db.doc('users/u1/runeDraws/2026-06-30').set({ expiresAt: FUTURE });
         await db.doc('users/u2/runeDraws/2026-03-01').set({ expiresAt: PAST });
+        await db.doc('users/u1/hexagramDraws/2026-03-01_0').set({ expiresAt: PAST });
+        await db.doc('users/u1/hexagramDraws/2026-03-01_1').set({ expiresAt: PAST });
+        await db.doc('users/u1/hexagramDraws/2026-06-30_0').set({ expiresAt: FUTURE });
+        await db.doc('users/u2/hexagramDraws/2026-03-01_0').set({ expiresAt: PAST });
         await db.doc('users/u1/reportSnapshots/old').set({ expiresAt: PAST });
         await db.doc('users/u1/reportSnapshots/new').set({ expiresAt: FUTURE });
         await db.doc('users/u2/reportSnapshots/old').set({ expiresAt: PAST });
@@ -67,6 +71,7 @@ describe('DataExpiryService', () => {
             deletedTarotDraws: 2,
             deletedKinUnlocks: 2,
             deletedRuneDraws: 2,
+            deletedHexagramDraws: 3,
             deletedReportSnapshots: 2,
             deletedAssessmentAttempts: 2,
             deletedAiReports: 1,
@@ -85,6 +90,10 @@ describe('DataExpiryService', () => {
         expect(paths).not.toContain('users/u1/runeDraws/2026-03-01');
         expect(paths).not.toContain('users/u2/runeDraws/2026-03-01');
         expect(paths).toContain('users/u1/runeDraws/2026-06-30');
+        expect(paths).not.toContain('users/u1/hexagramDraws/2026-03-01_0');
+        expect(paths).not.toContain('users/u1/hexagramDraws/2026-03-01_1');
+        expect(paths).not.toContain('users/u2/hexagramDraws/2026-03-01_0');
+        expect(paths).toContain('users/u1/hexagramDraws/2026-06-30_0');
         expect(paths).not.toContain('users/u1/kinUnlocks/2026-03-01');
         expect(paths).not.toContain('users/u2/kinUnlocks/2026-03-01');
         expect(paths).toContain('users/u1/kinUnlocks/2026-06-30');
@@ -105,7 +114,7 @@ describe('DataExpiryService', () => {
         const result = await service.run();
 
         expect(result).toMatchObject({
-            deletedTarotDraws: 2, deletedRuneDraws: 2,
+            deletedTarotDraws: 2, deletedRuneDraws: 2, deletedHexagramDraws: 3,
         });
         expect(db.paths()).toEqual(expect.arrayContaining(['users/u1/tarotDraws/2026-01-01', 'users/u1/runeDraws/2026-01-01']));
     });
@@ -142,6 +151,7 @@ describe('DataExpiryService', () => {
             deletedTarotDraws: 0,
             deletedKinUnlocks: 0,
             deletedRuneDraws: 0,
+            deletedHexagramDraws: 0,
             deletedReportSnapshots: 0,
             deletedAssessmentAttempts: 0,
             deletedAiReports: 0,

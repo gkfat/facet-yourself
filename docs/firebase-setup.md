@@ -16,7 +16,7 @@
 2. 在 Authentication 的「授權網域」加入 Vercel 網域。
 3. 部署規則與索引：`firebase deploy --only firestore:rules,firestore:indexes`
    - `firestore.rules` 全擋 client，所有存取都經過 Nuxt server（firebase-admin）。
-   - `firestore.indexes.json` 含到期清除用的 collection group 單欄位索引（`expiresAt`，含 `tarotDraws`、`runeDraws`），以及後台統計每日塔羅／盧恩用的 `tarotDraws.drawnAt`、`runeDraws.drawnAt` 單欄位索引。
+   - `firestore.indexes.json` 含到期清除用的 collection group 單欄位索引（`expiresAt`，含 `tarotDraws`、`runeDraws`、`hexagramDraws`），以及後台統計每日塔羅／盧恩／卦象用的 `tarotDraws.drawnAt`、`runeDraws.drawnAt`、`hexagramDraws.drawnAt` 單欄位索引。
    - 後台 Dashboard 的聚合查詢還需要複合索引（`pointTransactions`：`type`＋`createdAt`＋`amount`、`type`＋`reason`＋`createdAt`＋`amount`；`aiUsageRecords`：`createdAt`＋三個加總欄位；`reportSnapshots`：`kind`＋`systems`），都在 `firestore.indexes.json`，用上面的 deploy 指令建立（`sum()` 的欄位必須包含在索引內）。單欄位的 `drawnAt` 索引（`tarotDraws`、`runeDraws`）與 `aiReports.createdAt`（多維度報告統計）同在該檔，一併由 deploy 建立（`pnpm firebase:provision` 也能建立）。
    - 這些索引要在 Console 的「索引」頁顯示「已啟用」後，Dashboard 對應的圖表才查得到資料。
 
@@ -31,10 +31,10 @@ gcloud firestore fields ttls update expiresAt --collection-group=rateLimits --en
 
 TTL 清除會延遲（通常 24 小時內），程式判斷一律以時間比較為準，不依賴文件是否已被刪除。
 
-注意：`testAttempts`、`humanDesign`、`tarotDraws`、`runeDraws`、`reportSnapshots`、`aiReports` 的 `expiresAt` 是數字（epoch 毫秒），
+注意：`testAttempts`、`humanDesign`、`tarotDraws`、`runeDraws`、`hexagramDraws`、`reportSnapshots`、`aiReports` 的 `expiresAt` 是數字（epoch 毫秒），
 **不要**對它們啟用 TTL；它們由每日排程 `/api/cron/data-expiry` 清除。
 
-`tarotDraws`、`runeDraws`（每日塔羅與盧恩抽取紀錄）保存 3 個月：新紀錄帶 `expiresAt`（抽取時間加 3 個月），由每日排程清除，刪除帳號時也會移除。
+`tarotDraws`、`runeDraws`、`hexagramDraws`（每日塔羅、盧恩與卦象的抽取紀錄）保存 3 個月：新紀錄帶 `expiresAt`（抽取時間加 3 個月），由每日排程清除，刪除帳號時也會移除。
 
 沒有 `expiresAt` 的舊文件（2026-11-09 起到本次部署之間建立的紀錄）排程查不到，不會被清除，只在刪除帳號時移除；本專案不另行回補。
 

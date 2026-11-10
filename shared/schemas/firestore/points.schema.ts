@@ -30,6 +30,7 @@ export const POINT_TRANSACTION_REASONS = [
     'WELCOME',
     'SINGLE_AI_ANALYSIS',
     'MULTI_REPORT',
+    'HEXAGRAM_CAST',
     'PURCHASE',
 ] as const;
 

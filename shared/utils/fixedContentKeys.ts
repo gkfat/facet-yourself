@@ -15,6 +15,7 @@ import {
     assessmentContentKeys, isAssessmentContentKey,
 } from '../assessments/index.ts';
 import { horoscopeContentKeys } from '../constants/horoscope.ts';
+import { hexagramContentKeys } from '../constants/hexagramShape.ts';
 import { KIN_COUNT } from '../constants/mayaKin.ts';
 import { runeContentKeys } from '../constants/runes.ts';
 import {
@@ -38,6 +39,7 @@ export const FIXED_CONTENT_TYPES = [
     'RUNE',
     'HOROSCOPE',
     'ASSESSMENT',
+    'HEXAGRAM',
 ] as const;
 
 export type FixedContentType = typeof FIXED_CONTENT_TYPES[number];
@@ -135,6 +137,9 @@ const KIN_KEY_SET: ReadonlySet<string> = new Set(kinContentKeys());
 /** The 39 rune content keys: 24 upright, and reversed only for the 15 runes that can be reversed. */
 const RUNE_KEY_SET: ReadonlySet<string> = new Set(runeContentKeys());
 
+/** The 448 hexagram reading keys: a hexagram as `<1 to 64>`, a line of it as `<1 to 64>_<1 to 6>`. */
+const HEXAGRAM_KEY_SET: ReadonlySet<string> = new Set(hexagramContentKeys());
+
 /** The 60 sign horoscope keys: five bodies in twelve houses, as `<BODY>_<1 to 12>`. */
 const HOROSCOPE_KEY_SET: ReadonlySet<string> = new Set(horoscopeContentKeys());
 
@@ -156,13 +161,14 @@ export function isValidContentKey(type: FixedContentType, key: string): boolean 
     case 'RUNE': return RUNE_KEY_SET.has(key);
     case 'HOROSCOPE': return HOROSCOPE_KEY_SET.has(key);
     case 'ASSESSMENT': return isAssessmentContentKey(key);
+    case 'HEXAGRAM': return HEXAGRAM_KEY_SET.has(key);
     }
 }
 
 /**
  * Every document id that must exist before launch:
  * 12 + 4 + 16 + 12 single results, the 170 BaZi contents, the 44 tarot contents, the 260 + 260 Kin contents, the 39 rune
- * contents, the 60 sign horoscope contents and the contents of the self-assessments (as many as the registry lists).
+ * contents, the 60 sign horoscope contents, the 448 hexagram readings and the contents of the self-assessments (as many as the registry lists).
  */
 export function expectedFixedContentIds(): string[] {
     const ids: string[] = [];
@@ -176,6 +182,7 @@ export function expectedFixedContentIds(): string[] {
     for (const key of kinContentKeys()) ids.push(fixedContentId('KIN_BIRTH', key), fixedContentId('KIN_TODAY', key));
     for (const key of runeContentKeys()) ids.push(fixedContentId('RUNE', key));
     for (const key of horoscopeContentKeys()) ids.push(fixedContentId('HOROSCOPE', key));
+    for (const key of hexagramContentKeys()) ids.push(fixedContentId('HEXAGRAM', key));
     for (const key of assessmentContentKeys()) ids.push(fixedContentId('ASSESSMENT', key));
 
     return ids;

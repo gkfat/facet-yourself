@@ -7,6 +7,7 @@ import {
 import {
     expectedFixedContentIds, fixedContentId, isValidContentKey,
 } from './fixedContentKeys.ts';
+import { findForbiddenHexagramWords } from './hexagramWording.ts';
 
 /**
  * Import file rows. JSON rows carry a nested body; CSV rows are flat and are
@@ -24,6 +25,19 @@ export const importRowSchema = z.object({
             path: ['key'],
             message: `"${row.key}" is not a legal key for ${row.contentType}`,
         });
+    }
+
+    // A reading of a hexagram is the state of one moment: no verdicts of luck, no certainty, no clinical or money advice.
+    if (row.contentType === 'HEXAGRAM') {
+        const found = findForbiddenHexagramWords(JSON.stringify(row.body));
+
+        if (found.length > 0) {
+            ctx.addIssue({
+                code: 'custom',
+                path: ['body'],
+                message: `a hexagram reading must not use: ${found.join('、')}`,
+            });
+        }
     }
 
     // The page puts each strength's "when overused" note on that strength's card, matched by name.
