@@ -23,9 +23,14 @@ useHead({
 </script>
 
 <style>
-/* A page with a full-width banner: its own stacking context keeps the banner's backdrop behind the content. */
+/*
+ * A page with a full-width banner: its own stacking context keeps the banner's backdrop behind the content.
+ * The z-index puts the whole page above the footer, which comes later in the DOM and is positioned; without it
+ * the footer covers the page's floating back button at the bottom, and the button cannot be tapped.
+ */
 .report-page {
     position: relative;
+    z-index: 1;
     isolation: isolate;
 }
 
