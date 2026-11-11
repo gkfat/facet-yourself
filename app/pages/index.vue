@@ -130,8 +130,11 @@
             <!-- A first result, as soon as there is a date -->
             <HomePreview :birth-date="birthDateInput" />
 
-            <FortuneHomeEntry />
-            <HomeMultiFeature :unlocked="progress.multiDimensionUnlocked" />
+            <!-- Two bands in one piece: today's fortune in daylight paper, the combined analysis in night -->
+            <div class="bands">
+                <FortuneHomeEntry />
+                <HomeMultiFeature :unlocked="progress.multiDimensionUnlocked" />
+            </div>
 
             <v-card variant="outlined">
                 <v-card-title>從不同的角度，認識自己</v-card-title>
@@ -516,5 +519,11 @@ const groups = computed(() => SYSTEMS
     flex-direction: column;
     gap: 24px;
     margin-bottom: 24px;
+}
+
+/* The day band and the night band meet with no gap, so they read as one piece */
+.bands {
+    display: flex;
+    flex-direction: column;
 }
 </style>
