@@ -44,12 +44,22 @@
                 </p>
             </template>
 
-            <TarotCard
+            <FortuneReveal
                 v-if="drawn"
-                :card="drawn.card"
-                :flipped="revealed"
-                class="mb-6"
-            />
+                eyebrow="今天的牌"
+                :title="drawn.card.name"
+                :subtitle="`${drawn.card.roman} · ${drawn.card.englishName}`"
+                :badge="TAROT_ORIENTATION_LABELS[drawn.card.orientation]"
+                :turn="drawn.card.orientation"
+                :shown="revealed"
+                :label="`今天的牌：${drawn.card.name}（${drawn.card.englishName}），${TAROT_ORIENTATION_LABELS[drawn.card.orientation]}`"
+            >
+                <TarotCard
+                    :card="drawn.card"
+                    :flipped="revealed"
+                    class="reveal-card"
+                />
+            </FortuneReveal>
         </template>
 
         <!-- The report of today, with everything the draw page used to show, right under the draw -->
@@ -72,6 +82,8 @@
 </template>
 
 <script lang="ts" setup>
+import { TAROT_ORIENTATION_LABELS } from '../../../shared/constants/tarot';
+
 const {
     today, status, drawing, load, draw,
 } = useDailyTarot();
@@ -135,3 +147,9 @@ onMounted(() => {
 
 onBeforeUnmount(() => document.removeEventListener('visibilitychange', onVisible));
 </script>
+
+<style scoped>
+.reveal-card {
+    --tarot-width: min(150px, 42vw);
+}
+</style>

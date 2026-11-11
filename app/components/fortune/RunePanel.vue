@@ -44,12 +44,22 @@
                 </p>
             </template>
 
-            <RuneStone
+            <FortuneReveal
                 v-if="drawn"
-                :rune="drawn.rune"
-                :flipped="revealed"
-                class="mb-4"
-            />
+                eyebrow="今天的符文"
+                :title="drawn.rune.name"
+                :subtitle="drawn.rune.meaning"
+                :badge="RUNE_ORIENTATION_LABELS[drawn.rune.orientation]"
+                :turn="drawn.rune.orientation"
+                :shown="revealed"
+                :label="`今天的符文：${drawn.rune.name}，${drawn.rune.meaning}，${RUNE_ORIENTATION_LABELS[drawn.rune.orientation]}`"
+            >
+                <RuneStone
+                    :rune="drawn.rune"
+                    :flipped="revealed"
+                    class="reveal-stone"
+                />
+            </FortuneReveal>
         </template>
 
         <!-- The report of today, with everything the draw page used to show, right under the draw -->
@@ -72,6 +82,8 @@
 </template>
 
 <script lang="ts" setup>
+import { RUNE_ORIENTATION_LABELS } from '../../../shared/constants/runes';
+
 const {
     today, status, drawing, load, draw,
 } = useDailyRune();
@@ -133,3 +145,9 @@ onMounted(() => {
 
 onBeforeUnmount(() => document.removeEventListener('visibilitychange', onVisible));
 </script>
+
+<style scoped>
+.reveal-stone {
+    --stone-width: min(220px, 58vw);
+}
+</style>

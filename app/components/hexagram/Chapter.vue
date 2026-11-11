@@ -295,8 +295,6 @@ const classical = computed(() => [
 
 <style scoped>
 .unit-row {
-    display: flex;
-    justify-content: center;
     margin-bottom: 12px;
 }
 
