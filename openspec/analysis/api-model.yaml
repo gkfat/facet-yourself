@@ -1,7 +1,7 @@
 # version: 1
 # generatedBy: api-modeling
-# updatedAt: 2026-11-10T12:00:00+08:00
-# relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, add-report-snapshots, expand-self-analysis-dimensions, ai-analysis-question-history, add-hexagram-divination]
+# updatedAt: 2026-11-11T12:00:00+08:00
+# relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, add-report-snapshots, expand-self-analysis-dimensions, ai-analysis-question-history, add-hexagram-divination, add-ziwei-chart]
 openapi: "3.0.3"
 info:
   title: "AI 多維度人格探索 App API"
@@ -1605,7 +1605,7 @@ paths:
           "$ref": "#/components/responses/RateLimited"
       x-trace:
         id: API-063
-        useCases: [UC-054, UC-056, UC-046]
+        useCases: [UC-054, UC-056, UC-046, UC-065]
         domainModel: [ENT-028, AGG-025, VO-037, VO-038, ENT-024, AGG-021, ENT-026, AGG-023, AGG-008]
         businessRules: [RULE-094, RULE-095, RULE-096, RULE-097, RULE-098, RULE-099, RULE-101]
         requirements: [NFR-001, NFR-017, NFR-030, NFR-031, NFR-032]
@@ -1788,7 +1788,7 @@ paths:
               properties:
                 system:
                   type: string
-                  enum: [ZODIAC, BLOOD, NUMEROLOGY, MBTI, MAYA_KIN, BAZI, HUMAN_DESIGN, TAROT, RUNE, HOROSCOPE]
+                  enum: [ZODIAC, BLOOD, NUMEROLOGY, MBTI, MAYA_KIN, BAZI, ZIWEI, HUMAN_DESIGN, TAROT, RUNE, HOROSCOPE]
               required: [system]
       responses:
         "200":
@@ -1811,7 +1811,7 @@ paths:
                 "$ref": "#/components/schemas/ErrorResponse"
       x-trace:
         id: API-055
-        useCases: [UC-047, UC-048]
+        useCases: [UC-047, UC-048, UC-064]
         domainModel: [ENT-024, AGG-021, ENT-025, ENT-026, ENT-027, AGG-022, AGG-023, AGG-024]
         businessRules: [RULE-078, RULE-079, RULE-080, RULE-081, RULE-082, RULE-083, RULE-092, RULE-093]
         requirements: [NFR-001, NFR-029, NFR-030]
@@ -2317,6 +2317,37 @@ paths:
         domainModel: [ENT-001]
         businessRules: [RULE-043, RULE-044]
         requirements: [NFR-001, NFR-022]
+  "/ziwei/calculations":
+    post:
+      operationId: calculateZiwei
+      summary: "計算紫微斗數命盤（命宮、身宮、五行局、命主身主、十四主星、四輔星、十二宮與生年四化）"
+      description: "依出生日期與出生時間（皆必填）與選填的城市算出固定的命盤；不呼叫 AI、不扣點、不儲存任何出生資料。缺出生時間回 400，MUST NOT 推測時辰；出生年份限 1901–2099（RULE-105）；沒有城市以 Asia/Taipei 計算。規則：三合、農曆正月初一換年、閏月十五日分界、晚子時日期不換日、使用出生地的標準時間（不做真太陽時）（RULE-103、RULE-104）。空宮保持為空宮，借星只在解讀層、不在此回應（RULE-106）。規則表尚未核對時回 503 與代碼 ZIWEI_RULES_UNVERIFIED（RULE-109）。"
+      tags: [FixedResults]
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ZiweiRequest"
+      responses:
+        "200":
+          description: "紫微命盤"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ZiweiChart"
+        "400":
+          "$ref": "#/components/responses/ValidationError"
+        "503":
+          description: "紫微的規則表尚未核對，暫時無法排盤；error.code 為 ZIWEI_RULES_UNVERIFIED，details.rules 列出未核對的項目"
+      x-trace:
+        id: API-081
+        useCases: [UC-061, UC-062, UC-063]
+        domainModel: [VO-001, VO-040, VO-041, VO-042, VO-043, VO-045]
+        businessRules: [RULE-102, RULE-103, RULE-104, RULE-105, RULE-106, RULE-107, RULE-108, RULE-109, RULE-110, RULE-116]
+        requirements: [NFR-038, NFR-039, NFR-040]
+        note: "命盤是即時計算的 Value Object，沒有對應的 Entity 或 Aggregate，因此 domainModel 列的是 Value Object"
 components:
   securitySchemes:
     bearerAuth:
@@ -3422,7 +3453,7 @@ components:
           uniqueItems: true
           items:
             type: string
-            enum: [ZODIAC, BLOOD, MBTI, NUMEROLOGY, MAYA_KIN, BAZI, HUMAN_DESIGN, ENNEAGRAM, HEXACO, VIA_STRENGTHS, RIASEC, EMOTIONAL_INTELLIGENCE, ATTACHMENT_STYLE, CORE_VALUES, PSYCHOLOGICAL_NEEDS]
+            enum: [ZODIAC, BLOOD, MBTI, NUMEROLOGY, MAYA_KIN, BAZI, ZIWEI, HUMAN_DESIGN, ENNEAGRAM, HEXACO, VIA_STRENGTHS, RIASEC, EMOTIONAL_INTELLIGENCE, ATTACHMENT_STYLE, CORE_VALUES, PSYCHOLOGICAL_NEEDS]
         question:
           type: string
           maxLength: 100
@@ -3936,6 +3967,162 @@ components:
           format: date-time
           nullable: true
       required: [reportId, status, transitDate, transitAt, createdAt]
+    ZiweiRequest:
+      type: object
+      properties:
+        birthDate:
+          type: string
+          format: date
+          description: "YYYY-MM-DD，須為真實存在且不在未來的日期，年份 1901–2099"
+        birthTime:
+          type: string
+          pattern: "^([01]\\d|2[0-3]):[0-5]\\d$"
+          description: "HH:mm，必填；不接受 null，缺少時回 400"
+        birthPlace:
+          type: string
+          nullable: true
+          description: "預設城市清單的代碼；未填以 Asia/Taipei"
+      required: [birthDate, birthTime]
+    ZiweiStarPlacement:
+      type: object
+      properties:
+        star:
+          type: string
+          enum: [紫微, 天機, 太陽, 武曲, 天同, 廉貞, 天府, 太陰, 貪狼, 巨門, 天相, 天梁, 七殺, 破軍, 文昌, 文曲, 左輔, 右弼]
+        transformation:
+          type: string
+          nullable: true
+          enum: [祿, 權, 科, 忌]
+          description: "生年四化；是星的屬性，不是額外的星"
+      required: [star, transformation]
+    ZiweiPalace:
+      type: object
+      properties:
+        palace:
+          type: string
+          enum: [命宮, 兄弟, 夫妻, 子女, 財帛, 疾厄, 遷移, 交友, 官祿, 田宅, 福德, 父母]
+        branch:
+          type: string
+          enum: [子, 丑, 寅, 卯, 辰, 巳, 午, 未, 申, 酉, 戌, 亥]
+        mainStars:
+          type: array
+          items:
+            "$ref": "#/components/schemas/ZiweiStarPlacement"
+        auxiliaryStars:
+          type: array
+          items:
+            "$ref": "#/components/schemas/ZiweiStarPlacement"
+        isEmpty:
+          type: boolean
+          description: "沒有主星；輔星不算主星；借來的星不會出現在這裡（RULE-106）"
+      required: [palace, branch, mainStars, auxiliaryStars, isEmpty]
+    ZiweiChart:
+      type: object
+      properties:
+        timeZone:
+          type: string
+        timeZoneAssumed:
+          type: boolean
+          description: "未填出生城市而假設 Asia/Taipei"
+        algorithmVersion:
+          type: string
+          description: "排盤算法版本（ZIWEI_ALGORITHM_VERSION）"
+        meta:
+          type: object
+          properties:
+            lunarYearStem:
+              type: string
+              enum: [甲, 乙, 丙, 丁, 戊, 己, 庚, 辛, 壬, 癸]
+            lunarYearBranch:
+              type: string
+              enum: [子, 丑, 寅, 卯, 辰, 巳, 午, 未, 申, 酉, 戌, 亥]
+            lunarDay:
+              type: integer
+              minimum: 1
+              maximum: 30
+            isLeapMonth:
+              type: boolean
+            originalLunarMonth:
+              type: integer
+              minimum: 1
+              maximum: 12
+            effectiveLunarMonth:
+              type: integer
+              minimum: 1
+              maximum: 12
+              description: "閏月十六日起歸下個月（RULE-103）"
+            hourBranch:
+              type: string
+              enum: [子, 丑, 寅, 卯, 辰, 巳, 午, 未, 申, 酉, 戌, 亥]
+          required: [lunarYearStem, lunarYearBranch, lunarDay, isLeapMonth, originalLunarMonth, effectiveLunarMonth, hourBranch]
+        bureau:
+          type: object
+          properties:
+            label:
+              type: string
+              description: "水二局、木三局、金四局、土五局、火六局"
+            number:
+              type: integer
+              enum: [2, 3, 4, 5, 6]
+          required: [label, number]
+        lifeMaster:
+          type: string
+        bodyMaster:
+          type: string
+        ziweiBranch:
+          type: string
+          enum: [子, 丑, 寅, 卯, 辰, 巳, 午, 未, 申, 酉, 戌, 亥]
+        palaces:
+          type: array
+          minItems: 12
+          maxItems: 12
+          description: "十二宮，自命宮起"
+          items:
+            "$ref": "#/components/schemas/ZiweiPalace"
+        bodyPalace:
+          type: object
+          properties:
+            palace:
+              type: string
+              enum: [命宮, 兄弟, 夫妻, 子女, 財帛, 疾厄, 遷移, 交友, 官祿, 田宅, 福德, 父母]
+            branch:
+              type: string
+              enum: [子, 丑, 寅, 卯, 辰, 巳, 午, 未, 申, 酉, 戌, 亥]
+            sameAsLife:
+              type: boolean
+          required: [palace, branch, sameAsLife]
+          description: "身宮只記錄所在宮位，不是第十三宮（RULE-107）"
+        birthYearTransformations:
+          type: array
+          minItems: 4
+          maxItems: 4
+          items:
+            type: object
+            properties:
+              transformation:
+                type: string
+                enum: [祿, 權, 科, 忌]
+              star:
+                type: string
+                enum: [紫微, 天機, 太陽, 武曲, 天同, 廉貞, 天府, 太陰, 貪狼, 巨門, 天相, 天梁, 七殺, 破軍, 文昌, 文曲, 左輔, 右弼]
+            required: [transformation, star]
+        hourNotes:
+          type: array
+          description: "晚子時（LATE_ZI）或距時辰交界 15 分鐘內（HOUR_BOUNDARY）的提示"
+          items:
+            type: object
+            properties:
+              kind:
+                type: string
+                enum: [LATE_ZI, HOUR_BOUNDARY]
+              minutesFromBoundary:
+                type: integer
+                minimum: 0
+              neighbourBranch:
+                type: string
+                enum: [子, 丑, 寅, 卯, 辰, 巳, 午, 未, 申, 酉, 戌, 亥]
+            required: [kind]
+      required: [timeZone, timeZoneAssumed, algorithmVersion, meta, bureau, lifeMaster, bodyMaster, ziweiBranch, palaces, bodyPalace, birthYearTransformations, hourNotes]
 x-analysis:
   version: 1
   generatedBy: api-modeling

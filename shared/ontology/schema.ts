@@ -64,6 +64,7 @@ export const MAPPING_SYSTEMS = [
     'NUMEROLOGY',
     'MAYA_KIN',
     'BAZI',
+    'ZIWEI',
     'HUMAN_DESIGN',
     'TAROT',
     'RUNE',

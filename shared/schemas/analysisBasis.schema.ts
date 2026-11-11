@@ -5,6 +5,7 @@ import { ASSESSMENT_SYSTEM_IDS } from '../assessments/ids';
 export const ANALYSIS_SYSTEMS = [
     'ZODIAC',
     'BAZI',
+    'ZIWEI',
     'NATAL_CHART',
     'HUMAN_DESIGN',
     'NUMEROLOGY',

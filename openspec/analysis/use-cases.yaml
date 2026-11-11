@@ -1,7 +1,7 @@
 version: 1
 generatedBy: requirement-modeling
-updatedAt: 2026-11-09T12:00:00+08:00
-relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, ai-analysis-question-history, add-hexagram-divination]
+updatedAt: 2026-11-11T12:00:00+08:00
+relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, ai-analysis-question-history, add-hexagram-divination, add-ziwei-chart]
 
 stories:
   - id: STORY-001
@@ -285,7 +285,7 @@ stories:
     actor: CTX-ACTOR-001
     want: "開啟任一穩定系統的單維度報告"
     benefit: "免費看到依規則組裝、先事實後推論的完整報告"
-    requirements: ["FR-074", "FR-075", "FR-079", "FR-084"]
+    requirements: ["FR-074", "FR-075", "FR-079", "FR-084", "FR-104"]
     useCases: ["UC-047"]
   - id: STORY-048
     actor: CTX-ACTOR-001
@@ -327,7 +327,7 @@ stories:
     actor: CTX-ACTOR-003
     want: "檢查特質本體、映射與情境片段是否完整"
     benefit: "報告引用的軸端點與片段不會有缺口"
-    requirements: ["FR-081", "FR-082", "FR-083"]
+    requirements: ["FR-081", "FR-082", "FR-083", "FR-106"]
     useCases: ["UC-053"]
   - id: STORY-054
     actor: CTX-ACTOR-002
@@ -371,6 +371,48 @@ stories:
     benefit: "換裝置或重新整理後仍看到同樣的結果，不必再付費"
     requirements: ["FR-093", "FR-089"]
     useCases: ["UC-060"]
+  - id: STORY-061
+    actor: CTX-ACTOR-001
+    want: "填入出生日期與時間，排出我的紫微斗數命盤"
+    benefit: "用熟悉的命理系統多認識自己，且同樣的資料每次都得到同樣的命盤"
+    requirements: ["FR-096", "FR-097", "FR-098", "FR-099", "FR-100", "NFR-038", "NFR-039"]
+    useCases: ["UC-061"]
+  - id: STORY-062
+    actor: CTX-ACTOR-001
+    want: "在缺少出生時間時被告知需要補填，而不是被猜一個時辰"
+    benefit: "不會拿到建立在錯誤時辰上的命盤"
+    requirements: ["FR-099", "FR-101", "FR-104"]
+    useCases: ["UC-062"]
+  - id: STORY-063
+    actor: CTX-ACTOR-001
+    want: "在命盤頁看到十二宮、主星輔星與四化，並知道這是簡化版與採用的規則"
+    benefit: "拿它和其他排盤軟體對照時，知道差異可能從哪裡來"
+    requirements: ["FR-101", "FR-100", "FR-097", "FR-098"]
+    useCases: ["UC-063"]
+  - id: STORY-064
+    actor: CTX-ACTOR-001
+    want: "免費閱讀紫微的單維度報告"
+    benefit: "把命盤事實轉成可讀的自我探索內容，每句話都有依據"
+    requirements: ["FR-104", "FR-102", "FR-100", "FR-106", "NFR-041"]
+    useCases: ["UC-064"]
+  - id: STORY-065
+    actor: CTX-ACTOR-001
+    want: "把紫微和八字等其他系統一起放進綜合報告"
+    benefit: "從多個角度看自己，而且兩個命理系統不會被合併成一票"
+    requirements: ["FR-105", "FR-106"]
+    useCases: ["UC-065"]
+  - id: STORY-066
+    actor: CTX-ACTOR-003
+    want: "撰寫、檢查並匯入紫微的固定內容"
+    benefit: "內容措辭保守、來源清楚、審稿過才上線"
+    requirements: ["FR-102", "FR-103", "NFR-041"]
+    useCases: ["UC-066"]
+  - id: STORY-067
+    actor: CTX-ACTOR-004
+    want: "用使用者確認過的命盤核對規則表，確認無誤後才開啟紫微入口"
+    benefit: "不會把可能算錯的命盤放給使用者，出問題時能關掉入口回滾"
+    requirements: ["FR-099", "FR-107", "NFR-038", "NFR-040"]
+    useCases: ["UC-067"]
 
 useCases:
   - id: UC-001
@@ -1322,10 +1364,10 @@ useCases:
   - id: UC-047
     title: "開啟單維度報告（規則版）"
     actor: CTX-ACTOR-001
-    requirements: ["FR-074", "FR-075", "FR-079", "FR-084"]
+    requirements: ["FR-074", "FR-075", "FR-079", "FR-084", "FR-104"]
     stories: ["STORY-047"]
     preconditions:
-      - "使用者選擇星座、血型、生命靈數、MBTI、瑪雅 Kin、八字或人類圖其中一個系統"
+      - "使用者選擇星座、血型、生命靈數、MBTI、瑪雅 Kin、八字、紫微或人類圖其中一個系統"
       - "該系統需要的資料已有（缺少時見替代流程）"
     mainFlow:
       - { step: 1, action: "使用者開啟該系統的報告" }
@@ -1453,7 +1495,7 @@ useCases:
   - id: UC-053
     title: "檢查特質本體、映射與情境片段"
     actor: CTX-ACTOR-003
-    requirements: ["FR-081", "FR-082", "FR-083"]
+    requirements: ["FR-081", "FR-082", "FR-083", "FR-106"]
     stories: ["STORY-053"]
     preconditions:
       - "本體、映射與片段的內容已修改或新增"
@@ -1624,3 +1666,149 @@ useCases:
       - { condition: "他人的紀錄", handling: "不可讀取，僅本人可讀" }
     postconditions:
       - "沒有任何寫入"
+
+  - id: UC-061
+    title: "排出紫微斗數命盤"
+    actor: CTX-ACTOR-001
+    requirements: ["FR-096", "FR-097", "FR-098", "FR-099", "FR-100"]
+    stories: ["STORY-061"]
+    preconditions:
+      - "使用者（含訪客）已輸入出生日期與出生時間，出生地點選填（未填以 Asia/Taipei）"
+      - "紫微的規則表已核對（未核對見替代流程）"
+    mainFlow:
+      - { step: 1, action: "前端送出出生日期、出生時間與選填的出生城市" }
+      - { step: 2, action: "後端驗證請求：日期為真實且不在未來、時間格式正確、出生年份在 1901–2099、城市在預設清單", constraints: ["NFR-039"] }
+      - { step: 3, action: "以出生地的標準時間（已扣夏令）換成當地標準時間的日期與時間，不做真太陽時" }
+      - { step: 4, action: "換算農曆年（干支）、月、日與閏月旗標；農曆年於正月初一換年；閏月初一至十五歸原月、十六日起歸下月，記錄原月與有效月", constraints: ["NFR-038"] }
+      - { step: 5, action: "判定時辰；晚子時日期不換日；距時辰交界 15 分鐘內加上提示" }
+      - { step: 6, action: "依規則排命宮、身宮、五行局、命主、身主、紫微星位、十四主星、四輔星、十二宮與生年四化；沒有主星的宮位保持空宮，不寫入借來的星", constraints: ["NFR-038", "NFR-040"] }
+      - { step: 7, action: "以 response schema 驗證後回傳命盤與算法版本；不儲存任何出生資料", constraints: ["NFR-039"] }
+    alternateFlows:
+      - { condition: "缺少出生時間", handling: "回驗證錯誤，MUST NOT 推測時辰；前端走 UC-062", constraints: ["NFR-039"] }
+      - { condition: "日期不存在、在未來或出生年份超出 1901–2099", handling: "回驗證錯誤並說明支援範圍", constraints: ["NFR-039"] }
+      - { condition: "出生城市不在預設清單", handling: "回驗證錯誤" }
+      - { condition: "規則表尚未核對", handling: "回 503 與 ZIWEI_RULES_UNVERIFIED，並列出未核對項目；MUST NOT 以草擬資料排盤", constraints: ["NFR-040", "NFR-039"] }
+      - { condition: "出生在閏月", handling: "命盤標示 isLeapMonth 並提示各派算法不同" }
+      - { condition: "出生在晚子時（23:00–24:00）", handling: "農曆日沿用當天、時支為子，並提示各派算法不同" }
+      - { condition: "命宮或其他宮位沒有主星", handling: "該宮 isEmpty 為 true；輔星不算主星；借星只在解讀層" }
+    postconditions:
+      - "沒有任何寫入；不扣點、不呼叫 AI；同一份出生資料與算法版本永遠得到同一份命盤"
+    note: "存取規則為 public；晚子時與 iztro 不同為刻意設計（CTX-ASM-039）"
+  - id: UC-062
+    title: "補填出生時間以取得紫微"
+    actor: CTX-ACTOR-001
+    requirements: ["FR-099", "FR-101", "FR-104"]
+    stories: ["STORY-062"]
+    preconditions:
+      - "使用者進入紫微命盤頁或報告，且資料沒有出生時間"
+    mainFlow:
+      - { step: 1, action: "頁面偵測缺出生時間，不排盤也不推測時辰" }
+      - { step: 2, action: "顯示補填引導，說明紫微需要出生時間才能定命宮" }
+      - { step: 3, action: "使用者填入出生時間" }
+      - { step: 4, action: "重新取得命盤（UC-061）並顯示" }
+    alternateFlows:
+      - { condition: "使用者不補填", handling: "維持提示；其他系統不受影響" }
+      - { condition: "填入的時間格式不合法", handling: "顯示欄位驗證錯誤，不送出", constraints: ["NFR-039"] }
+    postconditions:
+      - "補填的出生時間依既有個人資料規則處理（CTX-ASM-006）；未補填則不產生紫微命盤或報告"
+  - id: UC-063
+    title: "閱讀紫微命盤頁"
+    actor: CTX-ACTOR-001
+    requirements: ["FR-101", "FR-100", "FR-097", "FR-098"]
+    stories: ["STORY-063"]
+    preconditions:
+      - "紫微入口已開啟"
+      - "使用者有出生日期與出生時間"
+    mainFlow:
+      - { step: 1, action: "使用者開啟紫微命盤頁，前端取得命盤（UC-061）" }
+      - { step: 2, action: "頁面顯示十二宮命盤：主星、輔星、四化標記、命宮與身宮、五行局、命主與身主" }
+      - { step: 3, action: "頁面說明第一版範圍（未含煞星與其他輔星、星曜亮度與行運）、採用的流派與算法版本，並顯示「象徵性解讀，非科學測量」" }
+      - { step: 4, action: "出生在閏月、晚子時或時辰交界時顯示對應提示；空宮顯示為空宮，借星另行標示為借星" }
+    alternateFlows:
+      - { condition: "缺出生時間", handling: "走 UC-062" }
+      - { condition: "排盤服務回 503（規則表未核對）", handling: "顯示暫時無法使用，不顯示命盤", constraints: ["NFR-040"] }
+      - { condition: "請求失敗", handling: "顯示明確錯誤並可重試" }
+      - { condition: "身宮與命宮同宮", handling: "只顯示一個宮位，並標示身宮同在此宮" }
+    postconditions:
+      - "沒有任何寫入"
+    note: "入口開關預設關閉（FR-107、UC-067）"
+  - id: UC-064
+    title: "閱讀紫微單維度報告"
+    actor: CTX-ACTOR-001
+    requirements: ["FR-104", "FR-102", "FR-100", "FR-106"]
+    stories: ["STORY-064"]
+    preconditions:
+      - "使用者有出生日期與出生時間"
+      - "紫微固定內容已匯入並已審稿"
+    mainFlow:
+      - { step: 1, action: "使用者開啟紫微報告" }
+      - { step: 2, action: "系統取得命盤（UC-061）" }
+      - { step: 3, action: "紫微 adapter 把命盤事實與固定內容轉成報告輸入；命宮與身宮的解讀由主星描述與宮位語境依模板組合", constraints: ["NFR-041"] }
+      - { step: 4, action: "沿用既有報告的區塊順序與推論規則組裝；推論只從畫面上顯示的命盤事實出發，不從借星推論", constraints: ["NFR-041"] }
+      - { step: 5, action: "每個句子帶 sources，並固定標示「象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件」", constraints: ["NFR-041"] }
+    alternateFlows:
+      - { condition: "缺出生時間", handling: "不產生紫微報告並引導補填（UC-062）" }
+      - { condition: "命宮為空宮", handling: "解讀以借自對宮的主星為基礎並明確寫出是借星，但借星不參與特質推論" }
+      - { condition: "固定內容缺少所需項目或尚未審稿", handling: "不產生報告並回明確錯誤，不以猜測內容代替", constraints: ["NFR-041"] }
+      - { condition: "規則表尚未核對", handling: "回 503，不產生報告", constraints: ["NFR-040"] }
+    postconditions:
+      - "免費、不扣點、不呼叫 AI；報告快照依既有規則（含算法版本與內容版本）重用或重存"
+    note: "與 UC-047 的單維度報告共用管線，紫微是其中新增的穩定特質系統"
+  - id: UC-065
+    title: "把紫微納入綜合報告"
+    actor: CTX-ACTOR-001
+    requirements: ["FR-105", "FR-106"]
+    stories: ["STORY-065"]
+    preconditions:
+      - "使用者有出生日期與出生時間"
+      - "使用者選入紫微與至少一個其他系統"
+    mainFlow:
+      - { step: 1, action: "使用者在可選系統中選入紫微，並可同時選入八字等其他系統" }
+      - { step: 2, action: "系統以既有算法計價，紫微的基礎點數為 3" }
+      - { step: 3, action: "依既有綜合報告流程（UC-054）建立報告；紫微與八字各自作為獨立來源，不合併計票、不交叉比對" }
+    alternateFlows:
+      - { condition: "缺出生時間", handling: "紫微不可選並引導補填（UC-062）" }
+      - { condition: "點數不足或其他既有失敗情境", handling: "沿用 UC-054 的處理" }
+    postconditions:
+      - "報告的來源票數中，紫微與八字分屬不同來源"
+    note: "與 UC-054 共用流程，只定義紫微帶來的差異"
+  - id: UC-066
+    title: "撰寫、檢查並匯入紫微固定內容"
+    actor: CTX-ACTOR-003
+    requirements: ["FR-102", "FR-103"]
+    stories: ["STORY-066"]
+    preconditions:
+      - "編輯者具備內容管理權限"
+    mainFlow:
+      - { step: 1, action: "編輯者自撰紫微固定內容：十四主星、四輔星、十二宮位、四個四化各一則，並記錄排盤算法來源、解讀依據、內容版本、審稿狀態與撰寫方式" }
+      - { step: 2, action: "執行 content:check：金鑰規則、全站措辭檢查與紫微專屬禁用詞", constraints: ["NFR-041"] }
+      - { step: 3, action: "以 --dry-run 匯入確認筆數與 key" }
+      - { step: 4, action: "審稿後把審稿狀態改為已審，正式匯入", constraints: ["NFR-041"] }
+    alternateFlows:
+      - { condition: "key 不在規則內", handling: "匯入失敗並指出該 key" }
+      - { condition: "含禁用詞，或化忌被寫成災難或壞事預告", handling: "拒絕匯入並指出該則內容", constraints: ["NFR-041"] }
+      - { condition: "審稿狀態不是已審", handling: "不得匯入正式環境", constraints: ["NFR-041"] }
+      - { condition: "缺少任一則內容", handling: "覆蓋檢查失敗" }
+    postconditions:
+      - "紫微固定內容已發佈，每則可追溯來源與審稿紀錄"
+    note: "與 UC-019 的固定內容管理共用機制"
+  - id: UC-067
+    title: "核對紫微規則表並開啟入口"
+    actor: CTX-ACTOR-004
+    requirements: ["FR-099", "FR-107"]
+    stories: ["STORY-067"]
+    preconditions:
+      - "規則表已核對（目前依 user 指示全部標為已核對；若日後新增規則表先標待核對，須完成核對）"
+      - "紫微固定內容已匯入並通過檢查"
+    mainFlow:
+      - { step: 1, action: "維運以排盤函式算出回歸樣本（含與 iztro 的對照），逐項對照結果", constraints: ["NFR-038"] }
+      - { step: 2, action: "全部相符後，把各規則表的核對狀態改為已核對並記錄來源與版次", constraints: ["NFR-040"] }
+      - { step: 3, action: "若算法或規則表有改動，升 ZIWEI_ALGORITHM_VERSION", constraints: ["NFR-040"] }
+      - { step: 4, action: "本機實測命盤頁、單維度報告與含紫微與八字的綜合報告" }
+      - { step: 5, action: "開啟入口開關並部署" }
+    alternateFlows:
+      - { condition: "命盤與對照結果不符", handling: "規則表維持待核對、入口保持關閉，先查出差異來源", constraints: ["NFR-038"] }
+      - { condition: "入口開啟後發現錯誤", handling: "關閉入口開關即回滾，不涉及資料遷移" }
+    postconditions:
+      - "規則表為已核對，排盤 API 不再回 503；入口開啟"
+    note: "沒有 user 確認的命盤，已依 user 指示免除（CTX-ASM-040）"

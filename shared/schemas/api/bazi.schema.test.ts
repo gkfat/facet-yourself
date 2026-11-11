@@ -5,15 +5,15 @@ import { baziRequestSchema } from './bazi.schema';
 
 describe('baziRequestSchema', () => {
     it('accepts a birth date alone', () => {
-        expect(baziRequestSchema.safeParse({ birthDate: '1989-10-27' }).success).toBe(true);
+        expect(baziRequestSchema.safeParse({ birthDate: '1992-11-05' }).success).toBe(true);
     });
 
     it('accepts time, a preset city and a gender, and explicit nulls', () => {
         expect(baziRequestSchema.safeParse({
-            birthDate: '1989-10-27', birthTime: '06:00', birthPlace: 'tw-taipei', gender: 'MALE',
+            birthDate: '1992-11-05', birthTime: '06:00', birthPlace: 'tw-taipei', gender: 'MALE',
         }).success).toBe(true);
         expect(baziRequestSchema.safeParse({
-            birthDate: '1989-10-27', birthTime: null, birthPlace: null, gender: null,
+            birthDate: '1992-11-05', birthTime: null, birthPlace: null, gender: null,
         }).success).toBe(true);
     });
 
@@ -21,8 +21,8 @@ describe('baziRequestSchema', () => {
         for (const birthDate of [
             undefined,
             '',
-            '1989/10/27',
-            '1989-13-01',
+            '1992/11/05',
+            '1992-13-01',
             '2023-02-29',
             '2999-01-01',
         ]) {
@@ -38,14 +38,14 @@ describe('baziRequestSchema', () => {
             'noon',
         ]) {
             expect(baziRequestSchema.safeParse({
-                birthDate: '1989-10-27', birthTime,
+                birthDate: '1992-11-05', birthTime,
             }).success, birthTime).toBe(false);
         }
     });
 
     it('rejects a city that is not in the preset list', () => {
         expect(baziRequestSchema.safeParse({
-            birthDate: '1989-10-27', birthPlace: 'atlantis',
+            birthDate: '1992-11-05', birthPlace: 'atlantis',
         }).success).toBe(false);
     });
 
@@ -57,7 +57,7 @@ describe('baziRequestSchema', () => {
             0,
         ]) {
             expect(baziRequestSchema.safeParse({
-                birthDate: '1989-10-27', gender,
+                birthDate: '1992-11-05', gender,
             }).success, String(gender)).toBe(false);
         }
     });

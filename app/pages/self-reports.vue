@@ -88,6 +88,7 @@
 import {
     BAZI_ENTRY_ENABLED,
 } from '../../shared/constants/bazi';
+import { ZIWEI_ENTRY_ENABLED } from '../../shared/constants/ziwei';
 import { HUMAN_DESIGN_TYPE_LABELS } from '../../shared/constants/humanDesignLabels';
 import { assessmentCards } from '../utils/assessmentCards';
 import {
@@ -179,6 +180,68 @@ const items = computed<ReportCard[]>(() => {
             action: blood ? '查看血型分析' : '選擇血型',
         },
         {
+            key: 'NUMEROLOGY',
+            system: 'symbolic',
+            title: '生命靈數',
+            icon: 'mdi-numeric',
+            description: '把出生日期化成數字，看你的天賦傾向與今年的節奏。',
+            done: birthDate.value !== null,
+            result: birthDate.value ? `數字 ${lifePathNumber(birthDate.value)}` : '',
+            to: birthDate.value ? '/full-report/numerology' : '/#fill',
+            action: birthDate.value ? '查看生命靈數' : '填寫出生日期',
+        },
+        ...(KIN_ENTRY_ENABLED
+            ? [{
+                key: 'MAYA_KIN',
+                system: 'symbolic' as const,
+                title: '瑪雅 Kin',
+                icon: 'mdi-calendar-star',
+                description: '依出生日期以 Dreamspell 曆法算出你的圖騰與調性，看你的本質與象徵。',
+                done: birthDate.value !== null,
+                result: birthDate.value ? kinName(kinOf(birthDate.value)) : '',
+                to: birthDate.value ? '/full-report/maya-kin' : '/#fill',
+                action: birthDate.value ? '查看瑪雅 Kin' : '填寫出生日期',
+            }]
+            : []),
+        {
+            key: 'HUMAN_DESIGN',
+            system: 'symbolic',
+            title: '人類圖',
+            icon: 'mdi-vector-triangle',
+            description: '依出生當下的星體位置，看你的能量如何運作、怎樣做決定最順。',
+            done: progress.value.done.HUMAN_DESIGN,
+            result: humanDesignType.value ?? '已計算',
+            to: progress.value.done.HUMAN_DESIGN ? '/full-report/human-design' : '/#fill',
+            action: progress.value.done.HUMAN_DESIGN ? '查看人類圖' : '填寫出生時間與地點',
+        },
+        ...(BAZI_ENTRY_ENABLED
+            ? [{
+                key: 'BAZI',
+                system: 'symbolic' as const,
+                title: '八字命盤',
+                icon: 'mdi-yin-yang',
+                description: '由出生的年、月、日、時排出四柱，看五行的分布、日主的強弱與每十年的節奏。',
+                done: baziReady,
+                result: baziBadge.value,
+                to: baziReady ? '/full-report/bazi' : '/#fill',
+                action: baziReady ? '查看八字命盤' : '填寫出生日期與時間',
+            }]
+            : []),
+        ...(ZIWEI_ENTRY_ENABLED
+            ? [{
+                key: 'ZIWEI',
+                system: 'symbolic' as const,
+                title: '紫微斗數命盤',
+                icon: 'mdi-star-circle-outline',
+                description: '由出生的年、月、日、時排出十二宮與主星，看命宮與身宮的特質，以及生年四化落在哪裡。',
+                // Like BaZi, Zi Wei needs the birth date and the birth hour
+                done: baziReady,
+                result: baziReady ? '已排盤' : '',
+                to: baziReady ? '/full-report/ziwei' : '/#fill',
+                action: baziReady ? '查看紫微斗數命盤' : '填寫出生日期與時間',
+            }]
+            : []),
+        {
             key: 'MBTI',
             system: 'personality',
             title: 'MBTI',
@@ -204,54 +267,6 @@ const items = computed<ReportCard[]>(() => {
                 action: done ? `查看${card.title}` : '開始測驗',
             };
         }),
-        {
-            key: 'HUMAN_DESIGN',
-            system: 'personality',
-            title: '人類圖',
-            icon: 'mdi-vector-triangle',
-            description: '依出生當下的星體位置，看你的能量如何運作、怎樣做決定最順。',
-            done: progress.value.done.HUMAN_DESIGN,
-            result: humanDesignType.value ?? '已計算',
-            to: progress.value.done.HUMAN_DESIGN ? '/full-report/human-design' : '/#fill',
-            action: progress.value.done.HUMAN_DESIGN ? '查看人類圖' : '填寫出生時間與地點',
-        },
-        ...(BAZI_ENTRY_ENABLED
-            ? [{
-                key: 'BAZI',
-                system: 'symbolic' as const,
-                title: '八字命盤',
-                icon: 'mdi-yin-yang',
-                description: '由出生的年、月、日、時排出四柱，看五行的分布、日主的強弱與每十年的節奏。',
-                done: baziReady,
-                result: baziBadge.value,
-                to: baziReady ? '/full-report/bazi' : '/#fill',
-                action: baziReady ? '查看八字命盤' : '填寫出生日期與時間',
-            }]
-            : []),
-        ...(KIN_ENTRY_ENABLED
-            ? [{
-                key: 'MAYA_KIN',
-                system: 'symbolic' as const,
-                title: '瑪雅 Kin',
-                icon: 'mdi-calendar-star',
-                description: '依出生日期以 Dreamspell 曆法算出你的圖騰與調性，看你的本質與象徵。',
-                done: birthDate.value !== null,
-                result: birthDate.value ? kinName(kinOf(birthDate.value)) : '',
-                to: birthDate.value ? '/full-report/maya-kin' : '/#fill',
-                action: birthDate.value ? '查看瑪雅 Kin' : '填寫出生日期',
-            }]
-            : []),
-        {
-            key: 'NUMEROLOGY',
-            system: 'symbolic',
-            title: '生命靈數',
-            icon: 'mdi-numeric',
-            description: '把出生日期化成數字，看你的天賦傾向與今年的節奏。',
-            done: birthDate.value !== null,
-            result: birthDate.value ? `數字 ${lifePathNumber(birthDate.value)}` : '',
-            to: birthDate.value ? '/full-report/numerology' : '/#fill',
-            action: birthDate.value ? '查看生命靈數' : '填寫出生日期',
-        },
     ];
 });
 

@@ -6,7 +6,9 @@ import { bloodTermsOf } from '../ontology/mappings/blood';
 import { mayaKinTermsOf } from '../ontology/mappings/mayaKin';
 import { mbtiTermsOf } from '../ontology/mappings/mbti';
 import { numerologyTermsOf } from '../ontology/mappings/numerology';
+import { ziweiTermsOf } from '../ontology/mappings/ziwei';
 import { zodiacTermsOf } from '../ontology/mappings/zodiac';
+import { calculateChart } from '../utils/ziwei/chart';
 import { ZODIACS } from '../schemas/common';
 import { selectFacets } from './facets';
 import {
@@ -14,6 +16,38 @@ import {
 } from './synthesis';
 
 const axisOf = (end: string) => end.slice(0, 2);
+
+/**
+ * Every different set of terms a Zi Wei chart can give: the life and body palaces and the 四化 that lands on them depend on
+ * the month, the hour, the day and the year stem, so charts are laid out for every month and hour, three days and the ten year
+ * stems (1984 to 1993), and each distinct set of terms is kept once.
+ */
+function ziweiTermSets(): Array<[string, string[]]> {
+    const sets = new Map<string, [string, string[]]>();
+
+    for (let year = 1984; year <= 1993; year++) {
+        for (let month = 1; month <= 12; month++) {
+            for (const day of [
+                3,
+                17,
+                28,
+            ]) {
+                for (let hour = 0; hour < 24; hour += 2) {
+                    const birthDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                    const birthTime = `${String(hour).padStart(2, '0')}:00`;
+                    const terms = ziweiTermsOf(calculateChart({
+                        birthDate, birthTime, standardOffsetMinutes: 480, instant: new Date(`${birthDate}T${birthTime}:00+08:00`),
+                    }));
+                    const key = [...terms].sort().join('|');
+
+                    if (!sets.has(key)) sets.set(key, [`ZIWEI ${birthDate} ${birthTime}`, terms]);
+                }
+            }
+        }
+    }
+
+    return [...sets.values()];
+}
 
 /** What a report of the member's terms says together: the traits it shows, and the interactions found among them */
 const reportOf = (terms: string[]) => {
@@ -28,6 +62,7 @@ const reportOf = (terms: string[]) => {
 const memberTerms: Array<[string, string[]]> = [
     ...['E', 'I'].flatMap((a) => ['N', 'S'].flatMap((b) => ['T', 'F'].flatMap((c) => ['J', 'P'].map((d) => [`MBTI ${a}${b}${c}${d}`, mbtiTermsOf(`${a}${b}${c}${d}`)] as [string, string[]])))),
     ...ZODIACS.map((sign) => [`ZODIAC ${sign}`, zodiacTermsOf(sign)] as [string, string[]]),
+    ...ziweiTermSets(),
     ...([
         'A',
         'B',

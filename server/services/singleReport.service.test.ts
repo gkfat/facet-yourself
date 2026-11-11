@@ -47,7 +47,7 @@ async function publish(db: FakeFirestore, type: string, key: string, title: stri
 const user = (overrides: Record<string, unknown> = {}) => ({
     email: 'a@example.com',
     birthData: {
-        birthDate: '1989-10-27', zodiac: 'scorpio', birthTime: null, birthPlace: null,
+        birthDate: '1992-11-05', zodiac: 'scorpio', birthTime: null, birthPlace: null,
     },
     bloodType: 'O',
     mbti: null,
@@ -74,7 +74,7 @@ describe('SingleReportService', () => {
         await publish(db, 'BLOOD', 'O', 'O 型');
         await publish(db, 'ZODIAC', 'scorpio', '天蠍座');
         await publish(db, 'NUMEROLOGY', '1', '生命靈數 1');
-        await publish(db, 'KIN_BIRTH', String(kinOf('1989-10-27').kinNumber), '瑪雅 Kin');
+        await publish(db, 'KIN_BIRTH', String(kinOf('1992-11-05').kinNumber), '瑪雅 Kin');
 
         for (const type of MBTI_TYPES) await publish(db, 'MBTI', type, type);
     });
@@ -138,7 +138,7 @@ describe('SingleReportService', () => {
 
             await db.doc('users/u1').set(user({
                 birthData: {
-                    birthDate: '1989-10-27', zodiac: 'scorpio', birthTime: '06:10', birthPlace: 'tw-taipei',
+                    birthDate: '1992-11-05', zodiac: 'scorpio', birthTime: '06:10', birthPlace: 'tw-taipei',
                 },
             }));
 
@@ -155,7 +155,7 @@ describe('SingleReportService', () => {
         it('still gives the report, without the chart, when the saved city is no longer known', async () => {
             await db.doc('users/u1').set(user({
                 birthData: {
-                    birthDate: '1989-10-27', zodiac: 'scorpio', birthTime: '06:10', birthPlace: 'xx-nowhere',
+                    birthDate: '1992-11-05', zodiac: 'scorpio', birthTime: '06:10', birthPlace: 'xx-nowhere',
                 },
             }));
 
@@ -198,7 +198,7 @@ describe('SingleReportService', () => {
 
     describe('the Maya Kin report', () => {
         it('names the Kin of the birth date, kept once for the member and not at all for a guest', async () => {
-            const kin = kinOf('1989-10-27');
+            const kin = kinOf('1992-11-05');
             const first = await service.generate({ uid: 'u1' }, 'MAYA_KIN');
             const again = await service.generate({ uid: 'u1' }, 'MAYA_KIN');
 
@@ -213,7 +213,7 @@ describe('SingleReportService', () => {
             await expect(service.generate({ uid: 'u1' }, 'MAYA_KIN')).rejects.toMatchObject({ code: 'PROFILE_REQUIRED' });
 
             await db.doc('users/u1').set(user());
-            await db.doc(`fixedContents/KIN_BIRTH_${kinOf('1989-10-27').kinNumber}`).update({ status: 'DRAFT' });
+            await db.doc(`fixedContents/KIN_BIRTH_${kinOf('1992-11-05').kinNumber}`).update({ status: 'DRAFT' });
             await expect(service.generate({ uid: 'u1' }, 'MAYA_KIN')).rejects.toBeInstanceOf(NotFoundError);
         });
     });
@@ -245,7 +245,7 @@ describe('SingleReportService', () => {
     describe('the Human Design report', () => {
         const withBirth = (extra: Record<string, unknown>) => user({
             birthData: {
-                birthDate: '1989-10-27', zodiac: 'scorpio', birthTime: '06:00', birthPlace: 'tw-taipei', ...extra,
+                birthDate: '1992-11-05', zodiac: 'scorpio', birthTime: '06:00', birthPlace: 'tw-taipei', ...extra,
             },
         });
 
@@ -393,7 +393,7 @@ describe('SingleReportService', () => {
         const figuresOf = (report: { blocks: Array<{ key: string; title: string; segments: unknown[] }> }) => report.blocks.find((b) => b.key === 'figures');
         const withBirth = (extra: Record<string, unknown> = {}) => user({
             birthData: {
-                birthDate: '1989-10-27', zodiac: 'scorpio', birthTime: '06:00', birthPlace: 'tw-taipei',
+                birthDate: '1992-11-05', zodiac: 'scorpio', birthTime: '06:00', birthPlace: 'tw-taipei',
             },
             mbti: 'ESTJ',
             mbtiExpiresAt: addMonths(NOW, 2),
@@ -507,7 +507,7 @@ describe('SingleReportService', () => {
         it('gets the same report from what the session holds, and nothing is kept', async () => {
             const sessionId = await session({
                 birthData: {
-                    birthDate: '1989-10-27', zodiac: 'scorpio',
+                    birthDate: '1992-11-05', zodiac: 'scorpio',
                 },
                 bloodType: 'O',
             });
@@ -525,7 +525,7 @@ describe('SingleReportService', () => {
         it('makes the sign report with the chart when the session has a birth time and a city', async () => {
             const sessionId = await session({
                 birthData: {
-                    birthDate: '1989-10-27', zodiac: 'scorpio', birthTime: '06:10', birthPlace: 'tw-taipei',
+                    birthDate: '1992-11-05', zodiac: 'scorpio', birthTime: '06:10', birthPlace: 'tw-taipei',
                 },
                 bloodType: 'UNKNOWN',
             });
@@ -538,7 +538,7 @@ describe('SingleReportService', () => {
         it('makes the MBTI report with the strength of each pair from the guest\'s own answers', async () => {
             const sessionId = await session({
                 birthData: {
-                    birthDate: '1989-10-27', zodiac: 'scorpio',
+                    birthDate: '1992-11-05', zodiac: 'scorpio',
                 },
                 bloodType: 'UNKNOWN',
             });
@@ -567,7 +567,7 @@ describe('SingleReportService', () => {
         it('asks for what is missing in the same words as for a member', async () => {
             const sessionId = await session({
                 birthData: {
-                    birthDate: '1989-10-27', zodiac: 'scorpio',
+                    birthDate: '1992-11-05', zodiac: 'scorpio',
                 },
                 bloodType: 'UNKNOWN',
             });
@@ -579,7 +579,7 @@ describe('SingleReportService', () => {
         it('asks for the birth date when there is no session, an unknown one, or one that has run out', async () => {
             const sessionId = await session({
                 birthData: {
-                    birthDate: '1989-10-27', zodiac: 'scorpio',
+                    birthDate: '1992-11-05', zodiac: 'scorpio',
                 },
                 bloodType: 'O',
             });

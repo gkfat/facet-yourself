@@ -3,6 +3,7 @@
 > 來源：`ai_personality_app_plan.md` + `openspec/changes/add-daily-tarot-draw` + user 補充（Nuxt / Vue / Vuetify / Vite、Vercel、Firestore、Google 登入、點數制、人類圖）
 > 真相檔：`openspec/analysis/requirements.yaml`、`context.yaml`（本檔由 yaml 產生）
 > 更新：2026-10-27（新增「此刻／今日」類：FR-044 至 FR-055、NFR-018 至 NFR-022）
+> 更新：2026-11-11（紫微斗數：新增 FR-096 至 FR-107、NFR-038 至 NFR-041；context 新增 CTX-EXT-009、CTX-CON-034 至 038、CTX-ASM-036 至 040；change：add-ziwei-chart）
 > 更新：2026-11-09（易經卦象：新增 FR-089 至 FR-095、NFR-033 至 NFR-037；change：add-hexagram-divination）
 > 更新：2026-11-05（AI 報告合併：新增 FR-085 至 FR-088、NFR-031 至 NFR-032；FR-077、FR-078 已廢止；change：ai-analysis-question-history）
 > 更新：2026-11-02（新增「自我分析擴充」：FR-056 至 FR-073、NFR-023 至 NFR-028；另補進既有的報告架構：FR-074 至 FR-084、NFR-029 至 NFR-030；change：expand-self-analysis-dimensions）
@@ -108,6 +109,18 @@ MVP = 計畫書 §15 第一版範圍（含 user 補充）。Phase 對應 §11 Ph
 | FR-093 | 卦象紀錄與查詢 | 系統 SHALL 為已登入者每起一卦保存一筆紀錄（台北日期、當日序號、六爻、起卦時間、規則版本、是否付費、對應扣點交易），僅本人可讀；SHALL 提供查詢今日已起各卦的 API（只讀、不寫）；刪除帳號與刪除資料 MUST 清除這些紀錄；紀錄 SHALL 保存 3 個月（起卦時間加 3 個月），由每日到期作業清除，MUST NOT 使用 Firestore TTL（CTX-ASM-034）。 | must | 8 | ✘ | CTX-ACTOR-001, CTX-CON-012, CTX-CON-032, CTX-ASM-033, CTX-ASM-034, CTX-EXT-005 |
 | FR-094 | 卦象的前端呈現 | 系統 SHALL 在「此刻／今日」區塊提供卦象入口並標示結果隨時間變動；起卦時六爻 SHALL 由下而上逐爻浮現並標明少陰、少陽、老陰或老陽，最後並排呈現本卦與變卦；六爻 MUST 以向量圖繪製，MUST NOT 依賴卦象 Unicode 字元；畫面結果 MUST 取自 API 回應，動畫只負責播放；MUST 尊重 prefers-reduced-motion。 | should | 8 | ✘ | CTX-ACTOR-001, CTX-CON-016, CTX-CON-031 |
 | FR-095 | 卦象不進報告管線 | 系統 MUST NOT 為卦象提供單維度報告、綜合分析的可選系統、特質映射或 AI 報告來源；卦象 MUST NOT 寫入報告快照；起卦請求 MUST NOT 收「想問的事」或任何使用者自由文字。 | must | 8 | ✘ | CTX-CON-031, CTX-CON-007 |
+| FR-096 | 紫微斗數排盤 | 系統 SHALL 以純函式依農曆年月日與閏月旗標排出紫微命盤：命宮、身宮、五行局、命主、身主、紫微星位、十四主星、四輔星（文昌、文曲、左輔、右弼）、十二宮與生年四化；四化 MUST 以標記附在主星或輔星上，MUST NOT 作為額外的星；同一份出生資料與算法版本 MUST 永遠得到同一份命盤，MUST NOT 依賴目前時間、裝置時區或外部服務。 | must | 9 | ✘ | CTX-ACTOR-001, CTX-CON-034, CTX-CON-036, CTX-EXT-009, CTX-ASM-037 |
+| FR-097 | 紫微的閏月與換年處理 | 閏月出生時，系統 SHALL 以初一至十五歸原月份、十六日起歸下個月份，並在命盤 metadata 記錄 isLeapMonth、originalLunarMonth、effectiveLunarMonth；農曆年 MUST 於正月初一換年，與八字以立春換年分開，立春與正月初一之間出生者的年干 MUST 依前一個農曆年；閏月出生者 MUST 看到「各派算法不同，可能有差異」的提示。 | must | 9 | ✘ | CTX-CON-034, CTX-CON-035, CTX-EXT-009, CTX-ASM-038, CTX-ASM-039 |
+| FR-098 | 紫微的晚子時與時辰交界提示 | 晚子時（23:00–24:00）的農曆日 MUST 與當天相同、時支為子，與八字日柱不換日一致，並 MUST 顯示晚子時與各派算法不同的提示；出生時間距時辰交界 15 分鐘內，系統 MUST 顯示時辰可能偏移的提示並指出相鄰時辰。 | must | 9 | ✘ | CTX-CON-034, CTX-ASM-039 |
+| FR-099 | 紫微的輸入驗證與缺資料處理 | POST /api/ziwei/calculations SHALL 以 zod 驗證請求並以 response schema 驗證回傳；出生時間 MUST 為必填，缺少時 MUST 回明確的驗證錯誤且 MUST NOT 推測時辰，前端 MUST 引導補填；日期不存在、在未來或出生年份超出 1901–2099 MUST 拒絕並說明範圍；規則表未核對時 MUST 回 503（代碼 ZIWEI_RULES_UNVERIFIED）並列出未核對項目。 | must | 9 | ✘ | CTX-ACTOR-001, CTX-CON-035, CTX-CON-036, CTX-ASM-036, CTX-ASM-040 |
+| FR-100 | 紫微命盤事實與解讀分離 | 命盤資料 SHALL 保留十二宮的事實：空宮（無主星）MUST 保持為空宮且 MUST NOT 把借來的星曜寫成該宮的星，輔星不算主星；借對宮主星 MAY 只作為解讀層資訊並 MUST 明確標示為借星，輔星 MUST NOT 被借用；身宮 MUST 只記錄所在宮位與和命宮的關係，MUST NOT 作為第十三宮或獨立星曜配置，與命宮同宮時只有一個宮位資料。 | must | 9 | ✘ | CTX-CON-034, CTX-ASM-037 |
+| FR-101 | 紫微命盤頁 | 系統 SHALL 提供紫微命盤頁顯示十二宮命盤、主星與輔星、四化標記、五行局、命主與身主，並說明第一版範圍（未含煞星與其他輔星、星曜亮度與行運）、標示採用的流派與算法版本、閏月與晚子時與時辰交界提示，以及「象徵性解讀，非科學測量」；缺出生時間時 MUST 引導補填。 | must | 9 | ✘ | CTX-ACTOR-001, CTX-CON-034, CTX-CON-037, CTX-ASM-036, CTX-ASM-037, CTX-ASM-039 |
+| FR-102 | 紫微固定內容的分層與組合 | 紫微固定內容 SHALL 分為十四主星、四輔星、十二宮位語境與四個四化，各自一則；命宮與身宮的解讀 MUST 由主星（或借星）描述與宮位語境以組合規則產生，MUST NOT 以字串直接拼接，MUST NOT 另做主星 × 宮位的全組合內容；空宮的解讀 MUST 明確寫出借星。 | must | 9 | ✘ | CTX-CON-034, CTX-CON-037, CTX-ASM-037 |
+| FR-103 | 紫微固定內容的金鑰、措辭與來源管理 | 固定內容金鑰規則 SHALL 加入紫微（十四主星、四輔星、十二宮位、四個四化），匯入檢查 MUST 拒絕規則外的 key 並執行紫微措辭檢查（含全站規則與紫微專屬禁用詞）；每則內容 MUST 記錄排盤算法來源、解讀依據、內容版本、審稿狀態與撰寫方式，算法來源與解讀來源分開記錄；內容 MUST 為自撰，審稿狀態不是已審者 MUST NOT 匯入正式環境。 | must | 9 | ✘ | CTX-CON-036, CTX-CON-037, CTX-ASM-037 |
+| FR-104 | 紫微的單維度報告 | 系統 SHALL 為紫微提供單維度報告：由紫微 adapter 把命盤事實與固定內容轉成報告輸入，區塊順序與推論規則沿用既有單維度報告；報告 MUST 為純函式、同一份輸入同一份報告，每個句子 MUST 帶 sources，推論 MUST 只從畫面上顯示的命盤事實出發、MUST NOT 從借星推論；缺出生時間 MUST NOT 產生並引導補填。 | must | 9 | ✘ | CTX-ACTOR-001, CTX-CON-034, CTX-CON-037, CTX-CON-038, CTX-ASM-036 |
+| FR-105 | 紫微可被選入綜合報告 | 系統 SHALL 讓紫微成為綜合報告的可選系統，與既有系統任意組合，基礎點數為 3；紫微 MUST 視為獨立來源，MUST NOT 與八字合併計票或交叉比對。 | must | 9 | ✘ | CTX-CON-038, CTX-ASM-038 |
+| FR-106 | 紫微的特質映射 | 系統 SHALL 以 keyword mapping 把十四主星、四輔星與四化對到特質軸端點，以傾向描述而非決定性推論，來源類型 MUST 獨立為 ziwei；找不到合理對應的星 MUST NOT 被強制對應；映射 MUST 通過既有覆蓋檢查且不指向不存在的端點。 | must | 9 | ✘ | CTX-CON-038, CTX-CON-037, CTX-ASM-037 |
+| FR-107 | 紫微入口開關 | 紫微入口（首頁與報告頁）SHALL 有開關且預設關閉；固定內容完整匯入並完整檢查一次後才開；回滾 MUST 以關閉入口完成，不涉及資料遷移。 | should | 9 | ✘ | CTX-CON-038, CTX-ASM-040 |
 
 ## Non-Functional Requirements
 
@@ -150,6 +163,10 @@ MVP = 計畫書 §15 第一版範圍（含 user 補充）。Phase 對應 §11 Ph
 | NFR-035 | security | 起卦請求不信任客戶端 | 帶日期、使用者識別或爻值參數的請求仍以伺服器值為準；回應含 Cache-Control: private, no-store；無憑證回 401 | must | CTX-CON-031, CTX-EXT-005, CTX-EXT-006 |
 | NFR-036 | usability | 卦象的無障礙與減少動態 | prefers-reduced-motion 下無動畫且結果同時可見；六爻圖的替代文字含卦名與六爻描述 | should | CTX-CON-031 |
 | NFR-037 | correctness | 卦象內容的完整性與措辭檢查 | content:check 顯示缺少、未發佈、多出皆為 0；含吉凶斷語的內容匯入失敗；測試涵蓋 | must | CTX-CON-033, CTX-CON-031, CTX-CON-016 |
+| NFR-038 | correctness | 紫微排盤的可重現與正確性 | 相同輸入重複計算結果相同；與 iztro 2.6.5 比對 4192 組輸入（1901–2099 隨機與換年、閏月邊界）0 筆不一致；回歸樣本 14 組；user 提供的外部程式命盤 2 組（科技紫微網，完全吻合），其餘依 user 指示免除（見 CTX-ASM-040） | must | CTX-CON-034, CTX-CON-035, CTX-CON-036, CTX-ASM-039, CTX-ASM-040 |
+| NFR-039 | security | 紫微 API 的輸入驗證與明確失敗 | 缺時間、非法日期、超出範圍各有測試且回 400；規則表未核對時回 503 與 ZIWEI_RULES_UNVERIFIED 並列出項目；路由存取規則為 public，GET 方法仍為 required | must | CTX-CON-035, CTX-CON-036, CTX-ASM-036 |
+| NFR-040 | maintainability | 紫微規則的版本化與來源可追溯 | 規則表全部列在守門清單；有任一待核對時正式排盤拒絕（測試以模擬待核對的表涵蓋）；目前全部為已核對，守門放行 | must | CTX-CON-034, CTX-CON-036 |
+| NFR-041 | correctness | 紫微內容的措辭檢查與審稿 | content:check 對含禁用詞的內容失敗；未審稿內容匯入正式環境被拒絕；ontology:check 與 synthesis 測試通過 | must | CTX-CON-037, CTX-CON-016 |
 
 ## 待確認（已採納建議，以下為尚待落實或需外部確認）
 
@@ -198,3 +215,12 @@ MVP = 計畫書 §15 第一版範圍（含 user 補充）。Phase 對應 §11 Ph
 - 狀態系統：不做單維度報告、不進綜合報告、不做特質映射、不呼叫 AI（CTX-CON-031、FR-095）
 - 計價：每日第一卦免費、之後每卦 1 點，訪客只有免費卦（CTX-CON-032、FR-089、FR-090）
 - 已確認（2026-11-09）：決定性雜湊（CTX-ASM-031）、不重用抽取引擎（CTX-ASM-033）、卦象紀錄保存 3 個月（CTX-ASM-034）、付費卦不設每日上限（CTX-ASM-035）；塔羅盧恩是否也改 3 個月另案確認
+
+## 紫微斗數（2026-11-11，change：add-ziwei-chart）
+
+- 範圍：十四主星、四輔星、十二宮、生年四化、五行局、命主與身主；不含煞星、亮度、行運、飛星、合盤、真太陽時（CTX-ASM-037、FR-096、FR-101）
+- 規則：三合、農曆正月初一換年、閏月十五分界、晚子時不換日、標準時間（CTX-CON-034、FR-097、FR-098）
+- 農曆庫：lunar-typescript 1.8.6，年份 1901–2099，與香港天文台表逐日比對僅 2057-09-28 至 10-27 差一天（CTX-EXT-009、CTX-CON-035）
+- 規則表來源：通行規則（命主依命宮地支）、對照 iztro 2.6.5 與 user 提供的兩張外部程式命盤，未核對前正式排盤回 503（CTX-CON-036、FR-099、NFR-040）
+- 獨立來源：不與八字合併計票，基礎點數 3，入口開關預設關閉（CTX-CON-038、FR-105、FR-107）
+- 已決定：規則表依 user 指示直接標為已核對，沒有 user 確認的命盤（CTX-ASM-040、NFR-038）；命主依命宮地支，與 iztro 通用設定及兩張外部命盤一致（CTX-CON-036）

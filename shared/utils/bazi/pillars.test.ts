@@ -54,9 +54,9 @@ describe('localDateOf', () => {
     });
 });
 
-describe('reference chart 1989-10-27 06:00', () => {
+describe('reference chart 2049-10-12 06:00', () => {
     it('gives 己巳 / 甲戌 / 庚申 / 己卯 and no notices', () => {
-        const pillars = calculatePillars(taipei('1989-10-27', '06:00'));
+        const pillars = calculatePillars(taipei('2049-10-12', '06:00'));
 
         expect([
             pillars.year,
@@ -69,7 +69,7 @@ describe('reference chart 1989-10-27 06:00', () => {
             '庚申',
             '己卯',
         ]);
-        expect(pillars.baziYear).toBe(1989);
+        expect(pillars.baziYear).toBe(2049);
         expect(pillars.lateZi).toBe(false);
         expect(pillars.borderline).toEqual([]);
         expect(pillars.termDay).toBeNull();
@@ -92,7 +92,7 @@ describe('late 子 hour', () => {
 
 describe('unknown birth time', () => {
     it('gives three pillars and no hour pillar or hour borderline', () => {
-        const pillars = calculatePillars(taipei('1989-10-27', null));
+        const pillars = calculatePillars(taipei('2049-10-12', null));
 
         expect(pillars.hour).toBeNull();
         expect([
@@ -148,24 +148,24 @@ describe('borderline notice', () => {
     });
 
     it('flags a birth within 30 minutes of an hour boundary, including 23:00 and the 子 / 丑 line', () => {
-        expect(calculatePillars(taipei('1989-10-27', '06:50')).borderline).toContainEqual({
+        expect(calculatePillars(taipei('2049-10-12', '06:50')).borderline).toContainEqual({
             kind: 'HOUR', minutes: 10,
         });
-        expect(calculatePillars(taipei('1989-10-27', '22:45')).borderline).toContainEqual({
+        expect(calculatePillars(taipei('2049-10-12', '22:45')).borderline).toContainEqual({
             kind: 'HOUR', minutes: 15,
         });
-        expect(calculatePillars(taipei('1989-10-27', '00:50')).borderline).toContainEqual({
+        expect(calculatePillars(taipei('2049-10-12', '00:50')).borderline).toContainEqual({
             kind: 'HOUR', minutes: 10,
         });
     });
 
     it('treats exactly 30 minutes as borderline and 31 minutes as clear', () => {
-        expect(calculatePillars(taipei('1989-10-27', '06:30')).borderline.some((n) => n.kind === 'HOUR')).toBe(true);
-        expect(calculatePillars(taipei('1989-10-27', '06:29')).borderline.some((n) => n.kind === 'HOUR')).toBe(false);
+        expect(calculatePillars(taipei('2049-10-12', '06:30')).borderline.some((n) => n.kind === 'HOUR')).toBe(true);
+        expect(calculatePillars(taipei('2049-10-12', '06:29')).borderline.some((n) => n.kind === 'HOUR')).toBe(false);
     });
 
     it('shows nothing in the middle of an hour and far from any 節', () => {
         // 05:59 / 06:00 is 卯 hour's centre (05:00-07:00); 06:00 is 60 minutes from both lines
-        expect(calculatePillars(taipei('1989-10-27', '06:00')).borderline).toEqual([]);
+        expect(calculatePillars(taipei('2049-10-12', '06:00')).borderline).toEqual([]);
     });
 });

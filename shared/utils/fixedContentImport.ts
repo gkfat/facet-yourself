@@ -8,16 +8,36 @@ import {
     expectedFixedContentIds, fixedContentId, isValidContentKey,
 } from './fixedContentKeys.ts';
 import { findForbiddenHexagramWords } from './hexagramWording.ts';
+import {
+    ZIWEI_DISCLAIMER, findForbiddenZiweiWords, findZiweiWordingIssues,
+} from './ziweiWording.ts';
 
 /**
  * Import file rows. JSON rows carry a nested body; CSV rows are flat and are
  * converted to the same shape. Lists in CSV are separated with `|`.
  */
+/**
+ * Where a Zi Wei reading comes from, kept in the import file (which is in version control), not in the stored document.
+ * The chart rules and the written interpretation are recorded apart, and a reading that is not a draft says who reviewed it.
+ */
+export const ziweiProvenanceSchema = z.object({
+    /** The rule set the chart is laid out by, e.g. the algorithm version and what it was checked against */
+    algorithmSource: z.string().trim().min(1),
+    /** What the written interpretation rests on; never a book or a site copied as it is */
+    interpretationSource: z.string().trim().min(1),
+    /** ORIGINAL: written by a person for this site. AI_DRAFT: drafted with an AI and needs a person's review. */
+    authoring: z.enum(['ORIGINAL', 'AI_DRAFT']),
+    reviewedBy: z.string().trim().min(1).nullable().default(null),
+});
+
+export type ZiweiProvenance = z.infer<typeof ziweiProvenanceSchema>;
+
 export const importRowSchema = z.object({
     contentType: fixedContentTypeSchema,
     key: z.string().min(1),
     body: fixedContentBodySchema,
     status: fixedContentStatusSchema.default('DRAFT'),
+    provenance: ziweiProvenanceSchema.optional(),
 }).superRefine((row, ctx) => {
     if (!isValidContentKey(row.contentType, row.key)) {
         ctx.addIssue({
@@ -36,6 +56,53 @@ export const importRowSchema = z.object({
                 code: 'custom',
                 path: ['body'],
                 message: `a hexagram reading must not use: ${found.join('、')}`,
+            });
+        }
+    }
+
+    // A Zi Wei reading is a symbolic reading for self-exploration: tentative wording, no verdicts of luck, and a recorded origin.
+    if (row.contentType === 'ZIWEI') {
+        // The fixed disclaimer is checked as a whole below; the wording check is for the part written for this reading
+        const {
+            disclaimer, ...written 
+        } = row.body;
+
+        for (const message of findZiweiWordingIssues(row.key, JSON.stringify(written))) {
+            ctx.addIssue({
+                code: 'custom', path: ['body'], message,
+            });
+        }
+
+        // It begins with the fixed sentence; a reading may add a reminder after it (the health palace does), which has to keep to the wording rules too
+        if (!disclaimer.startsWith(ZIWEI_DISCLAIMER)) {
+            ctx.addIssue({
+                code: 'custom',
+                path: ['body', 'disclaimer'],
+                message: `the disclaimer of a Zi Wei reading has to begin with: ${ZIWEI_DISCLAIMER}`,
+            });
+        } else {
+            const added = findForbiddenZiweiWords(disclaimer.slice(ZIWEI_DISCLAIMER.length));
+
+            if (added.length > 0) {
+                ctx.addIssue({
+                    code: 'custom',
+                    path: ['body', 'disclaimer'],
+                    message: `what is added to the disclaimer must not use: ${added.join('、')}`,
+                });
+            }
+        }
+
+        if (!row.provenance) {
+            ctx.addIssue({
+                code: 'custom',
+                path: ['provenance'],
+                message: 'a Zi Wei reading has to record its algorithm source, interpretation source and how it was written',
+            });
+        } else if (row.status !== 'DRAFT' && row.provenance.reviewedBy === null) {
+            ctx.addIssue({
+                code: 'custom',
+                path: ['provenance', 'reviewedBy'],
+                message: `a Zi Wei reading with status ${row.status} has to name who reviewed it`,
             });
         }
     }

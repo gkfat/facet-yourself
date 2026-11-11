@@ -18,6 +18,7 @@ import { horoscopeContentKeys } from '../constants/horoscope.ts';
 import { hexagramContentKeys } from '../constants/hexagramShape.ts';
 import { KIN_COUNT } from '../constants/mayaKin.ts';
 import { runeContentKeys } from '../constants/runes.ts';
+import { ziweiContentKeys } from '../constants/ziwei.ts';
 import {
     TAROT_CARD_COUNT, TAROT_ORIENTATIONS,
 } from '../constants/tarot.ts';
@@ -40,6 +41,7 @@ export const FIXED_CONTENT_TYPES = [
     'HOROSCOPE',
     'ASSESSMENT',
     'HEXAGRAM',
+    'ZIWEI',
 ] as const;
 
 export type FixedContentType = typeof FIXED_CONTENT_TYPES[number];
@@ -140,6 +142,9 @@ const RUNE_KEY_SET: ReadonlySet<string> = new Set(runeContentKeys());
 /** The 448 hexagram reading keys: a hexagram as `<1 to 64>`, a line of it as `<1 to 64>_<1 to 6>`. */
 const HEXAGRAM_KEY_SET: ReadonlySet<string> = new Set(hexagramContentKeys());
 
+/** The 34 Zi Wei reading keys: 14 main stars, 4 auxiliary stars, 12 palaces and the four 四化. */
+const ZIWEI_KEY_SET: ReadonlySet<string> = new Set(ziweiContentKeys());
+
 /** The 60 sign horoscope keys: five bodies in twelve houses, as `<BODY>_<1 to 12>`. */
 const HOROSCOPE_KEY_SET: ReadonlySet<string> = new Set(horoscopeContentKeys());
 
@@ -162,13 +167,14 @@ export function isValidContentKey(type: FixedContentType, key: string): boolean 
     case 'HOROSCOPE': return HOROSCOPE_KEY_SET.has(key);
     case 'ASSESSMENT': return isAssessmentContentKey(key);
     case 'HEXAGRAM': return HEXAGRAM_KEY_SET.has(key);
+    case 'ZIWEI': return ZIWEI_KEY_SET.has(key);
     }
 }
 
 /**
  * Every document id that must exist before launch:
  * 12 + 4 + 16 + 12 single results, the 170 BaZi contents, the 44 tarot contents, the 260 + 260 Kin contents, the 39 rune
- * contents, the 60 sign horoscope contents, the 448 hexagram readings and the contents of the self-assessments (as many as the registry lists).
+ * contents, the 60 sign horoscope contents, the 448 hexagram readings, the 34 Zi Wei readings and the contents of the self-assessments (as many as the registry lists).
  */
 export function expectedFixedContentIds(): string[] {
     const ids: string[] = [];
@@ -183,6 +189,7 @@ export function expectedFixedContentIds(): string[] {
     for (const key of runeContentKeys()) ids.push(fixedContentId('RUNE', key));
     for (const key of horoscopeContentKeys()) ids.push(fixedContentId('HOROSCOPE', key));
     for (const key of hexagramContentKeys()) ids.push(fixedContentId('HEXAGRAM', key));
+    for (const key of ziweiContentKeys()) ids.push(fixedContentId('ZIWEI', key));
     for (const key of assessmentContentKeys()) ids.push(fixedContentId('ASSESSMENT', key));
 
     return ids;

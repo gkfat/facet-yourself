@@ -70,6 +70,9 @@ const RULES: readonly Rule[] = [
         method: 'POST', pattern: /^\/api\/bazi\/calculations$/, access: 'public',
     },
     {
+        method: 'POST', pattern: /^\/api\/ziwei\/calculations$/, access: 'public',
+    },
+    {
         method: 'POST', pattern: /^\/api\/share-cards$/, access: 'optional',
     },
     {

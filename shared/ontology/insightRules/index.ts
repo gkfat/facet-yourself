@@ -5,6 +5,7 @@ import { INTERACTION_RULES } from './rules/interaction';
 import { OBJECT_GAP_RULES } from './rules/objectGap';
 import { SYNTHESIS_RULES } from './rules/synthesis';
 import { SYNTHESIS_WIDE_RULES } from './rules/synthesisWide';
+import { SYNTHESIS_ZIWEI_RULES } from './rules/synthesisZiwei';
 import { TENSION_RULES } from './rules/tension';
 import { TIME_EXTENSION_RULES } from './rules/timeExtension';
 import {
@@ -32,4 +33,5 @@ export const SINGLE_SYNTHESIS_RULES: readonly InsightRule[] = [
     })),
     ...SYNTHESIS_RULES,
     ...SYNTHESIS_WIDE_RULES,
+    ...SYNTHESIS_ZIWEI_RULES,
 ].map((rule) => insightRuleSchema.parse(rule));

@@ -1,7 +1,7 @@
 version: 1
 generatedBy: analysis-validator
-updatedAt: 2026-11-10T12:00:00+08:00
-relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, header-nav-and-pricing, redesign-home-page, ai-analysis-question-history, add-hexagram-divination, add-fortune-history]
+updatedAt: 2026-11-11T12:00:00+08:00
+relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, header-nav-and-pricing, redesign-home-page, ai-analysis-question-history, add-hexagram-divination, add-fortune-history, add-ziwei-chart]
 
 links:
   - requirement: FR-001
@@ -526,6 +526,85 @@ links:
     domainModel: []
     api: ["API-077", "API-078"]
     data: []
+  - requirement: FR-096
+    context: ["CTX-ACTOR-001", "CTX-CON-034", "CTX-CON-036", "CTX-EXT-009", "CTX-ASM-037"]
+    useCases: ["UC-061"]
+    domainModel: ["VO-001", "VO-040", "VO-041", "VO-042", "VO-043", "VO-045"]
+    api: ["API-081"]
+    data: []
+    note: "紫微不讀寫使用者資料（NFR-039）：DATA-001、DATA-002 只因輸入形狀 VO-001（BirthData）而被推導出，已排除"
+  - requirement: FR-097
+    context: ["CTX-CON-034", "CTX-CON-035", "CTX-EXT-009", "CTX-ASM-038", "CTX-ASM-039"]
+    useCases: ["UC-061", "UC-063"]
+    domainModel: ["VO-001", "VO-040", "VO-041", "VO-042", "VO-043", "VO-044", "VO-045"]
+    api: ["API-081"]
+    data: []
+    note: "紫微不讀寫使用者資料（NFR-039）：DATA-001、DATA-002 只因輸入形狀 VO-001（BirthData）而被推導出，已排除"
+  - requirement: FR-098
+    context: ["CTX-CON-034", "CTX-ASM-039"]
+    useCases: ["UC-061", "UC-063"]
+    domainModel: ["VO-001", "VO-040", "VO-041", "VO-042", "VO-043", "VO-044", "VO-045"]
+    api: ["API-081"]
+    data: []
+    note: "紫微不讀寫使用者資料（NFR-039）：DATA-001、DATA-002 只因輸入形狀 VO-001（BirthData）而被推導出，已排除"
+  - requirement: FR-099
+    context: ["CTX-ACTOR-001", "CTX-CON-035", "CTX-CON-036", "CTX-ASM-036", "CTX-ASM-040"]
+    useCases: ["UC-061", "UC-062", "UC-067"]
+    domainModel: ["VO-001", "VO-040", "VO-041", "VO-042", "VO-043", "VO-045"]
+    api: ["API-081"]
+    data: []
+    note: "紫微不讀寫使用者資料（NFR-039）：DATA-001、DATA-002 只因輸入形狀 VO-001（BirthData）而被推導出，已排除"
+  - requirement: FR-100
+    context: ["CTX-CON-034", "CTX-ASM-037"]
+    useCases: ["UC-061", "UC-063", "UC-064"]
+    domainModel: ["AGG-005", "AGG-021", "ENT-005", "ENT-024", "VO-001", "VO-040", "VO-041", "VO-042", "VO-043", "VO-044", "VO-045"]
+    api: ["API-055", "API-081"]
+    data: ["DATA-006", "DATA-026"]
+    note: "紫微不讀寫使用者資料（NFR-039）：DATA-001、DATA-002 只因輸入形狀 VO-001（BirthData）而被推導出，已排除"
+  - requirement: FR-101
+    context: ["CTX-ACTOR-001", "CTX-CON-034", "CTX-CON-037", "CTX-ASM-036", "CTX-ASM-037", "CTX-ASM-039"]
+    useCases: ["UC-062", "UC-063"]
+    domainModel: ["VO-001", "VO-041", "VO-042", "VO-043", "VO-044"]
+    api: ["API-081"]
+    data: []
+    note: "紫微不讀寫使用者資料（NFR-039）：DATA-001、DATA-002 只因輸入形狀 VO-001（BirthData）而被推導出，已排除"
+  - requirement: FR-102
+    context: ["CTX-CON-034", "CTX-CON-037", "CTX-ASM-037"]
+    useCases: ["UC-064", "UC-066"]
+    domainModel: ["AGG-005", "AGG-021", "ENT-005", "ENT-024", "VO-041", "VO-044"]
+    api: ["API-055"]
+    data: ["DATA-006", "DATA-026"]
+  - requirement: FR-103
+    context: ["CTX-CON-036", "CTX-CON-037", "CTX-ASM-037"]
+    useCases: ["UC-066"]
+    domainModel: ["AGG-005", "ENT-005"]
+    api: []
+    data: ["DATA-006"]
+  - requirement: FR-104
+    context: ["CTX-ACTOR-001", "CTX-CON-034", "CTX-CON-037", "CTX-CON-038", "CTX-ASM-036"]
+    useCases: ["UC-047", "UC-062", "UC-064"]
+    domainModel: ["AGG-005", "AGG-021", "AGG-022", "AGG-023", "AGG-024", "ENT-005", "ENT-024", "ENT-025", "ENT-026", "ENT-027", "VO-001", "VO-028", "VO-029", "VO-030", "VO-031", "VO-041", "VO-044"]
+    api: ["API-055", "API-081"]
+    data: ["DATA-006", "DATA-026", "DATA-027"]
+    note: "紫微不讀寫使用者資料（NFR-039）：DATA-001、DATA-002 只因輸入形狀 VO-001（BirthData）而被推導出，已排除"
+  - requirement: FR-105
+    context: ["CTX-CON-038", "CTX-ASM-038"]
+    useCases: ["UC-065"]
+    domainModel: ["VO-037", "VO-041"]
+    api: ["API-063"]
+    data: ["DATA-006", "DATA-010", "DATA-011", "DATA-014", "DATA-019", "DATA-026", "DATA-027"]
+  - requirement: FR-106
+    context: ["CTX-CON-038", "CTX-CON-037", "CTX-ASM-037"]
+    useCases: ["UC-053", "UC-064", "UC-065"]
+    domainModel: ["AGG-005", "AGG-021", "AGG-022", "AGG-023", "AGG-024", "ENT-005", "ENT-024", "ENT-025", "ENT-026", "ENT-027", "VO-034", "VO-035", "VO-036", "VO-037", "VO-041", "VO-044"]
+    api: ["API-055", "API-063"]
+    data: ["DATA-006", "DATA-010", "DATA-011", "DATA-014", "DATA-019", "DATA-026", "DATA-027"]
+  - requirement: FR-107
+    context: ["CTX-CON-038", "CTX-ASM-040"]
+    useCases: ["UC-067"]
+    domainModel: ["VO-045"]
+    api: []
+    data: []
 
 gaps:
   - type: render-drift
@@ -699,4 +778,24 @@ gaps:
   - type: nfr-not-landed
     id: "NFR-013"
     description: "NFR（AI 報告品質驗證）沒有在 api-model 或 data-model 任何一處被提及（屬測試與品質檢查的設計層約束，prompt 與 server/ai/quality.ts 落實）"
+    severity: low
+  - type: verification-waived
+    id: "CTX-ASM-040"
+    description: "紫微規則表依 user 指示直接標為已核對，沒有 user 確認的命盤；依據是與 iztro 2.6.5 的逐項比對與 user 提供的 2 張外部程式命盤（完全吻合）；閏月、晚子時與多數年干的四化尚未有外部盤佐證（影響 FR-099、NFR-038、NFR-040）"
+    severity: low
+  - type: nfr-not-landed
+    id: "NFR-041"
+    description: "NFR（紫微內容的措辭檢查與審稿）沒有在 api-model 或 data-model 任何一處被提及（屬內容匯入檢查的設計層約束，由 content:check 與紫微專屬措辭規則落實；DATA-006 只提到 RULE-111、RULE-112）"
+    severity: low
+  - type: domain-without-data
+    id: "VO-040 至 VO-045"
+    description: "紫微的 Value Object（農曆日期、命盤、宮位、星曜、借星、規則核對狀態）沒有對應的資料表：命盤即時計算、不落地（NFR-039），規則核對狀態是程式內的固定定義；固定內容沿用 DATA-006、報告沿用 reportSnapshots"
+    severity: low
+  - type: orphan-requirement
+    id: "FR-106、FR-107"
+    description: "FR 沒有 API 與資料表：特質映射是程式內的固定定義（沿用 FR-081 至 FR-083 的作法），入口開關是設定而非資料"
+    severity: low
+  - type: dangling-reference
+    id: "api-model 以外：data-model 的 API-014、API-016、API-017、API-020、API-039"
+    description: "這些 ID 只出現在已廢止項目的 reason 文字（說明舊 API 已不存在），不是實際引用，但在任何檔案都查不到定義（既有狀況，非本次新增）"
     severity: low

@@ -10,6 +10,7 @@ import {
     kinContentKeys,
     tarotContentKeys,
 } from './fixedContentKeys';
+import { ziweiContentKeys } from '../constants/ziwei';
 
 describe('isValidContentKey', () => {
     it('validates each content type', () => {
@@ -177,6 +178,55 @@ describe('HEXAGRAM keys', () => {
     });
 });
 
+describe('ZIWEI keys', () => {
+    it('has 34 keys: 14 main stars, 4 auxiliary stars, 12 palaces and the four 四化', () => {
+        const keys = ziweiContentKeys();
+
+        expect(keys).toHaveLength(34);
+        expect(new Set(keys).size).toBe(34);
+        expect(keys.filter((key) => key.startsWith('star_'))).toHaveLength(14);
+        expect(keys.filter((key) => key.startsWith('aux_'))).toHaveLength(4);
+        expect(keys.filter((key) => key.startsWith('palace_'))).toHaveLength(12);
+        expect(keys.filter((key) => key.startsWith('transformation_'))).toHaveLength(4);
+    });
+
+    it('accepts every key of the list', () => {
+        for (const key of ziweiContentKeys()) expect(isValidContentKey('ZIWEI', key), key).toBe(true);
+        expect(isValidContentKey('ZIWEI', 'star_紫微')).toBe(true);
+        expect(isValidContentKey('ZIWEI', 'aux_文昌')).toBe(true);
+        expect(isValidContentKey('ZIWEI', 'palace_命宮')).toBe(true);
+        expect(isValidContentKey('ZIWEI', 'transformation_忌')).toBe(true);
+    });
+
+    it('rejects a star that is not placed, a wrong prefix, a star by palace combination and anything else', () => {
+        for (const key of [
+            'star_文昌',
+            'aux_紫微',
+            'star_祿存',
+            'palace_身宮',
+            'palace_財帛宮',
+            'transformation_祿存',
+            'star_紫微_命宮',
+            'palace_命宮_紫微',
+            '紫微',
+            'star_',
+            '',
+        ]) expect(isValidContentKey('ZIWEI', key), key).toBe(false);
+    });
+
+    it('is not a legal key of any other content type', () => {
+        expect(isValidContentKey('BAZI', 'star_紫微')).toBe(false);
+        expect(isValidContentKey('HEXAGRAM', 'palace_命宮')).toBe(false);
+    });
+
+    it('is listed among the ids that must exist before launch', () => {
+        const ids = expectedFixedContentIds().filter((id) => id.startsWith('ZIWEI_'));
+
+        expect(ids).toHaveLength(34);
+        expect(ids).toContain(fixedContentId('ZIWEI', 'star_紫微'));
+    });
+});
+
 describe('RUNE keys', () => {
     it('accepts every rune upright, and reversed only for the ones that can be reversed', () => {
         expect(isValidContentKey('RUNE', '0_upright')).toBe(true);
@@ -282,9 +332,9 @@ describe('baziContentKeys', () => {
 describe('expectedFixedContentIds', () => {
     const ids = expectedFixedContentIds();
 
-    it('lists 44 single results, 170 BaZi contents and 44 tarot contents, 520 Kin contents and 39 rune contents and 60 sign horoscope contents and 448 hexagram readings and the self-assessment contents, all unique', () => {
-        expect(ids).toHaveLength(1492);
-        expect(new Set(ids).size).toBe(1492);
+    it('lists 44 single results, 170 BaZi contents and 44 tarot contents, 520 Kin contents and 39 rune contents and 60 sign horoscope contents and 448 hexagram readings and 34 Zi Wei readings and the self-assessment contents, all unique', () => {
+        expect(ids).toHaveLength(1526);
+        expect(new Set(ids).size).toBe(1526);
         expect(ids.filter((id) => id.startsWith('ZODIAC_'))).toHaveLength(12);
         expect(ids.filter((id) => id.startsWith('BLOOD_'))).toHaveLength(4);
         expect(ids.filter((id) => id.startsWith('MBTI_'))).toHaveLength(16);
@@ -296,6 +346,7 @@ describe('expectedFixedContentIds', () => {
         expect(ids.filter((id) => id.startsWith('RUNE_'))).toHaveLength(39);
         expect(ids.filter((id) => id.startsWith('HOROSCOPE_'))).toHaveLength(60);
         expect(ids.filter((id) => id.startsWith('HEXAGRAM_'))).toHaveLength(448);
+        expect(ids.filter((id) => id.startsWith('ZIWEI_'))).toHaveLength(34);
     });
 
     it('uses the same id format as fixedContentId', () => {

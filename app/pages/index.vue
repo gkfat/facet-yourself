@@ -150,6 +150,7 @@
 import {
     BAZI_ENTRY_ENABLED,
 } from '../../shared/constants/bazi';
+import { ZIWEI_ENTRY_ENABLED } from '../../shared/constants/ziwei';
 import { assessmentCards } from '../utils/assessmentCards';
 import {
     SYSTEMS, type Analysis,
@@ -270,21 +271,19 @@ const analyses = computed<Analysis[]>(() => {
             ready: bloodType !== null,
             to: bloodType ? '/full-report/blood' : undefined,
         },
-        ...(BAZI_ENTRY_ENABLED
-            ? [{
-                key: 'bazi',
-                system: 'symbolic' as const,
-                title: '八字命盤',
-                icon: 'mdi-yin-yang',
-                tone: TONES.copper,
-                description: '由出生的年、月、日、時排出四柱，看五行的分布、日主的強弱與每十年的節奏。',
-                need: '需要：出生日期與時間',
-                action: baziReady ? `看八字命盤（${baziDayMaster}）` : '看八字命盤',
-                lockedHint: '先填寫出生日期與時間',
-                ready: baziReady,
-                to: '/full-report/bazi',
-            }]
-            : []),
+        {
+            key: 'numerology',
+            system: 'symbolic',
+            title: '生命靈數',
+            icon: 'mdi-numeric',
+            tone: TONES.steel,
+            description: '把出生日期化成數字，看你的天賦傾向與今年的節奏。',
+            need: '需要：出生日期',
+            action: birthDateInput.value && sign ? `看生命靈數（數字 ${lifePathNumber(birthDateInput.value)}）` : '看生命靈數',
+            lockedHint: '先填寫出生日期',
+            ready: sign !== null,
+            to: '/full-report/numerology',
+        },
         ...(KIN_ENTRY_ENABLED
             ? [{
                 key: 'mayaKin',
@@ -301,18 +300,49 @@ const analyses = computed<Analysis[]>(() => {
             }]
             : []),
         {
-            key: 'numerology',
+            key: 'humanDesign',
             system: 'symbolic',
-            title: '生命靈數',
-            icon: 'mdi-numeric',
-            tone: TONES.steel,
-            description: '把出生日期化成數字，看你的天賦傾向與今年的節奏。',
-            need: '需要：出生日期',
-            action: birthDateInput.value && sign ? `看生命靈數（數字 ${lifePathNumber(birthDateInput.value)}）` : '看生命靈數',
-            lockedHint: '先填寫出生日期',
-            ready: sign !== null,
-            to: '/full-report/numerology',
+            title: '人類圖分析',
+            icon: 'mdi-vector-triangle',
+            tone: TONES.teal,
+            description: '依出生當下的星體位置，看你的能量怎麼運作、怎樣做決定最順。',
+            need: '需要：出生日期、時間與城市',
+            action: state.value.hasHumanDesign ? `看人類圖分析（${humanDesignType.value ?? '已計算'}）` : '看人類圖分析',
+            lockedHint: '先填寫出生時間與城市',
+            ready: advancedUnlocked.value,
+            to: '/full-report/human-design',
         },
+        ...(BAZI_ENTRY_ENABLED
+            ? [{
+                key: 'bazi',
+                system: 'symbolic' as const,
+                title: '八字命盤',
+                icon: 'mdi-yin-yang',
+                tone: TONES.copper,
+                description: '由出生的年、月、日、時排出四柱，看五行的分布、日主的強弱與每十年的節奏。',
+                need: '需要：出生日期與時間',
+                action: baziReady ? `看八字命盤（${baziDayMaster}）` : '看八字命盤',
+                lockedHint: '先填寫出生日期與時間',
+                ready: baziReady,
+                to: '/full-report/bazi',
+            }]
+            : []),
+        ...(ZIWEI_ENTRY_ENABLED
+            ? [{
+                key: 'ziwei',
+                system: 'symbolic' as const,
+                title: '紫微斗數命盤',
+                icon: 'mdi-star-circle-outline',
+                tone: TONES.olive,
+                description: '由出生的年、月、日、時排出十二宮與主星，看命宮與身宮的特質，以及生年四化落在哪裡。',
+                need: '需要：出生日期與時間',
+                action: '看紫微斗數命盤',
+                lockedHint: '先填寫出生日期與時間',
+                // Like BaZi, Zi Wei needs the birth date and the birth hour
+                ready: baziReady,
+                to: '/full-report/ziwei',
+            }]
+            : []),
         {
             key: 'mbti',
             system: 'personality',
@@ -345,19 +375,6 @@ const analyses = computed<Analysis[]>(() => {
                 to: done ? card.resultTo : card.takeTo,
             };
         }),
-        {
-            key: 'humanDesign',
-            system: 'personality',
-            title: '人類圖分析',
-            icon: 'mdi-vector-triangle',
-            tone: TONES.teal,
-            description: '依出生當下的星體位置，看你的能量怎麼運作、怎樣做決定最順。',
-            need: '需要：出生日期、時間與城市',
-            action: state.value.hasHumanDesign ? `看人類圖分析（${humanDesignType.value ?? '已計算'}）` : '看人類圖分析',
-            lockedHint: '先填寫出生時間與城市',
-            ready: advancedUnlocked.value,
-            to: '/full-report/human-design',
-        },
     ];
 });
 

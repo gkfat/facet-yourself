@@ -11,6 +11,7 @@ describe('classifyRoute', () => {
         expect(classifyRoute('GET', '/api/guest-sessions/abc/profile')).toBe('public');
         expect(classifyRoute('POST', '/api/zodiac/natal-chart')).toBe('public');
         expect(classifyRoute('POST', '/api/bazi/calculations')).toBe('public');
+        expect(classifyRoute('POST', '/api/ziwei/calculations')).toBe('public');
         expect(classifyRoute('GET', '/api/fixed-results/zodiac?birthDate=2000-01-01')).toBe('public');
         expect(classifyRoute('GET', '/api/fixed-results/maya-kin?birthDate=2000-01-01')).toBe('public');
         expect(classifyRoute('GET', '/api/tests')).toBe('public');
@@ -73,5 +74,6 @@ describe('classifyRoute', () => {
     it('does not make a public path public for other methods', () => {
         expect(classifyRoute('DELETE', '/api/tests/mbti')).toBe('required');
         expect(classifyRoute('GET', '/api/bazi/calculations')).toBe('required');
+        expect(classifyRoute('GET', '/api/ziwei/calculations')).toBe('required');
     });
 });

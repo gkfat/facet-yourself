@@ -7,7 +7,7 @@ import {
 } from './natalWheel';
 
 const chart = new NatalChartService().calculate({
-    birthDate: '1989-10-27', birthTime: '06:10', birthPlace: 'tw-taipei',
+    birthDate: '1992-11-05', birthTime: '06:10', birthPlace: 'tw-taipei',
 });
 
 describe('the birth chart wheel', () => {

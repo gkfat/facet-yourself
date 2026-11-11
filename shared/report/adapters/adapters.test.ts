@@ -108,7 +108,7 @@ describe('the advice of a reading', () => {
 
 describe('numerologyReportInput', () => {
     const input = numerologyReportInput({
-        birthDate: '1989-10-27', body: body('生命靈數 1'),
+        birthDate: '1992-11-05', body: body('生命靈數 1'),
     });
 
     it('gives the life path number as the position and as a fact the mapping can use', () => {
@@ -132,7 +132,7 @@ describe('numerologyReportInput', () => {
     it('records what it was calculated from', () => {
         expect(input.basis).toMatchObject([
             {
-                system: 'NUMEROLOGY', inputs: { birthDate: '1989-10-27' },
+                system: 'NUMEROLOGY', inputs: { birthDate: '1992-11-05' },
             },
         ]);
         expect(accepted(input)).toBe(true);
@@ -141,12 +141,12 @@ describe('numerologyReportInput', () => {
 
 describe('zodiacReportInput', () => {
     const chart = new NatalChartService().calculate({
-        birthDate: '1989-10-27', birthTime: '06:10', birthPlace: 'tw-taipei',
+        birthDate: '1992-11-05', birthTime: '06:10', birthPlace: 'tw-taipei',
     });
 
     it('with a birth time and a city gives the chart, the houses with their rulers and the aspects as facts', () => {
         const input = zodiacReportInput({
-            zodiac: 'scorpio', birthDate: '1989-10-27', body: body('天蠍座'), natal: {
+            zodiac: 'scorpio', birthDate: '1992-11-05', body: body('天蠍座'), natal: {
                 chart, birthTime: '06:10', birthPlace: 'tw-taipei',
             },
         });
@@ -164,7 +164,7 @@ describe('zodiacReportInput', () => {
 
     it('reads each placement with the reviewed text of that placement', () => {
         const input = zodiacReportInput({
-            zodiac: 'scorpio', birthDate: '1989-10-27', body: body('天蠍座'), natal: {
+            zodiac: 'scorpio', birthDate: '1992-11-05', body: body('天蠍座'), natal: {
                 chart, birthTime: '06:10', birthPlace: 'tw-taipei',
             },
         });
@@ -175,7 +175,7 @@ describe('zodiacReportInput', () => {
 
     it('without them has only the sun sign, says what would add the rest, and guesses nothing', () => {
         const input = zodiacReportInput({
-            zodiac: 'scorpio', birthDate: '1989-10-27', body: body('天蠍座'), natal: null,
+            zodiac: 'scorpio', birthDate: '1992-11-05', body: body('天蠍座'), natal: null,
         });
 
         expect(input.facts).toHaveLength(1);
@@ -194,10 +194,10 @@ describe('zodiacReportInput', () => {
 
 describe('the birth chart beyond the signs: houses, aspects and what they say together', () => {
     const chart = new NatalChartService().calculate({
-        birthDate: '1989-10-27', birthTime: '06:10', birthPlace: 'tw-taipei',
+        birthDate: '1992-11-05', birthTime: '06:10', birthPlace: 'tw-taipei',
     });
     const input = zodiacReportInput({
-        zodiac: 'scorpio', birthDate: '1989-10-27', body: body('天蠍座'), natal: {
+        zodiac: 'scorpio', birthDate: '1992-11-05', body: body('天蠍座'), natal: {
             chart, birthTime: '06:10', birthPlace: 'tw-taipei',
         },
     });
@@ -279,7 +279,7 @@ describe('the birth chart beyond the signs: houses, aspects and what they say to
 
     it('has no such conclusions without a chart', () => {
         expect(zodiacReportInput({
-            zodiac: 'scorpio', birthDate: '1989-10-27', body: body('天蠍座'), natal: null,
+            zodiac: 'scorpio', birthDate: '1992-11-05', body: body('天蠍座'), natal: null,
         }).inferences).toEqual([]);
     });
 });
@@ -412,7 +412,8 @@ describe('mayaKinReportInput', () => {
 });
 
 describe('baziReportInput', () => {
-    const NOW = Date.parse('2026-10-27T12:00:00+08:00');
+    // The date of this chart is sixty years after the one the four pillars were first checked on, so "today" is sixty years on too
+    const NOW = Date.parse('2086-10-27T12:00:00+08:00');
     const run = async (params: { birthTime: string | null; gender: 'MALE' | null }) => {
         const service = new BaziService({
             clock: () => NOW,
@@ -423,11 +424,11 @@ describe('baziReportInput', () => {
             } as never,
         });
         const chart = await service.calculate({
-            birthDate: '1989-10-27', birthTime: params.birthTime, birthPlace: 'tw-taipei', gender: params.gender,
+            birthDate: '2049-10-12', birthTime: params.birthTime, birthPlace: 'tw-taipei', gender: params.gender,
         });
 
         return baziReportInput({
-            chart, birthDate: '1989-10-27', birthTime: params.birthTime, birthPlace: 'tw-taipei', gender: params.gender, today: '2026-10-27',
+            chart, birthDate: '2049-10-12', birthTime: params.birthTime, birthPlace: 'tw-taipei', gender: params.gender, today: '2086-10-27',
         });
     };
 
@@ -439,7 +440,7 @@ describe('baziReportInput', () => {
         expect(input.facts.find((fact) => fact.label === '四柱')?.value).toContain('時柱');
         expect(input.facts.find((fact) => fact.label === '日主')?.term).toMatch(/^bazi:daymaster:/);
         expect(input.timeFacts.length).toBeGreaterThan(0);
-        expect(input.timeFacts.every((fact) => fact.asOf === '2026-10-27')).toBe(true);
+        expect(input.timeFacts.every((fact) => fact.asOf === '2086-10-27')).toBe(true);
         // The luck steps and their reading are one group, the flow years another
         expect(input.timeFacts.every((fact) => fact.group === '大運' || fact.group === '流年')).toBe(true);
         expect(accepted(input)).toBe(true);
@@ -452,8 +453,8 @@ describe('baziReportInput', () => {
         const flowYears = input.timeFacts.filter((fact) => fact.group === '流年').map((fact) => fact.text);
 
         expect(flowYears).toHaveLength(5);
-        expect(flowYears[0]).toMatch(/^2026 年流年：丙午（十神.+）$/);
-        expect(flowYears[4]).toMatch(/^2030 年流年：/);
+        expect(flowYears[0]).toMatch(/^2086 年流年：丙午（十神.+）$/);
+        expect(flowYears[4]).toMatch(/^2090 年流年：/);
         expect(input.timeFacts.filter((fact) => fact.text.startsWith('目前大運：'))).toHaveLength(1);
         expect(input.timeFacts.filter((fact) => fact.text.startsWith('下一步大運：'))).toHaveLength(1);
     });
@@ -522,9 +523,9 @@ describe('baziReportInput', () => {
 });
 
 describe('humanDesignReportInput', () => {
-    const chart = calculateHumanDesign('1989-10-27', '06:00', 'Asia/Taipei');
+    const chart = calculateHumanDesign('1992-11-05', '06:00', 'Asia/Taipei');
     const input = humanDesignReportInput({
-        chart, birthDate: '1989-10-27', birthTime: '06:00', birthPlace: 'tw-taipei',
+        chart, birthDate: '1992-11-05', birthTime: '06:00', birthPlace: 'tw-taipei',
     });
 
     it('names the type, authority and each defined center and channel as facts with terms', () => {
@@ -600,7 +601,7 @@ describe('humanDesignReportInput', () => {
         expect(input.basis).toMatchObject([
             {
                 system: 'HUMAN_DESIGN', inputs: {
-                    birthDate: '1989-10-27', birthTime: '06:00', birthPlace: 'tw-taipei',
+                    birthDate: '1992-11-05', birthTime: '06:00', birthPlace: 'tw-taipei',
                 },
             },
         ]);

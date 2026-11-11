@@ -15,12 +15,12 @@ import { calculateBoneWeight } from './bone';
 import { ganzhiLabel } from './ganzhi';
 
 describe('reference chart', () => {
-    it('weighs 4 兩 1 錢 for 1989-10-27 卯 hour (lunar 己巳年九月廿八)', () => {
-        const bone = calculateBoneWeight('1989-10-27', '卯');
+    it('weighs the stone weight for 2049-10-12 卯 hour (lunar 己巳年九月十六)', () => {
+        const bone = calculateBoneWeight('2049-10-12', '卯');
 
         expect(ganzhiLabel(bone.lunarYear)).toBe('己巳');
         expect(bone.lunarMonth).toBe(9);
-        expect(bone.lunarDay).toBe(28);
+        expect(bone.lunarDay).toBe(16);
         expect(bone.leapMonth).toBe(false);
         expect(bone.parts).toEqual({
             year: 5, month: 18, day: 8, hour: 10,
@@ -144,10 +144,10 @@ describe('lunar-typescript output is pinned', () => {
     // These conversions are the library's published behaviour that 稱骨 relies on; an upgrade that changes one must be reviewed
     it.each([
         [
-            '1989-10-27',
+            '2049-10-12',
             '己巳',
             9,
-            28,
+            16,
         ],
         [
             '2023-04-01',

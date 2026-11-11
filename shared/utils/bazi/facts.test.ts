@@ -41,8 +41,8 @@ function factsOf(birthDate: string, birthTime: string | null) {
     return computeFacts(pillars, instant);
 }
 
-describe('reference chart 1989-10-27 06:00 (己巳 甲戌 庚申 己卯)', () => {
-    const facts = factsOf('1989-10-27', '06:00');
+describe('reference chart 2049-10-12 06:00 (己巳 甲戌 庚申 己卯)', () => {
+    const facts = factsOf('2049-10-12', '06:00');
 
     it('gives the 地勢 of the day master in each branch', () => {
         expect(facts.stages.map((item) => item.stage)).toEqual([
@@ -89,15 +89,15 @@ describe('reference chart 1989-10-27 06:00 (己巳 甲戌 庚申 己卯)', () =>
         ]);
     });
 
-    it('gives 命宮 丁卯 and 胎元 乙丑', () => {
-        expect(ganzhiLabel(facts.mingGong!)).toBe('丁卯');
+    it('gives 命宮 戊辰 and 胎元 乙丑', () => {
+        expect(ganzhiLabel(facts.mingGong!)).toBe('戊辰');
         expect(ganzhiLabel(facts.taiYuan)).toBe('乙丑');
     });
 
     it('gives the zodiac, yin year, term and season at birth', () => {
         expect(facts.zodiac).toBe('蛇');
         expect(facts.yearPolarity).toBe('YIN');
-        expect(facts.solarTerm).toBe('霜降');
+        expect(facts.solarTerm).toBe('寒露');
         expect(facts.season).toBe('秋');
     });
 
@@ -127,7 +127,7 @@ describe('reference chart 1989-10-27 06:00 (己巳 甲戌 庚申 己卯)', () =>
 
 describe('without a birth time', () => {
     it('has no 命宮 and no hour entries, but still has 胎元', () => {
-        const facts = factsOf('1989-10-27', null);
+        const facts = factsOf('2049-10-12', null);
 
         expect(facts.mingGong).toBeNull();
         expect(ganzhiLabel(facts.taiYuan)).toBe('乙丑');
@@ -272,9 +272,9 @@ describe('formulas', () => {
     it('takes the 月將 from the last 中氣, not from the 節 that starts the month', () => {
         // 戌 month (寒露 to 立冬): 辰 until 霜降 (about 10-23), 卯 after it
         expect(yueJiangOf(new Date('1989-10-15T12:00:00+08:00'))).toBe('辰');
-        expect(yueJiangOf(new Date('1989-10-27T06:00:00+08:00'))).toBe('卯');
+        expect(yueJiangOf(new Date('2000-10-28T06:00:00+08:00'))).toBe('卯');
         // 酉 month (白露 to 寒露): 辰 from 秋分 (about 9-23), and before it 處暑 gives 巳
-        expect(yueJiangOf(new Date('1983-09-25T04:00:00+08:00'))).toBe('辰');
+        expect(yueJiangOf(new Date('2001-09-25T04:00:00+08:00'))).toBe('辰');
         expect(yueJiangOf(new Date('1983-09-12T12:00:00+08:00'))).toBe('巳');
     });
 });

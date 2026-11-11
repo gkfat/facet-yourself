@@ -119,6 +119,12 @@
                     >
                         <BaziChartPanel :result="baziChart" />
                     </template>
+                    <template
+                        v-else-if="ziweiChart"
+                        #chart
+                    >
+                        <ZiweiChartPanel :chart="ziweiChart" />
+                    </template>
 
                     <!-- The four Kin around the birth Kin, right above the impact cards -->
                     <template
@@ -176,7 +182,9 @@
 <script lang="ts" setup>
 import { isStateSystem } from '../../../shared/ontology/mapping';
 import type { NatalChartResponse } from '../../../shared/schemas/api/natalChart.schema';
+import { ZIWEI_ENTRY_ENABLED } from '../../../shared/constants/ziwei';
 import type { BaziResponse } from '../../../shared/schemas/api/bazi.schema';
+import type { ZiweiResponse } from '../../../shared/schemas/api/ziwei.schema';
 import type { HumanDesignResponse } from '../../../shared/schemas/api/humanDesign.schema';
 import { SINGLE_REPORT_SYSTEMS, type SingleReportSystem } from '../../../shared/report/systems';
 import { kinOf } from '../../../shared/utils/mayaKin';
@@ -209,6 +217,14 @@ const META: Readonly<Record<string, Meta>> = {
     bazi: {
         system: 'BAZI', title: '八字', tone: 'amber',
     },
+    // Only while the entry is on: the page does not exist for a visitor before that
+    ...(ZIWEI_ENTRY_ENABLED
+        ? {
+            ziwei: {
+                system: 'ZIWEI' as const, title: '紫微斗數', tone: 'amber' as const,
+            },
+        }
+        : {}),
     'human-design': {
         system: 'HUMAN_DESIGN', title: '人類圖', tone: 'green',
     },
@@ -299,7 +315,18 @@ const shareContent = computed<ShareImageContent | null>(() => {
     };
 });
 
-const needMessage = computed(() => (need.value ? NEED_MESSAGES[need.value] : null));
+const needMessage = computed(() => {
+    if (!need.value) return null;
+
+    // Zi Wei needs the birth time to place the life palace, and it is never guessed
+    if (need.value === 'BIRTH_TIME_REQUIRED' && meta?.system === 'ZIWEI') {
+        return {
+            type: 'info' as const, text: '紫微斗數需要出生時間才能定出命宮，先補上才能看到這份報告。', to: '/#fill', action: '去填寫',
+        };
+    }
+
+    return NEED_MESSAGES[need.value];
+});
 
 // The MBTI report shows how far each of the four pairs leans, from the scores of the latest result of this type
 const mbtiType = computed(() => (meta?.system === 'MBTI' ? report.value?.position ?? null : null));
@@ -353,6 +380,26 @@ watch(() => report.value, async (current) => {
     } catch (error) {
         // The report reads fine without the drawing
         console.error('[full-report] bazi chart failed:', error);
+    }
+}, { immediate: true });
+
+// The Zi Wei chart is drawn too; nothing is saved, it is worked out from the same birth data as the report
+const ziweiChart = ref<ZiweiResponse | null>(null);
+
+watch(() => report.value, async (current) => {
+    const birth = state.value.birthData;
+
+    if (meta?.system !== 'ZIWEI' || !current || ziweiChart.value || !birth?.birthDate || !birth.birthTime) return;
+
+    try {
+        ziweiChart.value = await post<ZiweiResponse>('/api/ziwei/calculations', {
+            birthDate: birth.birthDate,
+            birthTime: birth.birthTime,
+            birthPlace: birth.birthPlace ?? null,
+        }, {}, 'optional');
+    } catch (error) {
+        // The report reads fine without the drawing
+        console.error('[full-report] ziwei chart failed:', error);
     }
 }, { immediate: true });
 

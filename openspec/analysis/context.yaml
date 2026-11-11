@@ -1,7 +1,7 @@
 version: 1
 generatedBy: system-analysis
-updatedAt: 2026-11-09T12:00:00+08:00
-relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, ai-analysis-question-history, add-hexagram-divination]
+updatedAt: 2026-11-11T12:00:00+08:00
+relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, ai-analysis-question-history, add-hexagram-divination, add-ziwei-chart]
 source: ai_personality_app_plan.md
 
 actors:
@@ -65,6 +65,11 @@ externalSystems:
     description: 以本地函式庫計算各天體在指定時刻的黃經位置，供本命盤與即時行運盤使用；非網路服務，無額外費用
     source: "既有程式 server/astrology/natalChart.ts、server/humanDesign/ephemeris.ts；user 對話（即時星象需合併今日星盤）"
     note: "目前僅提供日月水金火木土；是否納入天王、海王、冥王見 CTX-ASM-014"
+  - id: CTX-EXT-009
+    name: 農曆換算庫（lunar-typescript）
+    description: "以本地函式庫把公曆日期換算為農曆年（干支）、月、日與閏月旗標，供紫微斗數排盤與八字稱骨使用；非網路服務，無額外費用；版本鎖定 1.8.6"
+    source: "既有程式 shared/utils/bazi/bone.ts；openspec/changes/add-ziwei-chart/design.md"
+    note: "可靠年份範圍與驗證結果見 CTX-CON-035"
 
 constraints:
   - id: CTX-CON-001
@@ -211,6 +216,30 @@ constraints:
     description: "卦象的固定內容：64 卦（卦名與卦序、卦辭、彖辭、象辭、白話解讀）＋384 條爻（爻辭、白話）；經文原文為公版，白話解讀為自撰、不呼叫 AI；第一版 64 卦白話先上，爻辭先放原文加簡短白話，可分批補（user 已確認）"
     source: "user 對話（2026-11-09 易經卦象 D1–D7） D3、D4；openspec/specs/daily-rune/spec.md；server/services/dailyDraw.engine.ts"
     note: "乾卦用九、坤卦用六不單獨成條，六爻皆動時歸入「兩個以上動爻」的呈現規則（CTX-ASM-032）"
+  - id: CTX-CON-034
+    category: business
+    description: "紫微斗數的固定排盤規則（以 ZIWEI_ALGORITHM_VERSION 標示版本，任何算法或規則表變動必須升版）：三合系統；以農曆正月初一換年（與八字以立春換年不同）；閏月初一至十五歸原月、十六日起歸下月；晚子時（23:00–24:00）日期不換日（與八字一致）；出生時刻沿用當地標準時間（已扣夏令），不做真太陽時；同一輸入永遠得到同一份命盤"
+    source: "openspec/changes/add-ziwei-chart/design.md Decision 1、3、4；openspec/changes/add-ziwei-chart/specs/ziwei-chart/spec.md"
+    note: "晚子時與 iztro 開源實作不同（iztro 日期進到隔天），屬刻意設計，見 CTX-ASM-039"
+  - id: CTX-CON-035
+    category: technical
+    description: "農曆換算採 lunar-typescript@1.8.6，支援出生年份 1901–2099，超出範圍的請求必須拒絕並說明範圍。實測以香港天文台公曆與農曆對照表逐日比對 72,684 天，僅 2057-09-28 至 2057-10-27（30 天，預測年份）差一天，其餘一致"
+    source: "user 對話（2026-11-11，採用香港天文台農曆表交叉驗證）；openspec/changes/add-ziwei-chart/design.md Risks"
+    note: "香港天文台表只驗證農曆日期，不決定排盤規則；2057 差異以測試固定現況"
+  - id: CTX-CON-036
+    category: business
+    description: "紫微的規則表（四化、命主、身主、昌曲安星、左右安星、命宮身宮公式、五行局、紫微位置、主星偏移）採通行規則（命主依命宮地支），無原書頁面，以 iztro 開源實作（2.6.5）為對照來源；每張表附核對狀態；目前全部為已核對（與 iztro 比對一致，並依 user 2026-11-11 的指示標為已核對，沒有 user 確認的命盤）；日後新增的規則表先標待核對，有任一待核對時正式排盤必須拒絕（API 回 503，代碼 ZIWEI_RULES_UNVERIFIED），不得默默使用"
+    source: "user 對話（2026-11-11：選擇中州派、先草擬並標待核對、對照 iztro）；openspec/changes/add-ziwei-chart/design.md Decision 1"
+    note: "命主依命宮地支查表，與 iztro 通用設定及 user 提供的兩張科技紫微網命盤一致；iztro 的 zhongzhou 設定（生年支）被 1983 年那張盤排除，原先依生年支設計，已改並升版 sanhe-v2"
+  - id: CTX-CON-037
+    category: business
+    description: "紫微所有解讀必須以傾向式語氣描述，MUST NOT 含診斷、壽夭、保證式預言與具體財務預測，禁用「大凶」「早逝」「必」「破財」等詞；化忌描述為「容易放不下、需要留意的地方」，文昌、文曲化忌不得寫成考運或表達的壞事預告；每份報告固定標示「象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件」"
+    source: "openspec/changes/add-ziwei-chart/design.md Decision 9；openspec/changes/add-ziwei-chart/specs/ziwei-readings/spec.md"
+    note: "沿用全站保守措辭檢查（CTX-CON-016）並新增紫微專屬規則"
+  - id: CTX-CON-038
+    category: business
+    description: "紫微在特質映射與綜合報告中是獨立來源（來源類型 ziwei），MUST NOT 與八字合併計票或交叉比對；綜合報告的基礎點數為 3（比照八字，user 已確認），MAPPING_VERSION 與 SINGLE_REPORT_TEMPLATE_VERSION 不升版；入口開關預設關閉，固定內容完整匯入並檢查後才開"
+    source: "user 對話（2026-11-11：「比照八字 3 點，不升版」）；openspec/changes/add-ziwei-chart/design.md Decision 7、11"
 
 assumptions:
   - id: CTX-ASM-001
@@ -398,3 +427,34 @@ assumptions:
     status: confirmed
     confirmedBy: "user 對話（2026-11-09：「4 不設」）"
     basis: "分析推導；user 只說「後續每一卦耗 1 點」，未提上限"
+  - id: CTX-ASM-036
+    description: "沒有出生時間不提供紫微：系統不推測時辰，API 回驗證錯誤，前端引導補填；紫微不需要性別，出生地點選填（未填以 Asia/Taipei）"
+    impact: 影響 FR-099、FR-101 與命盤頁的補填引導
+    status: confirmed
+    confirmedBy: "add-ziwei-chart design 的 Decisions（explore 階段定案，原對話已移除）"
+    basis: "openspec/changes/add-ziwei-chart/specs/ziwei-chart/spec.md"
+  - id: CTX-ASM-037
+    description: "第一版呈現十四主星、四輔星（文昌、文曲、左輔、右弼）、十二宮、生年四化、五行局、命主與身主；不做煞星與其他輔星、星曜亮度、大限流年流月小限、飛星四化、合盤、真太陽時。四輔星納入 v1，因為生年四化會落在文昌、文曲、左輔、右弼"
+    impact: 影響 FR-096、FR-101、FR-102 的範圍與固定內容筆數（主星 14、輔星 4、宮位 12、四化 4）
+    status: confirmed
+    confirmedBy: "user 對話（2026-11-11）（「把四個輔星加入 v1」）"
+    basis: "openspec/changes/add-ziwei-chart/design.md Non-Goals"
+  - id: CTX-ASM-038
+    description: "紫微與八字的年份歸屬可能不同（紫微以農曆正月初一換年，八字以立春換年），兩者各自標示依據、不使用共用的年柱欄位、不做交叉比對"
+    impact: 影響 FR-097、FR-105 與命盤頁的說明文字
+    status: confirmed
+    confirmedBy: "add-ziwei-chart design 的 Decisions（explore 階段定案，原對話已移除）"
+    basis: "openspec/changes/add-ziwei-chart/design.md Risks"
+  - id: CTX-ASM-039
+    description: "使用者以其他排盤軟體對照時可能出現差異：各派對閏月、晚子時與命主的算法不同。與 iztro 比對 4192 組輸入（含換年與閏月邊界）完全一致；晚子時差異是刻意的（我們不換日，iztro 進到隔天）"
+    impact: 影響 FR-098、FR-101 的提示文字與 NFR-038 的回歸樣本設計
+    status: confirmed
+    confirmedBy: "user 對話（2026-11-11）（比對結果）"
+    basis: "iztro 2.6.5 實測比對；openspec/changes/add-ziwei-chart/design.md Open Questions"
+  - id: CTX-ASM-040
+    description: "紫微規則表依 user 指示於 2026-11-11 直接標為已核對，沒有 user 提供並確認的命盤；依據只有與 iztro 2.6.5 開源實作的逐項比對（4192 組輸入 0 筆不一致）。原訂的「至少 3 組 user 確認命盤」已免除；之後 user 提供 2 組外部程式（科技紫微網）的命盤（出生資料不留存於版控），農曆、五行局、命主身主、十二宮的主星輔星與四化全部吻合，是不依賴 iztro 的佐證；第二張使命主由生年支改為命宮地支。風險：只有 2 組，閏月、晚子時與多數年干的四化尚未有外部盤佐證"
+    impact: 影響 NFR-038、FR-099 的 503 行為（目前不再觸發）與上線時程（任務 7.4）
+    status: confirmed
+    confirmedBy: "user 對話（2026-11-11：「規則表直接改 verified, 繼續往下做」）"
+    basis: "openspec/changes/add-ziwei-chart/tasks.md 2.9"
+    note: "核對狀態的備註如實寫明沒有 user 確認的命盤；使用者日後若提供命盤，可補做核對"

@@ -1,7 +1,7 @@
 version: 1
 generatedBy: domain-modeling
-updatedAt: 2026-11-05T12:00:00+08:00
-relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, ai-analysis-question-history]
+updatedAt: 2026-11-11T12:00:00+08:00
+relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, ai-analysis-question-history, add-ziwei-chart]
 
 entities:
   - id: ENT-001
@@ -55,9 +55,9 @@ entities:
     name: FixedContent
     nameZh: "固定內容"
     description: "事先算好的固定結果內容：單項（星座／血型／MBTI）與多維度分析報告"
-    useCases: ["UC-004", "UC-005", "UC-019", "UC-023", "UC-024", "UC-025", "UC-026", "UC-031", "UC-032", "UC-044", "UC-050", "UC-054"]
+    useCases: ["UC-004", "UC-005", "UC-019", "UC-023", "UC-024", "UC-025", "UC-026", "UC-031", "UC-032", "UC-044", "UC-050", "UC-054", "UC-064", "UC-066"]
     attributes:
-      - { name: contentType, type: "enum", description: "SUMMARY｜ZODIAC｜BLOOD｜MBTI｜TAROT｜RUNE｜KIN_TODAY｜KIN_BIRTH" }
+      - { name: contentType, type: "enum", description: "SUMMARY｜ZODIAC｜BLOOD｜MBTI｜TAROT｜RUNE｜KIN_TODAY｜KIN_BIRTH｜ZIWEI" }
       - { name: key, type: "VO-004 | string", description: "summary 用組合鍵，單項用對應值" }
       - { name: body, type: "object", description: "標題、摘要、優勢、盲點等" }
       - { name: contentVersion, type: "string", description: "" }
@@ -298,7 +298,7 @@ entities:
     name: ReportSnapshot
     nameZh: "報告快照"
     description: "已登入會員的一份單維度報告，存當時全文、版本與計算依據；AI 報告另存於 AiReport（ENT-028），不再寫入快照；舊的多維度快照與 ai、aiJob 欄位不再寫入、不遷移"
-    useCases: ["UC-047", "UC-049", "UC-050", "UC-051", "UC-052", "UC-048", "UC-021", "UC-054"]
+    useCases: ["UC-047", "UC-049", "UC-050", "UC-051", "UC-052", "UC-048", "UC-021", "UC-054", "UC-064"]
     attributes:
       - { name: snapshotId, type: "string", description: "" }
       - { name: userId, type: "string", description: "" }
@@ -363,7 +363,7 @@ valueObjects:
   - id: VO-001
     name: BirthData
     nameZh: "生日與出生資料"
-    useCases: ["UC-003", "UC-008"]
+    useCases: ["UC-003", "UC-008", "UC-061", "UC-062"]
     attributes:
       - { name: birthDate, type: "date", description: "必填" }
       - { name: zodiac, type: "enum", description: "12 星座，必填" }
@@ -669,7 +669,7 @@ valueObjects:
   - id: VO-037
     name: AiReportSource
     nameZh: "AI 報告的來源"
-    useCases: ["UC-054", "UC-055"]
+    useCases: ["UC-054", "UC-055", "UC-065"]
     attributes:
       - { name: system, type: "enum", description: "穩定特質系統（含自我分析）" }
       - { name: snapshotId, type: "string", description: "對應的單維度報告快照；來源之後被清除時只剩 id，不依賴它顯示" }
@@ -688,6 +688,70 @@ valueObjects:
       - { name: key, type: "enum", description: "highlights | positives | negatives | past | present | future | question | conclusion，依此順序" }
       - { name: title, type: "string", description: "" }
       - { name: points, type: "{ min, max }", description: "條列數量：值得注意的點、共同的優勢、共同的劣勢、回應提問、結論各 3 到 5，未來 2 到 4，過去與現在 0" }
+  - id: VO-040
+    name: ZiweiLunarDate
+    nameZh: "紫微的農曆日期"
+    useCases: ["UC-061"]
+    attributes:
+      - { name: yearStem, type: "enum", description: "農曆年天干，正月初一換年（與八字以立春換年不同）" }
+      - { name: yearBranch, type: "enum", description: "農曆年地支" }
+      - { name: originalLunarMonth, type: "int", description: "曆法上的農曆月，1–12" }
+      - { name: effectiveLunarMonth, type: "int", description: "用來排盤的月：閏月十六日起歸下個月" }
+      - { name: lunarDay, type: "int", description: "1–30" }
+      - { name: isLeapMonth, type: "boolean", description: "" }
+    note: "由出生日期換算，不儲存"
+  - id: VO-041
+    name: ZiweiChart
+    nameZh: "紫微命盤"
+    useCases: ["UC-061", "UC-063", "UC-064", "UC-065"]
+    attributes:
+      - { name: algorithmVersion, type: "string", description: "ZIWEI_ALGORITHM_VERSION，規則或規則表變動時升版" }
+      - { name: lunarDate, type: "VO-040", description: "" }
+      - { name: hourBranch, type: "enum", description: "時辰地支，晚子時仍為子" }
+      - { name: bureau, type: "{ label, number }", description: "五行局：水二、木三、金四、土五、火六" }
+      - { name: lifeMaster, type: "string", description: "命主，依命宮地支" }
+      - { name: bodyMaster, type: "string", description: "身主，依生年支" }
+      - { name: ziweiBranch, type: "enum", description: "紫微所在地支" }
+      - { name: palaces, type: "VO-042[]", description: "十二宮，自命宮起" }
+      - { name: bodyPalace, type: "{ palace, branch, sameAsLife }", description: "身宮：只記錄所在宮位與是否與命宮同宮，不是第十三宮" }
+      - { name: birthYearTransformations, type: "{ transformation, star }[]", description: "生年四化，祿權科忌各一" }
+      - { name: hourNotes, type: "{ kind, minutesFromBoundary?, neighbourBranch? }[]", description: "晚子時或時辰交界提示" }
+    note: "即時計算、不儲存、不屬於任何 Aggregate（NFR-039）；報告快照只存當時的報告全文與版本"
+  - id: VO-042
+    name: ZiweiPalace
+    nameZh: "紫微的宮位"
+    useCases: ["UC-061", "UC-063"]
+    attributes:
+      - { name: palace, type: "enum", description: "命宮、兄弟、夫妻、子女、財帛、疾厄、遷移、交友、官祿、田宅、福德、父母" }
+      - { name: branch, type: "enum", description: "" }
+      - { name: mainStars, type: "VO-043[]", description: "十四主星" }
+      - { name: auxiliaryStars, type: "VO-043[]", description: "文昌、文曲、左輔、右弼" }
+      - { name: isEmpty, type: "boolean", description: "沒有主星；輔星不算主星；不寫入借來的星" }
+  - id: VO-043
+    name: ZiweiStarPlacement
+    nameZh: "星曜與四化"
+    useCases: ["UC-061", "UC-063"]
+    attributes:
+      - { name: star, type: "enum", description: "十四主星或四輔星" }
+      - { name: transformation, type: "enum | null", description: "祿｜權｜科｜忌；四化是星的屬性，不是額外的星" }
+  - id: VO-044
+    name: ZiweiBorrowedStars
+    nameZh: "借星（解讀層）"
+    useCases: ["UC-063", "UC-064"]
+    attributes:
+      - { name: borrowedFromPalace, type: "enum", description: "對宮" }
+      - { name: borrowedStars, type: "VO-043[]", description: "只借對宮的主星，不借輔星" }
+    note: "只在解讀層由命盤推得，不寫回命盤，也不參與特質推論"
+  - id: VO-045
+    name: ZiweiRuleVerification
+    nameZh: "紫微規則表的核對狀態"
+    useCases: ["UC-061", "UC-067"]
+    attributes:
+      - { name: rule, type: "enum", description: "四化、命主、身主、昌曲安星、左右安星、命宮身宮、五行局、紫微位置、主星安星" }
+      - { name: status, type: "enum", description: "pending｜verified" }
+      - { name: source, type: "string | null", description: "來源書名、版次、頁碼或對照的開源實作與版本" }
+      - { name: notes, type: "string", description: "核對依據，例如與 iztro 比對一致；如實記錄是否有 user 確認的命盤" }
+    note: "程式內的固定定義；任一待核對時正式排盤拒絕（503）"
 
 aggregates:
   - id: AGG-001
@@ -718,7 +782,7 @@ aggregates:
     name: FixedContentItem
     root: ENT-005
     members: ["VO-004"]
-    useCases: ["UC-004", "UC-019", "UC-023", "UC-024", "UC-025", "UC-026", "UC-044", "UC-050", "UC-054"]
+    useCases: ["UC-004", "UC-019", "UC-023", "UC-024", "UC-025", "UC-026", "UC-044", "UC-050", "UC-054", "UC-064", "UC-066"]
     rationale: "單筆固定內容的版本與審核狀態須一致；組合唯一"
   - id: AGG-006
     status: deprecated
@@ -823,7 +887,7 @@ aggregates:
     name: ReportSnapshotRecord
     root: ENT-024
     members: ["VO-028", "VO-029", "VO-030", "VO-031", "VO-032", "VO-033"]
-    useCases: ["UC-047", "UC-049", "UC-050", "UC-051", "UC-052", "UC-048", "UC-021", "UC-054"]
+    useCases: ["UC-047", "UC-049", "UC-050", "UC-051", "UC-052", "UC-048", "UC-021", "UC-054", "UC-064"]
     rationale: "報告全文、版本與依據同屬一份快照，須一致保存、一起到期、一起刪除；AI 報告不再寫入快照（見 AGG-025），舊的 ai、aiJob 欄位隨快照到期"
   - id: AGG-022
     name: TraitOntologyDefinition
@@ -924,7 +988,7 @@ domainEvents:
     name: FixedContentPublished
     triggeredBy: AGG-005
     description: "固定內容審核後發布"
-    useCases: ["UC-019"]
+    useCases: ["UC-019", "UC-066"]
   - id: EVT-014
     name: DataExpired
     triggeredBy: AGG-004
@@ -1002,7 +1066,7 @@ domainEvents:
     name: ReportSnapshotSaved
     triggeredBy: AGG-021
     description: "已登入會員的報告以全文保存為快照（相同的基本報告只保存一份）"
-    useCases: ["UC-047", "UC-050", "UC-054"]
+    useCases: ["UC-047", "UC-050", "UC-054", "UC-064"]
   - id: EVT-029
     status: deprecated
     reason: "AI 結果不再寫入快照的 ai 欄位；改由 AI 報告完成事件表達"
@@ -1475,3 +1539,63 @@ businessRules:
     description: "AI 報告失敗時，在同一交易內標為失敗、記下原因並退回所扣點數，且只退一次；生成中而逾時（工作程序消失）的報告在被讀取（列表或單份）時標為失敗並退點；失敗的報告保留在列表並可帶原來源與原問題再問一次"
     appliesTo: ["AGG-025", "AGG-008"]
     useCases: ["UC-054", "UC-055"]
+  - id: RULE-102
+    description: "紫微需要出生時間（必填）：缺少時 MUST NOT 排盤或推測時辰，回驗證錯誤並引導補填；出生地點選填，未填以 Asia/Taipei；不需要性別"
+    appliesTo: ["VO-001", "VO-041"]
+    useCases: ["UC-061", "UC-062", "UC-064", "UC-065"]
+  - id: RULE-103
+    description: "農曆年於正月初一換年（與八字以立春換年分開）；閏月初一至十五歸原月、十六日起歸下個月，並記錄 isLeapMonth、原月與有效月"
+    appliesTo: ["VO-040"]
+    useCases: ["UC-061", "UC-063"]
+  - id: RULE-104
+    description: "晚子時（23:00–24:00）農曆日不換日、時支為子，並提示各派算法不同；出生時間距時辰交界 15 分鐘內提示時辰可能偏移"
+    appliesTo: ["VO-041"]
+    useCases: ["UC-061", "UC-063"]
+  - id: RULE-105
+    description: "出生年份須在 1901–2099（農曆換算庫的可靠範圍，與香港天文台表逐日比對）；超出範圍拒絕並說明範圍；日期須真實存在且不在未來"
+    appliesTo: ["VO-040", "VO-001"]
+    useCases: ["UC-061"]
+  - id: RULE-106
+    description: "空宮只看主星，輔星不算主星；空宮保持為空宮，MUST NOT 把借來的星寫成該宮的星；借星只借對宮主星、只在解讀層、明確標示為借星，且不參與特質推論"
+    appliesTo: ["VO-042", "VO-044"]
+    useCases: ["UC-061", "UC-063", "UC-064"]
+  - id: RULE-107
+    description: "身宮是十二宮之一，只記錄所在宮位、該宮主星與和命宮的關係，MUST NOT 作為第十三宮或獨立星曜配置；與命宮同宮時只有一個宮位資料"
+    appliesTo: ["VO-041"]
+    useCases: ["UC-061", "UC-063"]
+  - id: RULE-108
+    description: "生年四化依年干由規則表決定，是星曜的屬性而非額外的星；祿權科忌四顆星 MUST 各落在命盤上已排的一顆主星或輔星"
+    appliesTo: ["VO-043"]
+    useCases: ["UC-061"]
+  - id: RULE-109
+    description: "任一紫微規則表尚未核對時，正式排盤 MUST 拒絕（API 回 503 與 ZIWEI_RULES_UNVERIFIED）；規則表須與 iztro 比對一致才標為已核對（目前依 user 指示全部標為已核對，沒有 user 確認的命盤，見 CTX-ASM-040）"
+    appliesTo: ["VO-045"]
+    useCases: ["UC-061", "UC-063", "UC-064", "UC-067"]
+  - id: RULE-110
+    description: "同一份出生資料與算法版本 MUST 永遠得到同一份命盤，不依賴目前時間、裝置時區或外部服務；算法或規則表任何變動 MUST 升 ZIWEI_ALGORITHM_VERSION"
+    appliesTo: ["VO-041"]
+    useCases: ["UC-061", "UC-064", "UC-067"]
+  - id: RULE-111
+    description: "紫微固定內容分為十四主星、四輔星、十二宮位、四個四化各一則；命宮與身宮的解讀由主星（或借星）描述與宮位語境依模板規則組合，MUST NOT 字串直接拼接，MUST NOT 做主星 × 宮位全組合；空宮解讀須明確寫出借星"
+    appliesTo: ["ENT-005"]
+    useCases: ["UC-064", "UC-066"]
+  - id: RULE-112
+    description: "紫微內容須為自撰、以傾向式語氣描述，MUST NOT 含診斷、壽夭、保證式預言與具體財務預測，禁用「大凶」「早逝」「必」「破財」；化忌描述為需要留意的方向，文昌文曲化忌不得寫成考運或表達的壞事預告；每則記錄算法來源、解讀依據、版本、審稿狀態與撰寫方式；未通過措辭檢查拒絕匯入，審稿狀態不是已審不得匯入正式環境"
+    appliesTo: ["ENT-005"]
+    useCases: ["UC-064", "UC-066"]
+  - id: RULE-113
+    description: "紫微在綜合報告中是獨立來源，MUST NOT 與八字合併計票或交叉比對；基礎點數為 3，沿用既有綜合報告計價"
+    appliesTo: ["VO-037"]
+    useCases: ["UC-065"]
+  - id: RULE-114
+    description: "紫微的特質映射用 keyword 方法、來源類型獨立為 ziwei；十四主星、四輔星與四化各自指向少數端點，找不到合理對應的星 MUST NOT 強制對應，推論只從畫面上顯示的事實出發"
+    appliesTo: ["VO-036"]
+    useCases: ["UC-053", "UC-064"]
+  - id: RULE-115
+    description: "紫微入口開關預設關閉；固定內容完整匯入並檢查、規則表已核對、實測命盤頁與報告後才開；回滾以關閉入口完成，不涉及資料遷移"
+    appliesTo: ["VO-045"]
+    useCases: ["UC-063", "UC-067"]
+  - id: RULE-116
+    description: "每份紫微命盤頁與報告 MUST 標示採用的流派與算法版本、簡化版範圍，並固定標示「象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件」"
+    appliesTo: ["VO-041"]
+    useCases: ["UC-063", "UC-064"]

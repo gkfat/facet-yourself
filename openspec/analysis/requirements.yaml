@@ -1,7 +1,7 @@
 version: 1
 generatedBy: system-analysis
-updatedAt: 2026-11-09T12:00:00+08:00
-relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, ai-analysis-question-history, add-hexagram-divination]
+updatedAt: 2026-11-11T12:00:00+08:00
+relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, ai-analysis-question-history, add-hexagram-divination, add-ziwei-chart]
 source: ai_personality_app_plan.md
 
 # phase: 對應計畫書 §11 Phase 1-5；mvp 表示屬 §15 第一版範圍
@@ -834,6 +834,106 @@ functional:
     context: [CTX-CON-031, CTX-CON-007]
     source: "user 對話（2026-11-09 易經卦象 D1–D7）；openspec/specs/daily-rune/spec.md；server/services/dailyDraw.engine.ts"
     note: "範圍排除，供驗證用；對應 FR-076 的狀態系統規則（卦象不提供該精簡報告）"
+  - id: FR-096
+    title: 紫微斗數排盤
+    description: "系統 SHALL 以純函式依農曆年月日與閏月旗標排出紫微命盤：命宮、身宮、五行局、命主、身主、紫微星位、十四主星、四輔星（文昌、文曲、左輔、右弼）、十二宮與生年四化；四化 MUST 以標記附在主星或輔星上，MUST NOT 作為額外的星；同一份出生資料與算法版本 MUST 永遠得到同一份命盤，MUST NOT 依賴目前時間、裝置時區或外部服務。"
+    priority: must
+    phase: 9
+    mvp: false
+    context: [CTX-ACTOR-001, CTX-CON-034, CTX-CON-036, CTX-EXT-009, CTX-ASM-037]
+    source: "openspec/changes/add-ziwei-chart/specs/ziwei-chart/spec.md；openspec/changes/add-ziwei-chart/design.md；user 對話（2026-11-11）"
+  - id: FR-097
+    title: 紫微的閏月與換年處理
+    description: "閏月出生時，系統 SHALL 以初一至十五歸原月份、十六日起歸下個月份，並在命盤 metadata 記錄 isLeapMonth、originalLunarMonth、effectiveLunarMonth；農曆年 MUST 於正月初一換年，與八字以立春換年分開，立春與正月初一之間出生者的年干 MUST 依前一個農曆年；閏月出生者 MUST 看到「各派算法不同，可能有差異」的提示。"
+    priority: must
+    phase: 9
+    mvp: false
+    context: [CTX-CON-034, CTX-CON-035, CTX-EXT-009, CTX-ASM-038, CTX-ASM-039]
+    source: "openspec/changes/add-ziwei-chart/specs/ziwei-chart/spec.md；openspec/changes/add-ziwei-chart/design.md；user 對話（2026-11-11）"
+  - id: FR-098
+    title: 紫微的晚子時與時辰交界提示
+    description: "晚子時（23:00–24:00）的農曆日 MUST 與當天相同、時支為子，與八字日柱不換日一致，並 MUST 顯示晚子時與各派算法不同的提示；出生時間距時辰交界 15 分鐘內，系統 MUST 顯示時辰可能偏移的提示並指出相鄰時辰。"
+    priority: must
+    phase: 9
+    mvp: false
+    context: [CTX-CON-034, CTX-ASM-039]
+    source: "openspec/changes/add-ziwei-chart/specs/ziwei-chart/spec.md；openspec/changes/add-ziwei-chart/design.md；user 對話（2026-11-11）"
+  - id: FR-099
+    title: 紫微的輸入驗證與缺資料處理
+    description: "POST /api/ziwei/calculations SHALL 以 zod 驗證請求並以 response schema 驗證回傳；出生時間 MUST 為必填，缺少時 MUST 回明確的驗證錯誤且 MUST NOT 推測時辰，前端 MUST 引導補填；日期不存在、在未來或出生年份超出 1901–2099 MUST 拒絕並說明範圍；規則表未核對時 MUST 回 503（代碼 ZIWEI_RULES_UNVERIFIED）並列出未核對項目。"
+    priority: must
+    phase: 9
+    mvp: false
+    context: [CTX-ACTOR-001, CTX-CON-035, CTX-CON-036, CTX-ASM-036, CTX-ASM-040]
+    source: "openspec/changes/add-ziwei-chart/specs/ziwei-chart/spec.md；openspec/changes/add-ziwei-chart/design.md；user 對話（2026-11-11）"
+    note: "API 存取規則為 public（不需登入、不扣點、不儲存）"
+  - id: FR-100
+    title: 紫微命盤事實與解讀分離
+    description: "命盤資料 SHALL 保留十二宮的事實：空宮（無主星）MUST 保持為空宮且 MUST NOT 把借來的星曜寫成該宮的星，輔星不算主星；借對宮主星 MAY 只作為解讀層資訊並 MUST 明確標示為借星，輔星 MUST NOT 被借用；身宮 MUST 只記錄所在宮位與和命宮的關係，MUST NOT 作為第十三宮或獨立星曜配置，與命宮同宮時只有一個宮位資料。"
+    priority: must
+    phase: 9
+    mvp: false
+    context: [CTX-CON-034, CTX-ASM-037]
+    source: "openspec/changes/add-ziwei-chart/specs/ziwei-chart/spec.md；openspec/changes/add-ziwei-chart/design.md；user 對話（2026-11-11）"
+  - id: FR-101
+    title: 紫微命盤頁
+    description: "系統 SHALL 提供紫微命盤頁顯示十二宮命盤、主星與輔星、四化標記、五行局、命主與身主，並說明第一版範圍（未含煞星與其他輔星、星曜亮度與行運）、標示採用的流派與算法版本、閏月與晚子時與時辰交界提示，以及「象徵性解讀，非科學測量」；缺出生時間時 MUST 引導補填。"
+    priority: must
+    phase: 9
+    mvp: false
+    context: [CTX-ACTOR-001, CTX-CON-034, CTX-CON-037, CTX-ASM-036, CTX-ASM-037, CTX-ASM-039]
+    source: "openspec/changes/add-ziwei-chart/specs/ziwei-chart/spec.md；openspec/changes/add-ziwei-chart/design.md；user 對話（2026-11-11）"
+  - id: FR-102
+    title: 紫微固定內容的分層與組合
+    description: "紫微固定內容 SHALL 分為十四主星、四輔星、十二宮位語境與四個四化，各自一則；命宮與身宮的解讀 MUST 由主星（或借星）描述與宮位語境以組合規則產生，MUST NOT 以字串直接拼接，MUST NOT 另做主星 × 宮位的全組合內容；空宮的解讀 MUST 明確寫出借星。"
+    priority: must
+    phase: 9
+    mvp: false
+    context: [CTX-CON-034, CTX-CON-037, CTX-ASM-037]
+    source: "openspec/changes/add-ziwei-chart/specs/ziwei-chart/spec.md；openspec/changes/add-ziwei-chart/design.md；user 對話（2026-11-11）"
+  - id: FR-103
+    title: 紫微固定內容的金鑰、措辭與來源管理
+    description: "固定內容金鑰規則 SHALL 加入紫微（十四主星、四輔星、十二宮位、四個四化），匯入檢查 MUST 拒絕規則外的 key 並執行紫微措辭檢查（含全站規則與紫微專屬禁用詞）；每則內容 MUST 記錄排盤算法來源、解讀依據、內容版本、審稿狀態與撰寫方式，算法來源與解讀來源分開記錄；內容 MUST 為自撰，審稿狀態不是已審者 MUST NOT 匯入正式環境。"
+    priority: must
+    phase: 9
+    mvp: false
+    context: [CTX-CON-036, CTX-CON-037, CTX-ASM-037]
+    source: "openspec/changes/add-ziwei-chart/specs/fixed-content-management/spec.md；openspec/changes/add-ziwei-chart/design.md；user 對話（2026-11-11）"
+  - id: FR-104
+    title: 紫微的單維度報告
+    description: "系統 SHALL 為紫微提供單維度報告：由紫微 adapter 把命盤事實與固定內容轉成報告輸入，區塊順序與推論規則沿用既有單維度報告；報告 MUST 為純函式、同一份輸入同一份報告，每個句子 MUST 帶 sources，推論 MUST 只從畫面上顯示的命盤事實出發、MUST NOT 從借星推論；缺出生時間 MUST NOT 產生並引導補填。"
+    priority: must
+    phase: 9
+    mvp: false
+    context: [CTX-ACTOR-001, CTX-CON-034, CTX-CON-037, CTX-CON-038, CTX-ASM-036]
+    source: "openspec/changes/add-ziwei-chart/specs/single-dimension-report/spec.md；openspec/changes/add-ziwei-chart/design.md；user 對話（2026-11-11）"
+    note: "與 FR-074 的單維度報告規則一致，紫微是其中新增的穩定特質系統"
+  - id: FR-105
+    title: 紫微可被選入綜合報告
+    description: "系統 SHALL 讓紫微成為綜合報告的可選系統，與既有系統任意組合，基礎點數為 3；紫微 MUST 視為獨立來源，MUST NOT 與八字合併計票或交叉比對。"
+    priority: must
+    phase: 9
+    mvp: false
+    context: [CTX-CON-038, CTX-ASM-038]
+    source: "openspec/changes/add-ziwei-chart/specs/multi-dimension-report/spec.md；openspec/changes/add-ziwei-chart/design.md；user 對話（2026-11-11）"
+  - id: FR-106
+    title: 紫微的特質映射
+    description: "系統 SHALL 以 keyword mapping 把十四主星、四輔星與四化對到特質軸端點，以傾向描述而非決定性推論，來源類型 MUST 獨立為 ziwei；找不到合理對應的星 MUST NOT 被強制對應；映射 MUST 通過既有覆蓋檢查且不指向不存在的端點。"
+    priority: must
+    phase: 9
+    mvp: false
+    context: [CTX-CON-038, CTX-CON-037, CTX-ASM-037]
+    source: "openspec/changes/add-ziwei-chart/specs/trait-mapping/spec.md；openspec/changes/add-ziwei-chart/design.md；user 對話（2026-11-11）"
+    note: "沿用 FR-070 的映射規則，紫微不使用 chinese-metaphysics 來源"
+  - id: FR-107
+    title: 紫微入口開關
+    description: "紫微入口（首頁與報告頁）SHALL 有開關且預設關閉；固定內容完整匯入並完整檢查一次後才開；回滾 MUST 以關閉入口完成，不涉及資料遷移。"
+    priority: should
+    phase: 9
+    mvp: false
+    context: [CTX-CON-038, CTX-ASM-040]
+    source: "openspec/changes/add-ziwei-chart/specs/ziwei-chart/spec.md；openspec/changes/add-ziwei-chart/design.md；user 對話（2026-11-11）"
+    note: "對應 design 的 Migration Plan 與任務 6.3、7.4"
 
 nonFunctional:
   - id: NFR-001
@@ -1148,3 +1248,35 @@ nonFunctional:
     priority: must
     context: [CTX-CON-033, CTX-CON-031, CTX-CON-016]
     source: "user 對話（2026-11-09 易經卦象 D1–D7）；openspec/specs/daily-rune/spec.md；server/services/dailyDraw.engine.ts"
+  - id: NFR-038
+    category: correctness
+    title: 紫微排盤的可重現與正確性
+    description: "同一輸入與算法版本 MUST 得到同一份命盤；命宮、身宮、五行局、紫微位置、十四主星、四輔星與生年四化 MUST 有涵蓋十二時辰、十二個月、十天干、五行局全部五種、命身同宮與不同宮、閏月十五與十六日、晚子時、時辰交界、農曆年初與年末的測試，並以至少 10 組已知命盤做回歸；原訂其中至少 3 組由 user 確認，已依 user 指示免除（CTX-ASM-040）。"
+    metric: "相同輸入重複計算結果相同；與 iztro 2.6.5 比對 4192 組輸入（1901–2099 隨機與換年、閏月邊界）0 筆不一致；回歸樣本 14 組；user 提供的外部程式命盤 2 組（科技紫微網，完全吻合），其餘依 user 指示免除（見 CTX-ASM-040）"
+    priority: must
+    context: [CTX-CON-034, CTX-CON-035, CTX-CON-036, CTX-ASM-039, CTX-ASM-040]
+    source: "openspec/changes/add-ziwei-chart/specs/ziwei-chart/spec.md；openspec/changes/add-ziwei-chart/design.md Risks；openspec/changes/add-ziwei-chart/tasks.md 2.8、2.9"
+  - id: NFR-039
+    category: security
+    title: 紫微 API 的輸入驗證與明確失敗
+    description: "紫微 API MUST 以 zod 驗證請求並以 response schema 驗證回傳；缺出生時間、日期不合法與超出年份範圍 MUST 回明確的驗證錯誤；規則表未核對 MUST 回 503 與明確代碼，MUST NOT 回泛用的 500，也 MUST NOT 以未核對的資料排盤；MUST NOT 儲存任何出生資料。"
+    metric: "缺時間、非法日期、超出範圍各有測試且回 400；規則表未核對時回 503 與 ZIWEI_RULES_UNVERIFIED 並列出項目；路由存取規則為 public，GET 方法仍為 required"
+    priority: must
+    context: [CTX-CON-035, CTX-CON-036, CTX-ASM-036]
+    source: "openspec/changes/add-ziwei-chart/specs/ziwei-chart/spec.md；server/services/ziwei.service.ts；全域 security 規則"
+  - id: NFR-040
+    category: maintainability
+    title: 紫微規則的版本化與來源可追溯
+    description: "排盤算法與規則表 MUST 以 ZIWEI_ALGORITHM_VERSION 版本化，任何變動 MUST 升版；每張規則表 MUST 附核對狀態（待核對或已核對）與來源欄位，備註 MUST 如實記錄核對依據；未核對的表 MUST 被正式排盤流程拒絕；報告快照 MUST 依算法版本與內容版本判斷重用或重存。"
+    metric: "規則表全部列在守門清單；有任一待核對時正式排盤拒絕（測試以模擬待核對的表涵蓋）；目前全部為已核對，守門放行"
+    priority: must
+    context: [CTX-CON-034, CTX-CON-036]
+    source: "openspec/changes/add-ziwei-chart/design.md Decision 1、8；shared/utils/ziwei/rules.ts"
+  - id: NFR-041
+    category: correctness
+    title: 紫微內容的措辭檢查與審稿
+    description: "紫微固定內容 MUST 通過全站保守措辭檢查與紫微專屬規則（禁吉凶壽夭財運與診斷用語，化忌不得寫成災難或壞事預告）；未通過 MUST 拒絕匯入並指出該則內容；審稿狀態不是已審 MUST NOT 匯入正式環境；報告中的每個句子 MUST 可追溯到事實、映射或規則。"
+    metric: "content:check 對含禁用詞的內容失敗；未審稿內容匯入正式環境被拒絕；ontology:check 與 synthesis 測試通過"
+    priority: must
+    context: [CTX-CON-037, CTX-CON-016]
+    source: "openspec/changes/add-ziwei-chart/specs/ziwei-readings/spec.md；openspec/changes/add-ziwei-chart/design.md Decision 9"

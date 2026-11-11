@@ -14,6 +14,9 @@ export const SYSTEM_NATURE: Readonly<Record<MappingSystem, { label: string; trad
     BAZI: {
         label: '傳統命理，依中國曆法與命理規則，沒有科學證據', tradition: '八字命理',
     },
+    ZIWEI: {
+        label: '傳統命理，依農曆與紫微斗數的規則排盤，象徵性的解讀，沒有科學證據', tradition: '紫微斗數',
+    },
     HUMAN_DESIGN: {
         label: '1987 年後出現的新興系統，沒有科學證據', tradition: '人類圖',
     },

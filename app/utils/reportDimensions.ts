@@ -4,6 +4,7 @@ import {
 import type { MultiReportSystem } from '../../shared/report/systems';
 import { assessmentCards } from './assessmentCards';
 import { TONES } from '../../shared/constants/palette';
+import { ZIWEI_ENTRY_ENABLED } from '../../shared/constants/ziwei';
 
 export type DimensionMeta = {
     value: MultiReportSystem;
@@ -39,6 +40,14 @@ export const DIMENSION_META: readonly DimensionMeta[] = [
     {
         value: 'MAYA_KIN', label: '瑪雅 Kin', icon: 'mdi-calendar-star', tone: TONES.plum, need: '出生日期',
     },
+    // Offered only while the Zi Wei entry is on
+    ...(ZIWEI_ENTRY_ENABLED
+        ? [
+            {
+                value: 'ZIWEI' as const, label: '紫微斗數', icon: 'mdi-star-circle-outline', tone: TONES.olive, need: '出生日期與時間',
+            },
+        ]
+        : []),
 ];
 
 /** The self-analyses that are open, each one a system a report can combine once the member has a result of it */

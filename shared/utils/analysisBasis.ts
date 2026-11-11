@@ -5,6 +5,7 @@ import type {
 } from '../schemas/analysisBasis.schema';
 import { RUNE_DRAW_VERSION } from './rune';
 import { TAROT_DRAW_VERSION } from './tarot';
+import { ZIWEI_ALGORITHM_VERSION } from './ziwei/rules';
 
 /** Systems whose version is a constant here; MBTI and the self-analyses take the version of the items that were answered. */
 type VersionedSystem = Exclude<AnalysisSystem, 'MBTI' | AssessmentSystemId>;
@@ -17,6 +18,7 @@ type VersionedSystem = Exclude<AnalysisSystem, 'MBTI' | AssessmentSystemId>;
 export const RULE_VERSIONS: Readonly<Record<VersionedSystem, string>> = {
     ZODIAC: 'zodiac-v1',
     BAZI: 'bazi-v1',
+    ZIWEI: ZIWEI_ALGORITHM_VERSION,
     NATAL_CHART: 'natal-v2',
     HUMAN_DESIGN: 'human-design-v1',
     NUMEROLOGY: 'numerology-v1',
@@ -29,6 +31,7 @@ export const RULE_VERSIONS: Readonly<Record<VersionedSystem, string>> = {
 const METHODS: Readonly<Record<VersionedSystem | 'MBTI', string>> = {
     ZODIAC: 'sun-sign-from-birth-date',
     BAZI: 'bazi-four-pillars',
+    ZIWEI: 'ziwei-sanhe-chart',
     NATAL_CHART: 'tropical-natal-chart',
     HUMAN_DESIGN: 'human-design-chart',
     NUMEROLOGY: 'life-path-number',

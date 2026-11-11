@@ -64,8 +64,8 @@ describe('tenGodOf', () => {
     });
 });
 
-describe('analyzeChart: reference chart 1989-10-27 06:00 (己巳 甲戌 庚申 己卯)', () => {
-    const chart = chartOf('1989-10-27', '06:00');
+describe('analyzeChart: reference chart 2049-10-12 06:00 (己巳 甲戌 庚申 己卯)', () => {
+    const chart = chartOf('2049-10-12', '06:00');
 
     it('has a 庚 yang metal day master', () => {
         expect(chart.dayMaster).toEqual({
@@ -117,7 +117,7 @@ describe('analyzeChart: reference chart 1989-10-27 06:00 (己巳 甲戌 庚申 �
 
 describe('analyzeChart: without a birth time', () => {
     it('counts six elements and five ten gods and has no hour pillar', () => {
-        const chart = chartOf('1989-10-27', null);
+        const chart = chartOf('2049-10-12', null);
 
         expect(chart.pillars.map((pillar) => pillar.position)).toEqual([
             'year',

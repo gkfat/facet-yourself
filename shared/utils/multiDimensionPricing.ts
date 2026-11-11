@@ -13,6 +13,8 @@ const SYSTEM_BASE_PRICE: Readonly<Partial<Record<MultiReportSystem, number>>> = 
     MAYA_KIN: 1,
     HUMAN_DESIGN: 2,
     BAZI: 3,
+    // Worked out as much as BaZi: it needs the birth hour and lays out a twelve-palace chart
+    ZIWEI: 3,
 };
 
 /** What a system's own report is worth: the table above, or what a self-analysis says for itself */

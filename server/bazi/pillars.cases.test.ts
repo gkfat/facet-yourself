@@ -8,7 +8,8 @@ import { buildBirthMoment } from './birthMoment';
 /**
  * Known charts: birthplace wall-clock time -> year / month / day / hour pillars.
  *
- * Source: the 1989-10-27 06:00 reference chart was checked by the user on suanming.com.tw. The other cases are
+ * Source: the four pillars 己巳 甲戌 庚申 己卯 of the reference chart were checked by the user on suanming.com.tw; the date
+ * here is another one with the same pillars (the date that was checked is not kept in the repo). All the cases are
  * cross-checked against lunar-typescript 1.8.6 (an independent implementation with its own solar-term tables),
  * fed with the standard-time clock worked out by hand per case (Beijing-time clock for the year and month pillars,
  * the birthplace's standard clock for the day and hour pillars). 1900-01-01 = 甲戌, 1970-01-01 = 辛巳 and
@@ -18,7 +19,7 @@ import { buildBirthMoment } from './birthMoment';
 const CASES: ReadonlyArray<readonly [string, string, string, string, string]> = [
     [
         'Asia/Taipei',
-        '1989-10-27',
+        '2049-10-12',
         '06:00',
         '己巳 甲戌 庚申 己卯',
         'reference',
@@ -334,10 +335,10 @@ describe('buildBirthMoment', () => {
 
     it('places an unknown time at local noon and returns no standard clock', () => {
         const moment = buildBirthMoment({
-            birthDate: '1989-10-27', birthTime: null,
+            birthDate: '2049-10-12', birthTime: null,
         });
 
-        expect(moment.instant.toISOString()).toBe('1989-10-27T04:00:00.000Z');
+        expect(moment.instant.toISOString()).toBe('2049-10-12T04:00:00.000Z');
         expect(moment.birthTime).toBeNull();
     });
 });

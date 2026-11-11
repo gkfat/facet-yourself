@@ -682,3 +682,69 @@ classDiagram
     AiReport ..> AiReportFailed : EVT-034
     AiReport ..> AiReportExpired : EVT-035
     note for AiReport "RULE-094 建立 AI 報告：選一個以上、互不相同的系統並可附提問；一個系統 1 點，兩個以上依組合計價；以 Idempotency-Key 為報告 id，重複請求不重複扣點；建立前確保每個系統的單維度報告已保存並記在 sources<br/>RULE-095 提問是唯一進入 prompt 的自由文字，以資料而非指令處理，100 字內<br/>RULE-096 輸出須通過品質檢查（章節順序、條列數量、診斷、壽命生死、百分比、引用），違反即失敗並退點<br/>RULE-097 導師視角與內容界線：談未來只說可能與傾向，不預言、不診斷、不給醫療法律財務建議<br/>RULE-098 骨架：事實攤開（標題與摘要）→ 值得注意的點 → 共同的優勢 → 共同的劣勢 → 過去、現在、未來 → 回應提問 → 結論，每部分開頭加條列<br/>RULE-099 兩個以上系統時規則洞見只作 AI 的輸入素材，不保存為報告<br/>RULE-100 僅本人可讀，保存 3 個月、不開 TTL，隨刪報告與刪帳號清除；再問一次新增一份<br/>RULE-101 失敗時同一交易標為失敗並只退一次點，逾時於讀取時標為失敗並退點"
+
+    class ZiweiLunarDate {
+      <<ValueObject>>
+      +yearStem enum
+      +yearBranch enum
+      +originalLunarMonth int
+      +effectiveLunarMonth int
+      +lunarDay int
+      +isLeapMonth boolean
+    }
+    class ZiweiChart {
+      <<ValueObject>>
+      +algorithmVersion string
+      +lunarDate ZiweiLunarDate
+      +hourBranch enum
+      +bureau label_number
+      +lifeMaster string
+      +bodyMaster string
+      +ziweiBranch enum
+      +palaces ZiweiPalace_list
+      +bodyPalace palace_branch_sameAsLife
+      +birthYearTransformations transformation_star_list
+      +hourNotes note_list
+    }
+    class ZiweiPalace {
+      <<ValueObject>>
+      +palace enum
+      +branch enum
+      +mainStars ZiweiStarPlacement_list
+      +auxiliaryStars ZiweiStarPlacement_list
+      +isEmpty boolean
+    }
+    class ZiweiStarPlacement {
+      <<ValueObject>>
+      +star enum
+      +transformation enum_or_null
+    }
+    class ZiweiBorrowedStars {
+      <<ValueObject>>
+      +borrowedFromPalace enum
+      +borrowedStars ZiweiStarPlacement_list
+    }
+    class ZiweiRuleVerification {
+      <<ValueObject>>
+      +rule enum
+      +status pending_or_verified
+      +source string_or_null
+      +notes string
+    }
+    ZiweiChart o-- ZiweiLunarDate
+    ZiweiChart o-- ZiweiPalace : palaces
+    ZiweiPalace o-- ZiweiStarPlacement
+    ZiweiBorrowedStars o-- ZiweiStarPlacement
+    ZiweiBorrowedStars ..> ZiweiChart : 由命盤推得（解讀層）
+    ZiweiChart ..> ZiweiRuleVerification : 排盤前須全部已核對
+    BirthData ..> ZiweiChart : 出生日期與時間（時間必填）
+    FixedContent ..> ZiweiChart : ZIWEI 固定內容
+    ReportSnapshot ..> ZiweiChart : 報告依據（算法版本）
+    note for ZiweiChart "RULE-102 紫微需要出生時間，缺少時不排盤、不推測時辰<br/>RULE-104 晚子時不換日；距時辰交界 15 分鐘內提示<br/>RULE-107 身宮是十二宮之一，不是第十三宮<br/>RULE-110 同輸入同命盤；算法或規則表變動須升 ZIWEI_ALGORITHM_VERSION<br/>RULE-116 標示流派、算法版本、簡化版範圍與免責聲明<br/>即時計算、不儲存、不屬於任何 Aggregate"
+    note for ZiweiLunarDate "RULE-103 正月初一換年；閏月十五分界，記錄原月與有效月<br/>RULE-105 年份 1901–2099，超出拒絕並說明範圍"
+    note for ZiweiPalace "RULE-106 空宮只看主星；借星只在解讀層、只借主星、不參與推論"
+    note for ZiweiStarPlacement "RULE-108 四化是星的屬性，祿權科忌各落在一顆已排的星"
+    note for ZiweiRuleVerification "RULE-109 任一規則表待核對時正式排盤回 503<br/>RULE-115 入口開關預設關閉，核對與實測後才開"
+    note for FixedContent "RULE-111 紫微固定內容：主星 14、輔星 4、宮位 12、四化 4；命宮身宮解讀以模板規則組合<br/>RULE-112 自撰、傾向式措辭、禁用詞檢查、化忌不寫成壞事預告、未審稿不得匯入正式環境"
+    note for AiReportSource "RULE-113 紫微為獨立來源，不與八字合併計票，基礎點數 3"
+    note for MappingEntry "RULE-114 紫微用 keyword 映射、來源類型 ziwei；找不到合理對應不強制"

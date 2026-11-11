@@ -1,7 +1,7 @@
 version: 1
 generatedBy: data-modeling
-updatedAt: 2026-11-05T12:00:00+08:00
-relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, ai-analysis-question-history]
+updatedAt: 2026-11-11T12:00:00+08:00
+relatedChanges: [ai-personality-app, add-daily-tarot-draw, realtime-today-category, expand-self-analysis-dimensions, ai-analysis-question-history, add-ziwei-chart]
 store: firestore
 storeNotes: "資料庫為 Firestore（CTX-CON-004）；僅由 Nuxt 伺服器端以 Admin SDK 存取，firestore.rules 全擋 client（CTX-CON-013）。以集合／子集合表達「表」，以決定性文件 ID 取代唯一約束。"
 
@@ -91,7 +91,7 @@ tables:
     domainModel: ["ENT-005", "VO-004"]
     api: ["API-007", "API-008", "API-011", "API-031", "API-032", "API-033", "API-034", "API-027", "API-042", "API-044", "API-046", "API-047", "API-055", "API-063", "API-058", "API-059", "API-060"]
     columns:
-      - { name: "contentType", type: "string", constraints: "required；SUMMARY|ZODIAC|BLOOD|MBTI|TAROT|RUNE|KIN_TODAY|KIN_BIRTH|ASSESSMENT" }
+      - { name: "contentType", type: "string", constraints: "required；SUMMARY|ZODIAC|BLOOD|MBTI|TAROT|RUNE|KIN_TODAY|KIN_BIRTH|ASSESSMENT|ZIWEI" }
       - { name: "key", type: "string", constraints: "required；summary 為組合鍵，單項為對應值；TAROT 為 <牌序 0–21>_<upright|reversed>；RUNE 為 <符文序 0–23>_<upright|reversed>（9 枚對稱符文只有 upright）；KIN_TODAY 與 KIN_BIRTH 為 Kin 1–260；ASSESSMENT 以分析識別碼開頭，例如 enneagram_type-4、riasec_code-IAS，合法金鑰由登錄表（ENT-021）決定" }
       - { name: "combinationKey", type: "map", constraints: "nullable；SUMMARY 才有：zodiac, mbti, bloodType?" }
       - { name: "body", type: "map", constraints: "title, summary, strengths[], blindSpots[], loveStyle, workStyle, communicationStyle, growthAdvice, disclaimer" }
@@ -101,7 +101,7 @@ tables:
       - { name: "publishedAt", type: "timestamp", constraints: "nullable" }
     indexes:
       - { fields: ["contentType ASC", "status ASC"], scope: "COLLECTION", purpose: "後台列表與覆蓋檢查（960 種 summary）" }
-    notes: "以決定性文件 ID 保證組合唯一（RULE-021，取代 SQL UNIQUE）；僅 PUBLISHED 可供使用者讀取。含 192 + 768 = 960 筆 summary，另含星座、血型、MBTI 單項內容。自我分析新增 ASSESSMENT 類型（九型、HEXACO、VIA、RIASEC、EQ、依附、價值觀、需求，筆數隨各分析的內容而定，覆蓋預期由登錄表決定）；此次新增 TAROT 44 筆、RUNE 39 筆（24 正位 + 15 逆位）、KIN_TODAY 260 筆、KIN_BIRTH 260 筆，共 603 筆；今日 Kin 與生日 Kin 內容分開撰寫（RULE-041）。"
+    notes: "以決定性文件 ID 保證組合唯一（RULE-021，取代 SQL UNIQUE）；僅 PUBLISHED 可供使用者讀取。含 192 + 768 = 960 筆 summary，另含星座、血型、MBTI 單項內容。自我分析新增 ASSESSMENT 類型（九型、HEXACO、VIA、RIASEC、EQ、依附、價值觀、需求，筆數隨各分析的內容而定，覆蓋預期由登錄表決定）；此次新增 TAROT 44 筆、RUNE 39 筆（24 正位 + 15 逆位）、KIN_TODAY 260 筆、KIN_BIRTH 260 筆，共 603 筆；今日 Kin 與生日 Kin 內容分開撰寫（RULE-041）。 紫微新增 ZIWEI 類型：十四主星 14、四輔星 4、十二宮位 12、四化 4 共 34 筆，金鑰規則與覆蓋預期於 shared/utils/fixedContentKeys.ts 定義（add-ziwei-chart 任務 4.1），每則另記排盤算法來源、解讀依據、審稿狀態與撰寫方式（RULE-111、RULE-112）；紫微命盤（VO-041）即時計算、不落地，沒有對應的資料表，報告快照沿用 reportSnapshots 並於 versions 記錄算法版本。"
   - id: DATA-007
     status: deprecated
     reason: "已被 reportSnapshots（DATA-026）取代：程式只使用 users/{uid}/reportSnapshots，沒有任何程式讀寫 summaries；舊的取得 summary 的 API（API-014 至 API-016）已不存在"

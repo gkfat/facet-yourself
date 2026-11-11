@@ -26,8 +26,8 @@ function strengthAt(birthDate: string, birthTime: string | null) {
     }));
 }
 
-describe('reference chart 1989-10-27 06:00 (己巳 甲戌 庚申 己卯)', () => {
-    const result = strengthAt('1989-10-27', '06:00');
+describe('reference chart 2049-10-12 06:00 (己巳 甲戌 庚申 己卯)', () => {
+    const result = strengthAt('2049-10-12', '06:00');
 
     it('scores about 68 and judges 身強', () => {
         expect(result.score).toBe(67.6);
@@ -133,7 +133,7 @@ describe('balanced charts', () => {
 
 describe('unknown birth time', () => {
     it('scales the score to the characters that are known and stays within 0 to 100', () => {
-        const result = strengthAt('1989-10-27', null);
+        const result = strengthAt('2049-10-12', null);
 
         expect(result.parts).toHaveLength(5);
         expect(result.parts.reduce((total, part) => total + part.weight, 0)).toBe(80);
@@ -196,7 +196,7 @@ describe('喜用神 from the power of the elements', () => {
         // 癸亥 辛酉 丙辰 庚寅: 火 7 and 木 10 are below an even share of 12, 金 26 is far above it
         const {
             useful, side, 
-        } = strengthAt('1983-09-25', '04:00');
+        } = strengthAt('2043-09-10', '04:00');
 
         expect(side).toBe('WEAK');
         expect(useful).toMatchObject({
@@ -214,8 +214,8 @@ describe('喜用神 from the power of the elements', () => {
             '2001-11-05',
             '1988-12-15',
             '1990-05-20',
-            '1983-09-25',
-            '1989-10-27',
+            '2043-09-10',
+            '2049-10-12',
         ]) {
             const {
                 useful, side, 

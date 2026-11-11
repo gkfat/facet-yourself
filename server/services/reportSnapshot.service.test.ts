@@ -70,7 +70,7 @@ describe('ReportSnapshotService', () => {
             const { id } = await service.save('u1', content({
                 basis: [
                     {
-                        system: 'ZODIAC', method: 'sun-sign-from-birth-date', ruleVersion: 'zodiac-v1', inputs: { birthDate: '1989-10-27' },
+                        system: 'ZODIAC', method: 'sun-sign-from-birth-date', ruleVersion: 'zodiac-v1', inputs: { birthDate: '1992-11-05' },
                     },
                 ],
             }));

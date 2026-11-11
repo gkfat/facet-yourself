@@ -2,7 +2,7 @@ import {
     describe, expect, it,
 } from 'vitest';
 import {
-    explorationProgress, type ExplorationFacts,
+    EXPLORATION_LAYERS, explorationProgress, type ExplorationFacts,
 } from './explorationProgress';
 
 const none: ExplorationFacts = {
@@ -13,13 +13,27 @@ describe('explorationProgress', () => {
     it('starts with nothing done and suggests the zodiac first', () => {
         expect(explorationProgress(none)).toEqual({
             done: {
-                ZODIAC: false, BLOOD: false, MBTI: false, HUMAN_DESIGN: false, NUMEROLOGY: false, BAZI: false, MAYA_KIN: false,
+                ZODIAC: false, BLOOD: false, MBTI: false, HUMAN_DESIGN: false, NUMEROLOGY: false, BAZI: false, MAYA_KIN: false, ZIWEI: false,
             },
             completed: 0,
-            total: 7,
+            total: 8,
             multiDimensionUnlocked: false,
             next: 'ZODIAC',
         });
+    });
+
+    it('counts Zi Wei as a layer, done once the birth hour is known', () => {
+        const progress = explorationProgress({
+            ...none, birthDate: '1990-01-01', birthTime: '12:00',
+        });
+
+        expect(EXPLORATION_LAYERS).toContain('ZIWEI');
+        expect(explorationProgress({
+            ...none, birthDate: '1990-01-01',
+        }).done.ZIWEI).toBe(false);
+        expect(progress.done.ZIWEI).toBe(true);
+        expect(progress.total).toBe(8);
+        expect(progress.completed).toBe(5);
     });
 
     it('needs the birth time for the BaZi chart', () => {
@@ -91,7 +105,7 @@ describe('explorationProgress', () => {
             birthDate: '1990-01-01', birthTime: '12:00', bloodType: 'O', mbti: 'INTJ', hasHumanDesign: true,
         });
 
-        expect(all.completed).toBe(7);
+        expect(all.completed).toBe(8);
         expect(all.next).toBeNull();
     });
 });

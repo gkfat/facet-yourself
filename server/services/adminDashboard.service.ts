@@ -32,6 +32,7 @@ const SYSTEM_NAMES: Record<string, string> = {
     NUMEROLOGY: '生命靈數',
     MAYA_KIN: 'Maya Kin',
     BAZI: '八字',
+    ZIWEI: '紫微斗數',
     HUMAN_DESIGN: '人類圖',
 };
 

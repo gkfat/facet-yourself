@@ -29,6 +29,9 @@ import {
     TAROT_MAPPINGS, TAROT_TERMS,
 } from './tarot';
 import {
+    ZIWEI_MAPPINGS, ZIWEI_TERMS,
+} from './ziwei';
+import {
     ZODIAC_MAPPINGS, ZODIAC_TERMS,
 } from './zodiac';
 
@@ -43,6 +46,7 @@ export const TERM_REGISTRY: TermRegistry = {
     NUMEROLOGY: NUMEROLOGY_TERMS,
     MAYA_KIN: MAYA_KIN_TERMS,
     BAZI: BAZI_TERMS,
+    ZIWEI: ZIWEI_TERMS,
     HUMAN_DESIGN: HUMAN_DESIGN_TERMS,
     TAROT: TAROT_TERMS,
     RUNE: RUNE_TERMS,
@@ -58,6 +62,7 @@ export const ALL_MAPPINGS: readonly MappingEntry[] = [
     ...NUMEROLOGY_MAPPINGS,
     ...MAYA_KIN_MAPPINGS,
     ...BAZI_MAPPINGS,
+    ...ZIWEI_MAPPINGS,
     ...HUMAN_DESIGN_MAPPINGS,
     ...TAROT_MAPPINGS,
     ...RUNE_MAPPINGS,

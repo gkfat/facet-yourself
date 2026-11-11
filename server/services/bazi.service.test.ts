@@ -14,11 +14,11 @@ const holder = vi.hoisted(() => ({ db: undefined as unknown }));
 
 vi.mock('../utils/firebaseAdmin', () => ({ getAdminFirestore: () => holder.db }));
 
-/** "Today" for the luck cycles: 2026-10-27 12:00 Taipei */
-const NOW = Date.parse('2026-10-27T12:00:00+08:00');
+/** "Today" for the luck cycles: 2086-10-27 12:00 Taipei, sixty years on from the day the reference chart's four pillars were first checked on */
+const NOW = Date.parse('2086-10-27T12:00:00+08:00');
 
 const reference = {
-    birthDate: '1989-10-27', birthTime: '06:00', birthPlace: 'tw-taipei', gender: 'MALE',
+    birthDate: '2049-10-12', birthTime: '06:00', birthPlace: 'tw-taipei', gender: 'MALE',
 } as const;
 
 function contentDoc(key: string, status = 'PUBLISHED') {
@@ -52,7 +52,7 @@ describe('BaziService.calculate', () => {
         service = new BaziService({ clock: () => NOW });
     });
 
-    it('works out the reference chart (1989-10-27 06:00 Taipei, male)', async () => {
+    it('works out the reference chart (2049-10-12 06:00 Taipei, male)', async () => {
         const result = await service.calculate(reference);
 
         expect([
@@ -84,7 +84,7 @@ describe('BaziService.calculate', () => {
         expect(result.bone).toMatchObject({
             totalQian: 41, label: '4 兩 1 錢',
         });
-        expect(ganzhiLabel(result.facts.mingGong!)).toBe('丁卯');
+        expect(ganzhiLabel(result.facts.mingGong!)).toBe('戊辰');
         expect(ganzhiLabel(result.facts.taiYuan)).toBe('乙丑');
         expect(result.borderline).toEqual([]);
     });
@@ -108,11 +108,11 @@ describe('BaziService.calculate', () => {
         expect(Object.keys(result.luck?.stepYears ?? {})).toHaveLength(8);
         expect(result.luck?.stepYears['1']).toHaveLength(10);
         expect(result.flowYears?.map((item) => item.year)).toEqual([
-            2026,
-            2027,
-            2028,
-            2029,
-            2030,
+            2086,
+            2087,
+            2088,
+            2089,
+            2090,
         ]);
     });
 
@@ -191,7 +191,7 @@ describe('BaziService.calculate', () => {
     it('returns a response that matches the published schema', async () => {
         for (const request of [
             reference,
-            { birthDate: '1989-10-27' },
+            { birthDate: '2049-10-12' },
             {
                 birthDate: '2000-01-01', birthTime: '23:30', gender: 'FEMALE',
             } as const,
@@ -213,7 +213,7 @@ describe('BaziService.calculate', () => {
 
     it('gives three pillars, no stone weight and no luck when the time is unknown', async () => {
         const result = await service.calculate({
-            birthDate: '1989-10-27', gender: 'MALE',
+            birthDate: '2049-10-12', gender: 'MALE',
         });
 
         expect(result.hasTime).toBe(false);
@@ -248,10 +248,10 @@ describe('BaziService.calculate', () => {
 
     it('assumes Asia/Taipei without a place and says so, and uses the birthplace zone with one', async () => {
         const assumed = await service.calculate({
-            birthDate: '1989-10-27', birthTime: '07:30',
+            birthDate: '2049-10-12', birthTime: '07:30',
         });
         const london = await service.calculate({
-            birthDate: '1989-10-27', birthTime: '07:30', birthPlace: 'gb-london',
+            birthDate: '2049-10-12', birthTime: '07:30', birthPlace: 'gb-london',
         });
 
         expect(assumed.timeZone).toBe('Asia/Taipei');
@@ -276,7 +276,7 @@ describe('BaziService.calculate', () => {
 
     it('rejects a city that is not in the list', async () => {
         await expect(service.calculate({
-            birthDate: '1989-10-27', birthPlace: 'atlantis',
+            birthDate: '2049-10-12', birthPlace: 'atlantis',
         })).rejects.toBeInstanceOf(ValidationError);
     });
 

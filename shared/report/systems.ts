@@ -10,6 +10,7 @@ export const SINGLE_REPORT_SYSTEMS = [
     'MBTI',
     'MAYA_KIN',
     'BAZI',
+    'ZIWEI',
     'HUMAN_DESIGN',
     'TAROT',
     'RUNE',
@@ -26,6 +27,7 @@ export const BASE_MULTI_REPORT_SYSTEMS = [
     'NUMEROLOGY',
     'MAYA_KIN',
     'BAZI',
+    'ZIWEI',
     'HUMAN_DESIGN',
 ] as const;
 

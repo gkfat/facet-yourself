@@ -9,6 +9,7 @@ import { RuneService } from './rune.service';
 import { TarotService } from './tarot.service';
 import { ReportSnapshotService } from './reportSnapshot.service';
 import { TestService } from './test.service';
+import { ZiweiService } from './ziwei.service';
 import { TestRepository } from '../repositories/test.repository';
 import { UserRepository } from '../repositories/user.repository';
 import { calculateHumanDesign } from '../humanDesign/calculate';
@@ -27,6 +28,7 @@ import { mayaKinReportInput } from '../../shared/report/adapters/mayaKin';
 import { mbtiReportInput } from '../../shared/report/adapters/mbti';
 import { numerologyReportInput } from '../../shared/report/adapters/numerology';
 import { zodiacReportInput } from '../../shared/report/adapters/zodiac';
+import { ziweiReportInput } from '../../shared/report/adapters/ziwei';
 import type {
     MultiReportSystem, SingleReportSystem,
 } from '../../shared/report/systems';
@@ -36,6 +38,7 @@ import {
 import type {
     Peers, SystemReportInput,
 } from '../../shared/report/types';
+import type { FixedResultResponse } from '../../shared/schemas/api/fixedResult.schema';
 import type { SingleReportResponse } from '../../shared/schemas/api/singleReport.schema';
 import type { BirthData } from '../../shared/schemas/api/profile.schema';
 import type {
@@ -57,6 +60,7 @@ import type { DailyTarotResponse } from '../../shared/schemas/api/tarot.schema';
 import { kinOf } from '../../shared/utils/mayaKin';
 import { lifePathNumber } from '../../shared/utils/numerology';
 import { taipeiDateKey } from '../../shared/utils/time';
+import { ziweiReadingKeys } from '../../shared/utils/ziwei/readings';
 import {
     NotFoundError, UnprocessableError, ValidationError,
 } from '../../shared/types/errors';
@@ -70,6 +74,7 @@ type SingleReportServiceOptions = {
     guests?: GuestSessionService;
     natal?: NatalChartService;
     bazi?: BaziService;
+    ziwei?: ZiweiService;
     tarot?: TarotService;
     rune?: RuneService;
     horoscope?: HoroscopeService;
@@ -124,6 +129,7 @@ export class SingleReportService extends BaseService {
     private readonly guests: GuestSessionService;
     private readonly natal: NatalChartService;
     private readonly charts: BaziService;
+    private readonly ziweiCharts: ZiweiService;
     private readonly tarot: TarotService;
     private readonly rune: RuneService;
     private readonly horoscope: HoroscopeService;
@@ -144,6 +150,7 @@ export class SingleReportService extends BaseService {
         this.guests = options.guests ?? new GuestSessionService({ clock: this.clock });
         this.natal = options.natal ?? new NatalChartService();
         this.charts = options.bazi ?? new BaziService({ clock: this.clock });
+        this.ziweiCharts = options.ziwei ?? new ZiweiService();
         this.tarot = options.tarot ?? new TarotService({ clock: this.clock });
         this.rune = options.rune ?? new RuneService({ clock: this.clock });
         this.horoscope = options.horoscope ?? new HoroscopeService({ clock: this.clock });
@@ -350,6 +357,7 @@ export class SingleReportService extends BaseService {
         case 'MBTI': return this.mbti(subject);
         case 'MAYA_KIN': return this.mayaKin(subject);
         case 'BAZI': return this.bazi(subject);
+        case 'ZIWEI': return this.ziwei(subject);
         case 'HUMAN_DESIGN': return this.humanDesign(subject);
         default: throw new ValidationError(`No single-dimension report for ${String(system)}`);
         }
@@ -454,6 +462,47 @@ export class SingleReportService extends BaseService {
             birthPlace: place,
             gender: subject.gender,
             today,
+        });
+    }
+
+    /**
+     * The Zi Wei report. Unlike BaZi it is not made without a birth time: there would be no hour, so no life palace,
+     * and the hour is never guessed. Only the readings the chart needs are fetched; one that is not published stops the report.
+     */
+    private async ziwei(subject: Subject): Promise<SystemReportInput> {
+        const birth = this.requireBirth(subject);
+
+        if (!birth.birthTime) {
+            throw new UnprocessableError('Fill in your birth time first: Zi Wei needs it', 'BIRTH_TIME_REQUIRED');
+        }
+
+        const birthTime = birth.birthTime;
+        let place: string | null = birth.birthPlace ?? null;
+        let chart;
+
+        try {
+            chart = this.ziweiCharts.calculate({
+                birthDate: birth.birthDate, birthTime, birthPlace: place,
+            });
+        } catch (error) {
+            if (!(error instanceof ValidationError) || place === null) throw error;
+
+            // A saved city that is no longer on the list: the chart is worked out in the default zone, and says so
+            this.logWarn('birth city unknown to the Zi Wei chart', {
+                action: 'ziwei', data: { reason: error.message },
+            });
+            place = null;
+            chart = this.ziweiCharts.calculate({
+                birthDate: birth.birthDate, birthTime, birthPlace: null,
+            });
+        }
+
+        const readings = new Map<string, FixedResultResponse>();
+
+        for (const key of ziweiReadingKeys(chart)) readings.set(key, await this.fixedContent.getPublished('ZIWEI', key));
+
+        return ziweiReportInput({
+            chart, content: (key) => readings.get(key), birthDate: birth.birthDate, birthTime, birthPlace: place,
         });
     }
 

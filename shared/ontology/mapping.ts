@@ -17,6 +17,8 @@ export const SOURCE_GROUPS: Readonly<Record<MappingSystem, string>> = {
     ZODIAC: 'western-astrology',
     HOROSCOPE: 'western-astrology',
     BAZI: 'chinese-metaphysics',
+    // Its own source: a Zi Wei chart is not the BaZi chart said again, and the two are never counted as one voice
+    ZIWEI: 'ziwei',
     HUMAN_DESIGN: 'human-design',
     MBTI: 'questionnaire',
     NUMEROLOGY: 'numerology',
@@ -43,6 +45,7 @@ export const METHOD_BY_SYSTEM: Readonly<Record<MappingSystem, MappingEntry['meth
     MBTI: 'structural',
     HUMAN_DESIGN: 'structural',
     BAZI: 'structural',
+    ZIWEI: 'keyword',
     ZODIAC: 'keyword',
     BLOOD: 'keyword',
     NUMEROLOGY: 'keyword',

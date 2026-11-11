@@ -115,7 +115,7 @@ describe('jieAround / termAround', () => {
     it('finds the 節 in force, with the previous and next ones', () => {
         const {
             current, previous, next, 
-        } = jieAround(new Date(cst('1989-10-27T06:00')));
+        } = jieAround(new Date(cst('2049-10-12T06:00')));
 
         expect(current.name).toBe('寒露');
         expect(previous.name).toBe('白露');
@@ -135,6 +135,7 @@ describe('jieAround / termAround', () => {
     });
 
     it('names the 中氣 too when asked for all 24 terms', () => {
-        expect(termAround(new Date(cst('1989-10-27T06:00'))).current.name).toBe('霜降');
+        // 霜降 is a 中氣: it only shows up when all 24 terms are asked for, on a day after it and before 立冬
+        expect(termAround(new Date(cst('2049-10-28T06:00'))).current.name).toBe('霜降');
     });
 });

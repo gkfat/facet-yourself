@@ -14,9 +14,9 @@ import {
 import { calculatePillars } from './pillars';
 
 const TAIPEI_OFFSET = 480;
-/** The reference chart: 1989-10-27 06:00 Taipei, 己巳 甲戌 庚申 己卯. */
+/** The reference chart: 2049-10-12 06:00 Taipei, 己巳 甲戌 庚申 己卯. */
 const REFERENCE = {
-    date: '1989-10-27', time: '06:00',
+    date: '2049-10-12', time: '06:00',
 };
 
 function pillarsAt(date: string, time: string | null) {
@@ -80,11 +80,12 @@ describe('startAgeOf', () => {
     });
 });
 
-describe('luck cycle of the reference chart (1989-10-27 06:00, male)', () => {
+// The date is sixty years after the one this chart was first checked on, so "today" is taken sixty years on as well
+describe('luck cycle of the reference chart (2049-10-12 06:00, male)', () => {
     const {
         instant, pillars,
     } = pillarsAt(REFERENCE.date, REFERENCE.time);
-    const now = taipei('2026-10-27T12:00:00');
+    const now = taipei('2086-10-27T12:00:00');
     const cycle = calculateLuckCycle(pillars, instant, 'MALE', now)!;
 
     it('runs backward from the previous 節 for a yin-year man', () => {
@@ -92,14 +93,14 @@ describe('luck cycle of the reference chart (1989-10-27 06:00, male)', () => {
         expect(cycle.measuredToTerm).toBe('寒露');
     });
 
-    it('starts at 6 years 2 months 12 days, around 1996-01-08 23:22', () => {
+    it('starts at 1 year 4 months 9 days, within a day of the start lunar-typescript gives (2051-02-22 06:00)', () => {
         expect(cycle.startAge).toEqual({
-            years: 6, months: 2, days: 12,
+            years: 1, months: 4, days: 9,
         });
-        // The reference site shows about 23:22; allow a few minutes for the second-level term time
-        const expected = taipei('1996-01-08T23:22:00').getTime();
+        // lunar-typescript rounds the hours of the term distance up and this rounds them down, so they are a day apart
+        const expected = taipei('2051-02-22T06:00:00').getTime();
 
-        expect(Math.abs(cycle.startsAt.getTime() - expected)).toBeLessThan(5 * 60 * 1000);
+        expect(Math.abs(cycle.startsAt.getTime() - expected)).toBeLessThan(24 * 3600 * 1000);
     });
 
     it('lists eight steps from 癸酉, going backward from the month pillar 甲戌', () => {
@@ -119,20 +120,20 @@ describe('luck cycle of the reference chart (1989-10-27 06:00, male)', () => {
         const [first, second] = cycle.steps;
 
         expect(first).toMatchObject({
-            order: 1, startAge: 7, endAge: 16, startYear: 1996, endYear: 2005, tenGod: '傷官',
+            order: 1, startAge: 2, endAge: 11, startYear: 2051, endYear: 2060, tenGod: '傷官',
         });
         expect(second).toMatchObject({
-            order: 2, startAge: 17, endAge: 26, startYear: 2006, endYear: 2015, tenGod: '食神',
+            order: 2, startAge: 12, endAge: 21, startYear: 2061, endYear: 2070, tenGod: '食神',
         });
     });
 
-    it('marks the step in force today (2026: 37 years old, the fourth step 庚午)', () => {
+    it('marks the step in force today (2086: 37 years old, the fourth step 庚午)', () => {
         expect(cycle.currentOrder).toBe(4);
         expect(ganzhiLabel(cycle.steps[3]!.pillar)).toBe('庚午');
     });
 
     it('has no current step before the first one starts', () => {
-        const early = calculateLuckCycle(pillars, instant, 'MALE', taipei('1992-01-01T00:00:00'))!;
+        const early = calculateLuckCycle(pillars, instant, 'MALE', taipei('2050-01-01T00:00:00'))!;
 
         expect(early.currentOrder).toBeNull();
     });
@@ -150,7 +151,7 @@ describe('luck cycle of the reference chart (1989-10-27 06:00, male)', () => {
 describe('the four direction cases', () => {
     // 1984-06-15 12:00 is 甲子 庚午 (yang year, month 午 after 芒種 and before 小暑); 1989 is 己巳 (yin year)
     const yang = pillarsAt('1984-06-15', '12:00');
-    const yin = pillarsAt('1989-10-27', '06:00');
+    const yin = pillarsAt('2049-10-12', '06:00');
     const now = taipei('2026-10-27T12:00:00');
 
     it('yang man: forward from the month pillar, measured to the next 節', () => {
@@ -240,13 +241,13 @@ describe('flow years', () => {
         const {
             instant, pillars, 
         } = pillarsAt(REFERENCE.date, REFERENCE.time);
-        const cycle = calculateLuckCycle(pillars, instant, 'MALE', taipei('2026-10-27T12:00:00'))!;
+        const cycle = calculateLuckCycle(pillars, instant, 'MALE', taipei('2086-10-27T12:00:00'))!;
         const years = flowYearsOfStep(cycle.steps[0]!, '庚');
 
         expect(years).toHaveLength(10);
-        expect(years[0]?.year).toBe(1996);
-        expect(years[9]?.year).toBe(2005);
-        expect(ganzhiLabel(years[0]!.pillar)).toBe('丙子');
-        expect(years[0]?.tenGod).toBe('七殺');
+        expect(years[0]?.year).toBe(2051);
+        expect(years[9]?.year).toBe(2060);
+        expect(ganzhiLabel(years[0]!.pillar)).toBe('辛未');
+        expect(years[0]?.tenGod).toBe('劫財');
     });
 });

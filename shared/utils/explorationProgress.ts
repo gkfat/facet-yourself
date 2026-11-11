@@ -1,6 +1,7 @@
+import { ZIWEI_ENTRY_ENABLED } from '../constants/ziwei';
 import type { BloodType } from '../schemas/common';
 
-export const EXPLORATION_LAYERS = [
+const BASE_LAYERS = [
     'ZODIAC',
     'BLOOD',
     'MBTI',
@@ -10,7 +11,10 @@ export const EXPLORATION_LAYERS = [
     'MAYA_KIN',
 ] as const;
 
-export type ExplorationLayer = typeof EXPLORATION_LAYERS[number];
+export type ExplorationLayer = typeof BASE_LAYERS[number] | 'ZIWEI';
+
+/** Zi Wei is a layer only while its entry is shown: a layer nobody can reach would count against everyone. */
+export const EXPLORATION_LAYERS: readonly ExplorationLayer[] = ZIWEI_ENTRY_ENABLED ? [...BASE_LAYERS, 'ZIWEI'] : BASE_LAYERS;
 
 /** What is known about the visitor, whether a signed-in member or a guest. */
 export type ExplorationFacts = {
@@ -54,6 +58,8 @@ export function explorationProgress(facts: ExplorationFacts): ExplorationProgres
         NUMEROLOGY: facts.birthDate !== null,
         // The four pillars need the birth hour
         BAZI: facts.birthDate !== null && facts.birthTime !== null,
+        // Zi Wei needs the birth hour too
+        ZIWEI: facts.birthDate !== null && facts.birthTime !== null,
         // The Kin comes from the birth date alone
         MAYA_KIN: facts.birthDate !== null,
     };

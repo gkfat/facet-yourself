@@ -1,0 +1,742 @@
+[
+  {
+    "contentType": "ZIWEI",
+    "key": "star_紫微",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "紫微：擅長統整全局的人",
+      "summary": "你可能習慣從整體與長遠角度思考，重視方向、秩序與責任，也在意自己是否能把事情安排妥當。",
+      "strengths": [
+        "具全局觀",
+        "重視責任",
+        "善於統整"
+      ],
+      "blindSpots": [
+        "容易把責任集中在自己身上，不習慣適時求助。",
+        "對事情有既定標準時，可能較難接納他人不同的步調或做法。"
+      ],
+      "growthAdvice": "適時分工並說明自己的需求，也為他人保留不同做法的空間。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "star_天機",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "天機：善於思考與應變的觀察者",
+      "summary": "你可能習慣先觀察、分析，再採取行動；對變化較敏銳，也容易從同一件事中看見不同可能性。",
+      "strengths": [
+        "思路靈活",
+        "善於分析",
+        "學習與應變能力佳"
+      ],
+      "blindSpots": [
+        "選項過多時，可能反覆比較而延後決定。",
+        "持續推演各種可能，可能使思考時間壓縮實際行動。"
+      ],
+      "growthAdvice": "先選出最重要的判斷條件，設定決策期限；行動後再依結果調整。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "star_太陽",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "太陽：樂於付出與帶動的人",
+      "summary": "你可能傾向主動表達、分享資源並支持他人，也希望自己的付出能產生影響、獲得理解與回應。",
+      "strengths": [
+        "熱忱主動",
+        "樂於助人",
+        "具有帶動力"
+      ],
+      "blindSpots": [
+        "容易為了照顧他人而承擔過多，忽略自己的需求。",
+        "若付出未獲回應，可能感到失落或不被重視。"
+      ],
+      "growthAdvice": "在付出之前先確認自己的能力與界線，也練習直接表達期待。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "star_武曲",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "武曲：重視執行與成果的人",
+      "summary": "你可能偏向務實，重視效率、紀律與具體成果；面對任務時，通常希望目標明確、進度可掌握。",
+      "strengths": [
+        "執行力佳",
+        "務實有紀律",
+        "重視成果"
+      ],
+      "blindSpots": [
+        "表達可能過於直接，較少顧及對方接收訊息時的感受。",
+        "對成果與標準要求較高，容易讓自己或合作對象感到壓力。"
+      ],
+      "growthAdvice": "在討論成果與效率時，也清楚說明原因、肯定他人的投入，並保留調整空間。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "star_天同",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "天同：重視和諧與生活感受的人",
+      "summary": "你可能偏好溫和、自在的相處方式，重視生活中的舒適感與情緒氛圍，也傾向避免無謂的衝突。",
+      "strengths": [
+        "親和隨和",
+        "重視和諧",
+        "懂得享受生活"
+      ],
+      "blindSpots": [
+        "面對衝突或高壓任務時，可能先選擇迴避或延後處理。",
+        "過度追求舒適與穩定時，可能降低主動突破現況的意願。"
+      ],
+      "growthAdvice": "把重要目標拆成容易開始的小步驟，在維持生活品質的同時，逐步練習面對不舒適。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "star_廉貞",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "廉貞：重視原則與投入感的人",
+      "summary": "你可能對在意的事物投入程度高，重視原則、界線與自我要求；外在表現與內在感受有時並不完全相同。",
+      "strengths": [
+        "投入專注",
+        "重視原則",
+        "感受豐富"
+      ],
+      "blindSpots": [
+        "遇到內在矛盾時，可能反覆思量而不容易說明自己的感受。",
+        "對自己或他人要求較高時，可能使互動變得緊繃。"
+      ],
+      "growthAdvice": "先辨認自己真正重視的是什麼，再用清楚而不帶指責的方式表達立場與感受。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "star_天府",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "天府：重視穩定與累積的人",
+      "summary": "你可能偏好穩健、有規劃的步調，重視資源管理與長期累積，也常希望成為值得信賴、能讓人安心的角色。",
+      "strengths": [
+        "穩健可靠",
+        "擅長規劃與累積",
+        "包容度佳"
+      ],
+      "blindSpots": [
+        "偏好熟悉與可預期的方式時，可能較晚接受需要的改變。",
+        "習慣維持穩定或照顧大局，可能把自己的需求擺在後面。"
+      ],
+      "growthAdvice": "定期檢視既有安排是否仍然合適，並從低風險的小改變開始嘗試。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "star_太陰",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "太陰：細膩而重視內在感受的人",
+      "summary": "你可能較重視情緒、安全感與細節，擅長觀察環境和他人的反應，也傾向先在心中整理感受。",
+      "strengths": [
+        "觀察細膩",
+        "善於傾聽",
+        "做事耐心"
+      ],
+      "blindSpots": [
+        "不容易直接說出需求，可能讓他人難以理解你的感受。",
+        "反覆回想細節時，可能放大不安或延長情緒消化的時間。"
+      ],
+      "growthAdvice": "把感受具體說出來，或透過書寫整理；需要支持時，明確告訴信任的人。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "star_貪狼",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "貪狼：好奇而樂於探索的人",
+      "summary": "你可能對新事物、人際互動與多元體驗抱持好奇，興趣廣泛，也樂於嘗試不同方法與可能性。",
+      "strengths": [
+        "好奇心強",
+        "興趣廣泛",
+        "擅長互動與探索"
+      ],
+      "blindSpots": [
+        "同時投入太多方向時，可能分散時間與心力。",
+        "容易受到新鮮感吸引，對需要長期耕耘的事物較難維持熱度。"
+      ],
+      "growthAdvice": "替目前的興趣排定優先順序，選擇少數方向持續投入，並為探索保留適當空間。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "star_巨門",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "巨門：善於提問與辨析的人",
+      "summary": "你可能習慣追問事情的原因與細節，對語言和資訊中的矛盾較敏感，也擅長透過分析釐清問題。",
+      "strengths": [
+        "觀察敏銳",
+        "善於辨析",
+        "重視溝通與表達"
+      ],
+      "blindSpots": [
+        "討論問題時可能過度聚焦缺失，使表達聽起來較尖銳。",
+        "容易反覆思考他人的言語，增加額外的心理負擔。"
+      ],
+      "growthAdvice": "提出疑問時先確認彼此理解一致，再說明你觀察到的問題與希望釐清的重點。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "star_天相",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "天相：重視公平與協調的人",
+      "summary": "你可能重視規則、公平與互動秩序，擅長協調不同立場，也願意協助團隊把事情安排妥當。",
+      "strengths": [
+        "重視公平",
+        "善於協調",
+        "做事周到"
+      ],
+      "blindSpots": [
+        "顧慮各方立場時，可能延後表達自己的選擇。",
+        "為了維持和諧而過度配合，可能忽略自身需求。"
+      ],
+      "growthAdvice": "先整理自己的立場與底線，再聽取他人意見，尋找彼此都能接受的做法。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "star_天梁",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "天梁：重視照顧與原則的人",
+      "summary": "你可能傾向以成熟、負責的態度面對事情，願意提供協助與建議，也重視公平、原則和長期影響。",
+      "strengths": [
+        "有責任感",
+        "樂於照顧他人",
+        "重視原則"
+      ],
+      "blindSpots": [
+        "容易替他人承擔或操心，無意間增加自己的負擔。",
+        "未確認對方需求便提供建議時，可能讓人感到被指導或受限制。"
+      ],
+      "growthAdvice": "給建議前先詢問對方是否需要；同時分辨哪些責任應由自己承擔，哪些可以交還給對方。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "star_七殺",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "七殺：果斷而勇於面對挑戰的人",
+      "summary": "你可能偏向直接、重視效率，面對挑戰時願意迅速採取行動，也較能接受獨立承擔與突破現況。",
+      "strengths": [
+        "決斷果敢",
+        "獨立自主",
+        "敢於迎接挑戰"
+      ],
+      "blindSpots": [
+        "行動速度較快時，可能忽略他人的準備程度或不同觀點。",
+        "習慣獨自處理問題，可能較晚尋求協助。"
+      ],
+      "growthAdvice": "重大決定前留一段確認時間，檢查風險、影響對象與可用資源，再決定行動步調。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "star_破軍",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "破軍：勇於改變與突破的人",
+      "summary": "你可能不滿足於一成不變，願意檢視舊方法、嘗試新方向，並在需要轉換時展現重新開始的勇氣。",
+      "strengths": [
+        "勇於突破",
+        "適應變動",
+        "敢於重新開始"
+      ],
+      "blindSpots": [
+        "頻繁調整方向時，可能讓合作夥伴難以掌握進度。",
+        "容易投入下一個新方向，導致原有任務尚未收尾。"
+      ],
+      "growthAdvice": "改變方向前先盤點已投入的資源與未完成事項，為每次調整設定清楚的收尾和交接。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "aux_文昌",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "文昌：條理、知識與文字表達",
+      "summary": "文昌在傳統象徵中常與文字、學習、條理及思辨相關；落入命盤時，可作為觀察資訊整理與表達習慣的參考。",
+      "strengths": [
+        "重視條理",
+        "擅長整理資訊",
+        "注重文字與細節"
+      ],
+      "blindSpots": [
+        "追求完整與精確時，可能反覆修訂而延後交付。",
+        "過度在意細節，可能影響整體表達的流暢度。"
+      ],
+      "growthAdvice": "先完成清楚可用的初稿，再依重要程度修訂；避免讓細節完善取代實際完成。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "aux_文曲",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "文曲：感受、才藝與表達",
+      "summary": "文曲在傳統象徵中常與才藝、感受、審美及表達相關；落入命盤時，可作為觀察創作與溝通風格的參考。",
+      "strengths": [
+        "感受細膩",
+        "表達生動",
+        "具審美與創作傾向"
+      ],
+      "blindSpots": [
+        "情緒較滿時，可能急於表達而尚未整理重點。",
+        "想法與感受較豐富時，可能讓表達顯得跳躍或不夠明確。"
+      ],
+      "growthAdvice": "先整理想傳達的核心，再選擇適合的表達方式；也可透過固定創作習慣安放感受。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "aux_左輔",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "左輔：協作與實際助力",
+      "summary": "左輔在傳統象徵中常與輔助、協作及外在支持相關；落入命盤時，可作為觀察你如何提供或接納協助的參考。",
+      "strengths": [
+        "樂於協作",
+        "願意提供協助",
+        "重視團隊支持"
+      ],
+      "blindSpots": [
+        "不容易主動提出需求，可能錯過可運用的支持。",
+        "過度依賴他人安排時，可能減少自己主動決策的機會。"
+      ],
+      "growthAdvice": "清楚說明需要的協助與分工，同時保留自己能主動完成的部分。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "aux_右弼",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "右弼：支持、配合與人際潤滑",
+      "summary": "右弼在傳統象徵中常與柔性支持、配合及人際協調相關；落入命盤時，可作為觀察互動方式與支持角色的參考。",
+      "strengths": [
+        "體察他人",
+        "善於配合",
+        "態度溫和"
+      ],
+      "blindSpots": [
+        "過度配合時，可能忽略自己的立場與界線。",
+        "不想造成他人困擾時，可能把需求留在心裡。"
+      ],
+      "growthAdvice": "在答應配合前先確認自己的意願與能力，並練習直接表達需求和界線。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "palace_命宮",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "命宮：自我認知與行事風格",
+      "summary": "命宮是紫微斗數命盤的重要核心位置，傳統上用來觀察個人的基本性情、行事傾向與自我呈現。解讀時仍須合看宮內星曜及整體命盤，不能只憑單一宮位下定論。",
+      "growthAdvice": "觀察自己在不同情境下的自然反應，分辨哪些是慣性、哪些是你希望持續培養的特質。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "palace_兄弟",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "兄弟宮：手足、同輩與平行關係",
+      "summary": "兄弟宮傳統上象徵手足、同輩及平行互動關係，也可能延伸觀察合作、資源往來與彼此支持的模式；實際解讀需依整體命盤脈絡判斷。",
+      "growthAdvice": "留意自己在平行關係中慣於主導、配合或保持距離，並練習建立清楚而互相尊重的互動方式。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "palace_夫妻",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "夫妻宮：伴侶與親密互動",
+      "summary": "夫妻宮傳統上可能用來觀察伴侶關係、親密互動及關係中的期待與相處模式，不宜單憑此宮推斷婚姻結果或伴侶的固定特質。",
+      "growthAdvice": "把自己對親密關係的期待與界線說清楚，也留意雙方需求是否能被平等地聽見。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "palace_子女",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "子女宮：子女、晚輩與創作成果",
+      "summary": "子女宮傳統上涉及子女、晚輩及相關互動，也常延伸觀察創作、作品或個人投入所孕育的成果；不同解讀脈絡可能有所差異。",
+      "growthAdvice": "在陪伴他人或投入創作時，兼顧支持與界線，讓成果有自己的成長節奏。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "palace_財帛",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "財帛宮：財務資源與價值取向",
+      "summary": "財帛宮傳統上可能用來觀察財務資源的取得、運用與管理方式，也可延伸思考個人對金錢、安全感與價值交換的態度；不代表實際收入或財富保證。",
+      "growthAdvice": "檢視自己的收入、支出與風險承受方式，建立符合現況且可持續的財務習慣。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "palace_疾厄",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "疾厄宮：身體照顧與壓力覺察",
+      "summary": "疾厄宮在傳統命理中與身體狀態及健康議題相關；在本內容中僅作為自我照顧與壓力覺察的象徵性提醒，不能替代醫療專業的評估。",
+      "growthAdvice": "留意睡眠、活動、飲食與壓力等日常訊號；若有身體不適，應尋求合格醫療專業人員評估。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件。身體不適或健康疑慮，請尋求合格醫療專業人員評估。"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "palace_遷移",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "遷移宮：外在環境與對外互動",
+      "summary": "遷移宮傳統上象徵外出、移動、外在環境及對外互動，也可用來思考自己在陌生情境中的適應方式；不宜單獨據此判斷出行是否順利。",
+      "growthAdvice": "進入新環境時先了解情況與資源，再依目標調整自己的應對方式。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "palace_交友",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "交友宮：朋友、同事與群體互動",
+      "summary": "交友宮傳統上象徵朋友、同事、部屬及較廣泛的人際網絡，可作為觀察群體互動、合作關係與支持系統的參考。",
+      "growthAdvice": "重視關係的互惠與品質，選擇值得長期經營的連結，也維持清楚的合作界線。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "palace_官祿",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "官祿宮：工作角色與事業發展",
+      "summary": "官祿宮傳統上可能用來觀察工作、事業、職責與社會角色，也可延伸思考個人的工作方式及成就動機；不代表特定職業或成敗已定。",
+      "growthAdvice": "盤點自己重視的工作條件、擅長的角色與長期目標，選擇能持續投入並逐步累積的方向。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "palace_田宅",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "田宅宮：居住環境與資產根基",
+      "summary": "田宅宮傳統上象徵居住、家庭環境、不動產及資產根基，也可延伸思考個人對安定感與生活空間的需求。",
+      "growthAdvice": "整理居住環境與資源配置，找出真正能支持生活品質和長期安定的安排。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "palace_福德",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "福德宮：內在感受與精神生活",
+      "summary": "福德宮傳統上象徵精神狀態、內在享受、興趣及福分觀念，可作為觀察休息方式、心理滿足與生活品質的參考。",
+      "growthAdvice": "安排能讓自己恢復精神的活動，並辨認哪些休閒真正帶來滿足，而不只是短暫分心。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "palace_父母",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "父母宮：父母、長輩與權威互動",
+      "summary": "父母宮傳統上象徵父母、長輩、師長及權威關係，也可延伸觀察支持、規範與溝通經驗；不應據此斷定家庭關係會是什麼樣子。",
+      "growthAdvice": "辨認成長經驗對自己的影響，保留有幫助的部分，也練習建立符合當下需要的界線。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "transformation_祿",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "化祿：增益、順勢與投入",
+      "summary": "化祿在四化象徵中常與增益、機會、資源、好感或較容易投入的面向相關。實際意義須結合化祿所在星曜、宮位及整體結構判讀。",
+      "growthAdvice": "留意資源與機會如何形成，也持續經營帶來正向回饋的事物，避免把一時順利當成理所當然。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "transformation_權",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "化權：主導、推進與承擔",
+      "summary": "化權在四化象徵中常與主導、掌握、推進及責任感相關。它可能呈現較強的行動意願，也可能帶來控制或壓力；須合看所在星曜與宮位。",
+      "growthAdvice": "承擔責任時同步確認授權、資源與他人意見，讓主導力服務於清楚且共同的目標。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "transformation_科",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "化科：條理、聲譽與呈現",
+      "summary": "化科在四化象徵中常與名聲、條理、修飾、學習及外在肯定相關。其表現仍取決於所在星曜、宮位及命盤整體關係。",
+      "growthAdvice": "把知識與成果整理成清楚、可被理解的形式，並讓外在肯定建立在持續累積的能力上。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  },
+  {
+    "contentType": "ZIWEI",
+    "key": "transformation_忌",
+    "status": "PUBLISHED",
+    "provenance": {
+      "algorithmSource": "待核對：目前專案標記為 ZIWEI_ALGORITHM_VERSION sanhe-v1，曾以 iztro 2.6.5 作為比對線索；尚未逐項依指定原書、版本及頁碼完成查證，不得據此標示為已確認的中州派規則。",
+      "interpretationSource": "AI 自撰與潤飾內容：依原始草稿所採用的星曜、宮位及四化象徵方向改寫；未直接抄錄書籍或網站，尚待內容編輯及命理資料來源審核。",
+      "authoring": "AI_DRAFT",
+      "reviewedBy": "GK"
+    },
+    "body": {
+      "title": "化忌：執著、阻滯與課題",
+      "summary": "化忌在四化象徵中常與牽掛、執著、限制、耗損或需要面對的課題相關，也就是容易放不下、值得多留意的地方；這不是結果會變糟的預告，也不能脫離所在星曜與宮位單獨判斷。",
+      "growthAdvice": "留意自己反覆掛心、放不下的事情，釐清可調整之處與需要接受的限制，再選擇具體可行的下一步。",
+      "disclaimer": "象徵性解讀，非科學測量；內容適合自我探索，不代表必然發生的事件"
+    }
+  }
+]

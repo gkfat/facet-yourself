@@ -1,6 +1,7 @@
 # Traceability（AI 多維度人格探索 App）
 
 > 真相檔：`openspec/analysis/traceability.yaml`（本檔由 yaml 產生）。已廢止項目（ENT-015、DATA-017、REL-019、NFR-016、API-030 等）不納入追溯。
+> 更新：2026-11-11（納入紫微斗數：FR-096 至 FR-107、UC-061 至 UC-067、VO-040 至 VO-045、RULE-102 至 RULE-116、API-081；補跑 system-analysis 至 data-modeling；新增 5 項 gap（皆 low；CTX-ASM-040 原為 medium，user 指示免除命盤確認後降為 low）；change：add-ziwei-chart；前次見下）
 > 更新：2026-11-10（納入易經卦象：FR-089 至 FR-095、UC-057 至 UC-060、API-077 至 API-078；歷史運勢 API-079 與其他 API 的追溯補入 FR-044 至 FR-046、FR-087、FR-088；新增後台 API 無追溯、卦象缺 domain／data model 等 gap；change：add-hexagram-divination、add-fortune-history；前次見下）
 > 更新：2026-11-05（AI 報告合併：新增 FR-085 至 FR-088、UC-054 至 UC-056、ENT-028、API-063 至 API-065、DATA-027；FR-077、FR-078、UC-049、UC-050、API-056、API-057 等已廢止，不納入追溯；PDF 範圍待確認列為 gap；change：ai-analysis-question-history；前次見下）
 > 更新：2026-10-27（納入「此刻／今日」類：FR-044 至 FR-055、UC-022 至 UC-030、API-040 至 API-052、DATA-020 至 DATA-023）
@@ -100,6 +101,18 @@
 | FR-093 | CTX-ACTOR-001, CTX-CON-012, CTX-CON-032, CTX-ASM-033, CTX-ASM-034, CTX-EXT-005 | UC-059, UC-060 |  | API-077, API-078, API-079 |  |
 | FR-094 | CTX-ACTOR-001, CTX-CON-016, CTX-CON-031 | UC-057, UC-058 |  | API-077, API-078 |  |
 | FR-095 | CTX-CON-031, CTX-CON-007 | UC-057 |  | API-077, API-078 |  |
+| FR-096 | CTX-ACTOR-001, CTX-CON-034, CTX-CON-036, CTX-EXT-009, CTX-ASM-037 | UC-061 | VO-001, VO-040, VO-041, VO-042, VO-043, VO-045 | API-081 |  |
+| FR-097 | CTX-CON-034, CTX-CON-035, CTX-EXT-009, CTX-ASM-038, CTX-ASM-039 | UC-061, UC-063 | VO-001, VO-040, VO-041, VO-042, VO-043, VO-044, VO-045 | API-081 |  |
+| FR-098 | CTX-CON-034, CTX-ASM-039 | UC-061, UC-063 | VO-001, VO-040, VO-041, VO-042, VO-043, VO-044, VO-045 | API-081 |  |
+| FR-099 | CTX-ACTOR-001, CTX-CON-035, CTX-CON-036, CTX-ASM-036, CTX-ASM-040 | UC-061, UC-062, UC-067 | VO-001, VO-040, VO-041, VO-042, VO-043, VO-045 | API-081 |  |
+| FR-100 | CTX-CON-034, CTX-ASM-037 | UC-061, UC-063, UC-064 | AGG-005, AGG-021, ENT-005, ENT-024, VO-001, VO-040, VO-041, VO-042, VO-043, VO-044, VO-045 | API-055, API-081 | DATA-006, DATA-026 |
+| FR-101 | CTX-ACTOR-001, CTX-CON-034, CTX-CON-037, CTX-ASM-036, CTX-ASM-037, CTX-ASM-039 | UC-062, UC-063 | VO-001, VO-041, VO-042, VO-043, VO-044 | API-081 |  |
+| FR-102 | CTX-CON-034, CTX-CON-037, CTX-ASM-037 | UC-064, UC-066 | AGG-005, AGG-021, ENT-005, ENT-024, VO-041, VO-044 | API-055 | DATA-006, DATA-026 |
+| FR-103 | CTX-CON-036, CTX-CON-037, CTX-ASM-037 | UC-066 | AGG-005, ENT-005 |  | DATA-006 |
+| FR-104 | CTX-ACTOR-001, CTX-CON-034, CTX-CON-037, CTX-CON-038, CTX-ASM-036 | UC-047, UC-062, UC-064 | AGG-005, AGG-021, AGG-022, AGG-023, AGG-024, ENT-005, ENT-024, ENT-025, ENT-026, ENT-027, VO-001, VO-028, VO-029, VO-030, VO-031, VO-041, VO-044 | API-055, API-081 | DATA-006, DATA-026, DATA-027 |
+| FR-105 | CTX-CON-038, CTX-ASM-038 | UC-065 | VO-037, VO-041 | API-063 | DATA-006, DATA-010, DATA-011, DATA-014, DATA-019, DATA-026, DATA-027 |
+| FR-106 | CTX-CON-038, CTX-CON-037, CTX-ASM-037 | UC-053, UC-064, UC-065 | AGG-005, AGG-021, AGG-022, AGG-023, AGG-024, ENT-005, ENT-024, ENT-025, ENT-026, ENT-027, VO-034, VO-035, VO-036, VO-037, VO-041, VO-044 | API-055, API-063 | DATA-006, DATA-010, DATA-011, DATA-014, DATA-019, DATA-026, DATA-027 |
+| FR-107 | CTX-CON-038, CTX-ASM-040 | UC-067 | VO-045 |  |  |
 
 ## Gap 清單（依 severity 排序）
 
@@ -118,7 +131,7 @@
 - **orphan-api** `API-067、API-069 至 API-076`：超級管理員後台的 API（/admin/users、/admin/users/{id}、/admin/dashboard/*）x-trace 的 useCases、requirements 皆為空，沒有任何 FR／UC 支撐，也沒有對應的 domain model（change：永久保留塔羅與盧恩抽取紀錄、新增 /admin） → 建議：重跑 system-analysis 與 requirement-modeling 補上後台的需求與用例；若後台屬維運工具而刻意不納入分析，確認後可忽略
 - **missing-domain-data-model** `FR-089 至 FR-095、UC-057 至 UC-060、API-077、API-078`：易經卦象（add-hexagram-divination）已有 FR／UC／API，但 domain-model.yaml 與 data-model.yaml 尚未涵蓋：沒有卦象紀錄的 Entity／Aggregate，也沒有 users/{uid}/hexagramDraws 對應的 DATA 條目，所以這七條追溯鏈的 domainModel 與 data 為空（API-077、API-078 的 x-trace 已標註待補） → 建議：重跑 domain-modeling 與 data-modeling 補上卦象紀錄、加卦扣點與保存 3 個月的規則
 
-### LOW（35）
+### LOW（40）
 
 - **dangling-reference** `api-model:ProductEventRequest`：schema $ref 指向不存在的 ProductEventRequest（出現在已廢止的 /events） → 建議：修正該引用或補上缺少的項目
 - **nfr-not-landed** `NFR-021`：NFR（新增抽取型的重用性）沒有在 api-model 或 data-model 任何一處被提及（僅出現在 use case 流程） → 建議：確認是否需要在 API 或資料模型落地；屬設計層約束者可忽略
@@ -155,3 +168,8 @@
 - **analysis-not-updated** `add-fortune-history、API-079`：歷史運勢（GET /api/fortune/history，API-079）沒有獨立的 FR／UC：x-trace 只掛 FR-044、FR-045、FR-046、FR-093，useCases 與 domainModel 為空；保存期限對應的 RULE-014 也待確認；它只讀取既有的塔羅、盧恩、卦象紀錄，沒有新資料表 → 建議：若要納入，重跑 requirement-modeling 補「回看歷史運勢」用例；唯讀功能沒有新資料，可僅標註後忽略
 - **nfr-not-landed** `NFR-036、NFR-037`：NFR（卦象的無障礙與減少動態、卦象內容的完整性與措辭檢查）沒有在 api-model 或 data-model 任何一處被提及（屬前端呈現與內容檢查的設計層約束） → 建議：設計層約束，可忽略；由前端元件、覆蓋檢查與措辭檢查落實
 - **nfr-not-landed** `NFR-013`：NFR（AI 報告品質驗證）沒有在 api-model 或 data-model 任何一處被提及（屬測試與品質檢查的設計層約束，prompt 與 server/ai/quality.ts 落實） → 建議：設計層約束，可忽略
+- **nfr-not-landed** `NFR-041`：NFR（紫微內容的措辭檢查與審稿）沒有在 api-model 或 data-model 任何一處被提及（屬內容匯入檢查的設計層約束，由 content:check 與紫微專屬措辭規則落實；DATA-006 只提到 RULE-111、RULE-112） → 建議：設計層約束，可忽略；由匯入檢查與措辭規則的測試落實
+- **domain-without-data** `VO-040 至 VO-045`：紫微的 Value Object（農曆日期、命盤、宮位、星曜、借星、規則核對狀態）沒有對應的資料表：命盤即時計算、不落地（NFR-039），規則核對狀態是程式內的固定定義；固定內容沿用 DATA-006、報告沿用 reportSnapshots → 建議：刻意不落地，可忽略；若日後要保存命盤，需另案決定並重跑 data-modeling
+- **orphan-requirement** `FR-106、FR-107`：FR 沒有 API 與資料表：特質映射是程式內的固定定義（沿用 FR-081 至 FR-083 的作法），入口開關是設定而非資料 → 建議：刻意不落地，可忽略
+- **dangling-reference** `api-model 以外：data-model 的 API-014、API-016、API-017、API-020、API-039`：這些 ID 只出現在已廢止項目的 reason 文字（說明舊 API 已不存在），不是實際引用，但在任何檔案都查不到定義（既有狀況，非本次新增） → 建議：若要消除，改寫 reason 的措辭，不再寫已不存在的 ID
+- **verification-waived** `CTX-ASM-040`：紫微規則表依 user 指示直接標為已核對，沒有 user 確認的命盤；依據是與 iztro 2.6.5 的逐項比對與 user 提供的 2 張外部程式命盤（完全吻合）；閏月、晚子時與多數年干的四化尚未有外部盤佐證 → 建議：使用者日後若提供命盤，補做核對並更新 RuleVerification 備註
