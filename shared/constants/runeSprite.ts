@@ -4,7 +4,7 @@
  * reversed rune is the cell turned half round.
  */
 export const RUNE_SPRITE = {
-    url: '/rune/sprite.png',
+    url: '/rune/sprite-flat.png',
     cols: 5,
     rows: 5,
     /** The back: right after the 24 stones */

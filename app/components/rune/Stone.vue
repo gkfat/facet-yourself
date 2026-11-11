@@ -116,8 +116,9 @@ function spriteStyle(cell: number) {
 }
 
 /* The stone is drawn flat in a picture of its own; the shadow is part of it */
+/* The back is a pale stone now, so the hint is dark brown to read on it */
 .stone__back {
-    color: #d8dee9;
+    color: #6b4a1e;
 }
 
 button.stone__back {
