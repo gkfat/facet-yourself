@@ -77,6 +77,17 @@ onMounted(() => {
     width: 100%;
     max-width: 780px;
     margin: 0 auto;
+    padding: 20px 12px;
+    border-radius: 16px;
+
+    /* A dark cloth the stones are cast on: a fine weave over the night blue of the other fortune slates, darker at the edges */
+    background:
+        radial-gradient(120% 100% at 50% 40%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.4) 100%),
+        repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.035) 0 1px, rgba(255, 255, 255, 0) 1px 4px),
+        repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.14) 0 1px, rgba(0, 0, 0, 0) 1px 4px),
+        radial-gradient(120% 90% at 50% 0%, #2b3763 0%, rgba(43, 55, 99, 0) 70%),
+        linear-gradient(180deg, #1c2547 0%, #141a35 100%);
+    box-shadow: inset 0 2px 14px rgba(0, 0, 0, 0.5);
 }
 
 .scatter__cell {
