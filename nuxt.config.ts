@@ -127,6 +127,7 @@ export default defineNuxtConfig({
             firebaseMessagingSenderId: process.env.NUXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || '',
             firebaseAppId: process.env.NUXT_PUBLIC_FIREBASE_APP_ID || '',
             buildCommit: buildCommit(),
+            gaMeasurementId: process.env.NUXT_PUBLIC_GA_MEASUREMENT_ID || 'G-TPDNSC9T8X',
         },
     },
 });
