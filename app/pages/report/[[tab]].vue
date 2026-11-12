@@ -209,11 +209,11 @@ useHead({ title: '綜合分析' });
 const route = useRoute();
 const router = useRouter();
 
-/** The tab lives in the query, so the old /ai-reports address and a finished request can land on the history */
+/** The tab lives in the path (/report, /report/history), so analytics counts each as its own page and the old /ai-reports address and a finished request can land on the history */
 const tab = computed<'new' | 'history'>({
-    get: () => (route.query.tab === 'history' ? 'history' : 'new'),
+    get: () => (route.params.tab === 'history' ? 'history' : 'new'),
     set: (value) => {
-        void router.replace({ query: value === 'history' ? { tab: 'history' } : {} });
+        void router.replace({ path: value === 'history' ? '/report/history' : '/report' });
     },
 });
 
@@ -265,7 +265,10 @@ const startLabel = computed(() => {
 const requested = typeof route.query.systems === 'string' ? route.query.systems.split(',') : [];
 let preselected = requested.length === 0;
 
-if (typeof route.query.question === 'string') question.value = [...route.query.question].slice(0, AI_QUESTION_MAX_LENGTH).join('');
+// The question travels in the history state, not the address: free text a member typed must not end up in the URL (and so in analytics)
+const requestedQuestion: unknown = window.history.state?.question;
+
+if (typeof requestedQuestion === 'string') question.value = [...requestedQuestion].slice(0, AI_QUESTION_MAX_LENGTH).join('');
 
 watch(options, (all) => {
     if (preselected) return;
@@ -286,7 +289,7 @@ function problemFrom(error: unknown): Problem {
 
     if (failure.statusCode === 402) {
         return {
-            type: 'warning', message: '點數不足，沒有扣點。', to: '/pricing?tab=points', action: '查看點數',
+            type: 'warning', message: '點數不足，沒有扣點。', to: '/pricing/points', action: '查看點數',
         };
     }
 
@@ -346,7 +349,7 @@ async function start() {
         void refreshPoints();
 
         // The list of AI reports shows it being made and the result when it is done
-        await navigateTo({ path: '/report', query: { tab: 'history' } });
+        await navigateTo('/report/history');
     } catch (error) {
         console.error('[report] failed to start:', error);
         confirming.value = false;

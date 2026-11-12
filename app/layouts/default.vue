@@ -39,7 +39,7 @@
 
             <v-btn
                 v-if="isAuthenticated"
-                to="/pricing?tab=points"
+                to="/pricing/points"
                 variant="tonal"
                 size="small"
                 prepend-icon="mdi-circle-multiple-outline"

@@ -132,11 +132,11 @@
 </template>
 
 <script lang="ts" setup>
-import { WELCOME_POINTS } from '../../shared/constants/points';
-import type { PointPackageItem } from '../../shared/schemas/api/payment.schema';
+import { WELCOME_POINTS } from '../../../shared/constants/points';
+import type { PointPackageItem } from '../../../shared/schemas/api/payment.schema';
 import {
     POINTS_YARDSTICK, yardstickReach,
-} from '../../shared/utils/multiDimensionPricing';
+} from '../../../shared/utils/multiDimensionPricing';
 
 useHead({ title: '點數方案' });
 
@@ -147,11 +147,11 @@ type Tab = 'plans' | 'points' | 'payments';
 const route = useRoute();
 const router = useRouter();
 
-/** The tab lives in the query, so the old /points and /payments addresses and the header balance can link straight to one */
+/** The tab lives in the path (/pricing, /pricing/points, /pricing/payments), so analytics counts each as its own page and the old /points and /payments addresses and the header balance can link straight to one */
 const tab = computed<Tab>({
-    get: () => (route.query.tab === 'points' || route.query.tab === 'payments' ? route.query.tab : 'plans'),
+    get: () => (route.params.tab === 'points' || route.params.tab === 'payments' ? route.params.tab : 'plans'),
     set: (value) => {
-        void router.replace({ query: value === 'plans' ? {} : { tab: value } });
+        void router.replace({ path: value === 'plans' ? '/pricing' : `/pricing/${value}` });
     },
 });
 

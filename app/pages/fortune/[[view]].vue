@@ -207,32 +207,32 @@
 </template>
 
 <script lang="ts" setup>
-import { HEXAGRAM_ENTRY_ENABLED } from '../../shared/constants/hexagramShape';
-import { HOROSCOPE_ENTRY_ENABLED } from '../../shared/constants/horoscope';
-import { KIN_ENTRY_ENABLED } from '../../shared/constants/mayaKin';
+import { HEXAGRAM_ENTRY_ENABLED } from '../../../shared/constants/hexagramShape';
+import { HOROSCOPE_ENTRY_ENABLED } from '../../../shared/constants/horoscope';
+import { KIN_ENTRY_ENABLED } from '../../../shared/constants/mayaKin';
 import {
     RUNE_ENTRY_ENABLED, RUNE_ORIENTATION_LABELS,
-} from '../../shared/constants/runes';
+} from '../../../shared/constants/runes';
 import {
     TAROT_ENTRY_ENABLED, TAROT_ORIENTATION_LABELS,
-} from '../../shared/constants/tarot';
+} from '../../../shared/constants/tarot';
 import {
     kinName, sealName, toneName,
-} from '../../shared/utils/mayaKin';
-import { ZODIAC_LABELS } from '../../shared/constants/zodiacLabels';
+} from '../../../shared/utils/mayaKin';
+import { ZODIAC_LABELS } from '../../../shared/constants/zodiacLabels';
 import {
     TAROT_SPRITE, tarotSpriteCell,
-} from '../../shared/constants/tarotSprite';
+} from '../../../shared/constants/tarotSprite';
 import {
     KIN_SPRITE, kinSpriteCell,
-} from '../../shared/constants/kinSprite';
+} from '../../../shared/constants/kinSprite';
 import {
     RUNE_SPRITE, runeSpriteCell,
-} from '../../shared/constants/runeSprite';
-import { taipeiDateKey } from '../../shared/utils/time';
+} from '../../../shared/constants/runeSprite';
+import { taipeiDateKey } from '../../../shared/utils/time';
 import {
     hexagramAriaLabel, hexagramDrawings, movementNote,
-} from '../utils/hexagramView';
+} from '../../utils/hexagramView';
 
 /** Shows one cell of the sheet of rune pictures on the element it is set on */
 function spriteStyle(cell: number) {
@@ -430,10 +430,11 @@ onMounted(() => {
     if (HOROSCOPE_ENTRY_ENABLED) void loadHoroscope();
 });
 
-// Which one is open lives in the address (/fortune#tarot, #kin, #rune, #history), so the browser's back button, a
-// reload and the links from the home page and the old /tarot and /kin addresses all work.
+// Which one is open lives in the path (/fortune/tarot, /kin, /rune, /history), so the browser's back button, a
+// reload and the links from the home page and the old /tarot and /kin addresses all work. A real path (not a hash)
+// also lets analytics count each part as its own page.
 const selected = computed<FortuneView | null>(() => {
-    const wanted = route.hash.slice(1);
+    const wanted = route.params.view;
 
     // The history is always there, whichever parts are switched on
     if (wanted === 'history') return 'history';
@@ -468,17 +469,15 @@ const GROUPS: readonly { value: FortuneGroup; label: string }[] = [
 /** A tab is shown only when something in it is switched on. */
 const groups = computed(() => GROUPS.filter((group) => entries.value.some((entry) => entry.group === group.value)));
 
-/** Which tab is open lives in the address too (/fortune?tab=calendar), so a reload and the way back from a part keep it. */
+/** Which tab is open lives in the path too (/fortune/calendar), so a reload and the way back from a part keep it. */
 const tab = computed<FortuneGroup>({
     get: () => {
-        const wanted = route.query.tab;
+        const wanted = route.params.view;
 
         return groups.value.find((group) => group.value === wanted)?.value ?? groups.value[0]?.value ?? 'divination';
     },
     set: (value) => {
-        void router.replace({
-            path: route.path, query: { tab: value },
-        });
+        void router.replace({ path: `/fortune/${value}` });
     },
 });
 
@@ -491,18 +490,14 @@ const selectedLabel = computed(() => {
 });
 
 function open(view: FortuneView) {
-    void router.push({
-        path: route.path, hash: `#${view}`,
-    });
+    void router.push({ path: `/fortune/${view}` });
 }
 
 /** Back to the landing page, on the tab of the part that was open */
 function back() {
     const group = entries.value.find((entry) => entry.value === selected.value)?.group;
 
-    void router.push({
-        path: route.path, query: group ? { tab: group } : {},
-    });
+    void router.push({ path: group ? `/fortune/${group}` : '/fortune' });
 }
 </script>
 

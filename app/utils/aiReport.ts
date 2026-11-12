@@ -5,9 +5,8 @@ export function retryTo(report: {
 }) {
     return {
         path: '/report',
-        query: {
-            systems: report.sources.map((source) => source.system).join(','),
-            ...(report.question ? { question: report.question } : {}),
-        },
+        query: { systems: report.sources.map((source) => source.system).join(',') },
+        // Free text stays out of the address, so it never reaches analytics
+        ...(report.question ? { state: { question: report.question } } : {}),
     };
 }

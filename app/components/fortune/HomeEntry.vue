@@ -26,7 +26,7 @@
                         :key="entry.label"
                     >
                         <NuxtLink
-                            :to="`/fortune?tab=${entry.group}#${entry.view}`"
+                            :to="`/fortune/${entry.view}`"
                             class="chip"
                         >
                             <v-icon
@@ -60,7 +60,7 @@
                     :style="{ '--i': entries.indexOf(entry) }"
                 >
                     <NuxtLink
-                        :to="`/fortune?tab=${entry.group}#${entry.view}`"
+                        :to="`/fortune/${entry.view}`"
                         class="piece__link"
                     >
                         <span

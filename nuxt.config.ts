@@ -128,6 +128,8 @@ export default defineNuxtConfig({
             firebaseAppId: process.env.NUXT_PUBLIC_FIREBASE_APP_ID || '',
             buildCommit: buildCommit(),
             gaMeasurementId: process.env.NUXT_PUBLIC_GA_MEASUREMENT_ID || 'G-TPDNSC9T8X',
+            // Comma-separated hostnames that send analytics; localhost and preview deployments are not in the list
+            gaHostnames: process.env.NUXT_PUBLIC_GA_HOSTNAMES || 'facet-yourself.vercel.app',
         },
     },
 });
