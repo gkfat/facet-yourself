@@ -26,6 +26,8 @@ export const adminUserListItemSchema = z.object({
     email: z.string(),
     createdAt: epochMsSchema,
     lastSignInAt: epochMsSchema.nullable(),
+    /** The last time the member opened the site while signed in (to about an hour); null when never. */
+    lastActiveAt: epochMsSchema.nullable(),
     disabled: z.boolean(),
     /** Points that can be spent now; null when it could not be read. */
     pointBalance: z.number().int().nonnegative().nullable(),

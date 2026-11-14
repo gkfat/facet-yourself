@@ -140,6 +140,9 @@ const sections = computed<{ title: string; rows: Row[] }[]>(() => {
                 {
                     label: '最後登入', value: formatAdminTime(item.lastSignInAt),
                 },
+                {
+                    label: '最後進站', value: formatAdminTime(item.lastActiveAt),
+                },
             ],
         },
         {

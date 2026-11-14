@@ -33,7 +33,7 @@ describe('AdminUserService', () => {
             email: `${uid}@example.com`, createdAt, mbti: 'INTJ', birthData: { secret: true },
         });
         accounts.set(uid, {
-            uid, disabled, lastSignInAt: createdAt + 1,
+            uid, disabled, lastSignInAt: createdAt + 1, lastActiveAt: createdAt + 2,
         });
         emails.set(`${uid}@example.com`, uid);
     };
@@ -84,7 +84,7 @@ describe('AdminUserService', () => {
                 'a',
             ]);
             expect(page.items[0]).toEqual({
-                uid: 'd', email: 'd@example.com', createdAt: 30, lastSignInAt: 31, disabled: true, pointBalance: 7, multiReportCount: 0,
+                uid: 'd', email: 'd@example.com', createdAt: 30, lastSignInAt: 31, lastActiveAt: 32, disabled: true, pointBalance: 7, multiReportCount: 0,
             });
             expect(page.nextCursor).toBeNull();
         });
@@ -128,7 +128,7 @@ describe('AdminUserService', () => {
             const page = await service.list({ limit: 10 });
 
             expect(page.items.find((item) => item.uid === 'a')).toMatchObject({
-                disabled: false, lastSignInAt: null,
+                disabled: false, lastSignInAt: null, lastActiveAt: null,
             });
         });
     });
@@ -209,7 +209,7 @@ describe('AdminUserService', () => {
             const detail = await service.getDetail(ADMIN, 'a');
 
             expect(detail).toMatchObject({
-                uid: 'a', email: 'a@example.com', disabled: false, pointBalance: 7, lastSignInAt: 11,
+                uid: 'a', email: 'a@example.com', disabled: false, pointBalance: 7, lastSignInAt: 11, lastActiveAt: 12,
             });
             expect(detail.profile).toEqual({
                 birthDate: '1990-05-17',

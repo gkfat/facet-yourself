@@ -208,6 +208,7 @@ export class AdminUserService extends BaseService {
             email: row.email,
             createdAt: row.createdAt,
             lastSignInAt: accounts.get(row.uid)?.lastSignInAt ?? null,
+            lastActiveAt: accounts.get(row.uid)?.lastActiveAt ?? null,
             disabled: accounts.get(row.uid)?.disabled ?? false,
             pointBalance: await this.readBalance(row.uid),
             multiReportCount: await this.readMultiReportCount(row.uid),

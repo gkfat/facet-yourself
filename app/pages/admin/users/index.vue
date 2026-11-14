@@ -56,6 +56,9 @@
                         <th class="text-no-wrap">
                             最後登入
                         </th>
+                        <th class="text-no-wrap">
+                            最後進站
+                        </th>
                         <th />
                     </tr>
                 </thead>
@@ -90,6 +93,9 @@
                         </td>
                         <td class="text-no-wrap">
                             {{ formatAdminTime(item.lastSignInAt) }}
+                        </td>
+                        <td class="text-no-wrap">
+                            {{ formatAdminTime(item.lastActiveAt) }}
                         </td>
                         <td class="text-no-wrap text-right">
                             <v-btn

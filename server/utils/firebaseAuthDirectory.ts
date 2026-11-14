@@ -7,6 +7,8 @@ export type AuthAccount = {
     uid: string;
     disabled: boolean;
     lastSignInAt: number | null;
+    /** The latest of the sign-in and the ID token refresh: a signed-in member opening the site refreshes it (about hourly). */
+    lastActiveAt: number | null;
 };
 
 /** The Firebase Authentication calls of the user management, behind a seam so tests need no Firebase. */
@@ -28,10 +30,14 @@ function isNotFound(error: unknown): boolean {
 function toAccount(record: UserRecord): AuthAccount {
     const signedIn = record.metadata.lastSignInTime ? Date.parse(record.metadata.lastSignInTime) : Number.NaN;
 
+    const refreshed = record.metadata.lastRefreshTime ? Date.parse(record.metadata.lastRefreshTime) : Number.NaN;
+    const times = [signedIn, refreshed].filter((time) => !Number.isNaN(time));
+
     return {
         uid: record.uid,
         disabled: record.disabled,
         lastSignInAt: Number.isNaN(signedIn) ? null : signedIn,
+        lastActiveAt: times.length > 0 ? Math.max(...times) : null,
     };
 }
 
